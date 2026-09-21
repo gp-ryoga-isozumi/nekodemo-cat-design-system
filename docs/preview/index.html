@@ -83,37 +83,37 @@
 }
 
 [data-neko-theme="russian-blue"] {
+  /* scheme: dark — 地色は黒に近い青灰（neutral-900）、文字は neutral-50。primary は銀青（300）を主ボタンに使う */
   --nk-p-primary-50:  oklch(0.97 0.010 250);
   --nk-p-primary-100: oklch(0.93 0.020 250);
   --nk-p-primary-200: oklch(0.86 0.035 250);
-  --nk-p-primary-300: oklch(0.77 0.050 250);
-  --nk-p-primary-400: oklch(0.67 0.060 250);
+  --nk-p-primary-300: oklch(0.78 0.052 250);
+  --nk-p-primary-400: oklch(0.68 0.060 250);
   --nk-p-primary-500: oklch(0.57 0.065 250);
   --nk-p-primary-600: oklch(0.46 0.065 250);
   --nk-p-primary-700: oklch(0.39 0.060 250);
   --nk-p-primary-800: oklch(0.32 0.050 250);
   --nk-p-primary-900: oklch(0.25 0.040 250);
-  --nk-p-neutral-50:  oklch(0.975 0.006 250);
-  --nk-p-neutral-100: oklch(0.94 0.008 250);
-  --nk-p-neutral-200: oklch(0.89 0.010 250);
-  --nk-p-neutral-300: oklch(0.81 0.012 250);
-  --nk-p-neutral-400: oklch(0.72 0.014 250);
-  --nk-p-neutral-500: oklch(0.60 0.016 250);
-  --nk-p-neutral-600: oklch(0.50 0.018 250);
-  --nk-p-neutral-700: oklch(0.42 0.020 250);
-  --nk-p-neutral-800: oklch(0.33 0.020 250);
-  --nk-p-neutral-900: oklch(0.25 0.020 250);
-  --nk-p-accent-1: oklch(0.62 0.150 160);  /* 緑の目 */
+  --nk-p-neutral-50:  oklch(0.95 0.008 250);
+  --nk-p-neutral-100: oklch(0.90 0.010 250);
+  --nk-p-neutral-200: oklch(0.84 0.014 250);
+  --nk-p-neutral-300: oklch(0.75 0.018 250);
+  --nk-p-neutral-400: oklch(0.66 0.022 250);
+  --nk-p-neutral-500: oklch(0.55 0.024 250);
+  --nk-p-neutral-600: oklch(0.43 0.026 250);
+  --nk-p-neutral-700: oklch(0.34 0.028 250);
+  --nk-p-neutral-800: oklch(0.29 0.028 250);
+  --nk-p-neutral-900: oklch(0.245 0.028 250);
+  --nk-p-accent-1: oklch(0.72 0.150 160);  /* 緑の目（ダーク地向けに明るめ） */
   --nk-p-accent-2: oklch(0.85 0.010 250);  /* 銀の毛先 */
-  --nk-p-accent-3: oklch(0.55 0.080 330);  /* 鼻の紫 */
+  --nk-p-accent-3: oklch(0.65 0.080 330);  /* 鼻の紫 */
   --nk-p-radius-action: 4px;
   --nk-p-radius-container: 6px;
   --nk-p-radius-modal: 8px;
   --nk-p-radius-notice: 2px;
   --nk-p-font-pro: "IBM Plex Sans JP", "Hiragino Sans", sans-serif;
   --nk-p-font-mono: "IBM Plex Mono", ui-monospace, monospace;
-  --nk-p-shadow-tint: oklch(0.25 0.040 250);
-  --nk-color-text-high: var(--nk-color-neutral-900);
+  --nk-p-shadow-tint: oklch(0.05 0.020 250);
 }
 
 /* ---------- 2. セマンティック層・役割層（テーマに依存しない参照構造） ----------
@@ -137,13 +137,13 @@
   --nk-color-accent-2: var(--nk-p-accent-2);
   --nk-color-accent-3: var(--nk-p-accent-3);
   /* ステータス色（全テーマ共通、tokens/primitives.json） */
-  --nk-color-info-50: oklch(0.97 0.015 240);    --nk-color-info-100: oklch(0.93 0.035 240);
+  --nk-color-info-50: oklch(0.97 0.015 240);    --nk-color-info-100: oklch(0.93 0.035 240);   --nk-color-info-300: oklch(0.78 0.100 240);   --nk-color-info-900: oklch(0.30 0.060 240);
   --nk-color-info-500: oklch(0.58 0.150 240);   --nk-color-info-600: oklch(0.50 0.150 240);   --nk-color-info-700: oklch(0.43 0.130 240);
-  --nk-color-success-50: oklch(0.97 0.020 150); --nk-color-success-100: oklch(0.93 0.045 150);
+  --nk-color-success-50: oklch(0.97 0.020 150); --nk-color-success-100: oklch(0.93 0.045 150); --nk-color-success-300: oklch(0.80 0.120 150); --nk-color-success-900: oklch(0.30 0.060 150);
   --nk-color-success-500: oklch(0.62 0.150 150);--nk-color-success-600: oklch(0.52 0.140 150); --nk-color-success-700: oklch(0.44 0.120 150);
-  --nk-color-warning-50: oklch(0.98 0.025 80);  --nk-color-warning-100: oklch(0.94 0.060 80);
+  --nk-color-warning-50: oklch(0.98 0.025 80);  --nk-color-warning-100: oklch(0.94 0.060 80);  --nk-color-warning-300: oklch(0.85 0.120 80);  --nk-color-warning-900: oklch(0.32 0.070 70);
   --nk-color-warning-500: oklch(0.78 0.150 75); --nk-color-warning-600: oklch(0.62 0.140 65);  --nk-color-warning-700: oklch(0.52 0.120 60);
-  --nk-color-negative-50: oklch(0.97 0.015 25); --nk-color-negative-100: oklch(0.93 0.040 25);
+  --nk-color-negative-50: oklch(0.97 0.015 25); --nk-color-negative-100: oklch(0.93 0.040 25); --nk-color-negative-300: oklch(0.78 0.120 25); --nk-color-negative-900: oklch(0.30 0.090 25);
   --nk-color-negative-500: oklch(0.62 0.200 25);--nk-color-negative-600: oklch(0.53 0.200 25); --nk-color-negative-700: oklch(0.45 0.180 25);
 
   /* 役割: text */
@@ -155,6 +155,10 @@
   --nk-color-text-link: var(--nk-color-primary-700);
   --nk-color-text-negative: var(--nk-color-negative-700);
   --nk-color-text-inverse: var(--nk-color-white);
+  --nk-color-text-primary: var(--nk-color-primary-700);
+  --nk-color-text-info: var(--nk-color-info-700);
+  --nk-color-text-success: var(--nk-color-success-700);
+  --nk-color-text-warning: var(--nk-color-warning-700);
   /* 役割: surface */
   --nk-color-surface-page: var(--nk-color-white);
   --nk-color-surface-card: var(--nk-color-white);
@@ -171,6 +175,10 @@
   --nk-color-surface-success-subtle: var(--nk-color-success-50);
   --nk-color-surface-warning-subtle: var(--nk-color-warning-50);
   --nk-color-surface-selected: var(--nk-color-primary-50);
+  --nk-color-surface-primary-subtle-hover: var(--nk-color-primary-100);
+  --nk-color-surface-input: var(--nk-color-white);
+  --nk-color-surface-disabled: var(--nk-color-neutral-100);
+  --pv-body-bg: var(--nk-color-surface-well);
   /* 役割: border */
   --nk-color-border-low: var(--nk-color-neutral-100);
   --nk-color-border-middle: var(--nk-color-neutral-200);
@@ -207,6 +215,55 @@
   color-scheme: light;
 }
 
+/* ---------- 2b. scheme: dark の役割対応（semantic.map.json の "dark"）。ロシアンブルーが使う ---------- */
+[data-neko-theme="russian-blue"] {
+  color-scheme: dark;
+  --nk-color-text-high: var(--nk-color-neutral-50);
+  --nk-color-text-middle: var(--nk-color-neutral-200);
+  --nk-color-text-low: var(--nk-color-neutral-400);
+  --nk-color-text-placeholder: var(--nk-color-neutral-500);
+  --nk-color-text-disabled: var(--nk-color-neutral-600);
+  --nk-color-text-on-primary: var(--nk-color-primary-900);
+  --nk-color-text-link: var(--nk-color-primary-300);
+  --nk-color-text-primary: var(--nk-color-primary-300);
+  --nk-color-text-negative: var(--nk-color-negative-300);
+  --nk-color-text-info: var(--nk-color-info-300);
+  --nk-color-text-success: var(--nk-color-success-300);
+  --nk-color-text-warning: var(--nk-color-warning-300);
+  --nk-color-text-inverse: var(--nk-color-neutral-900);
+  --nk-color-surface-page: var(--nk-color-neutral-900);
+  --nk-color-surface-card: var(--nk-color-neutral-800);
+  --nk-color-surface-well: var(--nk-color-neutral-700);
+  --nk-color-surface-input: var(--nk-color-neutral-900);
+  --nk-color-surface-disabled: var(--nk-color-neutral-700);
+  --nk-color-surface-overlay: oklch(0.10 0.020 250 / 0.65);
+  --nk-color-surface-inverse: var(--nk-color-neutral-100);
+  --nk-color-surface-primary: var(--nk-color-primary-300);
+  --nk-color-surface-primary-hover: var(--nk-color-primary-200);
+  --nk-color-surface-primary-active: var(--nk-color-primary-400);
+  --nk-color-surface-primary-subtle: var(--nk-color-primary-800);
+  --nk-color-surface-primary-subtle-hover: var(--nk-color-primary-700);
+  --nk-color-surface-negative: var(--nk-color-negative-600);
+  --nk-color-surface-negative-subtle: var(--nk-color-negative-900);
+  --nk-color-surface-info-subtle: var(--nk-color-info-900);
+  --nk-color-surface-success-subtle: var(--nk-color-success-900);
+  --nk-color-surface-warning-subtle: var(--nk-color-warning-900);
+  --nk-color-surface-selected: var(--nk-color-primary-800);
+  --nk-color-border-low: var(--nk-color-neutral-700);
+  --nk-color-border-middle: var(--nk-color-neutral-600);
+  --nk-color-border-high: var(--nk-color-neutral-500);
+  --nk-color-border-primary: var(--nk-color-primary-300);
+  --nk-color-border-negative: var(--nk-color-negative-500);
+  --nk-color-border-focus: var(--nk-color-primary-300);
+  --nk-color-object-high: var(--nk-color-neutral-50);
+  --nk-color-object-middle: var(--nk-color-neutral-200);
+  --nk-color-object-low: var(--nk-color-neutral-400);
+  --nk-color-object-primary: var(--nk-color-primary-300);
+  --nk-color-object-negative: var(--nk-color-negative-300);
+  --nk-color-object-on-primary: var(--nk-color-primary-900);
+  --pv-body-bg: var(--nk-color-surface-page);
+}
+
 /* ---------- 3. ベース ---------- */
 *, *::before, *::after { box-sizing: border-box; border-color: var(--nk-color-border-middle); }
 html { height: 100%; }
@@ -216,7 +273,7 @@ body {
   font-size: var(--nk-text-3);
   line-height: var(--nk-leading-3);
   color: var(--nk-color-text-high);
-  background: var(--nk-color-surface-well);
+  background: var(--pv-body-bg);
   -webkit-font-smoothing: antialiased;
 }
 h1, h2, h3, h4, p { margin: 0; }
@@ -290,15 +347,15 @@ button { cursor: pointer; }
 .nk-btn:active { background: var(--nk-color-surface-primary-active); }
 .nk-btn.sm { height: 32px; padding: 0 12px; font-size: var(--nk-text-1); }
 .nk-btn.lg { height: 48px; padding: 0 20px; font-size: var(--nk-text-3); }
-.nk-btn.secondary { background: var(--nk-color-surface-primary-subtle); color: var(--nk-color-primary-700); }
-.nk-btn.secondary:hover { background: var(--nk-color-primary-100); }
+.nk-btn.secondary { background: var(--nk-color-surface-primary-subtle); color: var(--nk-color-text-primary); }
+.nk-btn.secondary:hover { background: var(--nk-color-surface-primary-subtle-hover); }
 .nk-btn.outline { background: var(--nk-color-surface-card); color: var(--nk-color-text-high); border-color: var(--nk-color-border-high); }
 .nk-btn.outline:hover { background: var(--nk-color-surface-well); }
 .nk-btn.ghost { background: transparent; color: var(--nk-color-text-high); }
 .nk-btn.ghost:hover { background: var(--nk-color-surface-well); }
 .nk-btn.negative { background: var(--nk-color-surface-negative); color: var(--nk-color-text-on-primary); }
 .nk-btn.negative:hover { background: var(--nk-color-negative-700); }
-.nk-btn:disabled, .nk-btn[aria-disabled="true"] { background: var(--nk-color-neutral-100); color: var(--nk-color-text-disabled); border-color: transparent; cursor: not-allowed; }
+.nk-btn:disabled, .nk-btn[aria-disabled="true"] { background: var(--nk-color-surface-disabled); color: var(--nk-color-text-disabled); border-color: transparent; cursor: not-allowed; }
 .nk-btn.loading { pointer-events: none; }
 .nk-btn.loading .nk-spinner { --spin-color: currentColor; }
 .nk-iconbtn { display: inline-flex; align-items: center; justify-content: center; width: 40px; height: 40px; border-radius: var(--nk-radius-action); border: 1px solid transparent; background: transparent; color: var(--nk-color-object-middle); }
@@ -307,14 +364,14 @@ button { cursor: pointer; }
 .nk-iconbtn.sm { width: 32px; height: 32px; }
 .nk-iconbtn:disabled { color: var(--nk-color-text-disabled); cursor: not-allowed; }
 .nk-link { color: var(--nk-color-text-link); text-decoration: underline; text-underline-offset: 3px; display: inline-flex; align-items: center; gap: 4px; }
-.nk-link:hover { color: var(--nk-color-primary-800); }
+.nk-link:hover { color: var(--nk-color-text-high); }
 
 /* Spinner（毛糸玉） */
 .nk-spinner { --spin-color: var(--nk-color-object-primary); width: 20px; height: 20px; flex: none; color: var(--spin-color); animation: nk-spin 1.1s linear infinite; }
 .nk-spinner.lg { width: 40px; height: 40px; }
 @keyframes nk-spin { to { transform: rotate(360deg); } }
 /* Skeleton */
-.nk-skeleton { display: block; background: linear-gradient(90deg, var(--nk-color-neutral-100) 25%, var(--nk-color-neutral-200) 50%, var(--nk-color-neutral-100) 75%); background-size: 200% 100%; animation: nk-shimmer 1.4s ease-in-out infinite; border-radius: var(--nk-radius-notice); height: 14px; }
+.nk-skeleton { display: block; background: linear-gradient(90deg, var(--nk-color-surface-well) 25%, var(--nk-color-border-middle) 50%, var(--nk-color-surface-well) 75%); background-size: 200% 100%; animation: nk-shimmer 1.4s ease-in-out infinite; border-radius: var(--nk-radius-notice); height: 14px; }
 .nk-skeleton.circle { width: 40px; height: 40px; border-radius: var(--nk-radius-round); }
 @keyframes nk-shimmer { from { background-position: 200% 0; } to { background-position: -200% 0; } }
 
@@ -323,36 +380,39 @@ button { cursor: pointer; }
 .nk-tooltip::after { content: ""; position: absolute; left: 50%; bottom: -5px; width: 10px; height: 10px; background: inherit; transform: translateX(-50%) rotate(45deg); }
 .nk-toast { display: flex; gap: 12px; align-items: flex-start; width: 100%; max-width: 360px; padding: 12px 16px; background: var(--nk-color-surface-card); border: 1px solid var(--nk-color-border-low); border-radius: var(--nk-radius-container); box-shadow: var(--nk-shadow-popout); }
 .nk-toast .nk-icon { margin-top: 1px; }
-.nk-toast.success .nk-icon { color: var(--nk-color-success-600); }
-.nk-toast.negative .nk-icon { color: var(--nk-color-negative-600); }
-.nk-toast.info .nk-icon { color: var(--nk-color-info-600); }
+.nk-toast.success .nk-icon { color: var(--nk-color-text-success); }
+.nk-toast.negative .nk-icon { color: var(--nk-color-object-negative); }
+.nk-toast.info .nk-icon { color: var(--nk-color-text-info); }
 .nk-toast .body { flex: 1; font-size: var(--nk-text-2); line-height: var(--nk-leading-2); }
 .nk-toast .body b { display: block; }
-.nk-msg { display: flex; gap: 10px; align-items: flex-start; padding: 12px 14px; border: 1px solid; border-radius: var(--nk-radius-container); font-size: var(--nk-text-2); line-height: var(--nk-leading-2); }
+.nk-msg { display: flex; gap: 10px; align-items: flex-start; padding: 12px 14px; border: 1px solid color-mix(in oklch, currentColor 30%, transparent); border-radius: var(--nk-radius-container); font-size: var(--nk-text-2); line-height: var(--nk-leading-2); }
 .nk-msg .nk-icon { margin-top: 2px; }
-.nk-msg.info { background: var(--nk-color-surface-info-subtle); border-color: var(--nk-color-info-100); color: var(--nk-color-info-700); }
-.nk-msg.success { background: var(--nk-color-surface-success-subtle); border-color: var(--nk-color-success-100); color: var(--nk-color-success-700); }
-.nk-msg.warning { background: var(--nk-color-surface-warning-subtle); border-color: var(--nk-color-warning-100); color: var(--nk-color-warning-700); }
-.nk-msg.negative { background: var(--nk-color-surface-negative-subtle); border-color: var(--nk-color-negative-100); color: var(--nk-color-negative-700); }
+.nk-msg.info { background: var(--nk-color-surface-info-subtle); color: var(--nk-color-text-info); }
+.nk-msg.success { background: var(--nk-color-surface-success-subtle); color: var(--nk-color-text-success); }
+.nk-msg.warning { background: var(--nk-color-surface-warning-subtle); color: var(--nk-color-text-warning); }
+.nk-msg.negative { background: var(--nk-color-surface-negative-subtle); color: var(--nk-color-text-negative); }
 .nk-msg .nk-btn { margin-left: auto; align-self: center; }
 
 /* Badge / Tag / Avatar / Divider / Card */
-.nk-badge { display: inline-flex; align-items: center; justify-content: center; min-width: 20px; height: 20px; padding: 0 6px; border-radius: var(--nk-radius-round); background: var(--nk-color-surface-primary); color: var(--nk-color-text-on-primary); font-family: var(--nk-font-mono); font-size: var(--nk-text-1); font-weight: 700; line-height: 1; }
-.nk-badge.negative { background: var(--nk-color-surface-negative); }
-.nk-badge.neutral { background: var(--nk-color-neutral-200); color: var(--nk-color-text-middle); }
+/* Badge: 数値バッジは肉球の形（本体パッド＋上に 3 つの指パッド） */
+.nk-badge { --paw: var(--nk-color-surface-primary); position: relative; display: inline-flex; align-items: center; justify-content: center; min-width: 22px; height: 20px; padding: 0 6px; margin-top: 6px; border-radius: 42% 42% 50% 50% / 46% 46% 54% 54%; background: var(--paw); color: var(--nk-color-text-on-primary); font-family: var(--nk-font-mono); font-size: 11px; font-weight: 700; line-height: 1; vertical-align: middle; }
+.nk-badge::before { content: ""; position: absolute; left: 0; right: 0; top: -6.5px; height: 8px; pointer-events: none; background: radial-gradient(circle at 17% 78%, var(--paw) 0 2.7px, transparent 3.2px), radial-gradient(circle at 50% 30%, var(--paw) 0 3px, transparent 3.5px), radial-gradient(circle at 83% 78%, var(--paw) 0 2.7px, transparent 3.2px); }
+.nk-badge.negative { --paw: var(--nk-color-surface-negative); color: var(--nk-color-white); }
+.nk-badge.neutral { background: var(--nk-color-border-middle); color: var(--nk-color-text-middle); border-radius: var(--nk-radius-round); margin-top: 0; min-width: 20px; font-size: var(--nk-text-1); }
+.nk-badge.neutral::before { display: none; }
 .nk-status { display: inline-flex; align-items: center; gap: 6px; height: 24px; padding: 0 8px; border-radius: var(--nk-radius-notice); font-size: var(--nk-text-1); font-weight: 700; line-height: 1; }
 .nk-status::before { content: ""; width: 6px; height: 6px; border-radius: 50%; background: currentColor; }
-.nk-status.success { background: var(--nk-color-surface-success-subtle); color: var(--nk-color-success-700); }
-.nk-status.info { background: var(--nk-color-surface-info-subtle); color: var(--nk-color-info-700); }
-.nk-status.warning { background: var(--nk-color-surface-warning-subtle); color: var(--nk-color-warning-700); }
-.nk-status.negative { background: var(--nk-color-surface-negative-subtle); color: var(--nk-color-negative-700); }
-.nk-status.neutral { background: var(--nk-color-neutral-100); color: var(--nk-color-text-middle); }
+.nk-status.success { background: var(--nk-color-surface-success-subtle); color: var(--nk-color-text-success); }
+.nk-status.info { background: var(--nk-color-surface-info-subtle); color: var(--nk-color-text-info); }
+.nk-status.warning { background: var(--nk-color-surface-warning-subtle); color: var(--nk-color-text-warning); }
+.nk-status.negative { background: var(--nk-color-surface-negative-subtle); color: var(--nk-color-text-negative); }
+.nk-status.neutral { background: var(--nk-color-surface-well); color: var(--nk-color-text-middle); box-shadow: inset 0 0 0 1px var(--nk-color-border-middle); }
 .nk-tag { display: inline-flex; align-items: center; gap: 4px; height: 28px; padding: 0 4px 0 10px; border: 1px solid var(--nk-color-border-middle); background: var(--nk-color-surface-card); border-radius: var(--nk-radius-notice); font-size: var(--nk-text-2); line-height: 1; }
-.nk-tag.selected { background: var(--nk-color-surface-selected); border-color: var(--nk-color-border-primary); color: var(--nk-color-primary-700); }
+.nk-tag.selected { background: var(--nk-color-surface-selected); border-color: var(--nk-color-border-primary); color: var(--nk-color-text-primary); }
 .nk-tag button { display: inline-flex; width: 20px; height: 20px; border: 0; background: transparent; border-radius: var(--nk-radius-notice); color: var(--nk-color-object-low); align-items: center; justify-content: center; padding: 0; }
 .nk-tag button:hover { background: var(--nk-color-surface-well); color: var(--nk-color-object-high); }
 .nk-tag.noclose { padding-right: 10px; }
-.nk-avatar { display: inline-flex; align-items: center; justify-content: center; width: 40px; height: 40px; border-radius: var(--nk-radius-round); background: var(--nk-color-surface-primary-subtle); color: var(--nk-color-primary-700); font-weight: 700; font-size: var(--nk-text-2); overflow: hidden; flex: none; }
+.nk-avatar { display: inline-flex; align-items: center; justify-content: center; width: 40px; height: 40px; border-radius: var(--nk-radius-round); background: var(--nk-color-surface-primary-subtle); color: var(--nk-color-text-primary); font-weight: 700; font-size: var(--nk-text-2); overflow: hidden; flex: none; }
 .nk-avatar.sm { width: 32px; height: 32px; font-size: var(--nk-text-1); } .nk-avatar.lg { width: 56px; height: 56px; font-size: var(--nk-text-4); }
 .nk-avatar .nk-icon { width: 60%; height: 60%; }
 .nk-divider { border: 0; border-top: 1px solid var(--nk-color-border-middle); margin: 0; }
@@ -366,7 +426,7 @@ button { cursor: pointer; }
 
 /* Input 系 */
 .nk-input, .nk-select, .nk-textarea {
-  width: 100%; height: 40px; padding: 0 12px; background: var(--nk-color-surface-card);
+  width: 100%; height: 40px; padding: 0 12px; background: var(--nk-color-surface-input);
   border: 1px solid var(--nk-color-border-high); border-radius: var(--nk-radius-action);
   font-size: var(--nk-text-3); color: var(--nk-color-text-high); transition: border-color 120ms, box-shadow 120ms;
 }
@@ -374,7 +434,7 @@ button { cursor: pointer; }
 .nk-input:focus, .nk-select:focus, .nk-textarea:focus { outline: none; border-color: var(--nk-color-border-focus); box-shadow: 0 0 0 2px color-mix(in oklch, var(--nk-color-border-focus) 30%, transparent); }
 .nk-input.sm { height: 32px; font-size: var(--nk-text-2); } .nk-input.lg { height: 48px; padding: 0 16px; }
 .nk-input.invalid, .nk-textarea.invalid { border-color: var(--nk-color-border-negative); }
-.nk-input:disabled, .nk-select:disabled, .nk-textarea:disabled { background: var(--nk-color-surface-well); color: var(--nk-color-text-disabled); border-color: var(--nk-color-border-middle); cursor: not-allowed; }
+.nk-input:disabled, .nk-select:disabled, .nk-textarea:disabled { background: var(--nk-color-surface-disabled); color: var(--nk-color-text-disabled); border-color: var(--nk-color-border-middle); cursor: not-allowed; }
 .nk-input-wrap { position: relative; display: flex; align-items: center; }
 .nk-input-wrap > .nk-icon { position: absolute; left: 12px; color: var(--nk-color-object-low); pointer-events: none; }
 .nk-input-wrap > .nk-input { padding-left: 40px; }
@@ -395,30 +455,30 @@ button { cursor: pointer; }
 /* Checkbox / Radio / Switch / Slider */
 .nk-check, .nk-radio, .nk-switch { display: inline-flex; align-items: center; gap: 8px; cursor: pointer; font-size: var(--nk-text-2); position: relative; }
 .nk-check input, .nk-radio input, .nk-switch input { position: absolute; opacity: 0; width: 1px; height: 1px; margin: 0; }
-.nk-check .box { width: 20px; height: 20px; border: 1.5px solid var(--nk-color-border-high); border-radius: var(--nk-radius-notice); background: var(--nk-color-surface-card); display: inline-flex; align-items: center; justify-content: center; color: var(--nk-color-object-on-primary); flex: none; }
-.nk-check .box .nk-icon { width: 18px; height: 18px; opacity: 0; }
+.nk-check .box { width: 22px; height: 22px; border: 1.5px solid var(--nk-color-border-high); border-radius: var(--nk-radius-notice); background: var(--nk-color-surface-input); display: inline-flex; align-items: center; justify-content: center; color: var(--nk-color-object-on-primary); flex: none; }
+.nk-check .box .nk-icon { width: 17px; height: 17px; opacity: 0; }
 .nk-check input:checked + .box { background: var(--nk-color-surface-primary); border-color: var(--nk-color-surface-primary); }
 .nk-check input:checked + .box .nk-icon { opacity: 1; }
 .nk-check input:indeterminate + .box { background: var(--nk-color-surface-primary); border-color: var(--nk-color-surface-primary); }
 .nk-check input:indeterminate + .box::after { content: ""; width: 10px; height: 2px; background: currentColor; }
 .nk-check input:focus-visible + .box, .nk-radio input:focus-visible + .box, .nk-switch input:focus-visible + .track { outline: 2px solid var(--nk-color-border-focus); outline-offset: 2px; }
-.nk-check input:disabled + .box { background: var(--nk-color-surface-well); border-color: var(--nk-color-border-middle); }
+.nk-check input:disabled + .box { background: var(--nk-color-surface-disabled); border-color: var(--nk-color-border-middle); }
 .nk-check.disabled, .nk-radio.disabled { color: var(--nk-color-text-disabled); cursor: not-allowed; }
-.nk-radio .box { width: 20px; height: 20px; border: 1.5px solid var(--nk-color-border-high); border-radius: 50%; background: var(--nk-color-surface-card); flex: none; }
+.nk-radio .box { width: 20px; height: 20px; border: 1.5px solid var(--nk-color-border-high); border-radius: 50%; background: var(--nk-color-surface-input); flex: none; }
 .nk-radio input:checked + .box { border: 6px solid var(--nk-color-surface-primary); }
-.nk-switch .track { width: 40px; height: 24px; border-radius: var(--nk-radius-round); background: var(--nk-color-neutral-300); position: relative; transition: background-color 150ms; flex: none; }
-.nk-switch .track::after { content: ""; position: absolute; top: 2px; left: 2px; width: 20px; height: 20px; border-radius: 50%; background: var(--nk-color-white); box-shadow: var(--nk-shadow-raise); transition: transform 150ms; }
+.nk-switch .track { width: 40px; height: 24px; border-radius: var(--nk-radius-round); background: var(--nk-color-border-high); position: relative; transition: background-color 150ms; flex: none; }
+.nk-switch .track::after { content: ""; position: absolute; top: 2px; left: 2px; width: 20px; height: 20px; border-radius: 50%; background: var(--nk-color-object-on-primary); box-shadow: var(--nk-shadow-raise); transition: transform 150ms; }
 .nk-switch input:checked + .track { background: var(--nk-color-surface-primary); }
 .nk-switch input:checked + .track::after { transform: translateX(16px); }
-.nk-slider { --v: 60%; width: 100%; appearance: none; height: 4px; border-radius: 2px; background: linear-gradient(90deg, var(--nk-color-surface-primary) var(--v), var(--nk-color-neutral-200) var(--v)); margin: 10px 0; }
-.nk-slider::-webkit-slider-thumb { appearance: none; width: 20px; height: 20px; border-radius: 50%; background: var(--nk-color-white); border: 2px solid var(--nk-color-surface-primary); box-shadow: var(--nk-shadow-raise); cursor: pointer; }
-.nk-slider::-moz-range-thumb { width: 20px; height: 20px; border-radius: 50%; background: var(--nk-color-white); border: 2px solid var(--nk-color-surface-primary); }
+.nk-slider { --v: 60%; width: 100%; appearance: none; height: 4px; border-radius: 2px; background: linear-gradient(90deg, var(--nk-color-surface-primary) var(--v), var(--nk-color-border-middle) var(--v)); margin: 10px 0; }
+.nk-slider::-webkit-slider-thumb { appearance: none; width: 20px; height: 20px; border-radius: 50%; background: var(--nk-color-surface-input); border: 2px solid var(--nk-color-surface-primary); box-shadow: var(--nk-shadow-raise); cursor: pointer; }
+.nk-slider::-moz-range-thumb { width: 20px; height: 20px; border-radius: 50%; background: var(--nk-color-surface-input); border: 2px solid var(--nk-color-surface-primary); }
 
 /* Tabs / Breadcrumb / SideNavigation / Pagination */
 .nk-tabs { display: flex; gap: 4px; border-bottom: 1px solid var(--nk-color-border-middle); }
 .nk-tabs button { display: inline-flex; align-items: center; gap: 6px; padding: 10px 12px; margin-bottom: -1px; border: 0; border-bottom: 2px solid transparent; background: transparent; color: var(--nk-color-text-low); font-size: var(--nk-text-2); font-weight: 700; }
 .nk-tabs button:hover { color: var(--nk-color-text-high); }
-.nk-tabs button[aria-selected="true"] { color: var(--nk-color-primary-700); border-bottom-color: var(--nk-color-surface-primary); }
+.nk-tabs button[aria-selected="true"] { color: var(--nk-color-text-primary); border-bottom-color: var(--nk-color-surface-primary); }
 .nk-tabs.vertical { flex-direction: column; border-bottom: 0; border-right: 1px solid var(--nk-color-border-middle); align-items: stretch; }
 .nk-tabs.vertical button { justify-content: flex-start; border-bottom: 0; border-right: 2px solid transparent; margin: 0 -1px 0 0; }
 .nk-tabs.vertical button[aria-selected="true"] { border-right-color: var(--nk-color-surface-primary); background: var(--nk-color-surface-selected); }
@@ -430,7 +490,7 @@ button { cursor: pointer; }
 .nk-sidenav .logo { display: flex; align-items: center; gap: 10px; padding: 8px 8px 16px; font-weight: 700; }
 .nk-sidenav a { display: flex; align-items: center; gap: 10px; height: 40px; padding: 0 10px; border-radius: var(--nk-radius-action); color: var(--nk-color-text-middle); text-decoration: none; font-size: var(--nk-text-2); }
 .nk-sidenav a:hover { background: var(--nk-color-surface-well); color: var(--nk-color-text-high); }
-.nk-sidenav a[aria-current] { background: var(--nk-color-surface-selected); color: var(--nk-color-primary-700); font-weight: 700; }
+.nk-sidenav a[aria-current] { background: var(--nk-color-surface-selected); color: var(--nk-color-text-primary); font-weight: 700; }
 .nk-sidenav .group { padding: 12px 10px 4px; font-size: var(--nk-text-1); color: var(--nk-color-text-low); letter-spacing: 0.04em; }
 .nk-sidenav.collapsed { width: 64px; align-items: center; }
 .nk-sidenav.collapsed .logo span, .nk-sidenav.collapsed a span, .nk-sidenav.collapsed .group { display: none; }
@@ -516,75 +576,75 @@ button { cursor: pointer; }
   <defs>
     <!-- 耳付き（T1/T2）。本体は線、耳は塗り -->
     <symbol id="i-search" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-      <path d="M5.5 6.6 3.8 1.9 9.2 4.6z M15.5 6.6 17.2 1.9 11.8 4.6z" fill="currentColor" stroke="none"/>
+      <path d="M5.1 6.8 3.1 1.2 9.6 4.4z M15.9 6.8 17.9 1.2 11.4 4.4z" fill="currentColor" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/>
       <circle cx="10.5" cy="10.5" r="6"/><path d="M15 15l5 5"/>
     </symbol>
     <symbol id="i-notifications" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-      <path d="M7.6 5.4 5.6 1.2 10 3.7z M16.4 5.4 18.4 1.2 14 3.7z" fill="currentColor" stroke="none"/>
+      <path d="M7.4 6.2 5 1.1 10.2 4.1z M16.6 6.2 19 1.1 13.8 4.1z" fill="currentColor" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/>
       <path d="M6 16v-5a6 6 0 0 1 12 0v5l1.5 2h-15z"/><path d="M10 20.5h4"/>
     </symbol>
     <symbol id="i-settings" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-      <path d="M7 6.2 5.2 1.6 9.8 3.6z M17 6.2 18.8 1.6 14.2 3.6z" fill="currentColor" stroke="none"/>
+      <path d="M6.7 6.7 4.6 1.1 10.1 3.5z M17.3 6.7 19.4 1.1 13.9 3.5z" fill="currentColor" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/>
       <circle cx="12" cy="13" r="7" stroke-width="3" stroke-dasharray="2.6 2.9"/><circle cx="12" cy="13" r="2.5"/>
     </symbol>
     <symbol id="i-person" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-      <path d="M9 5.6 7.4 1.4 11.6 4.1z M15 5.6 16.6 1.4 12.4 4.1z" fill="currentColor" stroke="none"/>
+      <path d="M8.7 6.2 6.8 1.1 11.9 4.4z M15.3 6.2 17.2 1.1 12.1 4.4z" fill="currentColor" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/>
       <circle cx="12" cy="8.5" r="4"/><path d="M4 20c0-4 3.5-6.5 8-6.5s8 2.5 8 6.5"/>
     </symbol>
     <symbol id="i-home" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-      <path d="M8.2 7.4 6.8 2.8 11 5.1z M15.8 7.4 17.2 2.8 13 5.1z" fill="currentColor" stroke="none"/>
+      <path d="M7.9 7.6 6.2 2.1 11.3 4.9z M16.1 7.6 17.8 2.1 12.7 4.9z" fill="currentColor" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/>
       <path d="M4 12l8-7 8 7v8h-5v-6h-6v6H4z"/>
     </symbol>
     <symbol id="i-delete" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-      <path d="M6.4 7.4 4.8 3.2 8.4 6.2z M17.6 7.4 19.2 3.2 15.6 6.2z" fill="currentColor" stroke="none"/>
+      <path d="M6.2 7.5 4.3 2.5 8.6 6.1z M17.8 7.5 19.7 2.5 15.4 6.1z" fill="currentColor" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/>
       <path d="M5 7.5h14M9.5 7.5V5h5v2.5M7 7.5l1 12.5h8l1-12.5"/>
     </symbol>
     <symbol id="i-visibility" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-      <path d="M7 7 5.2 2.6 10 4.8z M17 7 18.8 2.6 14 4.8z" fill="currentColor" stroke="none"/>
+      <path d="M6.7 7.2 4.5 1.9 10.3 4.6z M17.3 7.2 19.5 1.9 13.7 4.6z" fill="currentColor" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/>
       <path d="M2 12.5s3.5-6 10-6 10 6 10 6-3.5 6-10 6-10-6-10-6z"/><circle cx="12" cy="12.5" r="3"/>
     </symbol>
     <symbol id="i-folder" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-      <path d="M12.6 8.2 11.8 3.9 15.6 6.3z M19.4 8.2 20.4 3.9 16.7 6.3z" fill="currentColor" stroke="none"/>
+      <path d="M12.3 8.4 11.3 3.2 15.9 6.1z M19.7 8.4 20.9 3.2 16.4 6.1z" fill="currentColor" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/>
       <path d="M3 6.5h6l2 2h10v11H3z"/>
     </symbol>
     <symbol id="i-mail" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-      <path d="M5.6 5.4 4 1.2 8.6 3.4z M18.4 5.4 20 1.2 15.4 3.4z" fill="currentColor" stroke="none"/>
+      <path d="M5.3 6.1 3.4 1.1 8.9 3.7z M18.7 6.1 20.6 1.1 15.1 3.7z" fill="currentColor" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/>
       <rect x="3" y="5.5" width="18" height="13" rx="2"/><path d="M3 8l9 6 9-6"/>
     </symbol>
     <symbol id="i-calendar_today" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-      <path d="M6 5.4 4.4 1.2 9 3.4z M18 5.4 19.6 1.2 15 3.4z" fill="currentColor" stroke="none"/>
+      <path d="M5.7 6.1 3.8 1.1 9.3 3.7z M18.3 6.1 20.2 1.1 14.7 3.7z" fill="currentColor" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/>
       <rect x="3" y="5.5" width="18" height="15" rx="2"/><path d="M3 10.5h18"/>
     </symbol>
     <symbol id="i-info" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-      <path d="M7.2 6.6 5.3 2.2 10.2 4.5z M16.8 6.6 18.7 2.2 13.8 4.5z" fill="currentColor" stroke="none"/>
+      <path d="M6.9 6.8 4.6 1.5 10.5 4.3z M17.1 6.8 19.4 1.5 13.5 4.3z" fill="currentColor" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/>
       <circle cx="12" cy="13" r="8"/><path d="M12 12.5v5"/><circle cx="12" cy="9.3" r="0.6" fill="currentColor"/>
     </symbol>
     <symbol id="i-error" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-      <path d="M7.2 6.6 5.3 2.2 10.2 4.5z M16.8 6.6 18.7 2.2 13.8 4.5z" fill="currentColor" stroke="none"/>
+      <path d="M6.9 6.8 4.6 1.5 10.5 4.3z M17.1 6.8 19.4 1.5 13.5 4.3z" fill="currentColor" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/>
       <circle cx="12" cy="13" r="8"/><path d="M12 9.5v5"/><circle cx="12" cy="17.2" r="0.6" fill="currentColor"/>
     </symbol>
     <symbol id="i-check_circle" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-      <path d="M7.2 6.6 5.3 2.2 10.2 4.5z M16.8 6.6 18.7 2.2 13.8 4.5z" fill="currentColor" stroke="none"/>
+      <path d="M6.9 6.8 4.6 1.5 10.5 4.3z M17.1 6.8 19.4 1.5 13.5 4.3z" fill="currentColor" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/>
       <circle cx="12" cy="13" r="8"/><path d="M8.5 13.2l2.5 2.5 4.8-5"/>
     </symbol>
     <symbol id="i-help" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-      <path d="M7.2 6.6 5.3 2.2 10.2 4.5z M16.8 6.6 18.7 2.2 13.8 4.5z" fill="currentColor" stroke="none"/>
+      <path d="M6.9 6.8 4.6 1.5 10.5 4.3z M17.1 6.8 19.4 1.5 13.5 4.3z" fill="currentColor" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/>
       <circle cx="12" cy="13" r="8"/><path d="M9.6 10.8a2.4 2.4 0 1 1 3.4 2.2c-.7.4-1 1-1 1.6"/><circle cx="12" cy="17.4" r="0.6" fill="currentColor"/>
     </symbol>
     <symbol id="i-favorite" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-      <path d="M6.6 7.2 5.4 2.8 9.6 5.2z M17.4 7.2 18.6 2.8 14.4 5.2z" fill="currentColor" stroke="none"/>
+      <path d="M6.3 7.4 4.9 2.1 9.9 5z M17.7 7.4 19.1 2.1 14.1 5z" fill="currentColor" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/>
       <path d="M12 20.5s-7.5-4.5-7.5-10a4 4 0 0 1 7.5-2.3A4 4 0 0 1 19.5 10.5c0 5.5-7.5 10-7.5 10z"/>
     </symbol>
     <symbol id="i-lock" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-      <path d="M6 11.2 4.8 7 8.4 9.6z M18 11.2 19.2 7 15.6 9.6z" fill="currentColor" stroke="none"/>
+      <path d="M5.8 11.4 4.3 6.3 8.6 9.4z M18.2 11.4 19.7 6.3 15.4 9.4z" fill="currentColor" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/>
       <rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8.5 11V8a3.5 3.5 0 0 1 7 0v3"/>
     </symbol>
     <symbol id="i-camera" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-      <path d="M5.5 8.2 4 4.2 7.8 6.2z M18.5 8.2 20 4.2 16.2 6.2z" fill="currentColor" stroke="none"/>
+      <path d="M5.3 8.4 3.5 3.6 8 6z M18.7 8.4 20.5 3.6 16 6z" fill="currentColor" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/>
       <path d="M4 8h4l2-2h4l2 2h4v11H4z"/><circle cx="12" cy="13.5" r="3"/>
     </symbol>
     <symbol id="i-image" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-      <path d="M5.6 5.4 4 1.2 8.6 3.4z M18.4 5.4 20 1.2 15.4 3.4z" fill="currentColor" stroke="none"/>
+      <path d="M5.3 6.1 3.4 1.1 8.9 3.7z M18.7 6.1 20.6 1.1 15.1 3.7z" fill="currentColor" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/>
       <rect x="3" y="5.5" width="18" height="14" rx="2"/><path d="M3 17l5-5 4 4 3-3 6 6"/><circle cx="16" cy="10" r="1.3" fill="currentColor"/>
     </symbol>
     <!-- 耳なし（規約: 矢印・シェブロン・チェック・×・＋・線・ドット） -->
@@ -592,8 +652,10 @@ button { cursor: pointer; }
     <symbol id="i-expand_more" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></symbol>
     <symbol id="i-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7"/></symbol>
     <symbol id="i-ear_check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-      <path d="M16.2 7.6 15.6 3.4 18.9 5.6z M21.6 7.6 22.6 3.4 19.4 5.6z" fill="currentColor" stroke="none"/><path d="M4 12.5l4.5 4.5L19 7.5"/>
+      <path d="M15.9 7.8 15.2 2.8 19.2 5.4z M21.8 7.8 23 2.8 19.2 5.4z" fill="currentColor" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/><path d="M4 12.5l4.5 4.5L19 7.5"/>
     </symbol>
+    <!-- 肉球（Checkbox のチェックマーク） -->
+    <symbol id="i-paw" viewBox="0 0 24 24" fill="currentColor"><path d="M12 10.6c3.6 0 6.3 2.5 6.3 5 0 2.3-2 3.9-4.3 3.9-.7 0-1.3-.2-2-.2s-1.3.2-2 .2C7.7 19.5 5.7 17.9 5.7 15.6c0-2.5 2.7-5 6.3-5z"/><circle cx="5.3" cy="10" r="2.2"/><circle cx="9.5" cy="6.2" r="2.4"/><circle cx="14.5" cy="6.2" r="2.4"/><circle cx="18.7" cy="10" r="2.2"/></symbol>
     <symbol id="i-close" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></symbol>
     <symbol id="i-add" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></symbol>
     <symbol id="i-more_vert" viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="6" r="1.7"/><circle cx="12" cy="12" r="1.7"/><circle cx="12" cy="18" r="1.7"/></symbol>
@@ -655,13 +717,13 @@ button { cursor: pointer; }
   <div class="nk-theme-picker" role="group" aria-label="テーマ切替">
     <button type="button" data-theme="calico" aria-pressed="true"><svg class="nk-mascot calico"><use href="#m-calico"/></svg>三毛</button>
     <button type="button" data-theme="american-shorthair" aria-pressed="false"><svg class="nk-mascot american-shorthair"><use href="#m-american-shorthair"/></svg>アメショ</button>
-    <button type="button" data-theme="russian-blue" aria-pressed="false"><svg class="nk-mascot russian-blue"><use href="#m-russian-blue"/></svg>ロシアンブルー</button>
+    <button type="button" data-theme="russian-blue" aria-pressed="false"><svg class="nk-mascot russian-blue"><use href="#m-russian-blue"/></svg>ロシアンブルー（ダーク）</button>
   </div>
   <a class="nk-btn outline sm" href="#compare">3 テーマを並べて見る</a>
 </header>
 
 <main class="wrap">
-  <p class="note">設計書 §6〜§9 の【初期案】（パレット・角丸・フォント・部品一覧）を、本番と同じ CSS 変数構造（<span class="kbd">[data-neko-theme]</span> → <span class="kbd">--nk-p-*</span> → 役割トークン）で組んだ静的プレビューです。上のボタンで 3 テーマを即時切替できます。コントラスト検査（§7.6）は Phase 2 のビルドで行うため、ここでは未適用です。</p>
+  <p class="note">設計書 §6〜§9 の【初期案】（パレット・角丸・フォント・部品一覧）を、本番と同じ CSS 変数構造（<span class="kbd">[data-neko-theme]</span> → <span class="kbd">--nk-p-*</span> → 役割トークン）で組んだ静的プレビューです。上のボタンで 3 テーマを即時切替できます。ロシアンブルーはダーク scheme（黒に近い青灰の地）です。コントラスト検査（§7.6）は Phase 2 のビルドで行うため、ここでは未適用です。</p>
 
   <!-- ========== 0. サンプル画面（型 A: 一覧） ========== -->
   <section class="section" id="sample">
@@ -703,16 +765,16 @@ button { cursor: pointer; }
           <div class="nk-table-wrap">
             <table class="nk-table">
               <thead><tr>
-                <th class="check"><label class="nk-check"><input type="checkbox" id="sample-all" aria-label="すべて選択"><span class="box"><svg class="nk-icon"><use href="#i-ear_check"/></svg></span></label></th>
+                <th class="check"><label class="nk-check"><input type="checkbox" id="sample-all" aria-label="すべて選択"><span class="box"><svg class="nk-icon"><use href="#i-paw"/></svg></span></label></th>
                 <th><button type="button">案件名<svg class="nk-icon s3"><use href="#i-arrow_upward"/></svg></button></th>
                 <th>顧客</th><th>状態</th><th class="num">金額</th><th>更新日</th><th></th>
               </tr></thead>
               <tbody>
-                <tr><td class="check"><label class="nk-check"><input type="checkbox" checked aria-label="選択"><span class="box"><svg class="nk-icon"><use href="#i-ear_check"/></svg></span></label></td><td><a class="nk-link" href="#sample" style="text-decoration:none">社内備品貸出アプリ 改修</a></td><td>山田商事</td><td><span class="nk-status info">進行中</span></td><td class="num">1,200,000</td><td class="mono">2026/09/21</td><td class="actions"><button class="nk-iconbtn sm" type="button" aria-label="操作"><svg class="nk-icon s5"><use href="#i-more_vert"/></svg></button></td></tr>
-                <tr><td class="check"><label class="nk-check"><input type="checkbox" aria-label="選択"><span class="box"><svg class="nk-icon"><use href="#i-ear_check"/></svg></span></label></td><td><a class="nk-link" href="#sample" style="text-decoration:none">顧客ポータル 要件定義</a></td><td>山田製作所</td><td><span class="nk-status warning">確認待ち</span></td><td class="num">480,000</td><td class="mono">2026/09/19</td><td class="actions"><button class="nk-iconbtn sm" type="button" aria-label="操作"><svg class="nk-icon s5"><use href="#i-more_vert"/></svg></button></td></tr>
-                <tr><td class="check"><label class="nk-check"><input type="checkbox" aria-label="選択"><span class="box"><svg class="nk-icon"><use href="#i-ear_check"/></svg></span></label></td><td><a class="nk-link" href="#sample" style="text-decoration:none">在庫管理ダッシュボード</a></td><td>山田物流</td><td><span class="nk-status success">完了</span></td><td class="num">2,350,000</td><td class="mono">2026/09/12</td><td class="actions"><button class="nk-iconbtn sm" type="button" aria-label="操作"><svg class="nk-icon s5"><use href="#i-more_vert"/></svg></button></td></tr>
-                <tr><td class="check"><label class="nk-check"><input type="checkbox" aria-label="選択"><span class="box"><svg class="nk-icon"><use href="#i-ear_check"/></svg></span></label></td><td><a class="nk-link" href="#sample" style="text-decoration:none">採用サイト リニューアル</a></td><td>山田ホールディングス</td><td><span class="nk-status negative">差し戻し</span></td><td class="num">960,000</td><td class="mono">2026/09/08</td><td class="actions"><button class="nk-iconbtn sm" type="button" aria-label="操作"><svg class="nk-icon s5"><use href="#i-more_vert"/></svg></button></td></tr>
-                <tr><td class="check"><label class="nk-check"><input type="checkbox" aria-label="選択"><span class="box"><svg class="nk-icon"><use href="#i-ear_check"/></svg></span></label></td><td><a class="nk-link" href="#sample" style="text-decoration:none">勤怠アプリ ユーザーインタビュー</a></td><td>山田クリニック</td><td><span class="nk-status neutral">下書き</span></td><td class="num">150,000</td><td class="mono">2026/09/02</td><td class="actions"><button class="nk-iconbtn sm" type="button" aria-label="操作"><svg class="nk-icon s5"><use href="#i-more_vert"/></svg></button></td></tr>
+                <tr><td class="check"><label class="nk-check"><input type="checkbox" checked aria-label="選択"><span class="box"><svg class="nk-icon"><use href="#i-paw"/></svg></span></label></td><td><a class="nk-link" href="#sample" style="text-decoration:none">社内備品貸出アプリ 改修</a></td><td>山田商事</td><td><span class="nk-status info">進行中</span></td><td class="num">1,200,000</td><td class="mono">2026/09/21</td><td class="actions"><button class="nk-iconbtn sm" type="button" aria-label="操作"><svg class="nk-icon s5"><use href="#i-more_vert"/></svg></button></td></tr>
+                <tr><td class="check"><label class="nk-check"><input type="checkbox" aria-label="選択"><span class="box"><svg class="nk-icon"><use href="#i-paw"/></svg></span></label></td><td><a class="nk-link" href="#sample" style="text-decoration:none">顧客ポータル 要件定義</a></td><td>山田製作所</td><td><span class="nk-status warning">確認待ち</span></td><td class="num">480,000</td><td class="mono">2026/09/19</td><td class="actions"><button class="nk-iconbtn sm" type="button" aria-label="操作"><svg class="nk-icon s5"><use href="#i-more_vert"/></svg></button></td></tr>
+                <tr><td class="check"><label class="nk-check"><input type="checkbox" aria-label="選択"><span class="box"><svg class="nk-icon"><use href="#i-paw"/></svg></span></label></td><td><a class="nk-link" href="#sample" style="text-decoration:none">在庫管理ダッシュボード</a></td><td>山田物流</td><td><span class="nk-status success">完了</span></td><td class="num">2,350,000</td><td class="mono">2026/09/12</td><td class="actions"><button class="nk-iconbtn sm" type="button" aria-label="操作"><svg class="nk-icon s5"><use href="#i-more_vert"/></svg></button></td></tr>
+                <tr><td class="check"><label class="nk-check"><input type="checkbox" aria-label="選択"><span class="box"><svg class="nk-icon"><use href="#i-paw"/></svg></span></label></td><td><a class="nk-link" href="#sample" style="text-decoration:none">採用サイト リニューアル</a></td><td>山田ホールディングス</td><td><span class="nk-status negative">差し戻し</span></td><td class="num">960,000</td><td class="mono">2026/09/08</td><td class="actions"><button class="nk-iconbtn sm" type="button" aria-label="操作"><svg class="nk-icon s5"><use href="#i-more_vert"/></svg></button></td></tr>
+                <tr><td class="check"><label class="nk-check"><input type="checkbox" aria-label="選択"><span class="box"><svg class="nk-icon"><use href="#i-paw"/></svg></span></label></td><td><a class="nk-link" href="#sample" style="text-decoration:none">勤怠アプリ ユーザーインタビュー</a></td><td>山田クリニック</td><td><span class="nk-status neutral">下書き</span></td><td class="num">150,000</td><td class="mono">2026/09/02</td><td class="actions"><button class="nk-iconbtn sm" type="button" aria-label="操作"><svg class="nk-icon s5"><use href="#i-more_vert"/></svg></button></td></tr>
               </tbody>
             </table>
           </div>
@@ -871,7 +933,7 @@ button { cursor: pointer; }
         <div class="nk-msg negative"><svg class="nk-icon s5"><use href="#i-error"/></svg><span>一覧を読み込めませんでした。</span><button class="nk-btn outline sm" type="button">再試行</button></div>
       </div>
 
-      <div class="demo"><div class="label"><b>10 Badge ／ 11 Tag ／ 12 Avatar</b></div>
+      <div class="demo"><div class="label"><b>10 Badge ／ 11 Tag ／ 12 Avatar</b><span>数値バッジは肉球形</span></div>
         <div class="row" style="gap:8px"><span class="nk-badge">3</span><span class="nk-badge negative">12</span><span class="nk-badge neutral">120件</span><span class="nk-badge">99+</span><span class="nk-divider v"></span><span class="nk-status success">完了</span><span class="nk-status info">進行中</span><span class="nk-status warning">確認待ち</span><span class="nk-status negative">差し戻し</span></div>
         <div class="row" style="gap:6px"><span class="nk-tag">デザイン<button type="button" aria-label="外す"><svg class="nk-icon s3"><use href="#i-close"/></svg></button></span><span class="nk-tag selected">優先<button type="button" aria-label="外す"><svg class="nk-icon s3"><use href="#i-close"/></svg></button></span><span class="nk-tag noclose">読み取り専用</span></div>
         <div class="row" style="gap:8px"><span class="nk-avatar sm"><svg class="nk-icon"><use href="#i-cat"/></svg></span><span class="nk-avatar">五十</span><span class="nk-avatar lg"><svg class="nk-icon"><use href="#i-cat"/></svg></span><span class="t2 low">画像なし時は猫シルエット</span></div>
@@ -898,9 +960,9 @@ button { cursor: pointer; }
       <div class="demo"><div class="label"><b>19 Select ／ 20 Checkbox ／ 21 Radio</b></div>
         <div class="nk-field"><label for="sel-1">担当者</label><div class="nk-select-wrap"><select class="nk-select" id="sel-1"><option>五十棲</option><option>山田</option><option>佐藤</option></select><svg class="nk-icon s5"><use href="#i-expand_more"/></svg></div></div>
         <div class="col" style="gap:8px">
-          <label class="nk-check"><input type="checkbox" checked><span class="box"><svg class="nk-icon"><use href="#i-ear_check"/></svg></span>通知を受け取る（チェックは耳付き）</label>
-          <label class="nk-check"><input type="checkbox" data-role="indeterminate"><span class="box"><svg class="nk-icon"><use href="#i-ear_check"/></svg></span>一部選択（indeterminate）</label>
-          <label class="nk-check disabled"><input type="checkbox" disabled><span class="box"><svg class="nk-icon"><use href="#i-ear_check"/></svg></span>無効</label>
+          <label class="nk-check"><input type="checkbox" checked><span class="box"><svg class="nk-icon"><use href="#i-paw"/></svg></span>通知を受け取る（チェックは肉球）</label>
+          <label class="nk-check"><input type="checkbox" data-role="indeterminate"><span class="box"><svg class="nk-icon"><use href="#i-paw"/></svg></span>一部選択（indeterminate）</label>
+          <label class="nk-check disabled"><input type="checkbox" disabled><span class="box"><svg class="nk-icon"><use href="#i-paw"/></svg></span>無効</label>
         </div>
         <div class="row" style="gap:16px" role="radiogroup" aria-label="公開範囲">
           <label class="nk-radio"><input type="radio" name="r1" checked><span class="box"></span>社内のみ</label>
@@ -927,7 +989,7 @@ button { cursor: pointer; }
       </div>
 
       <div class="demo"><div class="label"><b>25 Tabs ／ 26 Breadcrumb</b></div>
-        <div class="nk-tabs" role="tablist" data-role="tabs"><button type="button" role="tab" aria-selected="true">概要</button><button type="button" role="tab" aria-selected="false">タスク<span class="nk-badge neutral">8</span></button><button type="button" role="tab" aria-selected="false">履歴</button><button type="button" role="tab" aria-selected="false">ファイル</button></div>
+        <div class="nk-tabs" role="tablist" data-role="tabs"><button type="button" role="tab" aria-selected="true">概要</button><button type="button" role="tab" aria-selected="false">タスク<span class="nk-badge">8</span></button><button type="button" role="tab" aria-selected="false">履歴</button><button type="button" role="tab" aria-selected="false">ファイル</button></div>
         <ol class="nk-breadcrumb"><li><a href="#components">ホーム</a><svg class="nk-icon s3"><use href="#i-chevron_right"/></svg></li><li><a href="#components">案件</a><svg class="nk-icon s3"><use href="#i-chevron_right"/></svg></li><li aria-current="page">社内備品貸出アプリ 改修</li></ol>
         <div class="label"><b>28 Pagination</b><span>件数表示つき</span></div>
         <div class="nk-pagination"><span class="low">120件中 21〜40件</span><div class="pages"><button type="button" aria-label="前のページ"><svg class="nk-icon s5" style="transform:rotate(180deg)"><use href="#i-chevron_right"/></svg></button><button type="button">1</button><button type="button" aria-current="page">2</button><button type="button">3</button><button type="button">…</button><button type="button">6</button><button type="button" aria-label="次のページ"><svg class="nk-icon s5"><use href="#i-chevron_right"/></svg></button></div></div>
@@ -943,7 +1005,7 @@ button { cursor: pointer; }
       <div class="demo"><div class="label"><b>29 Menu ／ 30 Popover</b></div>
         <div class="row" style="align-items:flex-start;gap:16px">
           <div class="nk-menu" role="menu"><button type="button" role="menuitem"><svg class="nk-icon s5"><use href="#i-edit"/></svg>編集する<span class="sc">E</span></button><button type="button" role="menuitem"><svg class="nk-icon s5"><use href="#i-download"/></svg>書き出す</button><button type="button" role="menuitem"><svg class="nk-icon s5"><use href="#i-mail"/></svg>共有する</button><hr class="nk-divider"><button type="button" role="menuitem" class="negative"><svg class="nk-icon s5"><use href="#i-delete"/></svg>削除する</button></div>
-          <div class="nk-popover"><b class="t2">列の表示</b><label class="nk-check"><input type="checkbox" checked><span class="box"><svg class="nk-icon"><use href="#i-ear_check"/></svg></span>顧客</label><label class="nk-check"><input type="checkbox" checked><span class="box"><svg class="nk-icon"><use href="#i-ear_check"/></svg></span>金額</label><label class="nk-check"><input type="checkbox"><span class="box"><svg class="nk-icon"><use href="#i-ear_check"/></svg></span>担当者</label><button class="nk-btn secondary sm" type="button" style="align-self:flex-end">適用する</button></div>
+          <div class="nk-popover"><b class="t2">列の表示</b><label class="nk-check"><input type="checkbox" checked><span class="box"><svg class="nk-icon"><use href="#i-paw"/></svg></span>顧客</label><label class="nk-check"><input type="checkbox" checked><span class="box"><svg class="nk-icon"><use href="#i-paw"/></svg></span>金額</label><label class="nk-check"><input type="checkbox"><span class="box"><svg class="nk-icon"><use href="#i-paw"/></svg></span>担当者</label><button class="nk-btn secondary sm" type="button" style="align-self:flex-end">適用する</button></div>
         </div>
       </div>
 
@@ -972,7 +1034,7 @@ button { cursor: pointer; }
       </div>
 
       <div class="demo"><div class="label"><b>36 NekoThemePicker ／ Mascot</b><span>faces / menu</span></div>
-        <div class="nk-theme-picker" role="group" aria-label="テーマ切替（見本）"><button type="button" data-theme="calico" aria-pressed="true"><svg class="nk-mascot calico"><use href="#m-calico"/></svg>三毛</button><button type="button" data-theme="american-shorthair" aria-pressed="false"><svg class="nk-mascot american-shorthair"><use href="#m-american-shorthair"/></svg>アメショ</button><button type="button" data-theme="russian-blue" aria-pressed="false"><svg class="nk-mascot russian-blue"><use href="#m-russian-blue"/></svg>ロシアンブルー</button></div>
+        <div class="nk-theme-picker" role="group" aria-label="テーマ切替（見本）"><button type="button" data-theme="calico" aria-pressed="true"><svg class="nk-mascot calico"><use href="#m-calico"/></svg>三毛</button><button type="button" data-theme="american-shorthair" aria-pressed="false"><svg class="nk-mascot american-shorthair"><use href="#m-american-shorthair"/></svg>アメショ</button><button type="button" data-theme="russian-blue" aria-pressed="false"><svg class="nk-mascot russian-blue"><use href="#m-russian-blue"/></svg>ロシアンブルー（ダーク）</button></div>
         <div class="row" style="gap:20px"><svg class="nk-mascot calico" style="width:72px;height:72px"><use href="#m-calico"/></svg><svg class="nk-mascot american-shorthair" style="width:72px;height:72px"><use href="#m-american-shorthair"/></svg><svg class="nk-mascot russian-blue" style="width:72px;height:72px"><use href="#m-russian-blue"/></svg></div>
         <p class="t1 low">マスコットは空状態・初回ローディング・404・ログインの 4 か所だけ（§8.6）。ここでは幾何学的な仮絵。</p>
       </div>
@@ -1001,7 +1063,7 @@ button { cursor: pointer; }
       <div class="row" style="gap:6px"><span class="nk-status info">進行中</span><span class="nk-status success">完了</span><span class="nk-status warning">確認待ち</span><span class="nk-tag selected noclose">担当: 自分</span><span class="nk-badge negative">3</span></div>
       <div class="nk-card"><div class="hd" style="padding:10px 12px;font-size:var(--nk-text-2)">基本情報<svg class="nk-icon s5" style="color:var(--nk-color-object-low)"><use href="#i-more_vert"/></svg></div><div class="bd" style="padding:12px"><dl class="dl" style="grid-template-columns:64px 1fr"><dt>顧客</dt><dd>山田商事</dd><dt>金額</dt><dd class="mono">1,200,000</dd><dt>納期</dt><dd class="mono">2026/10/31</dd></dl></div></div>
       <div class="nk-table-wrap"><table class="nk-table xs"><thead><tr><th>案件名</th><th>状態</th><th class="num">金額</th></tr></thead><tbody><tr><td>備品貸出アプリ</td><td><span class="nk-status info">進行中</span></td><td class="num">1,200,000</td></tr><tr><td>顧客ポータル</td><td><span class="nk-status warning">確認待ち</span></td><td class="num">480,000</td></tr></tbody></table></div>
-      <div class="row" style="gap:14px"><label class="nk-check"><input type="checkbox" checked><span class="box"><svg class="nk-icon"><use href="#i-ear_check"/></svg></span>通知</label><label class="nk-switch"><input type="checkbox" checked><span class="track"></span>公開</label><label class="nk-radio"><input type="radio" checked><span class="box"></span>社内</label></div>
+      <div class="row" style="gap:14px"><label class="nk-check"><input type="checkbox" checked><span class="box"><svg class="nk-icon"><use href="#i-paw"/></svg></span>通知</label><label class="nk-switch"><input type="checkbox" checked><span class="track"></span>公開</label><label class="nk-radio"><input type="radio" checked><span class="box"></span>社内</label></div>
       <div class="nk-msg negative" style="padding:8px 10px"><svg class="nk-icon s5"><use href="#i-error"/></svg><span>読み込めませんでした。</span><button class="nk-btn outline sm" type="button">再試行</button></div>
       <div class="nk-empty" style="padding:12px 8px 4px"><svg class="nk-mascot" data-slot="mascot" style="width:64px;height:64px;margin:0"><use href="#m-calico"/></svg><h3 style="font-size:var(--nk-text-2)">まだ案件がありません</h3></div>
     </template>
@@ -1017,7 +1079,7 @@ button { cursor: pointer; }
   var THEMES = {
     "calico": { label: "三毛", mood: "親しみやすい・元気・明るい", fonts: "font-pro: Zen Maru Gothic ／ font-mono: Noto Sans Mono" },
     "american-shorthair": { label: "アメショ", mood: "中立・落ち着き・モノトーン", fonts: "font-pro: Inter ＋ Noto Sans JP ／ font-mono: Roboto Mono" },
-    "russian-blue": { label: "ロシアンブルー", mood: "上品・クール・静か", fonts: "font-pro: IBM Plex Sans JP ／ font-mono: IBM Plex Mono" }
+    "russian-blue": { label: "ロシアンブルー（ダーク）", mood: "上品・クール・静か・夜", fonts: "font-pro: IBM Plex Sans JP ／ font-mono: IBM Plex Mono" }
   };
   var ORDER = ["calico", "american-shorthair", "russian-blue"];
   var root = document.documentElement;

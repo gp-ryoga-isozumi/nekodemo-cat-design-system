@@ -72,6 +72,9 @@ Claude Code への指示: 【未確認】は実装前に必ず確認して結果
 | D9 | 名称は **nekodemo**（仮）。npm パッケージ名 `nekodemo`、CSS 変数プレフィックス `--nk-`、HTML 属性 `data-neko-theme` | `neko-ds` 等 | 2026-09-21 時点で npm に `nekodemo` / `neko-ds` / `nekodemo-ds` / `neko-design` / `cat-ds` は未使用【事実: `npm view` で確認】。正式名称は公開前に決める |
 | D10 | 「Sparkle」という語を製品名・パッケージ名・属性名に使わない | — | Sparkle 利用規約の「名称・ブランドイメージを誤認させる使用」禁止に抵触しないため（§3.3） |
 | D11 | GitHub リポジトリは **`gp-ryoga-isozumi/nekodemo-cat-design-system`（公開）**。GitHub Pages は `https://gp-ryoga-isozumi.github.io/nekodemo-cat-design-system/`、Next.js の `basePath` は `/nekodemo-cat-design-system`。npm パッケージ名は `nekodemo`（D9）のまま | `<owner>/nekodemo` | 2026-09-21 に利用者が決定。リポジトリ名と npm 名は一致させなくてよい。本文中の `<owner>/nekodemo` はこの値に読み替える |
+| D12 | **ロシアンブルーはダーク scheme**。テーマ JSON に `scheme`（`light` または `dark`）を持たせ、`semantic.map.json` は役割トークンの対応表を `light` / `dark` の 2 組持つ。プリミティブの段階（50 = 最も明るい … 900 = 最も暗い）はテーマに関わらず固定し、ダークでは対応表側で反転させる（`text-high` → neutral.50、`surface-page` → neutral.900、`surface-primary` → primary.300 等） | 全テーマ light（初版）／ダークはテーマ ID を増やして対応 | 2026-09-21 のプレビューで利用者が「ロシアンブルーは黒に近い青灰の地でダークモード風に」と決定。部品は役割トークンだけを使う規約なので、対応表の差し替えだけで全部品が追従する（Phase 0.5 で確認済） |
+| D13 | **チェックマークと数値バッジは肉球**。Checkbox のチェックは `paw` アイコン（nekodemo 独自名）、数値 Badge は肉球の形（本体パッド＋指パッド 3 つ）。文字ラベル用の Badge は通常のピル | 耳付き `check`、丸バッジ | 2026-09-21 のプレビューで利用者が決定 |
+| D14 | **猫耳は太く大きく**。耳の三角形は底辺 6・高さ 5.4（初版の 1.2 倍）、塗りに加えて本体と同じ色・線幅 1.4 の輪郭（round join）を付ける | 底辺 5・高さ 4.5、塗りのみ | 2026-09-21 のプレビューで「もっと太くて分かりやすく」と利用者が決定 |
 
 ---
 
@@ -316,7 +319,7 @@ flowchart LR
 | 役割 | `--nk-color-text-{high,middle,low,placeholder,disabled,on-primary,link,negative,inverse}`、`--nk-color-surface-{page,card,well,overlay,inverse,primary,primary-hover,primary-active,primary-subtle,negative,negative-subtle,info-subtle,success-subtle,warning-subtle,selected}`、`--nk-color-border-{low,middle,high,primary,negative,focus}`、`--nk-color-object-{high,middle,low,primary,negative,on-primary}` | コンポーネントは**原則この層だけ**を使う。Tailwind に `text-text-high`、`bg-surface-card`、`border-border-focus` 等として公開 |
 | 形状・タイポ | `--nk-radius-{action,container,modal,notice,round}`、`--nk-shadow-{raise,float,popout}`、`--nk-font-{pro,mono}`、`--nk-text-{1..12}`（サイズ）、`--nk-leading-{1..12}` | `rounded-action` / `shadow-float` / `font-pro` / `text-3` として公開 |
 
-`semantic.map.json` は「役割トークン → セマンティック参照」の対応表で、全テーマ共通。例（抜粋）:
+`semantic.map.json` は「役割トークン → セマンティック参照」の対応表で、`light` と `dark` の 2 組を持つ（テーマ JSON の `scheme` で選ぶ。D12）。以下は `light` の例（抜粋）:
 
 ```json
 {
@@ -347,6 +350,8 @@ flowchart LR
 ```
 
 テーマ JSON 側で `overrides` を書けば、この対応表を**そのテーマだけ**上書きできる（例: 三毛は `text-high` を黒斑の色にする）。
+
+2026-09-21 追加（Phase 0.5 のプレビューで必要になった役割トークン）: `text-primary`（primary 色の文字。secondary ボタン・選択中タブ・ナビ。dark では primary.300）、`text-info` / `text-success` / `text-warning`（ステータス文字色。light は 700、dark は 300）、`surface-input`（入力欄の地。light は white、dark は neutral.900）、`surface-disabled`（無効時の地）、`surface-primary-subtle-hover`。ステータス色のプリミティブは 50〜900 の全段階を持ち、dark の淡い背景（`surface-*-subtle`）は 900、文字は 300 を使う。`dark` の対応表は `docs/preview/index.html` の「2b. scheme: dark の役割対応」ブロックを正として JSON 化する。
 
 ### 6.2 生成される CSS の形（tokens.css）
 
@@ -486,9 +491,9 @@ shadcn/ui のコンポーネントは `bg-primary` `text-muted-foreground` `bord
 |---|---|---|---|---|
 | `calico` | 三毛（ミケ） | 白地に茶（オレンジ）と黒のぶち、ピンクの鼻 | 親しみやすい・元気・明るい | toC アプリ、コミュニティ、学習、子ども向け |
 | `american-shorthair` | アメショ | 銀灰色の地に黒の縞（シルバータビー）、琥珀色の目 | 中立・落ち着き・モノトーン | 業務システム、管理画面、ダッシュボード |
-| `russian-blue` | ロシアンブルー | 青みがかった灰色の毛、エメラルドグリーンの目 | 上品・クール・静か | 金融・法務・ヘルスケア、高級感が要る提案 |
+| `russian-blue` | ロシアンブルー | 青みがかった灰色の毛、エメラルドグリーンの目 | 上品・クール・静か・夜。**ダーク scheme**（黒に近い青灰 `oklch(0.245 0.028 250)` の地、銀青の主ボタン） | 金融・法務・ヘルスケア、高級感が要る提案、ダーク UI の検証 |
 
-各テーマで変わるもの: **プライマリ配色、ニュートラル（灰色）の色味、アクセント 3 色、角丸、フォント、マスコット**。変わらないもの: ステータス色（info / success / warning / negative）、サイズ・余白、コンポーネントの構造、アイコンの形。
+各テーマで変わるもの: **配色スキーム（light / dark、D12）、プライマリ配色、ニュートラル（灰色）の色味、アクセント 3 色、角丸、フォント、マスコット**。変わらないもの: ステータス色（info / success / warning / negative）、サイズ・余白、コンポーネントの構造、アイコンの形。
 
 ### 7.2 テーマ JSON（themes/*.json）
 
@@ -498,6 +503,7 @@ shadcn/ui のコンポーネントは `bg-primary` `text-muted-foreground` `bord
 {
   "$schema": "./neko-theme.schema.json",
   "id": "russian-blue",
+  "scheme": "dark",
   "label": { "ja": "ロシアンブルー", "en": "Russian Blue" },
   "mood": {
     "ja": ["上品", "クール", "静か"],
@@ -538,6 +544,7 @@ shadcn/ui のコンポーネントは `bg-primary` `text-muted-foreground` `bord
 | キー | 意味 | 制約 |
 |---|---|---|
 | `id` | テーマ ID。`data-neko-theme` の値 | `^[a-z][a-z0-9-]*$` |
+| `scheme` | `light` または `dark`。`semantic.map.json` のどちらの対応表を使うかと、`color-scheme` の出力を決める（D12） | 必須 |
 | `label` | 表示名（ja / en） | 必須 |
 | `mood` | AI が雰囲気語からテーマを選ぶための語彙（§7.5） | `ja` 3 語以上、`keywords` 5 語以上 |
 | `palette.primary` / `palette.neutral` | 50〜900 の 10 段階。値は `oklch()` 固定 | 10 段階すべて必須。§7.6 のコントラスト検査を通ること |
@@ -552,9 +559,10 @@ shadcn/ui のコンポーネントは `bg-primary` `text-muted-foreground` `bord
 
 | 項目 | `calico` | `american-shorthair` | `russian-blue` |
 |---|---|---|---|
+| scheme | light | light | **dark**（2026-09-21） |
 | primary-600（主ボタン） | `oklch(0.55 0.150 48)` オレンジ茶 | `oklch(0.42 0.024 250)` 黒鉛色 | `oklch(0.46 0.065 250)` 青鼠色 |
 | primary-50（選択背景） | `oklch(0.975 0.020 60)` | `oklch(0.97 0.004 250)` | `oklch(0.97 0.010 250)` |
-| neutral の色味 | 暖色寄り（hue 70） | 寒色寄り・銀（hue 240） | 青寄り（hue 250） |
+| neutral の色味 | 暖色寄り（hue 70） | 寒色寄り・銀（hue 240） | 青寄り（hue 250）。dark 用に 900 = `oklch(0.245 0.028 250)`（地色）、800 = `oklch(0.29 0.028 250)`（カード）、50 = `oklch(0.95 0.008 250)`（文字）。主ボタンは primary-300 `oklch(0.78 0.052 250)` に primary-900 の文字 |
 | accent-1 | 黒ぶち `oklch(0.22 0.010 60)` | 琥珀の目 `oklch(0.78 0.140 80)` | 緑の目 `oklch(0.62 0.150 160)` |
 | accent-2 | 生成り `oklch(0.97 0.020 85)` | 黒縞 `oklch(0.25 0.010 250)` | 銀の毛先 `oklch(0.85 0.010 250)` |
 | accent-3 | 鼻ピンク `oklch(0.78 0.090 10)` | 鼻ピンク `oklch(0.80 0.080 10)` | 鼻の紫 `oklch(0.55 0.080 330)` |
@@ -605,7 +613,7 @@ flowchart LR
 - テーマブロックに書くのは **プリミティブ層（`--nk-p-*`）と overrides で指定された役割トークンだけ**。セマンティック層・役割層は `tokens.css` の `:root` に 1 回だけ定義され、`var()` でプリミティブを参照するため、テーマブロックの上書きが全部に伝播する。
 - 値はすべて**実値**（`var()` の連鎖を書かない）。読みやすさとデバッグのため。
 - `:root` に併記するのが既定テーマ。既定は `nekodemo.config.json` の `defaultTheme`（リポジトリ既定は `calico`【設計判断】）。属性が無い HTML でも既定テーマで表示される。
-- ダークモードは v1 では**対象外**。テーマ ID を増やす形（例: `russian-blue-night`）で将来対応できる構造にしておく。
+- ダークはテーマの `scheme: "dark"` で表現する（ロシアンブルーが該当。D12）。テーマブロックにはプリミティブに加えて、`scheme` に応じた役割トークンの対応（`semantic.map.json` の `dark`）と `color-scheme: dark` を書き出す。セマンティック層・役割層は `:root, [data-neko-theme]` に定義する（§6.2 追記参照）。
 
 ### 7.4 ランタイム切替の仕組み
 
@@ -704,6 +712,8 @@ flowchart TB
 | T2 自動耳版 | `icons/wanted.txt` に列挙した名前のうち T1 が無いもの | §8.5 の `add-ears.mjs`。`@material-symbols/svg-500`（Apache-2.0）の SVG に標準の耳パスを合成 | 200 個 |
 | T3 フォント | それ以外 | 従来どおり Material Symbols Rounded フォント | — |
 
+nekodemo 独自名のアイコン: `paw`（肉球。Checkbox のチェックマークに使う。D13）。Material Symbols に無い名前は `icons/manifest.json` に `origin: "nekodemo"` として登録する。
+
 【設計判断】ユーザー決定は「AI 生成 → SVG」だが、AI 生成だけだと線の太さや耳の形がアイコン間でばらつくリスクが高い（§16）。そこで **T2（自動耳）を全体の統一基準**にし、T1 は T2 の見た目に寄せてレビューする。T1 のレビュー基準を満たさないものは T2 のままにする。
 
 ### 8.2 Icon コンポーネントの API
@@ -725,7 +735,7 @@ flowchart TB
 
 | 項目 | 規約 |
 |---|---|
-| 形 | 二等辺三角形、底辺 5、高さ 4.5、頂点は半径 0.75 の丸み |
+| 形 | 二等辺三角形、底辺 6、高さ 5.4（2026-09-21 に 1.2 倍へ拡大。D14）。塗りに加えて本体と同じ色・線幅 1.4 の輪郭（`stroke-linejoin: round`）を付けて太く丸く見せる。頂点は輪郭込みで y ≥ 1 に収め、はみ出す場合は耳全体を下げる |
 | 位置 | 図形本体の上辺に接する。左耳は本体の左端から 1 内側、右耳は右端から 1 内側 |
 | 傾き | 外側に 15° 倒す |
 | 本体との関係 | 耳の底辺 1 が本体に食い込む（隙間を作らない）。本体の上辺が y < 4 のときは本体を中心基準で 0.85 倍に縮小して余白を作る |
@@ -795,7 +805,7 @@ flowchart LR
 | 7 | Tooltip | Tooltip | tooltip | そのまま |
 | 8 | Toast | Toast | sonner | 種別アイコンは耳付き |
 | 9 | InlineMessage | Inline Message | alert | info / success / warning / negative |
-| 10 | Badge | Badge | badge | 数値バッジ |
+| 10 | Badge | Badge | badge | 数値バッジは**肉球の形**（本体パッド＋上に指パッド 3 つ）。文字ラベル用は通常のピル（D13） |
 | 11 | Tag | Tag | badge（variant） | 削除可能な Tag は `close` アイコン |
 | 12 | Avatar | Avatar | avatar | フォールバックは猫シルエット |
 | 13 | Divider | Divider | separator | そのまま |
@@ -805,7 +815,7 @@ flowchart LR
 | 17 | InputSearch | Input Search | input | v1 は単純な検索欄（アイコン・クリア・条件トリガー）。サジェスト付きは v1.1 の SearchCombobox |
 | 18 | Textarea | Textarea | textarea | 文字数カウンタ |
 | 19 | Select | Select | select | 単一選択。複数選択は SearchCombobox（v1.1） |
-| 20 | Checkbox | Checkbox | checkbox | チェックマークは耳付き `check` |
+| 20 | Checkbox | Checkbox | checkbox | チェックマークは**肉球**（`paw` アイコン、D13）。箱は 22px |
 | 21 | Radio | Radio | radio-group | そのまま |
 | 22 | Switch | Switch | switch | そのまま |
 | 23 | Slider | Slider | slider | そのまま |
@@ -1314,3 +1324,4 @@ description: >
 |---|---|---|
 | 2026-09-21 | v0.1 | 初版。決定事項 D1〜D10、v1 スコープ、テーマ・アイコン・配布の設計 |
 | 2026-09-21 | v0.1.1 | D11（リポジトリ名・Pages URL）追加。§14 の lint を Biome に決定 |
+| 2026-09-21 | v0.1.2 | プレビューのフィードバックを反映: D12（ロシアンブルーをダーク scheme に、light/dark 対応表）、D13（肉球チェック・肉球バッジ）、D14（猫耳を太く）。§6.1 に役割トークン追加、§6.2 に `:root, [data-neko-theme]` の注記 |

@@ -135,6 +135,13 @@ Phase 0 の実施メモ（2026-09-21）:
 
 完成条件: 利用者が 3 テーマの見た目と部品一覧を確認し、変更点が設計書に反映されている。プレビュー HTML は実装の参考であり、Phase 4 以降は Storybook が正になる。
 
+フィードバック 1 回目（2026-09-21、反映済み。設計書 D12〜D14）:
+
+- ロシアンブルーをダーク scheme に（黒に近い青灰の地、銀青の主ボタン）。テーマ JSON に `scheme`、`semantic.map.json` に `light` / `dark` の 2 組、`color-scheme` の出力 → Phase 1〜2 の要件に追加。
+- Checkbox のチェックは肉球（`paw` アイコン）、数値 Badge は肉球形 → Phase 3a（`paw` を nekodemo 独自アイコンとして登録）と Phase 4（Badge / Checkbox）の要件に追加。
+- 猫耳を太く大きく（1.2 倍、輪郭線つき）→ Phase 3a の `ear.svg` と `add-ears.mjs` の規約に反映。
+- 役割トークンの追加（`text-primary` `text-info/success/warning` `surface-input` `surface-disabled` `surface-primary-subtle-hover`）とステータス色 50〜900 の全段階 → Phase 1 の `tokens/*.json` に反映。
+
 ### Phase 1: トークン
 
 目的: Tailwind 既定パレットが消え、nekodemo のトークンだけがユーティリティになる状態を、生成スクリプトとテストで固定する。
@@ -280,3 +287,4 @@ Phase 0.5 のプレビューで判明した Phase 1 への要件（2026-09-21）
 |---|---|---|
 | 2026-09-21 | v0.1 | 初版。設計書 v0.1 を元にフェーズ別作業項目・補強点 A1〜A7・人の判断項目 H1〜H7 を定義 |
 | 2026-09-21 | v0.1.1 | H1〜H3・H5 の決定を反映。Phase 0 実施メモと Phase 0.5（ビジュアルプレビュー）を追加 |
+| 2026-09-21 | v0.1.2 | プレビューのフィードバック 1 回目（ダーク scheme、肉球、太い耳）を Phase 1〜4 の要件に反映 |
