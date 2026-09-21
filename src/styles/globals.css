@@ -1,2 +1,3 @@
-/* Phase 1 で "./tokens.css"、Phase 2 で "./themes.css" の @import を追加する */
 @import "tailwindcss";
+@import "./tokens.css";
+@import "./themes.css";

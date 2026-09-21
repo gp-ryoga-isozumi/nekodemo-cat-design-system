@@ -1,0 +1,101 @@
+{
+  "$comment": "テーマに依存しないプリミティブ。ステータス色（info / success / warning / negative）、角丸段階、影、タイポグラフィ。値は oklch。設計書 §6 / §7.6。",
+  "status": {
+    "info": {
+      "50": "oklch(0.97 0.015 240)",
+      "100": "oklch(0.93 0.035 240)",
+      "200": "oklch(0.87 0.060 240)",
+      "300": "oklch(0.78 0.100 240)",
+      "400": "oklch(0.68 0.130 240)",
+      "500": "oklch(0.58 0.150 240)",
+      "600": "oklch(0.50 0.150 240)",
+      "700": "oklch(0.43 0.130 240)",
+      "800": "oklch(0.36 0.100 240)",
+      "900": "oklch(0.30 0.060 240)"
+    },
+    "success": {
+      "50": "oklch(0.97 0.020 150)",
+      "100": "oklch(0.93 0.045 150)",
+      "200": "oklch(0.87 0.080 150)",
+      "300": "oklch(0.80 0.120 150)",
+      "400": "oklch(0.70 0.140 150)",
+      "500": "oklch(0.62 0.150 150)",
+      "600": "oklch(0.52 0.140 150)",
+      "700": "oklch(0.44 0.120 150)",
+      "800": "oklch(0.37 0.090 150)",
+      "900": "oklch(0.30 0.060 150)"
+    },
+    "warning": {
+      "50": "oklch(0.98 0.025 80)",
+      "100": "oklch(0.94 0.060 80)",
+      "200": "oklch(0.90 0.090 80)",
+      "300": "oklch(0.85 0.120 80)",
+      "400": "oklch(0.80 0.140 78)",
+      "500": "oklch(0.78 0.150 75)",
+      "600": "oklch(0.62 0.140 65)",
+      "700": "oklch(0.52 0.120 60)",
+      "800": "oklch(0.42 0.095 65)",
+      "900": "oklch(0.32 0.070 70)"
+    },
+    "negative": {
+      "50": "oklch(0.97 0.015 25)",
+      "100": "oklch(0.93 0.040 25)",
+      "200": "oklch(0.87 0.070 25)",
+      "300": "oklch(0.78 0.120 25)",
+      "400": "oklch(0.70 0.170 25)",
+      "500": "oklch(0.62 0.200 25)",
+      "600": "oklch(0.53 0.200 25)",
+      "700": "oklch(0.45 0.180 25)",
+      "800": "oklch(0.37 0.140 25)",
+      "900": "oklch(0.30 0.090 25)"
+    }
+  },
+  "radius": {
+    "none": "0px",
+    "xs": "2px",
+    "sm": "4px",
+    "md": "6px",
+    "lg": "8px",
+    "xl": "12px",
+    "2xl": "16px",
+    "3xl": "24px"
+  },
+  "shadow": {
+    "$comment": "影の色はテーマの --nk-p-shadow-tint（毛色に寄せた色）を参照する",
+    "raise": "0 1px 2px color-mix(in oklch, var(--nk-p-shadow-tint) 12%, transparent)",
+    "float": "0 4px 12px color-mix(in oklch, var(--nk-p-shadow-tint) 16%, transparent), 0 1px 3px color-mix(in oklch, var(--nk-p-shadow-tint) 10%, transparent)",
+    "popout": "0 12px 32px color-mix(in oklch, var(--nk-p-shadow-tint) 22%, transparent), 0 2px 6px color-mix(in oklch, var(--nk-p-shadow-tint) 10%, transparent)"
+  },
+  "typography": {
+    "$comment": "12 段階（12〜54px）。行間は 4px グリッドに乗る値【初期案】。ウェイトは 400 / 700 のみ",
+    "scale": [
+      { "step": 1, "px": 12, "size": "0.75rem", "lineHeight": "1.25rem" },
+      { "step": 2, "px": 14, "size": "0.875rem", "lineHeight": "1.5rem" },
+      { "step": 3, "px": 16, "size": "1rem", "lineHeight": "1.5rem" },
+      { "step": 4, "px": 18, "size": "1.125rem", "lineHeight": "1.75rem" },
+      { "step": 5, "px": 20, "size": "1.25rem", "lineHeight": "1.75rem" },
+      { "step": 6, "px": 24, "size": "1.5rem", "lineHeight": "2rem" },
+      { "step": 7, "px": 28, "size": "1.75rem", "lineHeight": "2.25rem" },
+      { "step": 8, "px": 32, "size": "2rem", "lineHeight": "2.75rem" },
+      { "step": 9, "px": 36, "size": "2.25rem", "lineHeight": "3rem" },
+      { "step": 10, "px": 42, "size": "2.625rem", "lineHeight": "3.5rem" },
+      { "step": 11, "px": 48, "size": "3rem", "lineHeight": "4rem" },
+      { "step": 12, "px": 54, "size": "3.375rem", "lineHeight": "4.5rem" }
+    ],
+    "aliases": {
+      "$comment": "AI の癖に合わせた別名。同じ段階を指す",
+      "xs": 1,
+      "sm": 2,
+      "base": 3,
+      "lg": 4,
+      "xl": 5,
+      "2xl": 6,
+      "3xl": 8,
+      "4xl": 10
+    },
+    "weights": {
+      "normal": 400,
+      "bold": 700
+    }
+  }
+}

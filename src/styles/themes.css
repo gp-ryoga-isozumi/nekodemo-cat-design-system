@@ -1,0 +1,35 @@
+/* 暫定（Phase 1）: 三毛のプリミティブだけを手書きしている。Phase 2 で scripts/build-themes.mjs の生成物に置き換える。 */
+:root,
+[data-neko-theme="calico"] {
+  --nk-p-primary-50: oklch(0.975 0.02 60);
+  --nk-p-primary-100: oklch(0.94 0.045 55);
+  --nk-p-primary-200: oklch(0.88 0.08 52);
+  --nk-p-primary-300: oklch(0.8 0.11 50);
+  --nk-p-primary-400: oklch(0.71 0.135 49);
+  --nk-p-primary-500: oklch(0.63 0.15 48);
+  --nk-p-primary-600: oklch(0.53 0.15 48);
+  --nk-p-primary-700: oklch(0.46 0.135 47);
+  --nk-p-primary-800: oklch(0.39 0.11 46);
+  --nk-p-primary-900: oklch(0.3 0.08 45);
+  --nk-p-neutral-50: oklch(0.975 0.008 70);
+  --nk-p-neutral-100: oklch(0.94 0.01 70);
+  --nk-p-neutral-200: oklch(0.89 0.012 70);
+  --nk-p-neutral-300: oklch(0.81 0.014 70);
+  --nk-p-neutral-400: oklch(0.72 0.016 70);
+  --nk-p-neutral-500: oklch(0.53 0.018 70); /* text-low が白地で 4.5:1 を満たすよう 0.60 → 0.53（Storybook a11y で検出） */
+  --nk-p-neutral-600: oklch(0.5 0.02 70);
+  --nk-p-neutral-700: oklch(0.42 0.02 70);
+  --nk-p-neutral-800: oklch(0.33 0.02 70);
+  --nk-p-neutral-900: oklch(0.25 0.02 70);
+  --nk-p-accent-1: oklch(0.22 0.01 60);
+  --nk-p-accent-2: oklch(0.97 0.02 85);
+  --nk-p-accent-3: oklch(0.78 0.09 10);
+  --nk-p-radius-action: 12px;
+  --nk-p-radius-container: 16px;
+  --nk-p-radius-modal: 24px;
+  --nk-p-radius-notice: 4px;
+  --nk-p-font-pro: "Zen Maru Gothic", "Hiragino Maru Gothic ProN", sans-serif;
+  --nk-p-font-mono: "Noto Sans Mono", ui-monospace, monospace;
+  --nk-p-shadow-tint: oklch(0.22 0.01 60);
+  --nk-color-text-high: var(--nk-p-accent-1);
+}

@@ -1,0 +1,432 @@
+/* 生成物: scripts/build-tokens.mjs が tokens/*.json から生成する。手で編集しない（pnpm build:tokens）。 */
+
+/* 1. Tailwind 既定のパレット・サイズ・フォント・角丸・影を無効化（D7）。ウェイトは 400 / 700 だけを存在させる */
+@theme {
+  --color-*: initial;
+  --text-*: initial;
+  --font-*: initial;
+  --font-weight-*: initial;
+  --radius-*: initial;
+  --shadow-*: initial;
+  --font-weight-normal: 400;
+  --font-weight-bold: 700;
+}
+
+/* 2. セマンティック層・役割層を Tailwind に公開（値は CSS 変数参照。テーマ切替はこの参照先を差し替えるだけ） */
+@theme inline {
+  /* 色: セマンティック層（bg-primary-600 等） */
+  --color-white: var(--nk-color-white);
+  --color-black: var(--nk-color-black);
+  --color-primary-50: var(--nk-color-primary-50);
+  --color-primary-100: var(--nk-color-primary-100);
+  --color-primary-200: var(--nk-color-primary-200);
+  --color-primary-300: var(--nk-color-primary-300);
+  --color-primary-400: var(--nk-color-primary-400);
+  --color-primary-500: var(--nk-color-primary-500);
+  --color-primary-600: var(--nk-color-primary-600);
+  --color-primary-700: var(--nk-color-primary-700);
+  --color-primary-800: var(--nk-color-primary-800);
+  --color-primary-900: var(--nk-color-primary-900);
+  --color-neutral-50: var(--nk-color-neutral-50);
+  --color-neutral-100: var(--nk-color-neutral-100);
+  --color-neutral-200: var(--nk-color-neutral-200);
+  --color-neutral-300: var(--nk-color-neutral-300);
+  --color-neutral-400: var(--nk-color-neutral-400);
+  --color-neutral-500: var(--nk-color-neutral-500);
+  --color-neutral-600: var(--nk-color-neutral-600);
+  --color-neutral-700: var(--nk-color-neutral-700);
+  --color-neutral-800: var(--nk-color-neutral-800);
+  --color-neutral-900: var(--nk-color-neutral-900);
+  --color-info-50: var(--nk-color-info-50);
+  --color-info-100: var(--nk-color-info-100);
+  --color-info-200: var(--nk-color-info-200);
+  --color-info-300: var(--nk-color-info-300);
+  --color-info-400: var(--nk-color-info-400);
+  --color-info-500: var(--nk-color-info-500);
+  --color-info-600: var(--nk-color-info-600);
+  --color-info-700: var(--nk-color-info-700);
+  --color-info-800: var(--nk-color-info-800);
+  --color-info-900: var(--nk-color-info-900);
+  --color-success-50: var(--nk-color-success-50);
+  --color-success-100: var(--nk-color-success-100);
+  --color-success-200: var(--nk-color-success-200);
+  --color-success-300: var(--nk-color-success-300);
+  --color-success-400: var(--nk-color-success-400);
+  --color-success-500: var(--nk-color-success-500);
+  --color-success-600: var(--nk-color-success-600);
+  --color-success-700: var(--nk-color-success-700);
+  --color-success-800: var(--nk-color-success-800);
+  --color-success-900: var(--nk-color-success-900);
+  --color-warning-50: var(--nk-color-warning-50);
+  --color-warning-100: var(--nk-color-warning-100);
+  --color-warning-200: var(--nk-color-warning-200);
+  --color-warning-300: var(--nk-color-warning-300);
+  --color-warning-400: var(--nk-color-warning-400);
+  --color-warning-500: var(--nk-color-warning-500);
+  --color-warning-600: var(--nk-color-warning-600);
+  --color-warning-700: var(--nk-color-warning-700);
+  --color-warning-800: var(--nk-color-warning-800);
+  --color-warning-900: var(--nk-color-warning-900);
+  --color-negative-50: var(--nk-color-negative-50);
+  --color-negative-100: var(--nk-color-negative-100);
+  --color-negative-200: var(--nk-color-negative-200);
+  --color-negative-300: var(--nk-color-negative-300);
+  --color-negative-400: var(--nk-color-negative-400);
+  --color-negative-500: var(--nk-color-negative-500);
+  --color-negative-600: var(--nk-color-negative-600);
+  --color-negative-700: var(--nk-color-negative-700);
+  --color-negative-800: var(--nk-color-negative-800);
+  --color-negative-900: var(--nk-color-negative-900);
+  --color-accent-1: var(--nk-color-accent-1);
+  --color-accent-2: var(--nk-color-accent-2);
+  --color-accent-3: var(--nk-color-accent-3);
+  /* 色: 役割層（bg-surface-card / text-text-high / border-border-focus 等）。部品は原則これだけを使う */
+  --color-text-high: var(--nk-color-text-high);
+  --color-text-middle: var(--nk-color-text-middle);
+  --color-text-low: var(--nk-color-text-low);
+  --color-text-placeholder: var(--nk-color-text-placeholder);
+  --color-text-disabled: var(--nk-color-text-disabled);
+  --color-text-on-primary: var(--nk-color-text-on-primary);
+  --color-text-link: var(--nk-color-text-link);
+  --color-text-primary: var(--nk-color-text-primary);
+  --color-text-negative: var(--nk-color-text-negative);
+  --color-text-info: var(--nk-color-text-info);
+  --color-text-success: var(--nk-color-text-success);
+  --color-text-warning: var(--nk-color-text-warning);
+  --color-text-inverse: var(--nk-color-text-inverse);
+  --color-surface-page: var(--nk-color-surface-page);
+  --color-surface-card: var(--nk-color-surface-card);
+  --color-surface-well: var(--nk-color-surface-well);
+  --color-surface-input: var(--nk-color-surface-input);
+  --color-surface-disabled: var(--nk-color-surface-disabled);
+  --color-surface-overlay: var(--nk-color-surface-overlay);
+  --color-surface-inverse: var(--nk-color-surface-inverse);
+  --color-surface-primary: var(--nk-color-surface-primary);
+  --color-surface-primary-hover: var(--nk-color-surface-primary-hover);
+  --color-surface-primary-active: var(--nk-color-surface-primary-active);
+  --color-surface-primary-subtle: var(--nk-color-surface-primary-subtle);
+  --color-surface-primary-subtle-hover: var(--nk-color-surface-primary-subtle-hover);
+  --color-surface-negative: var(--nk-color-surface-negative);
+  --color-surface-negative-subtle: var(--nk-color-surface-negative-subtle);
+  --color-surface-info-subtle: var(--nk-color-surface-info-subtle);
+  --color-surface-success-subtle: var(--nk-color-surface-success-subtle);
+  --color-surface-warning-subtle: var(--nk-color-surface-warning-subtle);
+  --color-surface-selected: var(--nk-color-surface-selected);
+  --color-border-low: var(--nk-color-border-low);
+  --color-border-middle: var(--nk-color-border-middle);
+  --color-border-high: var(--nk-color-border-high);
+  --color-border-primary: var(--nk-color-border-primary);
+  --color-border-negative: var(--nk-color-border-negative);
+  --color-border-focus: var(--nk-color-border-focus);
+  --color-object-high: var(--nk-color-object-high);
+  --color-object-middle: var(--nk-color-object-middle);
+  --color-object-low: var(--nk-color-object-low);
+  --color-object-primary: var(--nk-color-object-primary);
+  --color-object-negative: var(--nk-color-object-negative);
+  --color-object-on-primary: var(--nk-color-object-on-primary);
+  /* 色: shadcn 互換名（bg-primary / text-muted-foreground 等）。copy-in した部品のため */
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --color-chart-1: var(--chart-1);
+  --color-chart-2: var(--chart-2);
+  --color-chart-3: var(--chart-3);
+  --color-chart-4: var(--chart-4);
+  --color-chart-5: var(--chart-5);
+  --color-sidebar: var(--sidebar);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-ring: var(--sidebar-ring);
+  /* 角丸 */
+  --radius-action: var(--nk-radius-action);
+  --radius-container: var(--nk-radius-container);
+  --radius-modal: var(--nk-radius-modal);
+  --radius-notice: var(--nk-radius-notice);
+  --radius-round: 9999px;
+  /* shadcn 互換の rounded-sm/md/lg/xl は --radius（= rounded-action）から算出 */
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+  /* 影 */
+  --shadow-raise: var(--nk-shadow-raise);
+  --shadow-float: var(--nk-shadow-float);
+  --shadow-popout: var(--nk-shadow-popout);
+  --shadow-xs: var(--nk-shadow-raise);
+  --shadow-sm: var(--nk-shadow-raise);
+  --shadow-md: var(--nk-shadow-float);
+  --shadow-lg: var(--nk-shadow-popout);
+  --shadow-xl: var(--nk-shadow-popout);
+  --shadow-2xl: var(--nk-shadow-popout);
+  /* フォント（font-pro / font-mono。font-sans は font-pro の別名） */
+  --font-pro: var(--nk-font-pro);
+  --font-mono: var(--nk-font-mono);
+  --font-sans: var(--nk-font-pro);
+  /* 文字サイズ 12 段階（text-1 〜 text-12）と別名（text-sm 等） */
+  --text-1: var(--nk-text-1);
+  --text-1--line-height: var(--nk-leading-1);
+  --text-2: var(--nk-text-2);
+  --text-2--line-height: var(--nk-leading-2);
+  --text-3: var(--nk-text-3);
+  --text-3--line-height: var(--nk-leading-3);
+  --text-4: var(--nk-text-4);
+  --text-4--line-height: var(--nk-leading-4);
+  --text-5: var(--nk-text-5);
+  --text-5--line-height: var(--nk-leading-5);
+  --text-6: var(--nk-text-6);
+  --text-6--line-height: var(--nk-leading-6);
+  --text-7: var(--nk-text-7);
+  --text-7--line-height: var(--nk-leading-7);
+  --text-8: var(--nk-text-8);
+  --text-8--line-height: var(--nk-leading-8);
+  --text-9: var(--nk-text-9);
+  --text-9--line-height: var(--nk-leading-9);
+  --text-10: var(--nk-text-10);
+  --text-10--line-height: var(--nk-leading-10);
+  --text-11: var(--nk-text-11);
+  --text-11--line-height: var(--nk-leading-11);
+  --text-12: var(--nk-text-12);
+  --text-12--line-height: var(--nk-leading-12);
+  --text-xs: var(--nk-text-1);
+  --text-xs--line-height: var(--nk-leading-1);
+  --text-sm: var(--nk-text-2);
+  --text-sm--line-height: var(--nk-leading-2);
+  --text-base: var(--nk-text-3);
+  --text-base--line-height: var(--nk-leading-3);
+  --text-lg: var(--nk-text-4);
+  --text-lg--line-height: var(--nk-leading-4);
+  --text-xl: var(--nk-text-5);
+  --text-xl--line-height: var(--nk-leading-5);
+  --text-2xl: var(--nk-text-6);
+  --text-2xl--line-height: var(--nk-leading-6);
+  --text-3xl: var(--nk-text-8);
+  --text-3xl--line-height: var(--nk-leading-8);
+  --text-4xl: var(--nk-text-10);
+  --text-4xl--line-height: var(--nk-leading-10);
+}
+
+/* 3. セマンティック層・役割層の実体。CSS 変数は定義元の要素で解決されるため、:root と [data-neko-theme] の両方に定義する */
+:root,
+[data-neko-theme] {
+  color-scheme: light;
+  --nk-color-white: oklch(1 0 0);
+  --nk-color-black: oklch(0 0 0);
+  /* セマンティック層: テーマのプリミティブ（--nk-p-*）を参照 */
+  --nk-color-primary-50: var(--nk-p-primary-50);
+  --nk-color-primary-100: var(--nk-p-primary-100);
+  --nk-color-primary-200: var(--nk-p-primary-200);
+  --nk-color-primary-300: var(--nk-p-primary-300);
+  --nk-color-primary-400: var(--nk-p-primary-400);
+  --nk-color-primary-500: var(--nk-p-primary-500);
+  --nk-color-primary-600: var(--nk-p-primary-600);
+  --nk-color-primary-700: var(--nk-p-primary-700);
+  --nk-color-primary-800: var(--nk-p-primary-800);
+  --nk-color-primary-900: var(--nk-p-primary-900);
+  --nk-color-neutral-50: var(--nk-p-neutral-50);
+  --nk-color-neutral-100: var(--nk-p-neutral-100);
+  --nk-color-neutral-200: var(--nk-p-neutral-200);
+  --nk-color-neutral-300: var(--nk-p-neutral-300);
+  --nk-color-neutral-400: var(--nk-p-neutral-400);
+  --nk-color-neutral-500: var(--nk-p-neutral-500);
+  --nk-color-neutral-600: var(--nk-p-neutral-600);
+  --nk-color-neutral-700: var(--nk-p-neutral-700);
+  --nk-color-neutral-800: var(--nk-p-neutral-800);
+  --nk-color-neutral-900: var(--nk-p-neutral-900);
+  --nk-color-accent-1: var(--nk-p-accent-1);
+  --nk-color-accent-2: var(--nk-p-accent-2);
+  --nk-color-accent-3: var(--nk-p-accent-3);
+  /* ステータス色: 全テーマ共通の実値 */
+  --nk-color-info-50: oklch(0.97 0.015 240);
+  --nk-color-info-100: oklch(0.93 0.035 240);
+  --nk-color-info-200: oklch(0.87 0.060 240);
+  --nk-color-info-300: oklch(0.78 0.100 240);
+  --nk-color-info-400: oklch(0.68 0.130 240);
+  --nk-color-info-500: oklch(0.58 0.150 240);
+  --nk-color-info-600: oklch(0.50 0.150 240);
+  --nk-color-info-700: oklch(0.43 0.130 240);
+  --nk-color-info-800: oklch(0.36 0.100 240);
+  --nk-color-info-900: oklch(0.30 0.060 240);
+  --nk-color-success-50: oklch(0.97 0.020 150);
+  --nk-color-success-100: oklch(0.93 0.045 150);
+  --nk-color-success-200: oklch(0.87 0.080 150);
+  --nk-color-success-300: oklch(0.80 0.120 150);
+  --nk-color-success-400: oklch(0.70 0.140 150);
+  --nk-color-success-500: oklch(0.62 0.150 150);
+  --nk-color-success-600: oklch(0.52 0.140 150);
+  --nk-color-success-700: oklch(0.44 0.120 150);
+  --nk-color-success-800: oklch(0.37 0.090 150);
+  --nk-color-success-900: oklch(0.30 0.060 150);
+  --nk-color-warning-50: oklch(0.98 0.025 80);
+  --nk-color-warning-100: oklch(0.94 0.060 80);
+  --nk-color-warning-200: oklch(0.90 0.090 80);
+  --nk-color-warning-300: oklch(0.85 0.120 80);
+  --nk-color-warning-400: oklch(0.80 0.140 78);
+  --nk-color-warning-500: oklch(0.78 0.150 75);
+  --nk-color-warning-600: oklch(0.62 0.140 65);
+  --nk-color-warning-700: oklch(0.52 0.120 60);
+  --nk-color-warning-800: oklch(0.42 0.095 65);
+  --nk-color-warning-900: oklch(0.32 0.070 70);
+  --nk-color-negative-50: oklch(0.97 0.015 25);
+  --nk-color-negative-100: oklch(0.93 0.040 25);
+  --nk-color-negative-200: oklch(0.87 0.070 25);
+  --nk-color-negative-300: oklch(0.78 0.120 25);
+  --nk-color-negative-400: oklch(0.70 0.170 25);
+  --nk-color-negative-500: oklch(0.62 0.200 25);
+  --nk-color-negative-600: oklch(0.53 0.200 25);
+  --nk-color-negative-700: oklch(0.45 0.180 25);
+  --nk-color-negative-800: oklch(0.37 0.140 25);
+  --nk-color-negative-900: oklch(0.30 0.090 25);
+  /* 役割層（light）。テーマ側は scheme に応じてこの一式を上書きする */
+  --nk-color-text-high: var(--nk-color-neutral-900);
+  --nk-color-text-middle: var(--nk-color-neutral-700);
+  --nk-color-text-low: var(--nk-color-neutral-500);
+  --nk-color-text-placeholder: var(--nk-color-neutral-500);
+  --nk-color-text-disabled: var(--nk-color-neutral-300);
+  --nk-color-text-on-primary: var(--nk-color-white);
+  --nk-color-text-link: var(--nk-color-primary-700);
+  --nk-color-text-primary: var(--nk-color-primary-700);
+  --nk-color-text-negative: var(--nk-color-negative-700);
+  --nk-color-text-info: var(--nk-color-info-700);
+  --nk-color-text-success: var(--nk-color-success-700);
+  --nk-color-text-warning: var(--nk-color-warning-700);
+  --nk-color-text-inverse: var(--nk-color-white);
+  --nk-color-surface-page: var(--nk-color-white);
+  --nk-color-surface-card: var(--nk-color-white);
+  --nk-color-surface-well: var(--nk-color-neutral-50);
+  --nk-color-surface-input: var(--nk-color-white);
+  --nk-color-surface-disabled: var(--nk-color-neutral-100);
+  --nk-color-surface-overlay: oklch(0.2 0.02 250 / 0.45);
+  --nk-color-surface-inverse: var(--nk-color-neutral-900);
+  --nk-color-surface-primary: var(--nk-color-primary-600);
+  --nk-color-surface-primary-hover: var(--nk-color-primary-700);
+  --nk-color-surface-primary-active: var(--nk-color-primary-800);
+  --nk-color-surface-primary-subtle: var(--nk-color-primary-50);
+  --nk-color-surface-primary-subtle-hover: var(--nk-color-primary-100);
+  --nk-color-surface-negative: var(--nk-color-negative-600);
+  --nk-color-surface-negative-subtle: var(--nk-color-negative-50);
+  --nk-color-surface-info-subtle: var(--nk-color-info-50);
+  --nk-color-surface-success-subtle: var(--nk-color-success-50);
+  --nk-color-surface-warning-subtle: var(--nk-color-warning-50);
+  --nk-color-surface-selected: var(--nk-color-primary-50);
+  --nk-color-border-low: var(--nk-color-neutral-100);
+  --nk-color-border-middle: var(--nk-color-neutral-200);
+  --nk-color-border-high: var(--nk-color-neutral-300);
+  --nk-color-border-primary: var(--nk-color-primary-500);
+  --nk-color-border-negative: var(--nk-color-negative-500);
+  --nk-color-border-focus: var(--nk-color-primary-500);
+  --nk-color-object-high: var(--nk-color-neutral-900);
+  --nk-color-object-middle: var(--nk-color-neutral-700);
+  --nk-color-object-low: var(--nk-color-neutral-500);
+  --nk-color-object-primary: var(--nk-color-primary-600);
+  --nk-color-object-negative: var(--nk-color-negative-600);
+  --nk-color-object-on-primary: var(--nk-color-white);
+  /* 角丸・影・フォント・文字サイズ */
+  --nk-radius-action: var(--nk-p-radius-action);
+  --nk-radius-container: var(--nk-p-radius-container);
+  --nk-radius-modal: var(--nk-p-radius-modal);
+  --nk-radius-notice: var(--nk-p-radius-notice);
+  --nk-radius-round: 9999px;
+  --nk-shadow-raise: 0 1px 2px color-mix(in oklch, var(--nk-p-shadow-tint) 12%, transparent);
+  --nk-shadow-float: 0 4px 12px color-mix(in oklch, var(--nk-p-shadow-tint) 16%, transparent), 0 1px 3px color-mix(in oklch, var(--nk-p-shadow-tint) 10%, transparent);
+  --nk-shadow-popout: 0 12px 32px color-mix(in oklch, var(--nk-p-shadow-tint) 22%, transparent), 0 2px 6px color-mix(in oklch, var(--nk-p-shadow-tint) 10%, transparent);
+  --nk-font-pro: var(--nk-p-font-pro);
+  --nk-font-mono: var(--nk-p-font-mono);
+  --nk-text-1: 0.75rem;
+  --nk-leading-1: 1.25rem; /* 12px */
+  --nk-text-2: 0.875rem;
+  --nk-leading-2: 1.5rem; /* 14px */
+  --nk-text-3: 1rem;
+  --nk-leading-3: 1.5rem; /* 16px */
+  --nk-text-4: 1.125rem;
+  --nk-leading-4: 1.75rem; /* 18px */
+  --nk-text-5: 1.25rem;
+  --nk-leading-5: 1.75rem; /* 20px */
+  --nk-text-6: 1.5rem;
+  --nk-leading-6: 2rem; /* 24px */
+  --nk-text-7: 1.75rem;
+  --nk-leading-7: 2.25rem; /* 28px */
+  --nk-text-8: 2rem;
+  --nk-leading-8: 2.75rem; /* 32px */
+  --nk-text-9: 2.25rem;
+  --nk-leading-9: 3rem; /* 36px */
+  --nk-text-10: 2.625rem;
+  --nk-leading-10: 3.5rem; /* 42px */
+  --nk-text-11: 3rem;
+  --nk-leading-11: 4rem; /* 48px */
+  --nk-text-12: 3.375rem;
+  --nk-leading-12: 4.5rem; /* 54px */
+}
+
+/* 4. shadcn 変数ブリッジ（tokens/shadcn-bridge.json） */
+:root,
+[data-neko-theme] {
+  --background: var(--nk-color-surface-page);
+  --foreground: var(--nk-color-text-high);
+  --card: var(--nk-color-surface-card);
+  --card-foreground: var(--nk-color-text-high);
+  --popover: var(--nk-color-surface-card);
+  --popover-foreground: var(--nk-color-text-high);
+  --primary: var(--nk-color-surface-primary);
+  --primary-foreground: var(--nk-color-text-on-primary);
+  --secondary: var(--nk-color-surface-well);
+  --secondary-foreground: var(--nk-color-text-high);
+  --muted: var(--nk-color-surface-well);
+  --muted-foreground: var(--nk-color-text-low);
+  --accent: var(--nk-color-surface-primary-subtle);
+  --accent-foreground: var(--nk-color-text-high);
+  --destructive: var(--nk-color-surface-negative);
+  --destructive-foreground: var(--nk-color-text-on-primary);
+  --border: var(--nk-color-border-middle);
+  --input: var(--nk-color-border-high);
+  --ring: var(--nk-color-border-focus);
+  --radius: var(--nk-radius-action);
+  --chart-1: var(--nk-color-accent-1);
+  --chart-2: var(--nk-color-primary-500);
+  --chart-3: var(--nk-color-info-500);
+  --chart-4: var(--nk-color-success-500);
+  --chart-5: var(--nk-color-warning-500);
+  --sidebar: var(--nk-color-surface-well);
+  --sidebar-foreground: var(--nk-color-text-high);
+  --sidebar-primary: var(--nk-color-surface-primary);
+  --sidebar-primary-foreground: var(--nk-color-text-on-primary);
+  --sidebar-accent: var(--nk-color-surface-primary-subtle);
+  --sidebar-accent-foreground: var(--nk-color-text-high);
+  --sidebar-border: var(--nk-color-border-low);
+  --sidebar-ring: var(--nk-color-border-focus);
+}
+
+/* 5. ベース */
+@layer base {
+  *,
+  ::before,
+  ::after {
+    border-color: var(--nk-color-border-middle);
+  }
+  body {
+    font-family: var(--nk-font-pro);
+    font-size: var(--nk-text-3);
+    line-height: var(--nk-leading-3);
+    color: var(--nk-color-text-high);
+    background-color: var(--nk-color-surface-page);
+  }
+}
