@@ -394,12 +394,14 @@ button { cursor: pointer; }
 .nk-msg .nk-btn { margin-left: auto; align-self: center; }
 
 /* Badge / Tag / Avatar / Divider / Card */
-/* Badge: 数値バッジは肉球の形（本体パッド＋上に 3 つの指パッド） */
-.nk-badge { --paw: var(--nk-color-surface-primary); position: relative; display: inline-flex; align-items: center; justify-content: center; min-width: 22px; height: 20px; padding: 0 6px; margin-top: 6px; border-radius: 42% 42% 50% 50% / 46% 46% 54% 54%; background: var(--paw); color: var(--nk-color-text-on-primary); font-family: var(--nk-font-mono); font-size: 11px; font-weight: 700; line-height: 1; vertical-align: middle; }
-.nk-badge::before { content: ""; position: absolute; left: 0; right: 0; top: -6.5px; height: 8px; pointer-events: none; background: radial-gradient(circle at 17% 78%, var(--paw) 0 2.7px, transparent 3.2px), radial-gradient(circle at 50% 30%, var(--paw) 0 3px, transparent 3.5px), radial-gradient(circle at 83% 78%, var(--paw) 0 2.7px, transparent 3.2px); }
-.nk-badge.negative { --paw: var(--nk-color-surface-negative); color: var(--nk-color-white); }
-.nk-badge.neutral { background: var(--nk-color-border-middle); color: var(--nk-color-text-middle); border-radius: var(--nk-radius-round); margin-top: 0; min-width: 20px; font-size: var(--nk-text-1); }
-.nk-badge.neutral::before { display: none; }
+/* Badge: 数値バッジは猫の顔の形（丸い顔＋左右の耳）。文字ラベル用の neutral は通常のピル */
+.nk-badge { --badge-bg: var(--nk-color-surface-primary); position: relative; display: inline-flex; align-items: center; justify-content: center; min-width: 20px; height: 20px; padding: 0 6px; margin-top: 5px; border-radius: var(--nk-radius-round); background: var(--badge-bg); color: var(--nk-color-text-on-primary); font-family: var(--nk-font-mono); font-size: 11px; font-weight: 700; line-height: 1; vertical-align: middle; }
+.nk-badge::before, .nk-badge::after { content: ""; position: absolute; top: -5px; width: 8px; height: 8px; background: var(--badge-bg); clip-path: polygon(0 100%, 28% 0, 100% 78%); pointer-events: none; }
+.nk-badge::before { left: 0; }
+.nk-badge::after { right: 0; transform: scaleX(-1); }
+.nk-badge.negative { --badge-bg: var(--nk-color-surface-negative); color: var(--nk-color-white); }
+.nk-badge.neutral { background: var(--nk-color-border-middle); color: var(--nk-color-text-middle); margin-top: 0; font-size: var(--nk-text-1); }
+.nk-badge.neutral::before, .nk-badge.neutral::after { display: none; }
 .nk-status { display: inline-flex; align-items: center; gap: 6px; height: 24px; padding: 0 8px; border-radius: var(--nk-radius-notice); font-size: var(--nk-text-1); font-weight: 700; line-height: 1; }
 .nk-status::before { content: ""; width: 6px; height: 6px; border-radius: 50%; background: currentColor; }
 .nk-status.success { background: var(--nk-color-surface-success-subtle); color: var(--nk-color-text-success); }
@@ -574,88 +576,83 @@ button { cursor: pointer; }
 <!-- ========== SVG スプライト（猫耳アイコン T1/T2 の見本、マスコット 3 体） ========== -->
 <svg width="0" height="0" style="position:absolute" aria-hidden="true">
   <defs>
-    <!-- 耳付き（T1/T2）。本体は線、耳は塗り -->
+    <!-- 耳付き（T1/T2）。耳は本体と同じ線幅 2 の中抜き三角。付け根は本体の輪郭上、角は round join -->
     <symbol id="i-search" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-      <path d="M5.1 6.8 3.1 1.2 9.6 4.4z M15.9 6.8 17.9 1.2 11.4 4.4z" fill="currentColor" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/>
+      <path d="M6.2 6.3 L6.4 1.3 L10 4.5 M14.8 6.3 L14.6 1.3 L11 4.5" fill="none"/>
       <circle cx="10.5" cy="10.5" r="6"/><path d="M15 15l5 5"/>
     </symbol>
     <symbol id="i-notifications" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-      <path d="M7.4 6.2 5 1.1 10.2 4.1z M16.6 6.2 19 1.1 13.8 4.1z" fill="currentColor" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/>
+      <path d="M7.7 6.8 L7.9 1.8 L11.5 5 M16.3 6.8 L16.1 1.8 L12.5 5" fill="none"/>
       <path d="M6 16v-5a6 6 0 0 1 12 0v5l1.5 2h-15z"/><path d="M10 20.5h4"/>
     </symbol>
     <symbol id="i-settings" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-      <path d="M6.7 6.7 4.6 1.1 10.1 3.5z M17.3 6.7 19.4 1.1 13.9 3.5z" fill="currentColor" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/>
+      <path d="M7.8 7.4 L8 2 L11.2 6.1 M16.2 7.4 L16 2 L12.8 6.1" fill="none"/>
       <circle cx="12" cy="13" r="7" stroke-width="3" stroke-dasharray="2.6 2.9"/><circle cx="12" cy="13" r="2.5"/>
     </symbol>
     <symbol id="i-person" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-      <path d="M8.7 6.2 6.8 1.1 11.9 4.4z M15.3 6.2 17.2 1.1 12.1 4.4z" fill="currentColor" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/>
+      <path d="M9 5.9 L8.6 1.2 L11.5 4.5 M15 5.9 L15.4 1.2 L12.5 4.5" fill="none"/>
       <circle cx="12" cy="8.5" r="4"/><path d="M4 20c0-4 3.5-6.5 8-6.5s8 2.5 8 6.5"/>
     </symbol>
     <symbol id="i-home" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-      <path d="M7.9 7.6 6.2 2.1 11.3 4.9z M16.1 7.6 17.8 2.1 12.7 4.9z" fill="currentColor" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/>
+      <path d="M7.5 8.9 L6.6 3.9 L10 6.75 M16.5 8.9 L17.4 3.9 L14 6.75" fill="none"/>
       <path d="M4 12l8-7 8 7v8h-5v-6h-6v6H4z"/>
     </symbol>
     <symbol id="i-delete" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-      <path d="M6.2 7.5 4.3 2.5 8.6 6.1z M17.8 7.5 19.7 2.5 15.4 6.1z" fill="currentColor" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/>
+      <path d="M5.2 7.5 L5.6 2.6 L8.6 7.5 M18.8 7.5 L18.4 2.6 L15.4 7.5" fill="none"/>
       <path d="M5 7.5h14M9.5 7.5V5h5v2.5M7 7.5l1 12.5h8l1-12.5"/>
     </symbol>
     <symbol id="i-visibility" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-      <path d="M6.7 7.2 4.5 1.9 10.3 4.6z M17.3 7.2 19.5 1.9 13.7 4.6z" fill="currentColor" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/>
+      <path d="M6.6 8.4 L6.2 2.4 L9.8 6.9 M17.4 8.4 L17.8 2.4 L14.2 6.9" fill="none"/>
       <path d="M2 12.5s3.5-6 10-6 10 6 10 6-3.5 6-10 6-10-6-10-6z"/><circle cx="12" cy="12.5" r="3"/>
     </symbol>
     <symbol id="i-folder" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-      <path d="M12.3 8.4 11.3 3.2 15.9 6.1z M19.7 8.4 20.9 3.2 16.4 6.1z" fill="currentColor" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/>
+      <path d="M12.2 8.5 L12.6 3.6 L15.4 8.5 M19.8 8.5 L19.4 3.6 L16.6 8.5" fill="none"/>
       <path d="M3 6.5h6l2 2h10v11H3z"/>
     </symbol>
     <symbol id="i-mail" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-      <path d="M5.3 6.1 3.4 1.1 8.9 3.7z M18.7 6.1 20.6 1.1 15.1 3.7z" fill="currentColor" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/>
+      <path d="M5.4 5.5 L5.9 1.2 L9 5.5 M18.6 5.5 L18.1 1.2 L15 5.5" fill="none"/>
       <rect x="3" y="5.5" width="18" height="13" rx="2"/><path d="M3 8l9 6 9-6"/>
     </symbol>
     <symbol id="i-calendar_today" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-      <path d="M5.7 6.1 3.8 1.1 9.3 3.7z M18.3 6.1 20.2 1.1 14.7 3.7z" fill="currentColor" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/>
+      <path d="M5.4 5.5 L5.9 1.2 L9 5.5 M18.6 5.5 L18.1 1.2 L15 5.5" fill="none"/>
       <rect x="3" y="5.5" width="18" height="15" rx="2"/><path d="M3 10.5h18"/>
     </symbol>
     <symbol id="i-info" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-      <path d="M6.9 6.8 4.6 1.5 10.5 4.3z M17.1 6.8 19.4 1.5 13.5 4.3z" fill="currentColor" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/>
+      <path d="M7.2 6.6 L7.3 1.3 L11 5.1 M16.8 6.6 L16.7 1.3 L13 5.1" fill="none"/>
       <circle cx="12" cy="13" r="8"/><path d="M12 12.5v5"/><circle cx="12" cy="9.3" r="0.6" fill="currentColor"/>
     </symbol>
     <symbol id="i-error" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-      <path d="M6.9 6.8 4.6 1.5 10.5 4.3z M17.1 6.8 19.4 1.5 13.5 4.3z" fill="currentColor" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/>
+      <path d="M7.2 6.6 L7.3 1.3 L11 5.1 M16.8 6.6 L16.7 1.3 L13 5.1" fill="none"/>
       <circle cx="12" cy="13" r="8"/><path d="M12 9.5v5"/><circle cx="12" cy="17.2" r="0.6" fill="currentColor"/>
     </symbol>
     <symbol id="i-check_circle" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-      <path d="M6.9 6.8 4.6 1.5 10.5 4.3z M17.1 6.8 19.4 1.5 13.5 4.3z" fill="currentColor" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/>
+      <path d="M7.2 6.6 L7.3 1.3 L11 5.1 M16.8 6.6 L16.7 1.3 L13 5.1" fill="none"/>
       <circle cx="12" cy="13" r="8"/><path d="M8.5 13.2l2.5 2.5 4.8-5"/>
     </symbol>
     <symbol id="i-help" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-      <path d="M6.9 6.8 4.6 1.5 10.5 4.3z M17.1 6.8 19.4 1.5 13.5 4.3z" fill="currentColor" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/>
+      <path d="M7.2 6.6 L7.3 1.3 L11 5.1 M16.8 6.6 L16.7 1.3 L13 5.1" fill="none"/>
       <circle cx="12" cy="13" r="8"/><path d="M9.6 10.8a2.4 2.4 0 1 1 3.4 2.2c-.7.4-1 1-1 1.6"/><circle cx="12" cy="17.4" r="0.6" fill="currentColor"/>
     </symbol>
     <symbol id="i-favorite" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-      <path d="M6.3 7.4 4.9 2.1 9.9 5z M17.7 7.4 19.1 2.1 14.1 5z" fill="currentColor" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/>
+      <path d="M6 7.4 L5.9 2.3 L9 6.5 M18 7.4 L18.1 2.3 L15 6.5" fill="none"/>
       <path d="M12 20.5s-7.5-4.5-7.5-10a4 4 0 0 1 7.5-2.3A4 4 0 0 1 19.5 10.5c0 5.5-7.5 10-7.5 10z"/>
     </symbol>
     <symbol id="i-lock" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-      <path d="M5.8 11.4 4.3 6.3 8.6 9.4z M18.2 11.4 19.7 6.3 15.4 9.4z" fill="currentColor" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/>
+      <path d="M9.2 5.9 L8.8 1.2 L11.5 4.55 M14.8 5.9 L15.2 1.2 L12.5 4.55" fill="none"/>
       <rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8.5 11V8a3.5 3.5 0 0 1 7 0v3"/>
     </symbol>
     <symbol id="i-camera" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-      <path d="M5.3 8.4 3.5 3.6 8 6z M18.7 8.4 20.5 3.6 16 6z" fill="currentColor" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/>
+      <path d="M4.4 8 L4.9 3.4 L7.4 8 M19.6 8 L19.1 3.4 L16.6 8" fill="none"/>
       <path d="M4 8h4l2-2h4l2 2h4v11H4z"/><circle cx="12" cy="13.5" r="3"/>
     </symbol>
     <symbol id="i-image" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-      <path d="M5.3 6.1 3.4 1.1 8.9 3.7z M18.7 6.1 20.6 1.1 15.1 3.7z" fill="currentColor" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/>
+      <path d="M5.4 5.5 L5.9 1.2 L9 5.5 M18.6 5.5 L18.1 1.2 L15 5.5" fill="none"/>
       <rect x="3" y="5.5" width="18" height="14" rx="2"/><path d="M3 17l5-5 4 4 3-3 6 6"/><circle cx="16" cy="10" r="1.3" fill="currentColor"/>
     </symbol>
     <!-- 耳なし（規約: 矢印・シェブロン・チェック・×・＋・線・ドット） -->
     <symbol id="i-chevron_right" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"/></symbol>
     <symbol id="i-expand_more" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></symbol>
     <symbol id="i-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7"/></symbol>
-    <symbol id="i-ear_check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-      <path d="M15.9 7.8 15.2 2.8 19.2 5.4z M21.8 7.8 23 2.8 19.2 5.4z" fill="currentColor" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/><path d="M4 12.5l4.5 4.5L19 7.5"/>
-    </symbol>
-    <!-- 肉球（Checkbox のチェックマーク） -->
-    <symbol id="i-paw" viewBox="0 0 24 24" fill="currentColor"><path d="M12 10.6c3.6 0 6.3 2.5 6.3 5 0 2.3-2 3.9-4.3 3.9-.7 0-1.3-.2-2-.2s-1.3.2-2 .2C7.7 19.5 5.7 17.9 5.7 15.6c0-2.5 2.7-5 6.3-5z"/><circle cx="5.3" cy="10" r="2.2"/><circle cx="9.5" cy="6.2" r="2.4"/><circle cx="14.5" cy="6.2" r="2.4"/><circle cx="18.7" cy="10" r="2.2"/></symbol>
     <symbol id="i-close" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></symbol>
     <symbol id="i-add" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></symbol>
     <symbol id="i-more_vert" viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="6" r="1.7"/><circle cx="12" cy="12" r="1.7"/><circle cx="12" cy="18" r="1.7"/></symbol>
@@ -669,7 +666,7 @@ button { cursor: pointer; }
     <symbol id="i-edit" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20l4-1L19 8l-3-3L5 16zM14 7l3 3"/></symbol>
     <symbol id="i-warning" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4L2.5 20h19z"/><path d="M12 10v4"/><circle cx="12" cy="17" r="0.6" fill="currentColor"/></symbol>
     <!-- 猫シルエット（Avatar フォールバック）と毛糸玉（Spinner） -->
-    <symbol id="i-cat" viewBox="0 0 24 24" fill="currentColor"><path d="M5.5 4.5 8.5 9h7l3-4.5V11a6.5 6.5 0 0 1-13 0z"/></symbol>
+    <symbol id="i-cat_face" viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="13.2" r="7.6"/><path d="M4.4 2.8 5.3 11 11.3 7.1z M19.6 2.8 18.7 11 12.7 7.1z"/></symbol>
     <symbol id="i-yarn" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="8.5"/><path d="M4.6 9.5c4.5-2.2 9.5-2 15 1M4 14.2c5.5-3 10.5-3 16 0M9.2 4.2c-2.2 4.5-2 9.5 1 15"/></symbol>
     <!-- マスコット（顔＋耳。色は .nk-mascot.<theme> の CSS 変数で切替） -->
     <symbol id="m-calico" viewBox="0 0 96 96">
@@ -745,7 +742,7 @@ button { cursor: pointer; }
           <div class="spacer" style="flex:1"></div>
           <button class="nk-iconbtn" type="button" aria-label="通知"><svg class="nk-icon"><use href="#i-notifications"/></svg></button>
           <button class="nk-iconbtn" type="button" aria-label="ヘルプ"><svg class="nk-icon"><use href="#i-help"/></svg></button>
-          <span class="nk-avatar sm" aria-label="五十棲"><svg class="nk-icon"><use href="#i-cat"/></svg></span>
+          <span class="nk-avatar sm" aria-label="五十棲"><svg class="nk-icon"><use href="#i-cat_face"/></svg></span>
         </div>
         <div class="app-body">
           <div class="page-head">
@@ -765,16 +762,16 @@ button { cursor: pointer; }
           <div class="nk-table-wrap">
             <table class="nk-table">
               <thead><tr>
-                <th class="check"><label class="nk-check"><input type="checkbox" id="sample-all" aria-label="すべて選択"><span class="box"><svg class="nk-icon"><use href="#i-paw"/></svg></span></label></th>
+                <th class="check"><label class="nk-check"><input type="checkbox" id="sample-all" aria-label="すべて選択"><span class="box"><svg class="nk-icon"><use href="#i-cat_face"/></svg></span></label></th>
                 <th><button type="button">案件名<svg class="nk-icon s3"><use href="#i-arrow_upward"/></svg></button></th>
                 <th>顧客</th><th>状態</th><th class="num">金額</th><th>更新日</th><th></th>
               </tr></thead>
               <tbody>
-                <tr><td class="check"><label class="nk-check"><input type="checkbox" checked aria-label="選択"><span class="box"><svg class="nk-icon"><use href="#i-paw"/></svg></span></label></td><td><a class="nk-link" href="#sample" style="text-decoration:none">社内備品貸出アプリ 改修</a></td><td>山田商事</td><td><span class="nk-status info">進行中</span></td><td class="num">1,200,000</td><td class="mono">2026/09/21</td><td class="actions"><button class="nk-iconbtn sm" type="button" aria-label="操作"><svg class="nk-icon s5"><use href="#i-more_vert"/></svg></button></td></tr>
-                <tr><td class="check"><label class="nk-check"><input type="checkbox" aria-label="選択"><span class="box"><svg class="nk-icon"><use href="#i-paw"/></svg></span></label></td><td><a class="nk-link" href="#sample" style="text-decoration:none">顧客ポータル 要件定義</a></td><td>山田製作所</td><td><span class="nk-status warning">確認待ち</span></td><td class="num">480,000</td><td class="mono">2026/09/19</td><td class="actions"><button class="nk-iconbtn sm" type="button" aria-label="操作"><svg class="nk-icon s5"><use href="#i-more_vert"/></svg></button></td></tr>
-                <tr><td class="check"><label class="nk-check"><input type="checkbox" aria-label="選択"><span class="box"><svg class="nk-icon"><use href="#i-paw"/></svg></span></label></td><td><a class="nk-link" href="#sample" style="text-decoration:none">在庫管理ダッシュボード</a></td><td>山田物流</td><td><span class="nk-status success">完了</span></td><td class="num">2,350,000</td><td class="mono">2026/09/12</td><td class="actions"><button class="nk-iconbtn sm" type="button" aria-label="操作"><svg class="nk-icon s5"><use href="#i-more_vert"/></svg></button></td></tr>
-                <tr><td class="check"><label class="nk-check"><input type="checkbox" aria-label="選択"><span class="box"><svg class="nk-icon"><use href="#i-paw"/></svg></span></label></td><td><a class="nk-link" href="#sample" style="text-decoration:none">採用サイト リニューアル</a></td><td>山田ホールディングス</td><td><span class="nk-status negative">差し戻し</span></td><td class="num">960,000</td><td class="mono">2026/09/08</td><td class="actions"><button class="nk-iconbtn sm" type="button" aria-label="操作"><svg class="nk-icon s5"><use href="#i-more_vert"/></svg></button></td></tr>
-                <tr><td class="check"><label class="nk-check"><input type="checkbox" aria-label="選択"><span class="box"><svg class="nk-icon"><use href="#i-paw"/></svg></span></label></td><td><a class="nk-link" href="#sample" style="text-decoration:none">勤怠アプリ ユーザーインタビュー</a></td><td>山田クリニック</td><td><span class="nk-status neutral">下書き</span></td><td class="num">150,000</td><td class="mono">2026/09/02</td><td class="actions"><button class="nk-iconbtn sm" type="button" aria-label="操作"><svg class="nk-icon s5"><use href="#i-more_vert"/></svg></button></td></tr>
+                <tr><td class="check"><label class="nk-check"><input type="checkbox" checked aria-label="選択"><span class="box"><svg class="nk-icon"><use href="#i-cat_face"/></svg></span></label></td><td><a class="nk-link" href="#sample" style="text-decoration:none">社内備品貸出アプリ 改修</a></td><td>山田商事</td><td><span class="nk-status info">進行中</span></td><td class="num">1,200,000</td><td class="mono">2026/09/21</td><td class="actions"><button class="nk-iconbtn sm" type="button" aria-label="操作"><svg class="nk-icon s5"><use href="#i-more_vert"/></svg></button></td></tr>
+                <tr><td class="check"><label class="nk-check"><input type="checkbox" aria-label="選択"><span class="box"><svg class="nk-icon"><use href="#i-cat_face"/></svg></span></label></td><td><a class="nk-link" href="#sample" style="text-decoration:none">顧客ポータル 要件定義</a></td><td>山田製作所</td><td><span class="nk-status warning">確認待ち</span></td><td class="num">480,000</td><td class="mono">2026/09/19</td><td class="actions"><button class="nk-iconbtn sm" type="button" aria-label="操作"><svg class="nk-icon s5"><use href="#i-more_vert"/></svg></button></td></tr>
+                <tr><td class="check"><label class="nk-check"><input type="checkbox" aria-label="選択"><span class="box"><svg class="nk-icon"><use href="#i-cat_face"/></svg></span></label></td><td><a class="nk-link" href="#sample" style="text-decoration:none">在庫管理ダッシュボード</a></td><td>山田物流</td><td><span class="nk-status success">完了</span></td><td class="num">2,350,000</td><td class="mono">2026/09/12</td><td class="actions"><button class="nk-iconbtn sm" type="button" aria-label="操作"><svg class="nk-icon s5"><use href="#i-more_vert"/></svg></button></td></tr>
+                <tr><td class="check"><label class="nk-check"><input type="checkbox" aria-label="選択"><span class="box"><svg class="nk-icon"><use href="#i-cat_face"/></svg></span></label></td><td><a class="nk-link" href="#sample" style="text-decoration:none">採用サイト リニューアル</a></td><td>山田ホールディングス</td><td><span class="nk-status negative">差し戻し</span></td><td class="num">960,000</td><td class="mono">2026/09/08</td><td class="actions"><button class="nk-iconbtn sm" type="button" aria-label="操作"><svg class="nk-icon s5"><use href="#i-more_vert"/></svg></button></td></tr>
+                <tr><td class="check"><label class="nk-check"><input type="checkbox" aria-label="選択"><span class="box"><svg class="nk-icon"><use href="#i-cat_face"/></svg></span></label></td><td><a class="nk-link" href="#sample" style="text-decoration:none">勤怠アプリ ユーザーインタビュー</a></td><td>山田クリニック</td><td><span class="nk-status neutral">下書き</span></td><td class="num">150,000</td><td class="mono">2026/09/02</td><td class="actions"><button class="nk-iconbtn sm" type="button" aria-label="操作"><svg class="nk-icon s5"><use href="#i-more_vert"/></svg></button></td></tr>
               </tbody>
             </table>
           </div>
@@ -843,7 +840,7 @@ button { cursor: pointer; }
 
   <!-- ========== 2. アイコン ========== -->
   <section class="section" id="icons">
-    <header><span class="num">02</span><h2 class="t5">猫耳アイコン</h2><span class="t2 low">§8 — Material Symbols と同じ名前。耳は本体の上辺に両耳、矢印・チェック・×・線には付けない</span></header>
+    <header><span class="num">02</span><h2 class="t5">猫耳アイコン</h2><span class="t2 low">§8 — Material Symbols と同じ名前。耳は本体と同じ線幅の中抜き三角を本体の輪郭に両耳。矢印・チェック・×・線には付けない</span></header>
     <div class="grid">
       <div class="demo wide">
         <div class="label"><b>耳付き（T1 / T2 の見本）と耳なし規約</b><span>点線枠 = T3（猫版なし、Material Symbols フォントにフォールバック）の扱いの例</span></div>
@@ -933,10 +930,10 @@ button { cursor: pointer; }
         <div class="nk-msg negative"><svg class="nk-icon s5"><use href="#i-error"/></svg><span>一覧を読み込めませんでした。</span><button class="nk-btn outline sm" type="button">再試行</button></div>
       </div>
 
-      <div class="demo"><div class="label"><b>10 Badge ／ 11 Tag ／ 12 Avatar</b><span>数値バッジは肉球形</span></div>
+      <div class="demo"><div class="label"><b>10 Badge ／ 11 Tag ／ 12 Avatar</b><span>数値バッジは猫の顔の形</span></div>
         <div class="row" style="gap:8px"><span class="nk-badge">3</span><span class="nk-badge negative">12</span><span class="nk-badge neutral">120件</span><span class="nk-badge">99+</span><span class="nk-divider v"></span><span class="nk-status success">完了</span><span class="nk-status info">進行中</span><span class="nk-status warning">確認待ち</span><span class="nk-status negative">差し戻し</span></div>
         <div class="row" style="gap:6px"><span class="nk-tag">デザイン<button type="button" aria-label="外す"><svg class="nk-icon s3"><use href="#i-close"/></svg></button></span><span class="nk-tag selected">優先<button type="button" aria-label="外す"><svg class="nk-icon s3"><use href="#i-close"/></svg></button></span><span class="nk-tag noclose">読み取り専用</span></div>
-        <div class="row" style="gap:8px"><span class="nk-avatar sm"><svg class="nk-icon"><use href="#i-cat"/></svg></span><span class="nk-avatar">五十</span><span class="nk-avatar lg"><svg class="nk-icon"><use href="#i-cat"/></svg></span><span class="t2 low">画像なし時は猫シルエット</span></div>
+        <div class="row" style="gap:8px"><span class="nk-avatar sm"><svg class="nk-icon"><use href="#i-cat_face"/></svg></span><span class="nk-avatar">五十</span><span class="nk-avatar lg"><svg class="nk-icon"><use href="#i-cat_face"/></svg></span><span class="t2 low">画像なし時は猫シルエット</span></div>
       </div>
 
       <div class="demo"><div class="label"><b>14 Card</b><span>rounded-container / shadow-raise</span></div>
@@ -960,9 +957,9 @@ button { cursor: pointer; }
       <div class="demo"><div class="label"><b>19 Select ／ 20 Checkbox ／ 21 Radio</b></div>
         <div class="nk-field"><label for="sel-1">担当者</label><div class="nk-select-wrap"><select class="nk-select" id="sel-1"><option>五十棲</option><option>山田</option><option>佐藤</option></select><svg class="nk-icon s5"><use href="#i-expand_more"/></svg></div></div>
         <div class="col" style="gap:8px">
-          <label class="nk-check"><input type="checkbox" checked><span class="box"><svg class="nk-icon"><use href="#i-paw"/></svg></span>通知を受け取る（チェックは肉球）</label>
-          <label class="nk-check"><input type="checkbox" data-role="indeterminate"><span class="box"><svg class="nk-icon"><use href="#i-paw"/></svg></span>一部選択（indeterminate）</label>
-          <label class="nk-check disabled"><input type="checkbox" disabled><span class="box"><svg class="nk-icon"><use href="#i-paw"/></svg></span>無効</label>
+          <label class="nk-check"><input type="checkbox" checked><span class="box"><svg class="nk-icon"><use href="#i-cat_face"/></svg></span>通知を受け取る（チェックは猫の顔）</label>
+          <label class="nk-check"><input type="checkbox" data-role="indeterminate"><span class="box"><svg class="nk-icon"><use href="#i-cat_face"/></svg></span>一部選択（indeterminate）</label>
+          <label class="nk-check disabled"><input type="checkbox" disabled><span class="box"><svg class="nk-icon"><use href="#i-cat_face"/></svg></span>無効</label>
         </div>
         <div class="row" style="gap:16px" role="radiogroup" aria-label="公開範囲">
           <label class="nk-radio"><input type="radio" name="r1" checked><span class="box"></span>社内のみ</label>
@@ -1005,7 +1002,7 @@ button { cursor: pointer; }
       <div class="demo"><div class="label"><b>29 Menu ／ 30 Popover</b></div>
         <div class="row" style="align-items:flex-start;gap:16px">
           <div class="nk-menu" role="menu"><button type="button" role="menuitem"><svg class="nk-icon s5"><use href="#i-edit"/></svg>編集する<span class="sc">E</span></button><button type="button" role="menuitem"><svg class="nk-icon s5"><use href="#i-download"/></svg>書き出す</button><button type="button" role="menuitem"><svg class="nk-icon s5"><use href="#i-mail"/></svg>共有する</button><hr class="nk-divider"><button type="button" role="menuitem" class="negative"><svg class="nk-icon s5"><use href="#i-delete"/></svg>削除する</button></div>
-          <div class="nk-popover"><b class="t2">列の表示</b><label class="nk-check"><input type="checkbox" checked><span class="box"><svg class="nk-icon"><use href="#i-paw"/></svg></span>顧客</label><label class="nk-check"><input type="checkbox" checked><span class="box"><svg class="nk-icon"><use href="#i-paw"/></svg></span>金額</label><label class="nk-check"><input type="checkbox"><span class="box"><svg class="nk-icon"><use href="#i-paw"/></svg></span>担当者</label><button class="nk-btn secondary sm" type="button" style="align-self:flex-end">適用する</button></div>
+          <div class="nk-popover"><b class="t2">列の表示</b><label class="nk-check"><input type="checkbox" checked><span class="box"><svg class="nk-icon"><use href="#i-cat_face"/></svg></span>顧客</label><label class="nk-check"><input type="checkbox" checked><span class="box"><svg class="nk-icon"><use href="#i-cat_face"/></svg></span>金額</label><label class="nk-check"><input type="checkbox"><span class="box"><svg class="nk-icon"><use href="#i-cat_face"/></svg></span>担当者</label><button class="nk-btn secondary sm" type="button" style="align-self:flex-end">適用する</button></div>
         </div>
       </div>
 
@@ -1063,7 +1060,7 @@ button { cursor: pointer; }
       <div class="row" style="gap:6px"><span class="nk-status info">進行中</span><span class="nk-status success">完了</span><span class="nk-status warning">確認待ち</span><span class="nk-tag selected noclose">担当: 自分</span><span class="nk-badge negative">3</span></div>
       <div class="nk-card"><div class="hd" style="padding:10px 12px;font-size:var(--nk-text-2)">基本情報<svg class="nk-icon s5" style="color:var(--nk-color-object-low)"><use href="#i-more_vert"/></svg></div><div class="bd" style="padding:12px"><dl class="dl" style="grid-template-columns:64px 1fr"><dt>顧客</dt><dd>山田商事</dd><dt>金額</dt><dd class="mono">1,200,000</dd><dt>納期</dt><dd class="mono">2026/10/31</dd></dl></div></div>
       <div class="nk-table-wrap"><table class="nk-table xs"><thead><tr><th>案件名</th><th>状態</th><th class="num">金額</th></tr></thead><tbody><tr><td>備品貸出アプリ</td><td><span class="nk-status info">進行中</span></td><td class="num">1,200,000</td></tr><tr><td>顧客ポータル</td><td><span class="nk-status warning">確認待ち</span></td><td class="num">480,000</td></tr></tbody></table></div>
-      <div class="row" style="gap:14px"><label class="nk-check"><input type="checkbox" checked><span class="box"><svg class="nk-icon"><use href="#i-paw"/></svg></span>通知</label><label class="nk-switch"><input type="checkbox" checked><span class="track"></span>公開</label><label class="nk-radio"><input type="radio" checked><span class="box"></span>社内</label></div>
+      <div class="row" style="gap:14px"><label class="nk-check"><input type="checkbox" checked><span class="box"><svg class="nk-icon"><use href="#i-cat_face"/></svg></span>通知</label><label class="nk-switch"><input type="checkbox" checked><span class="track"></span>公開</label><label class="nk-radio"><input type="radio" checked><span class="box"></span>社内</label></div>
       <div class="nk-msg negative" style="padding:8px 10px"><svg class="nk-icon s5"><use href="#i-error"/></svg><span>読み込めませんでした。</span><button class="nk-btn outline sm" type="button">再試行</button></div>
       <div class="nk-empty" style="padding:12px 8px 4px"><svg class="nk-mascot" data-slot="mascot" style="width:64px;height:64px;margin:0"><use href="#m-calico"/></svg><h3 style="font-size:var(--nk-text-2)">まだ案件がありません</h3></div>
     </template>
