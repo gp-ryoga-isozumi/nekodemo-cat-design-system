@@ -39,7 +39,14 @@ jobs:
           plugin_marketplaces: 'https://github.com/anthropics/claude-code.git'
           plugins: 'code-review@claude-code-plugins'
           prompt: '/code-review:code-review --comment ${{ github.repository }}/pull/${{ github.event.pull_request.number }}'
-          claude_args: '--allowedTools "mcp__github_inline_comment__create_inline_comment"'
+          # code-review プラグインが使う gh コマンドも明示的に許可する。
+          # このリポジトリの PR は所有者が Claude Code と作るため、本文末尾の「Generated with Claude Code」を
+          # 「自動生成 PR」「Claude のコメント済み」と誤判定してレビューを飛ばさないように補足する。
+          claude_args: |
+            --allowedTools "mcp__github_inline_comment__create_inline_comment,Bash(gh pr comment:*),Bash(gh pr view:*),Bash(gh pr diff:*),Bash(gh pr list:*),Bash(gh issue view:*),Bash(gh issue list:*),Bash(gh search:*)"
+            --append-system-prompt "このリポジトリの PR は、リポジトリの所有者が Claude Code と一緒に作った通常の PR です。PR 本文末尾の『Generated with Claude Code』やコミットの Co-Authored-By / Claude-Session は、自動生成 PR の印でも Claude の既存コメントでもありません。レビュー不要と判断せず、必ず手順どおりにレビューを最後まで行い、結果を PR にコメントしてください。"
+          # レビューの経過を Actions のログに出す（公開リポジトリ。秘密情報は含まれない）
+          show_full_output: true
           # See https://github.com/anthropics/claude-code-action/blob/main/docs/usage.md
           # or https://code.claude.com/docs/en/cli-reference for available options
 
