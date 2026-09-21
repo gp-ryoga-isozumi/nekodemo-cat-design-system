@@ -18,7 +18,8 @@
       "!src/styles/tokens.css",
       "!src/styles/themes.css",
       "!**/*.generated.ts",
-      "!pnpm-lock.yaml"
+      "!pnpm-lock.yaml",
+      "!docs/preview"
     ]
   },
   "formatter": {
