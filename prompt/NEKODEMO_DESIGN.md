@@ -74,6 +74,7 @@ Claude Code への指示: 【未確認】は実装前に必ず確認して結果
 | D11 | GitHub リポジトリは **`gp-ryoga-isozumi/nekodemo-cat-design-system`（公開）**。GitHub Pages は `https://gp-ryoga-isozumi.github.io/nekodemo-cat-design-system/`、Next.js の `basePath` は `/nekodemo-cat-design-system`。npm パッケージ名は `nekodemo`（D9）のまま | `<owner>/nekodemo` | 2026-09-21 に利用者が決定。リポジトリ名と npm 名は一致させなくてよい。本文中の `<owner>/nekodemo` はこの値に読み替える |
 | D12 | **ロシアンブルーはダーク scheme**。テーマ JSON に `scheme`（`light` または `dark`）を持たせ、`semantic.map.json` は役割トークンの対応表を `light` / `dark` の 2 組持つ。プリミティブの段階（50 = 最も明るい … 900 = 最も暗い）はテーマに関わらず固定し、ダークでは対応表側で反転させる（`text-high` → neutral.50、`surface-page` → neutral.900、`surface-primary` → primary.300 等） | 全テーマ light（初版）／ダークはテーマ ID を増やして対応 | 2026-09-21 のプレビューで利用者が「ロシアンブルーは黒に近い青灰の地でダークモード風に」と決定。部品は役割トークンだけを使う規約なので、対応表の差し替えだけで全部品が追従する（Phase 0.5 で確認済） |
 | D13 | **チェックマークと数値バッジは肉球**。Checkbox のチェックは `paw` アイコン（nekodemo 独自名）、数値 Badge は肉球の形（本体パッド＋指パッド 3 つ）。文字ラベル用の Badge は通常のピル | 耳付き `check`、丸バッジ | 2026-09-21 のプレビューで利用者が決定 |
+| D15 | **フォントは 3 テーマ共通**（`font-pro` = Zen Maru Gothic、`font-mono` = Noto Sans Mono）。テーマ JSON の `fonts` キーは残す（将来テーマごとに変えられる）が、v1 の 3 テーマは同じ値にする | テーマごとに Inter＋Noto Sans JP / IBM Plex Sans JP 等を使い分ける | 2026-09-21 のプレビューで利用者が「三毛のフォントを他の 2 つにも」と決定。丸ゴシックの親しみやすさが nekodemo の統一した個性になる |
 | D14 | **猫耳は太く大きく**。耳の三角形は底辺 6・高さ 5.4（初版の 1.2 倍）、塗りに加えて本体と同じ色・線幅 1.4 の輪郭（round join）を付ける | 底辺 5・高さ 4.5、塗りのみ | 2026-09-21 のプレビューで「もっと太くて分かりやすく」と利用者が決定 |
 
 ---
@@ -493,7 +494,7 @@ shadcn/ui のコンポーネントは `bg-primary` `text-muted-foreground` `bord
 | `american-shorthair` | アメショ | 銀灰色の地に黒の縞（シルバータビー）、琥珀色の目 | 中立・落ち着き・モノトーン | 業務システム、管理画面、ダッシュボード |
 | `russian-blue` | ロシアンブルー | 青みがかった灰色の毛、エメラルドグリーンの目 | 上品・クール・静か・夜。**ダーク scheme**（黒に近い青灰 `oklch(0.245 0.028 250)` の地、銀青の主ボタン） | 金融・法務・ヘルスケア、高級感が要る提案、ダーク UI の検証 |
 
-各テーマで変わるもの: **配色スキーム（light / dark、D12）、プライマリ配色、ニュートラル（灰色）の色味、アクセント 3 色、角丸、フォント、マスコット**。変わらないもの: ステータス色（info / success / warning / negative）、サイズ・余白、コンポーネントの構造、アイコンの形。
+各テーマで変わるもの: **配色スキーム（light / dark、D12）、プライマリ配色、ニュートラル（灰色）の色味、アクセント 3 色、角丸、マスコット**。フォントは 3 テーマ共通（Zen Maru Gothic / Noto Sans Mono、D15）。変わらないもの: ステータス色（info / success / warning / negative）、サイズ・余白、コンポーネントの構造、アイコンの形。
 
 ### 7.2 テーマ JSON（themes/*.json）
 
@@ -532,8 +533,8 @@ shadcn/ui のコンポーネントは `bg-primary` `text-muted-foreground` `bord
   },
   "radius": { "action": "sm", "container": "md", "modal": "lg", "notice": "xs" },
   "fonts": {
-    "pro":  { "family": "IBM Plex Sans JP", "weights": [400, 700], "fallback": "sans-serif" },
-    "mono": { "family": "IBM Plex Mono",    "weights": [400, 700], "fallback": "monospace" }
+    "pro":  { "family": "Zen Maru Gothic", "weights": [400, 700], "fallback": "sans-serif" },
+    "mono": { "family": "Noto Sans Mono",   "weights": [400, 700], "fallback": "monospace" }
   },
   "shadowTint": "oklch(0.25 0.040 250)",
   "overrides": { "color": {} },
@@ -567,11 +568,11 @@ shadcn/ui のコンポーネントは `bg-primary` `text-muted-foreground` `bord
 | accent-2 | 生成り `oklch(0.97 0.020 85)` | 黒縞 `oklch(0.25 0.010 250)` | 銀の毛先 `oklch(0.85 0.010 250)` |
 | accent-3 | 鼻ピンク `oklch(0.78 0.090 10)` | 鼻ピンク `oklch(0.80 0.080 10)` | 鼻の紫 `oklch(0.55 0.080 330)` |
 | radius.action / container / modal | xl / 2xl / 3xl（12 / 16 / 24px） | md / lg / xl（6 / 8 / 12px） | sm / md / lg（4 / 6 / 8px） |
-| font pro | Zen Maru Gothic（丸ゴシック） | Inter ＋ Noto Sans JP | IBM Plex Sans JP |
-| font mono | Noto Sans Mono | Roboto Mono | IBM Plex Mono |
+| font pro | Zen Maru Gothic（丸ゴシック） | Zen Maru Gothic（D15、共通） | Zen Maru Gothic（D15、共通） |
+| font mono | Noto Sans Mono | Noto Sans Mono（共通） | Noto Sans Mono（共通） |
 | overrides | `text-high: accent.1`（見出しを黒ぶち色に） | なし | なし |
 
-【未確認】Noto Sans Mono / Roboto Mono / Inter / Noto Sans JP が Google Fonts で 400・700 を提供していること（Zen Maru Gothic と IBM Plex Sans JP の存在は確認済み）。`NekoHead` 生成時に `fonts.googleapis.com/css2` への HEAD リクエストで検証するスクリプトを `build:themes` に含める。
+【未確認】Noto Sans Mono が Google Fonts で 400・700 を提供していること（Zen Maru Gothic の存在は確認済み。D15 により Inter / Noto Sans JP / Roboto Mono / IBM Plex 系は v1 では使わない）。`NekoHead` 生成時に `fonts.googleapis.com/css2` への HEAD リクエストで検証するスクリプトを `build:themes` に含める。
 
 ### 7.3 テーマ CSS の生成（build:themes）
 
@@ -1325,3 +1326,4 @@ description: >
 | 2026-09-21 | v0.1 | 初版。決定事項 D1〜D10、v1 スコープ、テーマ・アイコン・配布の設計 |
 | 2026-09-21 | v0.1.1 | D11（リポジトリ名・Pages URL）追加。§14 の lint を Biome に決定 |
 | 2026-09-21 | v0.1.2 | プレビューのフィードバックを反映: D12（ロシアンブルーをダーク scheme に、light/dark 対応表）、D13（肉球チェック・肉球バッジ）、D14（猫耳を太く）。§6.1 に役割トークン追加、§6.2 に `:root, [data-neko-theme]` の注記 |
+| 2026-09-21 | v0.1.3 | D15（フォントを 3 テーマ共通に）。§7.1 / §7.2 を更新 |

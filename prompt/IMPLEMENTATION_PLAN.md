@@ -142,6 +142,10 @@ Phase 0 の実施メモ（2026-09-21）:
 - 猫耳を太く大きく（1.2 倍、輪郭線つき）→ Phase 3a の `ear.svg` と `add-ears.mjs` の規約に反映。
 - 役割トークンの追加（`text-primary` `text-info/success/warning` `surface-input` `surface-disabled` `surface-primary-subtle-hover`）とステータス色 50〜900 の全段階 → Phase 1 の `tokens/*.json` に反映。
 
+フィードバック 2 回目（2026-09-21、反映済み。設計書 D15）:
+
+- フォントを 3 テーマ共通（Zen Maru Gothic / Noto Sans Mono）に → Phase 2 のテーマ JSON 3 つの `fonts` を同じ値にし、`NekoHead` が出すフォント `<link>` を重複なく 2 ファミリーにまとめる。
+
 ### Phase 1: トークン
 
 目的: Tailwind 既定パレットが消え、nekodemo のトークンだけがユーティリティになる状態を、生成スクリプトとテストで固定する。
@@ -288,3 +292,4 @@ Phase 0.5 のプレビューで判明した Phase 1 への要件（2026-09-21）
 | 2026-09-21 | v0.1 | 初版。設計書 v0.1 を元にフェーズ別作業項目・補強点 A1〜A7・人の判断項目 H1〜H7 を定義 |
 | 2026-09-21 | v0.1.1 | H1〜H3・H5 の決定を反映。Phase 0 実施メモと Phase 0.5（ビジュアルプレビュー）を追加 |
 | 2026-09-21 | v0.1.2 | プレビューのフィードバック 1 回目（ダーク scheme、肉球、太い耳）を Phase 1〜4 の要件に反映 |
+| 2026-09-21 | v0.1.3 | フィードバック 2 回目（フォント共通化）を Phase 2 の要件に反映 |

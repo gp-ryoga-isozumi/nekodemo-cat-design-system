@@ -2,7 +2,7 @@
 <meta name="description" content="nekodemo（猫デザインシステム）の実装前ビジュアルプレビュー。36 部品 × 3 テーマ。">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Zen+Maru+Gothic:wght@400;700&family=Noto+Sans+Mono:wght@400;700&family=Inter:wght@400;700&family=Noto+Sans+JP:wght@400;700&family=Roboto+Mono:wght@400;700&family=IBM+Plex+Sans+JP:wght@400;700&family=IBM+Plex+Mono:wght@400;700&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Zen+Maru+Gothic:wght@400;700&family=Noto+Sans+Mono:wght@400;700&display=swap">
 <style>
 /* =====================================================================
    nekodemo 実装前プレビュー（docs/preview/index.html）
@@ -76,8 +76,8 @@
   --nk-p-radius-container: 8px;
   --nk-p-radius-modal: 12px;
   --nk-p-radius-notice: 4px;
-  --nk-p-font-pro: "Inter", "Noto Sans JP", "Hiragino Sans", sans-serif;
-  --nk-p-font-mono: "Roboto Mono", ui-monospace, monospace;
+  --nk-p-font-pro: "Zen Maru Gothic", "Hiragino Maru Gothic ProN", sans-serif;
+  --nk-p-font-mono: "Noto Sans Mono", ui-monospace, monospace;
   --nk-p-shadow-tint: oklch(0.25 0.010 250);
   --nk-color-text-high: var(--nk-color-neutral-900);
 }
@@ -111,8 +111,8 @@
   --nk-p-radius-container: 6px;
   --nk-p-radius-modal: 8px;
   --nk-p-radius-notice: 2px;
-  --nk-p-font-pro: "IBM Plex Sans JP", "Hiragino Sans", sans-serif;
-  --nk-p-font-mono: "IBM Plex Mono", ui-monospace, monospace;
+  --nk-p-font-pro: "Zen Maru Gothic", "Hiragino Maru Gothic ProN", sans-serif;
+  --nk-p-font-mono: "Noto Sans Mono", ui-monospace, monospace;
   --nk-p-shadow-tint: oklch(0.05 0.020 250);
 }
 
@@ -820,7 +820,7 @@ button { cursor: pointer; }
         <div class="row" style="gap:6px"><span class="nk-status info">info</span><span class="nk-status success">success</span><span class="nk-status warning">warning</span><span class="nk-status negative">negative</span></div>
       </div>
       <div class="demo">
-        <div class="label"><b>角丸・影・フォント</b><span>テーマで変わる</span></div>
+        <div class="label"><b>角丸・影・フォント</b><span>角丸・影はテーマで変わる。フォントは共通</span></div>
         <div class="row">
           <div style="width:64px;height:48px;background:var(--nk-color-surface-primary-subtle);border:1px solid var(--nk-color-border-primary);border-radius:var(--nk-radius-action)" title="rounded-action"></div>
           <div style="width:64px;height:48px;background:var(--nk-color-surface-card);border:1px solid var(--nk-color-border-middle);border-radius:var(--nk-radius-container);box-shadow:var(--nk-shadow-raise)" title="rounded-container / shadow-raise"></div>
@@ -836,7 +836,7 @@ button { cursor: pointer; }
           <span class="t1 low">ラベル text-1（12px）</span>
           <span class="mono t2">font-mono 1,234,567.89 ／ 2026/09/21 13:05</span>
         </div>
-        <div class="t1 low" data-role="font-name">font-pro: Zen Maru Gothic ／ font-mono: Noto Sans Mono</div>
+        <div class="t1 low" data-role="font-name">font-pro: Zen Maru Gothic ／ font-mono: Noto Sans Mono（3 テーマ共通）</div>
       </div>
     </div>
   </section>
@@ -1077,9 +1077,9 @@ button { cursor: pointer; }
 <script>
 (function () {
   var THEMES = {
-    "calico": { label: "三毛", mood: "親しみやすい・元気・明るい", fonts: "font-pro: Zen Maru Gothic ／ font-mono: Noto Sans Mono" },
-    "american-shorthair": { label: "アメショ", mood: "中立・落ち着き・モノトーン", fonts: "font-pro: Inter ＋ Noto Sans JP ／ font-mono: Roboto Mono" },
-    "russian-blue": { label: "ロシアンブルー（ダーク）", mood: "上品・クール・静か・夜", fonts: "font-pro: IBM Plex Sans JP ／ font-mono: IBM Plex Mono" }
+    "calico": { label: "三毛", mood: "親しみやすい・元気・明るい", fonts: "font-pro: Zen Maru Gothic ／ font-mono: Noto Sans Mono（3 テーマ共通）" },
+    "american-shorthair": { label: "アメショ", mood: "中立・落ち着き・モノトーン", fonts: "font-pro: Zen Maru Gothic ／ font-mono: Noto Sans Mono（3 テーマ共通）" },
+    "russian-blue": { label: "ロシアンブルー（ダーク）", mood: "上品・クール・静か・夜", fonts: "font-pro: Zen Maru Gothic ／ font-mono: Noto Sans Mono（3 テーマ共通）" }
   };
   var ORDER = ["calico", "american-shorthair", "russian-blue"];
   var root = document.documentElement;
