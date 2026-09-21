@@ -3,7 +3,7 @@
 > 猫がテーマの、プロトタイプ専用デザインシステム。React / Tailwind CSS v4 / shadcn ベース。
 > AI コーディングツールに「nekodemo を使って」と指定するだけで、**かわいくて使いやすいプロトタイプ**が、決まったルールで、少ないトークンで出来上がることを目指しています。
 
-- 状態: **v0.1.0（Phase 0〜5 完了。npm 公開は準備中）**
+- 状態: **v0.1.0（Phase 0〜5 完了。npm 公開は準備中。受け入れテストの手順は [`docs/ai/ACCEPTANCE_TEST.md`](docs/ai/ACCEPTANCE_TEST.md)）**
 - デモサイト: https://gp-ryoga-isozumi.github.io/nekodemo-cat-design-system/ ／ Storybook: [`/storybook/`](https://gp-ryoga-isozumi.github.io/nekodemo-cat-design-system/storybook/)
 - 実装前のビジュアルプレビュー: [`docs/preview/index.html`](docs/preview/index.html)（36 部品 × 3 テーマ。Phase 4 以降は Storybook が正）
 - 設計書: [`prompt/NEKODEMO_DESIGN.md`](prompt/NEKODEMO_DESIGN.md) ／ 実装計画: [`prompt/IMPLEMENTATION_PLAN.md`](prompt/IMPLEMENTATION_PLAN.md)

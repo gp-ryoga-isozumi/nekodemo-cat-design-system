@@ -76,8 +76,8 @@
 | H3 | T1 用の画像生成サービスの選定と、生成物の商用利用・再配布可否の確認（§3.3 チェックリスト） | Phase 3b | 利用者が実施（2026-09-21 決定）。Phase 3b 開始前 |
 | H4 | T1 60 個のレビュー（カタログで確認し採用／不採用を記録） | Phase 3b | v1 公開前 |
 | H5 | Sparkle チーム・法務への確認（書面承諾）と、Goodpatch 公式か有志かの決定 | Phase 5（公開） | 利用者が実施（2026-09-21 決定）。npm 公開前 |
-| H6 | Gemini CLI／Codex での受け入れテスト実行 | Phase 5 | v1 完成条件 |
-| H7 | `npm publish` / `gh release` の実行（`NEKODEMO_CONFIRM=1` を明示） | Phase 5 | 最後 |
+| H6 | Gemini CLI／Codex での受け入れテスト実行 | Phase 5 | v1 完成条件。手順は `docs/ai/ACCEPTANCE_TEST.md`。2026-09-22 時点で開発機に両 CLI が無く（認証も要る）、利用者の環境で実施する |
+| H7 | `npm publish` / `gh release` の実行（`NEKODEMO_CONFIRM=1` を明示） | Phase 5 | 最後。2026-09-22: 名前 `nekodemo` は npm で未使用、`npm publish --dry-run` は通過（199 ファイル、209 KB）。開発機は npm 未ログインのため、`npm login` 後に `private: true` を外して実行する（H5 の後） |
 
 ### 1.2 Phase 0 で決める技術選択（推奨案つき）
 
@@ -299,7 +299,7 @@ Phase 5 の実施メモ（2026-09-22）:
 - 5.8: `pages.yml` に `pnpm build:registry` を追加（`public/r` と `public/llms.txt` を `next build` の前に用意）。
 - Claude Code Review（GitHub Actions）は PR #3〜#8 でレビューを飛ばしていた（4〜6 ターンで終了、コメントなし）。PR #9 で gh コマンドの許可と system prompt の補足、`show_full_output: true` を入れた。workflow 変更 PR ではレビューが走らない仕様のため Phase 5 の PR で確認したところ、真因はプラグイン本体がサブエージェントをバックグラウンド起動した直後に応答を終えることだった（anthropics/claude-code-action#1646）。PR #11 で `CLAUDE_CODE_DISABLE_BACKGROUND_TASKS=1` を settings で渡して同期実行にし、PR #10 でインラインコメント 2 件が付くことを確認した（所要 13 分）。
 - 5.9 受け入れテスト（2026-09-22、Opus 5 のサブエージェントが利用側 AI として実施）: create-next-app の新規プロジェクトに tarball で導入し、skills の手順で一覧 / 詳細 / 編集の 3 画面（4 状態の切替つき）を作成。`pnpm nekodemo check src --strict` 0 件、`next build` 成功、3 画面が dev で 200。人手介入なし。指摘 12 件（D-1〜D-12）を反映: `useForm` / `zodResolver` / `z` を `nekodemo` から再 export（利用側で react-hook-form / zod が解決できず build が落ちた）、公開前の導入経路を Pages 上の tarball（`nekodemo.tgz`）に変更（`pnpm add github:` は dist が無く動かない）、テンプレート既定の CSS / page.tsx の置き換え手順、ガードブロックにウェイトと style 属性の行、Menu から開く Dialog の書き方、`Field` と欠けていた props の記載、NK010 が `generateStaticParams` 内の `.map` を誤検知していたのを JSX 式内だけに限定、`scripts/check/index.mjs` の直接実行判定を realpath に変更（pnpm のシンボリックリンク越しに無言終了していた）、`CLAUDE.md` が `@AGENTS.md` だけのときの扱い。ブラウザでのテーマ切替とキーボード操作の通し確認は未実施（静的には確認済み）。Gemini CLI / Codex での実施（H6）は利用者の環境で行う。
-- 5.10 / 5.11（H5・H7）: 利用者の判断待ち。`private: true` は外していない。
+- 5.10 / 5.11（H5・H7）: `grep -i sparkle` は README / THIRD_PARTY_NOTICES / AGENTS の参考表記だけ（guidelines の引用 2 か所は自前の文面に書き換えた）。`npm publish --dry-run` は tarball を展開して `private` を外したコピーで実行し通過（npm 未ログインの警告のみ）。実 publish は H5 の後、利用者が `npm login` してから `NEKODEMO_CONFIRM=1` で実行する。GitHub Release（tag v0.1.0）も同時に行う。
 
 ### Phase 6（v1.1）: SearchCombobox・DataGrid
 
