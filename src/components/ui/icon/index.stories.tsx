@@ -87,10 +87,9 @@ function Catalog() {
           />
         </label>
         <span className="text-text-low">
-          {status.counts.total} 件: T1 {status.counts.bespoke} / 自動耳 {status.counts.autoEar} / 手動耳{" "}
-          {status.counts.manualEar} /
-          耳なし規約 {status.counts.earless} / 耳を置けず {status.counts.noEar} / 別名{" "}
-          {Object.keys(iconAliases).length}
+          {status.counts.total} 件: T1 {status.counts.bespoke} / 自動耳 {status.counts.autoEar} /
+          手動耳 {status.counts.manualEar} / 耳なし規約 {status.counts.earless} / 耳を置けず{" "}
+          {status.counts.noEar} / 別名 {Object.keys(iconAliases).length}
         </span>
       </div>
       <ul className="grid grid-cols-[repeat(auto-fill,minmax(96px,1fr))] gap-2">
