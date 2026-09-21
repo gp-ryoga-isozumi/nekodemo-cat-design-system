@@ -4,7 +4,7 @@
 import { existsSync, mkdirSync, readdirSync, readFileSync, writeFileSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
-import { addEars, materialToGrid, svgToGrid } from "./add-ears.mjs";
+import { addEars, fitBody, materialToGrid, svgToGrid } from "./add-ears.mjs";
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), "..", "..");
 
@@ -22,6 +22,21 @@ export function parseWanted(text) {
 
 export function loadManifest(root = ROOT) {
   return JSON.parse(readFileSync(join(root, "icons", "manifest.json"), "utf8"));
+}
+
+/** icons/manual-ears.json（自動耳が置けない形に手で置いた耳）。{ name: { left: [[x,y]×3], right: [[x,y]×3] } } */
+export function loadManualEars(root = ROOT) {
+  const p = join(root, "icons", "manual-ears.json");
+  if (!existsSync(p)) return {};
+  return Object.fromEntries(
+    Object.entries(JSON.parse(readFileSync(p, "utf8"))).filter(([k]) => !k.startsWith("$")),
+  );
+}
+
+export function manualEarsToPath(entry) {
+  const seg = (pts) =>
+    `M${pts[0][0]} ${pts[0][1]} L${pts[1][0]} ${pts[1][1]} L${pts[2][0]} ${pts[2][1]}`;
+  return `${seg(entry.left)} ${seg(entry.right)}`;
 }
 
 export function isEarless(name, manifest) {
@@ -81,7 +96,8 @@ export async function buildIcons({ root = ROOT, log = console.log } = {}) {
   const descriptions = Object.fromEntries(wanted.map((w) => [w.name, w.description]));
 
   const icons = {};
-  const status = { bespoke: [], autoEar: [], earless: [], noEar: [], missing: [] };
+  const manualEars = loadManualEars(root);
+  const status = { bespoke: [], manualEar: [], autoEar: [], earless: [], noEar: [], missing: [] };
 
   for (const name of names) {
     const bespokePath = join(srcDir, `${name}.svg`);
@@ -103,22 +119,28 @@ export async function buildIcons({ root = ROOT, log = console.log } = {}) {
     } else if (existsSync(msPath)) {
       const earless = isEarless(name, manifest);
       const original = materialToGrid(readFileSync(msPath, "utf8"));
-      const res = await addEars(original, { earless });
+      const manual = !earless ? manualEars[name] : undefined;
+      const res = manual
+        ? { body: fitBody(original), ears: manualEarsToPath(manual), note: null }
+        : await addEars(original, { earless });
       const def = {
         d: res.ears ? res.body : original,
-        tier: earless ? "earless" : res.ears ? "auto-ear" : "no-ear",
+        tier: earless ? "earless" : manual ? "manual-ear" : res.ears ? "auto-ear" : "no-ear",
       };
       if (res.ears) def.ears = res.ears;
       if (existsSync(msFillPath)) {
         const originalFill = materialToGrid(readFileSync(msFillPath, "utf8"));
         if (originalFill !== original) {
-          const rf = await addEars(originalFill, { earless: earless || !res.ears });
+          const rf = manual
+            ? { body: fitBody(originalFill), ears: res.ears }
+            : await addEars(originalFill, { earless: earless || !res.ears });
           def.fill = rf.ears ? rf.body : originalFill;
           if (rf.ears) def.fillEars = rf.ears;
         }
       }
       icons[name] = def;
       if (def.tier === "auto-ear") status.autoEar.push(name);
+      else if (def.tier === "manual-ear") status.manualEar.push(name);
       else if (def.tier === "earless") status.earless.push(name);
       else status.noEar.push({ name, note: res.note });
     } else {
@@ -136,9 +158,9 @@ export async function buildIcons({ root = ROOT, log = console.log } = {}) {
 
   const ts = [
     "// 生成物: scripts/icons/build-icons.mjs が icons/wanted.txt・icons/src・@material-symbols/svg-500 から生成する。手で編集しない（pnpm build:icons）。",
-    "// tier: bespoke = T1（専用に描いた耳）, auto-ear = T2（自動耳）, earless = 規約で耳なし, no-ear = 耳を置けず本体のみ。無い名前は Icon 部品が T3（フォント）にフォールバックする。",
+    "// tier: bespoke = T1（専用に描いた耳）, auto-ear = T2（自動耳）, manual-ear = T2（icons/manual-ears.json で手で置いた耳）, earless = 規約で耳なし, no-ear = 耳を置けず本体のみ。無い名前は Icon 部品が T3（フォント）にフォールバックする。",
     "",
-    'export type IconTier = "bespoke" | "auto-ear" | "earless" | "no-ear";',
+    'export type IconTier = "bespoke" | "auto-ear" | "manual-ear" | "earless" | "no-ear";',
     "",
     "export type IconDef = {",
     "  /** 本体の path（24 グリッド、fill=currentColor） */",
@@ -176,6 +198,7 @@ export async function buildIcons({ root = ROOT, log = console.log } = {}) {
       total: names.length,
       bespoke: status.bespoke.length,
       autoEar: status.autoEar.length,
+      manualEar: status.manualEar.length,
       earless: status.earless.length,
       noEar: status.noEar.length,
       missing: status.missing.length,
@@ -186,7 +209,7 @@ export async function buildIcons({ root = ROOT, log = console.log } = {}) {
   writeFileSync(join(root, "icons", "status.json"), `${JSON.stringify(statusJson, null, 2)}\n`);
 
   log(
-    `[build:icons] ${names.length} 件: T1 ${status.bespoke.length} / 自動耳 ${status.autoEar.length} / 耳なし規約 ${status.earless.length} / 耳を置けず ${status.noEar.length} / 見つからず ${status.missing.length}`,
+    `[build:icons] ${names.length} 件: T1 ${status.bespoke.length} / 自動耳 ${status.autoEar.length} / 手動耳 ${status.manualEar.length} / 耳なし規約 ${status.earless.length} / 耳を置けず ${status.noEar.length} / 見つからず ${status.missing.length}`,
   );
   if (status.noEar.length)
     log(`  耳を置けず: ${status.noEar.map((n) => `${n.name}（${n.note}）`).join(", ")}`);

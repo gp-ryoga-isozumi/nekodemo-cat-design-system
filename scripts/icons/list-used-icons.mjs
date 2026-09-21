@@ -46,6 +46,7 @@ export function listUsedIcons(root = ROOT) {
   const available = new Set([
     ...status.bespoke,
     ...status.autoEar,
+    ...(status.manualEar ?? []),
     ...status.earless,
     ...status.noEar.map((n) => n.name),
     ...Object.keys(status.aliases ?? {}),

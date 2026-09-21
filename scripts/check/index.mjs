@@ -46,6 +46,7 @@ export function loadIconNames(cwd = process.cwd()) {
       return new Set([
         ...(s.bespoke ?? []),
         ...(s.autoEar ?? []),
+        ...(s.manualEar ?? []),
         ...(s.earless ?? []),
         ...(s.noEar ?? []).map((n) => n.name),
         ...Object.keys(s.aliases ?? {}),

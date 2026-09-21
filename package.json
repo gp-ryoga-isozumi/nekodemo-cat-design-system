@@ -71,9 +71,8 @@
     "build:themes": "node scripts/build-themes.mjs",
     "check:contrast": "node scripts/check-contrast.mjs",
     "icons:list": "node scripts/icons/list-used-icons.mjs",
-    "icons:vectorize": "node scripts/todo.mjs icons:vectorize",
-    "icons:ears": "node scripts/icons/build-icons.mjs",
-    "icons:audit": "node scripts/todo.mjs icons:audit",
+    "icons:vectorize": "node scripts/icons/vectorize.mjs",
+    "icons:audit": "node scripts/icons/audit.mjs",
     "build:icons": "node scripts/icons/build-icons.mjs",
     "build:registry": "node scripts/build-registry.mjs",
     "build:readmes": "node scripts/build-readmes.mjs",
@@ -86,7 +85,9 @@
     "lint": "biome check . && node scripts/lint-imports.mjs",
     "format": "biome format --write .",
     "new-component": "bash scripts/new-component.sh",
-    "pack:test": "node scripts/pack-test.mjs"
+    "pack:test": "node scripts/pack-test.mjs",
+    "icons:prompts": "node scripts/icons/gen-prompts.mjs",
+    "icons:inspect": "node scripts/icons/inspect.mjs"
   },
   "pnpm": {
     "onlyBuiltDependencies": [
@@ -142,6 +143,7 @@
     "sharp": "^0.35.4",
     "storybook": "^10.6.0",
     "svg-path-bbox": "^2.1.0",
+    "svgo": "^4.1.0",
     "svgpath": "^2.6.0",
     "tailwindcss": "^4.3.3",
     "typescript": "^7.0.2",
