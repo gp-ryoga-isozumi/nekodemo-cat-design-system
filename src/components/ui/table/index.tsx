@@ -89,7 +89,7 @@ export function TableRow({ className, ...props }: ComponentProps<"tr">) {
     <tr
       data-slot="table-row"
       className={cn(
-        "border-border-low border-b transition-colors hover:bg-surface-well data-[state=selected]:bg-surface-selected aria-selected:bg-surface-selected",
+        "group/row border-border-low border-b transition-colors hover:bg-surface-well data-[state=selected]:bg-surface-selected aria-selected:bg-surface-selected",
         className,
       )}
       {...props}
@@ -105,6 +105,8 @@ export type TableHeadProps = ComponentProps<"th"> & {
   onSort?: (event: React.MouseEvent<HTMLButtonElement>) => void;
   /** ソートボタンの隣に置く操作（絞り込みボタンなど）。ボタンの入れ子を避けるため children とは別に描く */
   actions?: ReactNode;
+  /** セルの最後（th 直下）に置く要素（列幅のドラッグハンドルなど）。ソートボタンの外に出す */
+  trailing?: ReactNode;
 };
 
 export function TableHead({
@@ -113,6 +115,7 @@ export function TableHead({
   sort,
   onSort,
   actions,
+  trailing,
   children,
   ...props
 }: TableHeadProps) {
@@ -160,6 +163,7 @@ export function TableHead({
       ) : (
         children
       )}
+      {trailing}
     </th>
   );
 }

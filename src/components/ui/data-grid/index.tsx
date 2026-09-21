@@ -542,7 +542,8 @@ export function DataGrid<T extends RowData>({
                         }}
                         className={cn(
                           "truncate",
-                          pinned === "start" && "sticky z-[1] bg-surface-card",
+                          pinned === "start" &&
+                            "sticky z-[1] bg-surface-card group-hover/row:bg-surface-well group-data-[state=selected]/row:bg-surface-selected",
                           cell.column.id === ACTIONS_COLUMN_ID && "overflow-visible",
                         )}
                       >
@@ -639,6 +640,21 @@ function GridHead<T extends RowData>({ header, table, filterable, values }: Grid
       }}
       className={cn("relative", pinned === "start" && "sticky z-20 bg-surface-well")}
       aria-colindex={header.index + 1}
+      trailing={
+        column.getCanResize() ? (
+          // biome-ignore lint/a11y/noStaticElementInteractions: 列幅のドラッグハンドル（ポインタ専用。列幅はダブルクリックで既定に戻せる）
+          <div
+            data-slot="data-grid-resizer"
+            onMouseDown={header.getResizeHandler()}
+            onTouchStart={header.getResizeHandler()}
+            onDoubleClick={() => column.resetSize()}
+            className={cn(
+              "absolute top-0 right-0 h-full w-1.5 cursor-col-resize select-none touch-none hover:bg-border-primary",
+              column.getIsResizing() && "bg-border-primary",
+            )}
+          />
+        ) : null
+      }
       actions={
         filterable ? (
           <Popover>
@@ -669,19 +685,6 @@ function GridHead<T extends RowData>({ header, table, filterable, values }: Grid
       }
     >
       {isDisplay ? <table.FlexRender header={header} /> : label}
-      {column.getCanResize() ? (
-        // biome-ignore lint/a11y/noStaticElementInteractions: 列幅のドラッグハンドル（ポインタ専用。列幅はダブルクリックで既定に戻せる）
-        <div
-          data-slot="data-grid-resizer"
-          onMouseDown={header.getResizeHandler()}
-          onTouchStart={header.getResizeHandler()}
-          onDoubleClick={() => column.resetSize()}
-          className={cn(
-            "absolute top-0 right-0 h-full w-1.5 cursor-col-resize select-none touch-none hover:bg-border-primary",
-            column.getIsResizing() && "bg-border-primary",
-          )}
-        />
-      ) : null}
     </TableHead>
   );
 }
