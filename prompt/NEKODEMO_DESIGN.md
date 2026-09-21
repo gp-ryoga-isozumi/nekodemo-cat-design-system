@@ -400,8 +400,10 @@ flowchart LR
   --text-3xl: var(--nk-text-8); --text-4xl: var(--nk-text-10);
 }
 
-/* 3. セマンティック層・役割層の実体（テーマに依存しない参照構造） */
-:root {
+/* 3. セマンティック層・役割層の実体（テーマに依存しない参照構造）
+   :root だけでなく [data-neko-theme] にも定義する（2026-09-21 追記: 子要素でのテーマ切替を効かせるため。Phase 0.5 のプレビューで確認） */
+:root,
+[data-neko-theme] {
   --nk-color-white: oklch(1 0 0);
   --nk-color-black: oklch(0 0 0);
   --nk-color-primary-50: var(--nk-p-primary-50);

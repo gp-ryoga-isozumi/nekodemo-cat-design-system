@@ -1,0 +1,1104 @@
+<title>nekodemo プレビュー</title>
+<meta name="description" content="nekodemo（猫デザインシステム）の実装前ビジュアルプレビュー。36 部品 × 3 テーマ。">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Zen+Maru+Gothic:wght@400;700&family=Noto+Sans+Mono:wght@400;700&family=Inter:wght@400;700&family=Noto+Sans+JP:wght@400;700&family=Roboto+Mono:wght@400;700&family=IBM+Plex+Sans+JP:wght@400;700&family=IBM+Plex+Mono:wght@400;700&display=swap">
+<style>
+/* =====================================================================
+   nekodemo 実装前プレビュー（docs/preview/index.html）
+   設計書 §6〜§9 の【初期案】をそのまま CSS 変数にしたもの。
+   本番と同じ構造: [data-neko-theme] → --nk-p-*（プリミティブ）→ --nk-color-*（役割）
+   ダークモードは v1 対象外（設計書 §7.3）。3 テーマとも明るい地。
+   ===================================================================== */
+
+/* ---------- 1. テーマ（プリミティブ層。テーマごとに変わるのはここだけ） ---------- */
+:root,
+[data-neko-theme="calico"] {
+  --nk-p-primary-50:  oklch(0.975 0.020 60);
+  --nk-p-primary-100: oklch(0.94 0.045 55);
+  --nk-p-primary-200: oklch(0.88 0.080 52);
+  --nk-p-primary-300: oklch(0.80 0.110 50);
+  --nk-p-primary-400: oklch(0.71 0.135 49);
+  --nk-p-primary-500: oklch(0.63 0.150 48);
+  --nk-p-primary-600: oklch(0.53 0.150 48);
+  --nk-p-primary-700: oklch(0.46 0.135 47);
+  --nk-p-primary-800: oklch(0.39 0.110 46);
+  --nk-p-primary-900: oklch(0.30 0.080 45);
+  --nk-p-neutral-50:  oklch(0.975 0.008 70);
+  --nk-p-neutral-100: oklch(0.94 0.010 70);
+  --nk-p-neutral-200: oklch(0.89 0.012 70);
+  --nk-p-neutral-300: oklch(0.81 0.014 70);
+  --nk-p-neutral-400: oklch(0.72 0.016 70);
+  --nk-p-neutral-500: oklch(0.60 0.018 70);
+  --nk-p-neutral-600: oklch(0.50 0.020 70);
+  --nk-p-neutral-700: oklch(0.42 0.020 70);
+  --nk-p-neutral-800: oklch(0.33 0.020 70);
+  --nk-p-neutral-900: oklch(0.25 0.020 70);
+  --nk-p-accent-1: oklch(0.22 0.010 60);   /* 黒ぶち */
+  --nk-p-accent-2: oklch(0.97 0.020 85);   /* 生成り */
+  --nk-p-accent-3: oklch(0.78 0.090 10);   /* 鼻ピンク */
+  --nk-p-radius-action: 12px;
+  --nk-p-radius-container: 16px;
+  --nk-p-radius-modal: 24px;
+  --nk-p-radius-notice: 4px;
+  --nk-p-font-pro: "Zen Maru Gothic", "Hiragino Maru Gothic ProN", sans-serif;
+  --nk-p-font-mono: "Noto Sans Mono", ui-monospace, monospace;
+  --nk-p-shadow-tint: oklch(0.22 0.010 60);
+  /* overrides: 三毛は見出し文字を黒ぶち色にする */
+  --nk-color-text-high: var(--nk-p-accent-1);
+}
+
+[data-neko-theme="american-shorthair"] {
+  --nk-p-primary-50:  oklch(0.97 0.004 250);
+  --nk-p-primary-100: oklch(0.93 0.008 250);
+  --nk-p-primary-200: oklch(0.86 0.012 250);
+  --nk-p-primary-300: oklch(0.77 0.016 250);
+  --nk-p-primary-400: oklch(0.67 0.020 250);
+  --nk-p-primary-500: oklch(0.55 0.024 250);
+  --nk-p-primary-600: oklch(0.42 0.024 250);
+  --nk-p-primary-700: oklch(0.36 0.022 250);
+  --nk-p-primary-800: oklch(0.30 0.020 250);
+  --nk-p-primary-900: oklch(0.24 0.018 250);
+  --nk-p-neutral-50:  oklch(0.975 0.004 240);
+  --nk-p-neutral-100: oklch(0.94 0.006 240);
+  --nk-p-neutral-200: oklch(0.89 0.008 240);
+  --nk-p-neutral-300: oklch(0.81 0.010 240);
+  --nk-p-neutral-400: oklch(0.72 0.012 240);
+  --nk-p-neutral-500: oklch(0.60 0.012 240);
+  --nk-p-neutral-600: oklch(0.50 0.012 240);
+  --nk-p-neutral-700: oklch(0.42 0.012 240);
+  --nk-p-neutral-800: oklch(0.33 0.012 240);
+  --nk-p-neutral-900: oklch(0.25 0.012 240);
+  --nk-p-accent-1: oklch(0.78 0.140 80);   /* 琥珀の目 */
+  --nk-p-accent-2: oklch(0.25 0.010 250);  /* 黒縞 */
+  --nk-p-accent-3: oklch(0.80 0.080 10);   /* 鼻ピンク */
+  --nk-p-radius-action: 6px;
+  --nk-p-radius-container: 8px;
+  --nk-p-radius-modal: 12px;
+  --nk-p-radius-notice: 4px;
+  --nk-p-font-pro: "Inter", "Noto Sans JP", "Hiragino Sans", sans-serif;
+  --nk-p-font-mono: "Roboto Mono", ui-monospace, monospace;
+  --nk-p-shadow-tint: oklch(0.25 0.010 250);
+  --nk-color-text-high: var(--nk-color-neutral-900);
+}
+
+[data-neko-theme="russian-blue"] {
+  --nk-p-primary-50:  oklch(0.97 0.010 250);
+  --nk-p-primary-100: oklch(0.93 0.020 250);
+  --nk-p-primary-200: oklch(0.86 0.035 250);
+  --nk-p-primary-300: oklch(0.77 0.050 250);
+  --nk-p-primary-400: oklch(0.67 0.060 250);
+  --nk-p-primary-500: oklch(0.57 0.065 250);
+  --nk-p-primary-600: oklch(0.46 0.065 250);
+  --nk-p-primary-700: oklch(0.39 0.060 250);
+  --nk-p-primary-800: oklch(0.32 0.050 250);
+  --nk-p-primary-900: oklch(0.25 0.040 250);
+  --nk-p-neutral-50:  oklch(0.975 0.006 250);
+  --nk-p-neutral-100: oklch(0.94 0.008 250);
+  --nk-p-neutral-200: oklch(0.89 0.010 250);
+  --nk-p-neutral-300: oklch(0.81 0.012 250);
+  --nk-p-neutral-400: oklch(0.72 0.014 250);
+  --nk-p-neutral-500: oklch(0.60 0.016 250);
+  --nk-p-neutral-600: oklch(0.50 0.018 250);
+  --nk-p-neutral-700: oklch(0.42 0.020 250);
+  --nk-p-neutral-800: oklch(0.33 0.020 250);
+  --nk-p-neutral-900: oklch(0.25 0.020 250);
+  --nk-p-accent-1: oklch(0.62 0.150 160);  /* 緑の目 */
+  --nk-p-accent-2: oklch(0.85 0.010 250);  /* 銀の毛先 */
+  --nk-p-accent-3: oklch(0.55 0.080 330);  /* 鼻の紫 */
+  --nk-p-radius-action: 4px;
+  --nk-p-radius-container: 6px;
+  --nk-p-radius-modal: 8px;
+  --nk-p-radius-notice: 2px;
+  --nk-p-font-pro: "IBM Plex Sans JP", "Hiragino Sans", sans-serif;
+  --nk-p-font-mono: "IBM Plex Mono", ui-monospace, monospace;
+  --nk-p-shadow-tint: oklch(0.25 0.040 250);
+  --nk-color-text-high: var(--nk-color-neutral-900);
+}
+
+/* ---------- 2. セマンティック層・役割層（テーマに依存しない参照構造） ----------
+   :root だけでなく [data-neko-theme] にも定義する。CSS 変数の var() は定義元の要素で解決されるため、
+   :root だけに置くと、子要素に data-neko-theme を付けてもプリミティブの差し替えが役割層に伝わらない。 */
+:root,
+[data-neko-theme] {
+  --nk-color-white: oklch(1 0 0);
+  --nk-color-black: oklch(0 0 0);
+  --nk-color-primary-50: var(--nk-p-primary-50);   --nk-color-primary-100: var(--nk-p-primary-100);
+  --nk-color-primary-200: var(--nk-p-primary-200); --nk-color-primary-300: var(--nk-p-primary-300);
+  --nk-color-primary-400: var(--nk-p-primary-400); --nk-color-primary-500: var(--nk-p-primary-500);
+  --nk-color-primary-600: var(--nk-p-primary-600); --nk-color-primary-700: var(--nk-p-primary-700);
+  --nk-color-primary-800: var(--nk-p-primary-800); --nk-color-primary-900: var(--nk-p-primary-900);
+  --nk-color-neutral-50: var(--nk-p-neutral-50);   --nk-color-neutral-100: var(--nk-p-neutral-100);
+  --nk-color-neutral-200: var(--nk-p-neutral-200); --nk-color-neutral-300: var(--nk-p-neutral-300);
+  --nk-color-neutral-400: var(--nk-p-neutral-400); --nk-color-neutral-500: var(--nk-p-neutral-500);
+  --nk-color-neutral-600: var(--nk-p-neutral-600); --nk-color-neutral-700: var(--nk-p-neutral-700);
+  --nk-color-neutral-800: var(--nk-p-neutral-800); --nk-color-neutral-900: var(--nk-p-neutral-900);
+  --nk-color-accent-1: var(--nk-p-accent-1);
+  --nk-color-accent-2: var(--nk-p-accent-2);
+  --nk-color-accent-3: var(--nk-p-accent-3);
+  /* ステータス色（全テーマ共通、tokens/primitives.json） */
+  --nk-color-info-50: oklch(0.97 0.015 240);    --nk-color-info-100: oklch(0.93 0.035 240);
+  --nk-color-info-500: oklch(0.58 0.150 240);   --nk-color-info-600: oklch(0.50 0.150 240);   --nk-color-info-700: oklch(0.43 0.130 240);
+  --nk-color-success-50: oklch(0.97 0.020 150); --nk-color-success-100: oklch(0.93 0.045 150);
+  --nk-color-success-500: oklch(0.62 0.150 150);--nk-color-success-600: oklch(0.52 0.140 150); --nk-color-success-700: oklch(0.44 0.120 150);
+  --nk-color-warning-50: oklch(0.98 0.025 80);  --nk-color-warning-100: oklch(0.94 0.060 80);
+  --nk-color-warning-500: oklch(0.78 0.150 75); --nk-color-warning-600: oklch(0.62 0.140 65);  --nk-color-warning-700: oklch(0.52 0.120 60);
+  --nk-color-negative-50: oklch(0.97 0.015 25); --nk-color-negative-100: oklch(0.93 0.040 25);
+  --nk-color-negative-500: oklch(0.62 0.200 25);--nk-color-negative-600: oklch(0.53 0.200 25); --nk-color-negative-700: oklch(0.45 0.180 25);
+
+  /* 役割: text */
+  --nk-color-text-middle: var(--nk-color-neutral-700);
+  --nk-color-text-low: var(--nk-color-neutral-500);
+  --nk-color-text-placeholder: var(--nk-color-neutral-500);
+  --nk-color-text-disabled: var(--nk-color-neutral-300);
+  --nk-color-text-on-primary: var(--nk-color-white);
+  --nk-color-text-link: var(--nk-color-primary-700);
+  --nk-color-text-negative: var(--nk-color-negative-700);
+  --nk-color-text-inverse: var(--nk-color-white);
+  /* 役割: surface */
+  --nk-color-surface-page: var(--nk-color-white);
+  --nk-color-surface-card: var(--nk-color-white);
+  --nk-color-surface-well: var(--nk-color-neutral-50);
+  --nk-color-surface-overlay: oklch(0.2 0.02 250 / 0.45);
+  --nk-color-surface-inverse: var(--nk-color-neutral-900);
+  --nk-color-surface-primary: var(--nk-color-primary-600);
+  --nk-color-surface-primary-hover: var(--nk-color-primary-700);
+  --nk-color-surface-primary-active: var(--nk-color-primary-800);
+  --nk-color-surface-primary-subtle: var(--nk-color-primary-50);
+  --nk-color-surface-negative: var(--nk-color-negative-600);
+  --nk-color-surface-negative-subtle: var(--nk-color-negative-50);
+  --nk-color-surface-info-subtle: var(--nk-color-info-50);
+  --nk-color-surface-success-subtle: var(--nk-color-success-50);
+  --nk-color-surface-warning-subtle: var(--nk-color-warning-50);
+  --nk-color-surface-selected: var(--nk-color-primary-50);
+  /* 役割: border */
+  --nk-color-border-low: var(--nk-color-neutral-100);
+  --nk-color-border-middle: var(--nk-color-neutral-200);
+  --nk-color-border-high: var(--nk-color-neutral-300);
+  --nk-color-border-primary: var(--nk-color-primary-500);
+  --nk-color-border-negative: var(--nk-color-negative-500);
+  --nk-color-border-focus: var(--nk-color-primary-500);
+  /* 役割: object（アイコン・図形） */
+  --nk-color-object-high: var(--nk-color-neutral-900);
+  --nk-color-object-middle: var(--nk-color-neutral-700);
+  --nk-color-object-low: var(--nk-color-neutral-500);
+  --nk-color-object-primary: var(--nk-color-primary-600);
+  --nk-color-object-negative: var(--nk-color-negative-600);
+  --nk-color-object-on-primary: var(--nk-color-white);
+  /* 形状・タイポ */
+  --nk-radius-action: var(--nk-p-radius-action);
+  --nk-radius-container: var(--nk-p-radius-container);
+  --nk-radius-modal: var(--nk-p-radius-modal);
+  --nk-radius-notice: var(--nk-p-radius-notice);
+  --nk-radius-round: 9999px;
+  --nk-shadow-raise: 0 1px 2px color-mix(in oklch, var(--nk-p-shadow-tint) 12%, transparent);
+  --nk-shadow-float: 0 4px 12px color-mix(in oklch, var(--nk-p-shadow-tint) 16%, transparent), 0 1px 3px color-mix(in oklch, var(--nk-p-shadow-tint) 10%, transparent);
+  --nk-shadow-popout: 0 12px 32px color-mix(in oklch, var(--nk-p-shadow-tint) 22%, transparent), 0 2px 6px color-mix(in oklch, var(--nk-p-shadow-tint) 10%, transparent);
+  --nk-font-pro: var(--nk-p-font-pro);
+  --nk-font-mono: var(--nk-p-font-mono);
+  --nk-text-1: 0.75rem;  --nk-leading-1: 1.25rem;
+  --nk-text-2: 0.875rem; --nk-leading-2: 1.5rem;
+  --nk-text-3: 1rem;     --nk-leading-3: 1.5rem;
+  --nk-text-4: 1.125rem; --nk-leading-4: 1.75rem;
+  --nk-text-5: 1.25rem;  --nk-leading-5: 1.75rem;
+  --nk-text-6: 1.5rem;   --nk-leading-6: 2rem;
+  --nk-text-7: 1.75rem;  --nk-leading-7: 2.25rem;
+  --nk-text-8: 2rem;     --nk-leading-8: 2.75rem;
+  color-scheme: light;
+}
+
+/* ---------- 3. ベース ---------- */
+*, *::before, *::after { box-sizing: border-box; border-color: var(--nk-color-border-middle); }
+html { height: 100%; }
+body {
+  margin: 0;
+  font-family: var(--nk-font-pro);
+  font-size: var(--nk-text-3);
+  line-height: var(--nk-leading-3);
+  color: var(--nk-color-text-high);
+  background: var(--nk-color-surface-well);
+  -webkit-font-smoothing: antialiased;
+}
+h1, h2, h3, h4, p { margin: 0; }
+h1, h2, h3, h4 { font-weight: 700; text-wrap: balance; }
+button, input, select, textarea { font: inherit; color: inherit; }
+button { cursor: pointer; }
+:focus-visible { outline: 2px solid var(--nk-color-border-focus); outline-offset: 2px; }
+.mono { font-family: var(--nk-font-mono); font-variant-numeric: tabular-nums; }
+.t1 { font-size: var(--nk-text-1); line-height: var(--nk-leading-1); }
+.t2 { font-size: var(--nk-text-2); line-height: var(--nk-leading-2); }
+.t4 { font-size: var(--nk-text-4); line-height: var(--nk-leading-4); }
+.t5 { font-size: var(--nk-text-5); line-height: var(--nk-leading-5); }
+.t6 { font-size: var(--nk-text-6); line-height: var(--nk-leading-6); }
+.t8 { font-size: var(--nk-text-8); line-height: var(--nk-leading-8); }
+.low { color: var(--nk-color-text-low); }
+.mid { color: var(--nk-color-text-middle); }
+.row { display: flex; flex-wrap: wrap; align-items: center; gap: 12px; }
+.col { display: flex; flex-direction: column; gap: 12px; }
+.sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
+}
+</style>
+<style>
+/* ---------- 4. ページ枠（プレビュー自体の UI） ---------- */
+.topbar {
+  position: sticky; top: env(safe-area-inset-top, 0px); z-index: 20;
+  display: flex; flex-wrap: wrap; align-items: center; gap: 12px 20px;
+  padding: 10px 24px; background: var(--nk-color-surface-card);
+  border-bottom: 1px solid var(--nk-color-border-low); box-shadow: var(--nk-shadow-raise);
+}
+.topbar .brand { display: flex; align-items: center; gap: 10px; font-weight: 700; }
+.topbar .spacer { flex: 1; }
+.wrap { max-width: 1200px; margin: 0 auto; padding: 24px; padding-block: 24px 64px; }
+.section { margin-top: 40px; scroll-margin-top: 80px; }
+.section > header { display: flex; flex-wrap: wrap; align-items: baseline; gap: 8px 16px; margin-bottom: 16px; }
+.section > header .num { font-family: var(--nk-font-mono); color: var(--nk-color-text-low); font-size: var(--nk-text-2); }
+.grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 16px; }
+.grid .wide { grid-column: 1 / -1; }
+.demo { background: var(--nk-color-surface-card); border: 1px solid var(--nk-color-border-low); border-radius: var(--nk-radius-container); padding: 16px; display: flex; flex-direction: column; gap: 12px; min-width: 0; }
+.demo > .label { display: flex; justify-content: space-between; gap: 8px; font-size: var(--nk-text-1); line-height: var(--nk-leading-1); color: var(--nk-color-text-low); letter-spacing: 0.04em; }
+.demo > .label b { color: var(--nk-color-text-middle); font-size: var(--nk-text-2); letter-spacing: 0; }
+.note { font-size: var(--nk-text-2); line-height: var(--nk-leading-2); color: var(--nk-color-text-middle); max-width: 68ch; }
+.kbd { font-family: var(--nk-font-mono); font-size: var(--nk-text-1); background: var(--nk-color-surface-well); border: 1px solid var(--nk-color-border-middle); border-radius: var(--nk-radius-notice); padding: 0 6px; }
+.swatches { display: grid; grid-template-columns: repeat(10, 1fr); gap: 4px; }
+.swatches div { aspect-ratio: 1; border-radius: var(--nk-radius-notice); border: 1px solid var(--nk-color-border-low); }
+.token-row { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; }
+.token-row > div { display: flex; align-items: center; gap: 8px; font-size: var(--nk-text-2); }
+.token-row i { display: inline-block; width: 28px; height: 28px; border-radius: var(--nk-radius-notice); border: 1px solid var(--nk-color-border-low); flex: none; }
+
+/* ---------- 5. 部品 ---------- */
+/* Icon（猫耳アイコン。T1/T2 は inline SVG、fill=currentColor） */
+.nk-icon { display: inline-block; width: 24px; height: 24px; fill: currentColor; flex: none; vertical-align: middle; }
+.nk-icon.s1 { width: 12px; height: 12px; } .nk-icon.s2 { width: 14px; height: 14px; } .nk-icon.s3 { width: 16px; height: 16px; }
+.nk-icon.s5 { width: 20px; height: 20px; } .nk-icon.s6 { width: 24px; height: 24px; } .nk-icon.s8 { width: 32px; height: 32px; }
+.nk-icon.s11 { width: 48px; height: 48px; } .nk-icon.s12 { width: 54px; height: 54px; }
+.icon-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(84px, 1fr)); gap: 8px; }
+.icon-grid > div { display: flex; flex-direction: column; align-items: center; gap: 6px; padding: 10px 4px; border-radius: var(--nk-radius-action); background: var(--nk-color-surface-well); color: var(--nk-color-object-high); }
+.icon-grid > div span { font-family: var(--nk-font-mono); font-size: 11px; line-height: 1.2; color: var(--nk-color-text-low); text-align: center; word-break: break-all; }
+.icon-grid > div.t3 { color: var(--nk-color-object-low); outline: 1px dashed var(--nk-color-border-high); }
+
+/* Button / IconButton */
+.nk-btn {
+  display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+  height: 40px; padding: 0 16px; border: 1px solid transparent; border-radius: var(--nk-radius-action);
+  font-weight: 700; font-size: var(--nk-text-2); line-height: 1; white-space: nowrap;
+  background: var(--nk-color-surface-primary); color: var(--nk-color-text-on-primary);
+  transition: background-color 120ms, border-color 120ms, box-shadow 120ms;
+}
+.nk-btn:hover { background: var(--nk-color-surface-primary-hover); }
+.nk-btn:active { background: var(--nk-color-surface-primary-active); }
+.nk-btn.sm { height: 32px; padding: 0 12px; font-size: var(--nk-text-1); }
+.nk-btn.lg { height: 48px; padding: 0 20px; font-size: var(--nk-text-3); }
+.nk-btn.secondary { background: var(--nk-color-surface-primary-subtle); color: var(--nk-color-primary-700); }
+.nk-btn.secondary:hover { background: var(--nk-color-primary-100); }
+.nk-btn.outline { background: var(--nk-color-surface-card); color: var(--nk-color-text-high); border-color: var(--nk-color-border-high); }
+.nk-btn.outline:hover { background: var(--nk-color-surface-well); }
+.nk-btn.ghost { background: transparent; color: var(--nk-color-text-high); }
+.nk-btn.ghost:hover { background: var(--nk-color-surface-well); }
+.nk-btn.negative { background: var(--nk-color-surface-negative); color: var(--nk-color-text-on-primary); }
+.nk-btn.negative:hover { background: var(--nk-color-negative-700); }
+.nk-btn:disabled, .nk-btn[aria-disabled="true"] { background: var(--nk-color-neutral-100); color: var(--nk-color-text-disabled); border-color: transparent; cursor: not-allowed; }
+.nk-btn.loading { pointer-events: none; }
+.nk-btn.loading .nk-spinner { --spin-color: currentColor; }
+.nk-iconbtn { display: inline-flex; align-items: center; justify-content: center; width: 40px; height: 40px; border-radius: var(--nk-radius-action); border: 1px solid transparent; background: transparent; color: var(--nk-color-object-middle); }
+.nk-iconbtn:hover { background: var(--nk-color-surface-well); color: var(--nk-color-object-high); }
+.nk-iconbtn.outline { border-color: var(--nk-color-border-high); background: var(--nk-color-surface-card); }
+.nk-iconbtn.sm { width: 32px; height: 32px; }
+.nk-iconbtn:disabled { color: var(--nk-color-text-disabled); cursor: not-allowed; }
+.nk-link { color: var(--nk-color-text-link); text-decoration: underline; text-underline-offset: 3px; display: inline-flex; align-items: center; gap: 4px; }
+.nk-link:hover { color: var(--nk-color-primary-800); }
+
+/* Spinner（毛糸玉） */
+.nk-spinner { --spin-color: var(--nk-color-object-primary); width: 20px; height: 20px; flex: none; color: var(--spin-color); animation: nk-spin 1.1s linear infinite; }
+.nk-spinner.lg { width: 40px; height: 40px; }
+@keyframes nk-spin { to { transform: rotate(360deg); } }
+/* Skeleton */
+.nk-skeleton { display: block; background: linear-gradient(90deg, var(--nk-color-neutral-100) 25%, var(--nk-color-neutral-200) 50%, var(--nk-color-neutral-100) 75%); background-size: 200% 100%; animation: nk-shimmer 1.4s ease-in-out infinite; border-radius: var(--nk-radius-notice); height: 14px; }
+.nk-skeleton.circle { width: 40px; height: 40px; border-radius: var(--nk-radius-round); }
+@keyframes nk-shimmer { from { background-position: 200% 0; } to { background-position: -200% 0; } }
+
+/* Tooltip / Toast / InlineMessage */
+.nk-tooltip { position: relative; display: inline-block; background: var(--nk-color-surface-inverse); color: var(--nk-color-text-inverse); font-size: var(--nk-text-1); line-height: var(--nk-leading-1); padding: 4px 8px; border-radius: var(--nk-radius-notice); box-shadow: var(--nk-shadow-float); }
+.nk-tooltip::after { content: ""; position: absolute; left: 50%; bottom: -5px; width: 10px; height: 10px; background: inherit; transform: translateX(-50%) rotate(45deg); }
+.nk-toast { display: flex; gap: 12px; align-items: flex-start; width: 100%; max-width: 360px; padding: 12px 16px; background: var(--nk-color-surface-card); border: 1px solid var(--nk-color-border-low); border-radius: var(--nk-radius-container); box-shadow: var(--nk-shadow-popout); }
+.nk-toast .nk-icon { margin-top: 1px; }
+.nk-toast.success .nk-icon { color: var(--nk-color-success-600); }
+.nk-toast.negative .nk-icon { color: var(--nk-color-negative-600); }
+.nk-toast.info .nk-icon { color: var(--nk-color-info-600); }
+.nk-toast .body { flex: 1; font-size: var(--nk-text-2); line-height: var(--nk-leading-2); }
+.nk-toast .body b { display: block; }
+.nk-msg { display: flex; gap: 10px; align-items: flex-start; padding: 12px 14px; border: 1px solid; border-radius: var(--nk-radius-container); font-size: var(--nk-text-2); line-height: var(--nk-leading-2); }
+.nk-msg .nk-icon { margin-top: 2px; }
+.nk-msg.info { background: var(--nk-color-surface-info-subtle); border-color: var(--nk-color-info-100); color: var(--nk-color-info-700); }
+.nk-msg.success { background: var(--nk-color-surface-success-subtle); border-color: var(--nk-color-success-100); color: var(--nk-color-success-700); }
+.nk-msg.warning { background: var(--nk-color-surface-warning-subtle); border-color: var(--nk-color-warning-100); color: var(--nk-color-warning-700); }
+.nk-msg.negative { background: var(--nk-color-surface-negative-subtle); border-color: var(--nk-color-negative-100); color: var(--nk-color-negative-700); }
+.nk-msg .nk-btn { margin-left: auto; align-self: center; }
+
+/* Badge / Tag / Avatar / Divider / Card */
+.nk-badge { display: inline-flex; align-items: center; justify-content: center; min-width: 20px; height: 20px; padding: 0 6px; border-radius: var(--nk-radius-round); background: var(--nk-color-surface-primary); color: var(--nk-color-text-on-primary); font-family: var(--nk-font-mono); font-size: var(--nk-text-1); font-weight: 700; line-height: 1; }
+.nk-badge.negative { background: var(--nk-color-surface-negative); }
+.nk-badge.neutral { background: var(--nk-color-neutral-200); color: var(--nk-color-text-middle); }
+.nk-status { display: inline-flex; align-items: center; gap: 6px; height: 24px; padding: 0 8px; border-radius: var(--nk-radius-notice); font-size: var(--nk-text-1); font-weight: 700; line-height: 1; }
+.nk-status::before { content: ""; width: 6px; height: 6px; border-radius: 50%; background: currentColor; }
+.nk-status.success { background: var(--nk-color-surface-success-subtle); color: var(--nk-color-success-700); }
+.nk-status.info { background: var(--nk-color-surface-info-subtle); color: var(--nk-color-info-700); }
+.nk-status.warning { background: var(--nk-color-surface-warning-subtle); color: var(--nk-color-warning-700); }
+.nk-status.negative { background: var(--nk-color-surface-negative-subtle); color: var(--nk-color-negative-700); }
+.nk-status.neutral { background: var(--nk-color-neutral-100); color: var(--nk-color-text-middle); }
+.nk-tag { display: inline-flex; align-items: center; gap: 4px; height: 28px; padding: 0 4px 0 10px; border: 1px solid var(--nk-color-border-middle); background: var(--nk-color-surface-card); border-radius: var(--nk-radius-notice); font-size: var(--nk-text-2); line-height: 1; }
+.nk-tag.selected { background: var(--nk-color-surface-selected); border-color: var(--nk-color-border-primary); color: var(--nk-color-primary-700); }
+.nk-tag button { display: inline-flex; width: 20px; height: 20px; border: 0; background: transparent; border-radius: var(--nk-radius-notice); color: var(--nk-color-object-low); align-items: center; justify-content: center; padding: 0; }
+.nk-tag button:hover { background: var(--nk-color-surface-well); color: var(--nk-color-object-high); }
+.nk-tag.noclose { padding-right: 10px; }
+.nk-avatar { display: inline-flex; align-items: center; justify-content: center; width: 40px; height: 40px; border-radius: var(--nk-radius-round); background: var(--nk-color-surface-primary-subtle); color: var(--nk-color-primary-700); font-weight: 700; font-size: var(--nk-text-2); overflow: hidden; flex: none; }
+.nk-avatar.sm { width: 32px; height: 32px; font-size: var(--nk-text-1); } .nk-avatar.lg { width: 56px; height: 56px; font-size: var(--nk-text-4); }
+.nk-avatar .nk-icon { width: 60%; height: 60%; }
+.nk-divider { border: 0; border-top: 1px solid var(--nk-color-border-middle); margin: 0; }
+.nk-divider.v { border-top: 0; border-left: 1px solid var(--nk-color-border-middle); height: 24px; }
+.nk-card { background: var(--nk-color-surface-card); border: 1px solid var(--nk-color-border-low); border-radius: var(--nk-radius-container); box-shadow: var(--nk-shadow-raise); }
+.nk-card > .hd { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 14px 16px; border-bottom: 1px solid var(--nk-color-border-low); font-weight: 700; }
+.nk-card > .bd { padding: 16px; display: flex; flex-direction: column; gap: 12px; }
+.nk-card > .ft { padding: 12px 16px; border-top: 1px solid var(--nk-color-border-low); display: flex; justify-content: flex-end; gap: 8px; }
+.dl { display: grid; grid-template-columns: 96px 1fr; gap: 6px 12px; font-size: var(--nk-text-2); line-height: var(--nk-leading-2); margin: 0; }
+.dl dt { color: var(--nk-color-text-low); } .dl dd { margin: 0; }
+
+/* Input 系 */
+.nk-input, .nk-select, .nk-textarea {
+  width: 100%; height: 40px; padding: 0 12px; background: var(--nk-color-surface-card);
+  border: 1px solid var(--nk-color-border-high); border-radius: var(--nk-radius-action);
+  font-size: var(--nk-text-3); color: var(--nk-color-text-high); transition: border-color 120ms, box-shadow 120ms;
+}
+.nk-input::placeholder, .nk-textarea::placeholder { color: var(--nk-color-text-placeholder); }
+.nk-input:focus, .nk-select:focus, .nk-textarea:focus { outline: none; border-color: var(--nk-color-border-focus); box-shadow: 0 0 0 2px color-mix(in oklch, var(--nk-color-border-focus) 30%, transparent); }
+.nk-input.sm { height: 32px; font-size: var(--nk-text-2); } .nk-input.lg { height: 48px; padding: 0 16px; }
+.nk-input.invalid, .nk-textarea.invalid { border-color: var(--nk-color-border-negative); }
+.nk-input:disabled, .nk-select:disabled, .nk-textarea:disabled { background: var(--nk-color-surface-well); color: var(--nk-color-text-disabled); border-color: var(--nk-color-border-middle); cursor: not-allowed; }
+.nk-input-wrap { position: relative; display: flex; align-items: center; }
+.nk-input-wrap > .nk-icon { position: absolute; left: 12px; color: var(--nk-color-object-low); pointer-events: none; }
+.nk-input-wrap > .nk-input { padding-left: 40px; }
+.nk-input-wrap > .trail { position: absolute; right: 4px; display: flex; gap: 2px; }
+.nk-input-wrap.has-trail > .nk-input { padding-right: 76px; }
+.nk-input-wrap.no-lead > .nk-input { padding-left: 12px; }
+.nk-textarea { height: auto; min-height: 96px; padding: 10px 12px; resize: vertical; line-height: var(--nk-leading-3); }
+.nk-counter { text-align: right; font-family: var(--nk-font-mono); font-size: var(--nk-text-1); color: var(--nk-color-text-low); }
+.nk-select-wrap { position: relative; }
+.nk-select { appearance: none; padding-right: 40px; }
+.nk-select-wrap > .nk-icon { position: absolute; right: 12px; top: 50%; transform: translateY(-50%); color: var(--nk-color-object-middle); pointer-events: none; }
+.nk-field { display: flex; flex-direction: column; gap: 6px; }
+.nk-field > label { font-size: var(--nk-text-2); font-weight: 700; line-height: var(--nk-leading-2); display: flex; gap: 6px; align-items: center; }
+.nk-field .req { color: var(--nk-color-text-negative); font-weight: 400; font-size: var(--nk-text-1); }
+.nk-field .hint { font-size: var(--nk-text-1); line-height: var(--nk-leading-1); color: var(--nk-color-text-low); }
+.nk-field .error { display: flex; gap: 4px; align-items: center; font-size: var(--nk-text-1); line-height: var(--nk-leading-1); color: var(--nk-color-text-negative); }
+
+/* Checkbox / Radio / Switch / Slider */
+.nk-check, .nk-radio, .nk-switch { display: inline-flex; align-items: center; gap: 8px; cursor: pointer; font-size: var(--nk-text-2); position: relative; }
+.nk-check input, .nk-radio input, .nk-switch input { position: absolute; opacity: 0; width: 1px; height: 1px; margin: 0; }
+.nk-check .box { width: 20px; height: 20px; border: 1.5px solid var(--nk-color-border-high); border-radius: var(--nk-radius-notice); background: var(--nk-color-surface-card); display: inline-flex; align-items: center; justify-content: center; color: var(--nk-color-object-on-primary); flex: none; }
+.nk-check .box .nk-icon { width: 18px; height: 18px; opacity: 0; }
+.nk-check input:checked + .box { background: var(--nk-color-surface-primary); border-color: var(--nk-color-surface-primary); }
+.nk-check input:checked + .box .nk-icon { opacity: 1; }
+.nk-check input:indeterminate + .box { background: var(--nk-color-surface-primary); border-color: var(--nk-color-surface-primary); }
+.nk-check input:indeterminate + .box::after { content: ""; width: 10px; height: 2px; background: currentColor; }
+.nk-check input:focus-visible + .box, .nk-radio input:focus-visible + .box, .nk-switch input:focus-visible + .track { outline: 2px solid var(--nk-color-border-focus); outline-offset: 2px; }
+.nk-check input:disabled + .box { background: var(--nk-color-surface-well); border-color: var(--nk-color-border-middle); }
+.nk-check.disabled, .nk-radio.disabled { color: var(--nk-color-text-disabled); cursor: not-allowed; }
+.nk-radio .box { width: 20px; height: 20px; border: 1.5px solid var(--nk-color-border-high); border-radius: 50%; background: var(--nk-color-surface-card); flex: none; }
+.nk-radio input:checked + .box { border: 6px solid var(--nk-color-surface-primary); }
+.nk-switch .track { width: 40px; height: 24px; border-radius: var(--nk-radius-round); background: var(--nk-color-neutral-300); position: relative; transition: background-color 150ms; flex: none; }
+.nk-switch .track::after { content: ""; position: absolute; top: 2px; left: 2px; width: 20px; height: 20px; border-radius: 50%; background: var(--nk-color-white); box-shadow: var(--nk-shadow-raise); transition: transform 150ms; }
+.nk-switch input:checked + .track { background: var(--nk-color-surface-primary); }
+.nk-switch input:checked + .track::after { transform: translateX(16px); }
+.nk-slider { --v: 60%; width: 100%; appearance: none; height: 4px; border-radius: 2px; background: linear-gradient(90deg, var(--nk-color-surface-primary) var(--v), var(--nk-color-neutral-200) var(--v)); margin: 10px 0; }
+.nk-slider::-webkit-slider-thumb { appearance: none; width: 20px; height: 20px; border-radius: 50%; background: var(--nk-color-white); border: 2px solid var(--nk-color-surface-primary); box-shadow: var(--nk-shadow-raise); cursor: pointer; }
+.nk-slider::-moz-range-thumb { width: 20px; height: 20px; border-radius: 50%; background: var(--nk-color-white); border: 2px solid var(--nk-color-surface-primary); }
+
+/* Tabs / Breadcrumb / SideNavigation / Pagination */
+.nk-tabs { display: flex; gap: 4px; border-bottom: 1px solid var(--nk-color-border-middle); }
+.nk-tabs button { display: inline-flex; align-items: center; gap: 6px; padding: 10px 12px; margin-bottom: -1px; border: 0; border-bottom: 2px solid transparent; background: transparent; color: var(--nk-color-text-low); font-size: var(--nk-text-2); font-weight: 700; }
+.nk-tabs button:hover { color: var(--nk-color-text-high); }
+.nk-tabs button[aria-selected="true"] { color: var(--nk-color-primary-700); border-bottom-color: var(--nk-color-surface-primary); }
+.nk-tabs.vertical { flex-direction: column; border-bottom: 0; border-right: 1px solid var(--nk-color-border-middle); align-items: stretch; }
+.nk-tabs.vertical button { justify-content: flex-start; border-bottom: 0; border-right: 2px solid transparent; margin: 0 -1px 0 0; }
+.nk-tabs.vertical button[aria-selected="true"] { border-right-color: var(--nk-color-surface-primary); background: var(--nk-color-surface-selected); }
+.nk-breadcrumb { display: flex; flex-wrap: wrap; align-items: center; gap: 2px; list-style: none; margin: 0; padding: 0; font-size: var(--nk-text-2); }
+.nk-breadcrumb li { display: inline-flex; align-items: center; gap: 2px; color: var(--nk-color-text-low); }
+.nk-breadcrumb a { color: var(--nk-color-text-low); text-decoration: none; } .nk-breadcrumb a:hover { color: var(--nk-color-text-link); text-decoration: underline; }
+.nk-breadcrumb li[aria-current] { color: var(--nk-color-text-high); font-weight: 700; }
+.nk-sidenav { width: 240px; background: var(--nk-color-surface-card); border-right: 1px solid var(--nk-color-border-low); display: flex; flex-direction: column; padding: 12px; gap: 4px; flex: none; }
+.nk-sidenav .logo { display: flex; align-items: center; gap: 10px; padding: 8px 8px 16px; font-weight: 700; }
+.nk-sidenav a { display: flex; align-items: center; gap: 10px; height: 40px; padding: 0 10px; border-radius: var(--nk-radius-action); color: var(--nk-color-text-middle); text-decoration: none; font-size: var(--nk-text-2); }
+.nk-sidenav a:hover { background: var(--nk-color-surface-well); color: var(--nk-color-text-high); }
+.nk-sidenav a[aria-current] { background: var(--nk-color-surface-selected); color: var(--nk-color-primary-700); font-weight: 700; }
+.nk-sidenav .group { padding: 12px 10px 4px; font-size: var(--nk-text-1); color: var(--nk-color-text-low); letter-spacing: 0.04em; }
+.nk-sidenav.collapsed { width: 64px; align-items: center; }
+.nk-sidenav.collapsed .logo span, .nk-sidenav.collapsed a span, .nk-sidenav.collapsed .group { display: none; }
+.nk-sidenav.collapsed a { width: 40px; justify-content: center; padding: 0; }
+.nk-pagination { display: flex; flex-wrap: wrap; align-items: center; gap: 12px; font-size: var(--nk-text-2); }
+.nk-pagination .pages { display: flex; gap: 2px; margin-left: auto; }
+.nk-pagination .pages button { min-width: 32px; height: 32px; padding: 0 8px; border: 0; background: transparent; border-radius: var(--nk-radius-action); font-family: var(--nk-font-mono); color: var(--nk-color-text-middle); }
+.nk-pagination .pages button:hover { background: var(--nk-color-surface-well); }
+.nk-pagination .pages button[aria-current] { background: var(--nk-color-surface-primary); color: var(--nk-color-text-on-primary); font-weight: 700; }
+
+/* Menu / Popover / Dialog / Modal / Drawer */
+.nk-menu { width: 220px; padding: 4px; background: var(--nk-color-surface-card); border: 1px solid var(--nk-color-border-low); border-radius: var(--nk-radius-container); box-shadow: var(--nk-shadow-float); }
+.nk-menu button { display: flex; width: 100%; align-items: center; gap: 10px; height: 36px; padding: 0 10px; border: 0; background: transparent; border-radius: var(--nk-radius-action); font-size: var(--nk-text-2); color: var(--nk-color-text-high); text-align: left; }
+.nk-menu button:hover { background: var(--nk-color-surface-well); }
+.nk-menu button .sc { margin-left: auto; font-family: var(--nk-font-mono); font-size: var(--nk-text-1); color: var(--nk-color-text-low); }
+.nk-menu button.negative { color: var(--nk-color-text-negative); }
+.nk-menu hr { margin: 4px 0; }
+.nk-popover { width: 100%; max-width: 300px; padding: 16px; background: var(--nk-color-surface-card); border: 1px solid var(--nk-color-border-low); border-radius: var(--nk-radius-container); box-shadow: var(--nk-shadow-popout); display: flex; flex-direction: column; gap: 10px; }
+.stage { background: var(--nk-color-surface-overlay); border-radius: var(--nk-radius-container); padding: 24px; display: flex; justify-content: center; align-items: center; min-height: 240px; }
+.stage.right { justify-content: flex-end; padding: 0; overflow: hidden; }
+.nk-dialog { width: 100%; max-width: 420px; background: var(--nk-color-surface-card); border-radius: var(--nk-radius-modal); box-shadow: var(--nk-shadow-popout); padding: 24px; display: flex; flex-direction: column; gap: 12px; }
+.nk-dialog .actions { display: flex; justify-content: flex-end; gap: 8px; margin-top: 8px; }
+.nk-modal { width: 100%; max-width: 560px; background: var(--nk-color-surface-card); border-radius: var(--nk-radius-modal); box-shadow: var(--nk-shadow-popout); overflow: hidden; }
+.nk-modal .hd, .nk-drawer .hd { display: flex; align-items: center; justify-content: space-between; padding: 16px 20px; border-bottom: 1px solid var(--nk-color-border-low); font-weight: 700; font-size: var(--nk-text-4); }
+.nk-modal .bd, .nk-drawer .bd { padding: 20px; display: flex; flex-direction: column; gap: 16px; }
+.nk-modal .ft, .nk-drawer .ft { display: flex; justify-content: flex-end; gap: 8px; padding: 12px 20px; border-top: 1px solid var(--nk-color-border-low); background: var(--nk-color-surface-well); }
+.nk-drawer { width: 100%; max-width: 360px; height: 100%; min-height: 320px; background: var(--nk-color-surface-card); box-shadow: var(--nk-shadow-popout); display: flex; flex-direction: column; }
+.nk-drawer .bd { flex: 1; }
+
+/* Table */
+.nk-table-wrap { overflow-x: auto; border: 1px solid var(--nk-color-border-low); border-radius: var(--nk-radius-container); background: var(--nk-color-surface-card); }
+.nk-table { width: 100%; border-collapse: collapse; font-size: var(--nk-text-2); line-height: var(--nk-leading-2); }
+.nk-table th { position: sticky; top: 0; text-align: left; font-weight: 700; color: var(--nk-color-text-middle); background: var(--nk-color-surface-well); padding: 0 12px; height: 40px; border-bottom: 1px solid var(--nk-color-border-middle); white-space: nowrap; }
+.nk-table th button { display: inline-flex; align-items: center; gap: 4px; border: 0; background: transparent; padding: 0; font: inherit; color: inherit; }
+.nk-table td { padding: 0 12px; height: 56px; border-bottom: 1px solid var(--nk-color-border-low); vertical-align: middle; }
+.nk-table.xs td { height: 40px; } .nk-table.md td { height: 80px; }
+.nk-table tbody tr:hover td { background: var(--nk-color-surface-well); }
+.nk-table tbody tr[aria-selected="true"] td { background: var(--nk-color-surface-selected); }
+.nk-table tbody tr:last-child td { border-bottom: 0; }
+.nk-table .num, .nk-table th.num { text-align: right; font-family: var(--nk-font-mono); font-variant-numeric: tabular-nums; }
+.nk-table .actions { text-align: right; white-space: nowrap; }
+.nk-table .check { width: 44px; }
+
+/* EmptyState / ThemePicker / Mascot */
+.nk-empty { display: flex; flex-direction: column; align-items: center; text-align: center; gap: 8px; padding: 32px 16px; }
+.nk-empty .nk-mascot { width: 96px; height: 96px; margin-bottom: 8px; }
+.nk-empty h3 { font-size: var(--nk-text-4); line-height: var(--nk-leading-4); }
+.nk-empty p { font-size: var(--nk-text-2); line-height: var(--nk-leading-2); color: var(--nk-color-text-low); max-width: 36ch; }
+.nk-empty .nk-btn { margin-top: 8px; }
+.nk-theme-picker { display: inline-flex; gap: 6px; padding: 4px; background: var(--nk-color-surface-well); border-radius: var(--nk-radius-round); }
+.nk-theme-picker button { display: inline-flex; align-items: center; gap: 8px; height: 36px; padding: 0 12px 0 4px; border: 2px solid transparent; border-radius: var(--nk-radius-round); background: transparent; font-size: var(--nk-text-2); color: var(--nk-color-text-middle); }
+.nk-theme-picker button .nk-mascot { width: 28px; height: 28px; }
+.nk-theme-picker button:hover { background: var(--nk-color-surface-card); }
+.nk-theme-picker button[aria-pressed="true"] { background: var(--nk-color-surface-card); border-color: var(--nk-color-border-focus); color: var(--nk-color-text-high); font-weight: 700; box-shadow: var(--nk-shadow-raise); }
+.nk-mascot { width: 40px; height: 40px; flex: none; }
+.nk-mascot .face { fill: var(--m-face); } .nk-mascot .patch1 { fill: var(--m-patch1); } .nk-mascot .patch2 { fill: var(--m-patch2); }
+.nk-mascot .eye { fill: var(--m-eye); } .nk-mascot .nose { fill: var(--m-nose); } .nk-mascot .line { stroke: var(--m-line); }
+.nk-mascot.calico { --m-face: oklch(0.985 0.010 85); --m-patch1: oklch(0.63 0.150 48); --m-patch2: oklch(0.22 0.010 60); --m-eye: oklch(0.22 0.010 60); --m-nose: oklch(0.78 0.090 10); --m-line: oklch(0.22 0.010 60); }
+.nk-mascot.american-shorthair { --m-face: oklch(0.82 0.010 240); --m-patch1: oklch(0.36 0.014 250); --m-patch2: oklch(0.36 0.014 250); --m-eye: oklch(0.78 0.140 80); --m-nose: oklch(0.80 0.080 10); --m-line: oklch(0.25 0.010 250); }
+.nk-mascot.russian-blue { --m-face: oklch(0.62 0.030 250); --m-patch1: oklch(0.70 0.025 250); --m-patch2: oklch(0.70 0.025 250); --m-eye: oklch(0.62 0.150 160); --m-nose: oklch(0.55 0.080 330); --m-line: oklch(0.30 0.040 250); }
+
+/* サンプル画面（型 A: 一覧） */
+.app { display: flex; min-height: 560px; border: 1px solid var(--nk-color-border-low); border-radius: var(--nk-radius-container); overflow: hidden; background: var(--nk-color-surface-page); box-shadow: var(--nk-shadow-float); }
+.app-main { flex: 1; min-width: 0; display: flex; flex-direction: column; }
+.app-header { display: flex; align-items: center; gap: 12px; height: 56px; padding: 0 20px; border-bottom: 1px solid var(--nk-color-border-low); background: var(--nk-color-surface-card); }
+.app-body { padding: 24px; display: flex; flex-direction: column; gap: 16px; }
+.page-head { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 12px; }
+.page-head h2 { font-size: var(--nk-text-6); line-height: var(--nk-leading-6); }
+.filters { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; }
+.filters .nk-input-wrap { flex: 1 1 260px; max-width: 360px; }
+@media (max-width: 720px) { .nk-sidenav { display: none; } .app-body { padding: 16px; } }
+
+/* 3 テーマ比較 */
+.compare { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; }
+.compare-col { background: var(--nk-color-surface-page); border: 1px solid var(--nk-color-border-low); border-radius: var(--nk-radius-container); padding: 16px; display: flex; flex-direction: column; gap: 12px; color: var(--nk-color-text-high); font-family: var(--nk-font-pro); }
+.compare-col > .head { display: flex; align-items: center; gap: 8px; padding-bottom: 8px; border-bottom: 1px solid var(--nk-color-border-low); }
+.compare-col > .head b { font-size: var(--nk-text-3); }
+.compare-col > .head small { font-size: var(--nk-text-1); color: var(--nk-color-text-low); }
+@media (max-width: 900px) { .compare { grid-template-columns: 1fr; } }
+</style>
+<!-- ========== SVG スプライト（猫耳アイコン T1/T2 の見本、マスコット 3 体） ========== -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <!-- 耳付き（T1/T2）。本体は線、耳は塗り -->
+    <symbol id="i-search" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M5.5 6.6 3.8 1.9 9.2 4.6z M15.5 6.6 17.2 1.9 11.8 4.6z" fill="currentColor" stroke="none"/>
+      <circle cx="10.5" cy="10.5" r="6"/><path d="M15 15l5 5"/>
+    </symbol>
+    <symbol id="i-notifications" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M7.6 5.4 5.6 1.2 10 3.7z M16.4 5.4 18.4 1.2 14 3.7z" fill="currentColor" stroke="none"/>
+      <path d="M6 16v-5a6 6 0 0 1 12 0v5l1.5 2h-15z"/><path d="M10 20.5h4"/>
+    </symbol>
+    <symbol id="i-settings" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M7 6.2 5.2 1.6 9.8 3.6z M17 6.2 18.8 1.6 14.2 3.6z" fill="currentColor" stroke="none"/>
+      <circle cx="12" cy="13" r="7" stroke-width="3" stroke-dasharray="2.6 2.9"/><circle cx="12" cy="13" r="2.5"/>
+    </symbol>
+    <symbol id="i-person" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M9 5.6 7.4 1.4 11.6 4.1z M15 5.6 16.6 1.4 12.4 4.1z" fill="currentColor" stroke="none"/>
+      <circle cx="12" cy="8.5" r="4"/><path d="M4 20c0-4 3.5-6.5 8-6.5s8 2.5 8 6.5"/>
+    </symbol>
+    <symbol id="i-home" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M8.2 7.4 6.8 2.8 11 5.1z M15.8 7.4 17.2 2.8 13 5.1z" fill="currentColor" stroke="none"/>
+      <path d="M4 12l8-7 8 7v8h-5v-6h-6v6H4z"/>
+    </symbol>
+    <symbol id="i-delete" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M6.4 7.4 4.8 3.2 8.4 6.2z M17.6 7.4 19.2 3.2 15.6 6.2z" fill="currentColor" stroke="none"/>
+      <path d="M5 7.5h14M9.5 7.5V5h5v2.5M7 7.5l1 12.5h8l1-12.5"/>
+    </symbol>
+    <symbol id="i-visibility" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M7 7 5.2 2.6 10 4.8z M17 7 18.8 2.6 14 4.8z" fill="currentColor" stroke="none"/>
+      <path d="M2 12.5s3.5-6 10-6 10 6 10 6-3.5 6-10 6-10-6-10-6z"/><circle cx="12" cy="12.5" r="3"/>
+    </symbol>
+    <symbol id="i-folder" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M12.6 8.2 11.8 3.9 15.6 6.3z M19.4 8.2 20.4 3.9 16.7 6.3z" fill="currentColor" stroke="none"/>
+      <path d="M3 6.5h6l2 2h10v11H3z"/>
+    </symbol>
+    <symbol id="i-mail" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M5.6 5.4 4 1.2 8.6 3.4z M18.4 5.4 20 1.2 15.4 3.4z" fill="currentColor" stroke="none"/>
+      <rect x="3" y="5.5" width="18" height="13" rx="2"/><path d="M3 8l9 6 9-6"/>
+    </symbol>
+    <symbol id="i-calendar_today" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M6 5.4 4.4 1.2 9 3.4z M18 5.4 19.6 1.2 15 3.4z" fill="currentColor" stroke="none"/>
+      <rect x="3" y="5.5" width="18" height="15" rx="2"/><path d="M3 10.5h18"/>
+    </symbol>
+    <symbol id="i-info" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M7.2 6.6 5.3 2.2 10.2 4.5z M16.8 6.6 18.7 2.2 13.8 4.5z" fill="currentColor" stroke="none"/>
+      <circle cx="12" cy="13" r="8"/><path d="M12 12.5v5"/><circle cx="12" cy="9.3" r="0.6" fill="currentColor"/>
+    </symbol>
+    <symbol id="i-error" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M7.2 6.6 5.3 2.2 10.2 4.5z M16.8 6.6 18.7 2.2 13.8 4.5z" fill="currentColor" stroke="none"/>
+      <circle cx="12" cy="13" r="8"/><path d="M12 9.5v5"/><circle cx="12" cy="17.2" r="0.6" fill="currentColor"/>
+    </symbol>
+    <symbol id="i-check_circle" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M7.2 6.6 5.3 2.2 10.2 4.5z M16.8 6.6 18.7 2.2 13.8 4.5z" fill="currentColor" stroke="none"/>
+      <circle cx="12" cy="13" r="8"/><path d="M8.5 13.2l2.5 2.5 4.8-5"/>
+    </symbol>
+    <symbol id="i-help" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M7.2 6.6 5.3 2.2 10.2 4.5z M16.8 6.6 18.7 2.2 13.8 4.5z" fill="currentColor" stroke="none"/>
+      <circle cx="12" cy="13" r="8"/><path d="M9.6 10.8a2.4 2.4 0 1 1 3.4 2.2c-.7.4-1 1-1 1.6"/><circle cx="12" cy="17.4" r="0.6" fill="currentColor"/>
+    </symbol>
+    <symbol id="i-favorite" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M6.6 7.2 5.4 2.8 9.6 5.2z M17.4 7.2 18.6 2.8 14.4 5.2z" fill="currentColor" stroke="none"/>
+      <path d="M12 20.5s-7.5-4.5-7.5-10a4 4 0 0 1 7.5-2.3A4 4 0 0 1 19.5 10.5c0 5.5-7.5 10-7.5 10z"/>
+    </symbol>
+    <symbol id="i-lock" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M6 11.2 4.8 7 8.4 9.6z M18 11.2 19.2 7 15.6 9.6z" fill="currentColor" stroke="none"/>
+      <rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8.5 11V8a3.5 3.5 0 0 1 7 0v3"/>
+    </symbol>
+    <symbol id="i-camera" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M5.5 8.2 4 4.2 7.8 6.2z M18.5 8.2 20 4.2 16.2 6.2z" fill="currentColor" stroke="none"/>
+      <path d="M4 8h4l2-2h4l2 2h4v11H4z"/><circle cx="12" cy="13.5" r="3"/>
+    </symbol>
+    <symbol id="i-image" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M5.6 5.4 4 1.2 8.6 3.4z M18.4 5.4 20 1.2 15.4 3.4z" fill="currentColor" stroke="none"/>
+      <rect x="3" y="5.5" width="18" height="14" rx="2"/><path d="M3 17l5-5 4 4 3-3 6 6"/><circle cx="16" cy="10" r="1.3" fill="currentColor"/>
+    </symbol>
+    <!-- 耳なし（規約: 矢印・シェブロン・チェック・×・＋・線・ドット） -->
+    <symbol id="i-chevron_right" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"/></symbol>
+    <symbol id="i-expand_more" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></symbol>
+    <symbol id="i-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7"/></symbol>
+    <symbol id="i-ear_check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M16.2 7.6 15.6 3.4 18.9 5.6z M21.6 7.6 22.6 3.4 19.4 5.6z" fill="currentColor" stroke="none"/><path d="M4 12.5l4.5 4.5L19 7.5"/>
+    </symbol>
+    <symbol id="i-close" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></symbol>
+    <symbol id="i-add" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></symbol>
+    <symbol id="i-more_vert" viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="6" r="1.7"/><circle cx="12" cy="12" r="1.7"/><circle cx="12" cy="18" r="1.7"/></symbol>
+    <symbol id="i-filter_list" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 7h16M7 12h10M10 17h4"/></symbol>
+    <symbol id="i-menu" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"/></symbol>
+    <symbol id="i-arrow_upward" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19V5M6 11l6-6 6 6"/></symbol>
+    <symbol id="i-swap_vert" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 4v13M4.5 13.5L8 17l3.5-3.5M16 20V7M12.5 10.5L16 7l3.5 3.5"/></symbol>
+    <symbol id="i-open_in_new" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 4h6v6M20 4l-9 9M18 13v6H5V6h6"/></symbol>
+    <symbol id="i-download" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4v11M7 10l5 5 5-5M4 19h16"/></symbol>
+    <symbol id="i-logout" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 4H5v16h5M15 8l4 4-4 4M19 12H9"/></symbol>
+    <symbol id="i-edit" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20l4-1L19 8l-3-3L5 16zM14 7l3 3"/></symbol>
+    <symbol id="i-warning" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4L2.5 20h19z"/><path d="M12 10v4"/><circle cx="12" cy="17" r="0.6" fill="currentColor"/></symbol>
+    <!-- 猫シルエット（Avatar フォールバック）と毛糸玉（Spinner） -->
+    <symbol id="i-cat" viewBox="0 0 24 24" fill="currentColor"><path d="M5.5 4.5 8.5 9h7l3-4.5V11a6.5 6.5 0 0 1-13 0z"/></symbol>
+    <symbol id="i-yarn" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="8.5"/><path d="M4.6 9.5c4.5-2.2 9.5-2 15 1M4 14.2c5.5-3 10.5-3 16 0M9.2 4.2c-2.2 4.5-2 9.5 1 15"/></symbol>
+    <!-- マスコット（顔＋耳。色は .nk-mascot.<theme> の CSS 変数で切替） -->
+    <symbol id="m-calico" viewBox="0 0 96 96">
+      <path d="M20 44 16 12l28 18z M76 44 80 12 52 30z" style="fill:var(--m-face)"/>
+      <path d="M24 39 21 21l16 12z" style="fill:var(--m-nose);opacity:.55"/><path d="M72 39 75 21 59 33z" style="fill:var(--m-nose);opacity:.55"/>
+      <circle cx="48" cy="56" r="31" style="fill:var(--m-face)"/>
+      <path d="M22 44q9-13 26-8L40 60z" style="fill:var(--m-patch1)"/>
+      <path d="M58 30q16 2 19 20L60 50z" style="fill:var(--m-patch2)"/>
+      <ellipse cx="38" cy="58" rx="4" ry="5" style="fill:var(--m-eye)"/><ellipse cx="58" cy="58" rx="4" ry="5" style="fill:var(--m-eye)"/>
+      <circle cx="39.5" cy="56" r="1.3" fill="#fff"/><circle cx="59.5" cy="56" r="1.3" fill="#fff"/>
+      <path d="M45 67h6l-3 3z" style="fill:var(--m-nose)"/>
+      <path d="M43 72q5 3 10 0M24 66l10-1M24 72l10 1M72 66l-10-1M72 72l-10 1" fill="none" stroke-width="2" stroke-linecap="round" style="stroke:var(--m-line)"/>
+    </symbol>
+    <symbol id="m-american-shorthair" viewBox="0 0 96 96">
+      <path d="M20 44 16 12l28 18z M76 44 80 12 52 30z" style="fill:var(--m-face)"/>
+      <path d="M24 39 21 21l16 12z" style="fill:var(--m-nose);opacity:.5"/><path d="M72 39 75 21 59 33z" style="fill:var(--m-nose);opacity:.5"/>
+      <circle cx="48" cy="56" r="31" style="fill:var(--m-face)"/>
+      <path d="M40 27v10M48 25v13M56 27v10M22 52h8M66 52h8" fill="none" stroke-width="4" stroke-linecap="round" style="stroke:var(--m-patch1)"/>
+      <ellipse cx="38" cy="58" rx="4.5" ry="5" style="fill:var(--m-eye)"/><ellipse cx="58" cy="58" rx="4.5" ry="5" style="fill:var(--m-eye)"/>
+      <ellipse cx="38" cy="58" rx="1.6" ry="4" style="fill:var(--m-line)"/><ellipse cx="58" cy="58" rx="1.6" ry="4" style="fill:var(--m-line)"/>
+      <path d="M45 67h6l-3 3z" style="fill:var(--m-nose)"/>
+      <path d="M43 72q5 3 10 0M24 66l10-1M24 72l10 1M72 66l-10-1M72 72l-10 1" fill="none" stroke-width="2" stroke-linecap="round" style="stroke:var(--m-line)"/>
+    </symbol>
+    <symbol id="m-russian-blue" viewBox="0 0 96 96">
+      <path d="M20 44 16 12l28 18z M76 44 80 12 52 30z" style="fill:var(--m-face)"/>
+      <path d="M24 39 21 21l16 12z" style="fill:var(--m-nose);opacity:.5"/><path d="M72 39 75 21 59 33z" style="fill:var(--m-nose);opacity:.5"/>
+      <circle cx="48" cy="56" r="31" style="fill:var(--m-face)"/>
+      <ellipse cx="48" cy="76" rx="16" ry="9" style="fill:var(--m-patch1)"/>
+      <ellipse cx="38" cy="58" rx="4.5" ry="5" style="fill:var(--m-eye)"/><ellipse cx="58" cy="58" rx="4.5" ry="5" style="fill:var(--m-eye)"/>
+      <ellipse cx="38" cy="58" rx="1.6" ry="4" style="fill:var(--m-line)"/><ellipse cx="58" cy="58" rx="1.6" ry="4" style="fill:var(--m-line)"/>
+      <path d="M45 67h6l-3 3z" style="fill:var(--m-nose)"/>
+      <path d="M43 72q5 3 10 0M24 66l10-1M24 72l10 1M72 66l-10-1M72 72l-10 1" fill="none" stroke-width="2" stroke-linecap="round" style="stroke:var(--m-line)"/>
+    </symbol>
+  </defs>
+</svg>
+
+<!-- ========== ページ上部（プレビュー自体の操作） ========== -->
+<header class="topbar">
+  <div class="brand">
+    <svg class="nk-mascot theme-face" data-role="current-face"><use href="#m-calico"/></svg>
+    <span>nekodemo プレビュー</span>
+    <span class="t1 low">設計書 v0.1 の初期案 · 実装前</span>
+  </div>
+  <div class="spacer"></div>
+  <div class="nk-theme-picker" role="group" aria-label="テーマ切替">
+    <button type="button" data-theme="calico" aria-pressed="true"><svg class="nk-mascot calico"><use href="#m-calico"/></svg>三毛</button>
+    <button type="button" data-theme="american-shorthair" aria-pressed="false"><svg class="nk-mascot american-shorthair"><use href="#m-american-shorthair"/></svg>アメショ</button>
+    <button type="button" data-theme="russian-blue" aria-pressed="false"><svg class="nk-mascot russian-blue"><use href="#m-russian-blue"/></svg>ロシアンブルー</button>
+  </div>
+  <a class="nk-btn outline sm" href="#compare">3 テーマを並べて見る</a>
+</header>
+
+<main class="wrap">
+  <p class="note">設計書 §6〜§9 の【初期案】（パレット・角丸・フォント・部品一覧）を、本番と同じ CSS 変数構造（<span class="kbd">[data-neko-theme]</span> → <span class="kbd">--nk-p-*</span> → 役割トークン）で組んだ静的プレビューです。上のボタンで 3 テーマを即時切替できます。コントラスト検査（§7.6）は Phase 2 のビルドで行うため、ここでは未適用です。</p>
+
+  <!-- ========== 0. サンプル画面（型 A: 一覧） ========== -->
+  <section class="section" id="sample">
+    <header><span class="num">00</span><h2 class="t5">画面の型 A「一覧」のサンプル</h2><span class="t2 low">SideNavigation ＋ ヘッダー ＋ 検索・絞り込み ＋ Table ＋ Pagination</span></header>
+    <div class="app">
+      <nav class="nk-sidenav" aria-label="メイン">
+        <div class="logo"><svg class="nk-mascot theme-face"><use href="#m-calico"/></svg><span>案件管理</span></div>
+        <a href="#sample"><svg class="nk-icon s5"><use href="#i-home"/></svg><span>ダッシュボード</span></a>
+        <a href="#sample" aria-current="page"><svg class="nk-icon s5"><use href="#i-folder"/></svg><span>案件</span></a>
+        <a href="#sample"><svg class="nk-icon s5"><use href="#i-person"/></svg><span>顧客</span></a>
+        <a href="#sample"><svg class="nk-icon s5"><use href="#i-notifications"/></svg><span>通知</span><span class="nk-badge negative" style="margin-left:auto">3</span></a>
+        <div class="group">管理</div>
+        <a href="#sample"><svg class="nk-icon s5"><use href="#i-settings"/></svg><span>設定</span></a>
+      </nav>
+      <div class="app-main">
+        <div class="app-header">
+          <button class="nk-iconbtn" type="button" aria-label="メニューを開く"><svg class="nk-icon"><use href="#i-menu"/></svg></button>
+          <ol class="nk-breadcrumb"><li><a href="#sample">ホーム</a><svg class="nk-icon s3"><use href="#i-chevron_right"/></svg></li><li aria-current="page">案件</li></ol>
+          <div class="spacer" style="flex:1"></div>
+          <button class="nk-iconbtn" type="button" aria-label="通知"><svg class="nk-icon"><use href="#i-notifications"/></svg></button>
+          <button class="nk-iconbtn" type="button" aria-label="ヘルプ"><svg class="nk-icon"><use href="#i-help"/></svg></button>
+          <span class="nk-avatar sm" aria-label="五十棲"><svg class="nk-icon"><use href="#i-cat"/></svg></span>
+        </div>
+        <div class="app-body">
+          <div class="page-head">
+            <div class="row" style="gap:8px"><h2>案件一覧</h2><span class="nk-badge neutral">120件</span></div>
+            <button class="nk-btn" type="button"><svg class="nk-icon s5"><use href="#i-add"/></svg>案件を追加する</button>
+          </div>
+          <div class="filters">
+            <div class="nk-input-wrap has-trail">
+              <svg class="nk-icon s5"><use href="#i-search"/></svg>
+              <input class="nk-input" type="search" id="sample-search" placeholder="案件名・顧客名で検索" value="山田">
+              <span class="trail"><button class="nk-iconbtn sm" type="button" aria-label="クリア"><svg class="nk-icon s5"><use href="#i-close"/></svg></button><button class="nk-iconbtn sm" type="button" aria-label="検索条件"><svg class="nk-icon s5"><use href="#i-filter_list"/></svg></button></span>
+            </div>
+            <span class="nk-tag selected">状態: 進行中<button type="button" aria-label="条件を外す"><svg class="nk-icon s3"><use href="#i-close"/></svg></button></span>
+            <span class="nk-tag selected">担当: 自分<button type="button" aria-label="条件を外す"><svg class="nk-icon s3"><use href="#i-close"/></svg></button></span>
+            <button class="nk-btn outline sm" type="button"><svg class="nk-icon s3"><use href="#i-filter_list"/></svg>絞り込み</button>
+          </div>
+          <div class="nk-table-wrap">
+            <table class="nk-table">
+              <thead><tr>
+                <th class="check"><label class="nk-check"><input type="checkbox" id="sample-all" aria-label="すべて選択"><span class="box"><svg class="nk-icon"><use href="#i-ear_check"/></svg></span></label></th>
+                <th><button type="button">案件名<svg class="nk-icon s3"><use href="#i-arrow_upward"/></svg></button></th>
+                <th>顧客</th><th>状態</th><th class="num">金額</th><th>更新日</th><th></th>
+              </tr></thead>
+              <tbody>
+                <tr><td class="check"><label class="nk-check"><input type="checkbox" checked aria-label="選択"><span class="box"><svg class="nk-icon"><use href="#i-ear_check"/></svg></span></label></td><td><a class="nk-link" href="#sample" style="text-decoration:none">社内備品貸出アプリ 改修</a></td><td>山田商事</td><td><span class="nk-status info">進行中</span></td><td class="num">1,200,000</td><td class="mono">2026/09/21</td><td class="actions"><button class="nk-iconbtn sm" type="button" aria-label="操作"><svg class="nk-icon s5"><use href="#i-more_vert"/></svg></button></td></tr>
+                <tr><td class="check"><label class="nk-check"><input type="checkbox" aria-label="選択"><span class="box"><svg class="nk-icon"><use href="#i-ear_check"/></svg></span></label></td><td><a class="nk-link" href="#sample" style="text-decoration:none">顧客ポータル 要件定義</a></td><td>山田製作所</td><td><span class="nk-status warning">確認待ち</span></td><td class="num">480,000</td><td class="mono">2026/09/19</td><td class="actions"><button class="nk-iconbtn sm" type="button" aria-label="操作"><svg class="nk-icon s5"><use href="#i-more_vert"/></svg></button></td></tr>
+                <tr><td class="check"><label class="nk-check"><input type="checkbox" aria-label="選択"><span class="box"><svg class="nk-icon"><use href="#i-ear_check"/></svg></span></label></td><td><a class="nk-link" href="#sample" style="text-decoration:none">在庫管理ダッシュボード</a></td><td>山田物流</td><td><span class="nk-status success">完了</span></td><td class="num">2,350,000</td><td class="mono">2026/09/12</td><td class="actions"><button class="nk-iconbtn sm" type="button" aria-label="操作"><svg class="nk-icon s5"><use href="#i-more_vert"/></svg></button></td></tr>
+                <tr><td class="check"><label class="nk-check"><input type="checkbox" aria-label="選択"><span class="box"><svg class="nk-icon"><use href="#i-ear_check"/></svg></span></label></td><td><a class="nk-link" href="#sample" style="text-decoration:none">採用サイト リニューアル</a></td><td>山田ホールディングス</td><td><span class="nk-status negative">差し戻し</span></td><td class="num">960,000</td><td class="mono">2026/09/08</td><td class="actions"><button class="nk-iconbtn sm" type="button" aria-label="操作"><svg class="nk-icon s5"><use href="#i-more_vert"/></svg></button></td></tr>
+                <tr><td class="check"><label class="nk-check"><input type="checkbox" aria-label="選択"><span class="box"><svg class="nk-icon"><use href="#i-ear_check"/></svg></span></label></td><td><a class="nk-link" href="#sample" style="text-decoration:none">勤怠アプリ ユーザーインタビュー</a></td><td>山田クリニック</td><td><span class="nk-status neutral">下書き</span></td><td class="num">150,000</td><td class="mono">2026/09/02</td><td class="actions"><button class="nk-iconbtn sm" type="button" aria-label="操作"><svg class="nk-icon s5"><use href="#i-more_vert"/></svg></button></td></tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="nk-pagination">
+            <span class="low">120件中 1〜20件を表示</span>
+            <div class="pages">
+              <button type="button" aria-label="前のページ" disabled><svg class="nk-icon s5" style="transform:rotate(180deg)"><use href="#i-chevron_right"/></svg></button>
+              <button type="button" aria-current="page">1</button><button type="button">2</button><button type="button">3</button><button type="button">…</button><button type="button">6</button>
+              <button type="button" aria-label="次のページ"><svg class="nk-icon s5"><use href="#i-chevron_right"/></svg></button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <!-- ========== 1. テーマとトークン ========== -->
+  <section class="section" id="tokens">
+    <header><span class="num">01</span><h2 class="t5">テーマとトークン</h2><span class="t2 low">§6 / §7 — テーマで変わるのはプライマリ・ニュートラル・アクセント・角丸・フォント・マスコット</span></header>
+    <div class="grid">
+      <div class="demo">
+        <div class="label"><b>primary 50〜900</b><span>--nk-color-primary-*</span></div>
+        <div class="swatches"><div style="background:var(--nk-color-primary-50)"></div><div style="background:var(--nk-color-primary-100)"></div><div style="background:var(--nk-color-primary-200)"></div><div style="background:var(--nk-color-primary-300)"></div><div style="background:var(--nk-color-primary-400)"></div><div style="background:var(--nk-color-primary-500)"></div><div style="background:var(--nk-color-primary-600)"></div><div style="background:var(--nk-color-primary-700)"></div><div style="background:var(--nk-color-primary-800)"></div><div style="background:var(--nk-color-primary-900)"></div></div>
+        <div class="label"><b>neutral 50〜900</b><span>--nk-color-neutral-*</span></div>
+        <div class="swatches"><div style="background:var(--nk-color-neutral-50)"></div><div style="background:var(--nk-color-neutral-100)"></div><div style="background:var(--nk-color-neutral-200)"></div><div style="background:var(--nk-color-neutral-300)"></div><div style="background:var(--nk-color-neutral-400)"></div><div style="background:var(--nk-color-neutral-500)"></div><div style="background:var(--nk-color-neutral-600)"></div><div style="background:var(--nk-color-neutral-700)"></div><div style="background:var(--nk-color-neutral-800)"></div><div style="background:var(--nk-color-neutral-900)"></div></div>
+        <div class="label"><b>accent 1 / 2 / 3</b><span>チャート・装飾・マスコット用</span></div>
+        <div class="token-row"><div><i style="background:var(--nk-color-accent-1)"></i>accent-1</div><div><i style="background:var(--nk-color-accent-2)"></i>accent-2</div><div><i style="background:var(--nk-color-accent-3)"></i>accent-3</div></div>
+      </div>
+      <div class="demo">
+        <div class="label"><b>役割トークン（部品はこれだけを使う）</b></div>
+        <div class="token-row">
+          <div><i style="background:var(--nk-color-surface-page)"></i>surface-page</div><div><i style="background:var(--nk-color-surface-well)"></i>surface-well</div><div><i style="background:var(--nk-color-surface-primary)"></i>surface-primary</div>
+          <div><i style="background:var(--nk-color-surface-primary-subtle)"></i>primary-subtle</div><div><i style="background:var(--nk-color-surface-selected)"></i>selected</div><div><i style="background:var(--nk-color-surface-negative)"></i>negative</div>
+          <div><i style="background:var(--nk-color-border-middle)"></i>border-middle</div><div><i style="background:var(--nk-color-border-high)"></i>border-high</div><div><i style="background:var(--nk-color-border-focus)"></i>border-focus</div>
+        </div>
+        <div class="col" style="gap:4px">
+          <span style="color:var(--nk-color-text-high)">text-high — 案件一覧（見出し・本文）</span>
+          <span style="color:var(--nk-color-text-middle)">text-middle — 表のヘッダー・補足説明</span>
+          <span style="color:var(--nk-color-text-low)">text-low — ヒント・件数・プレースホルダー</span>
+          <span style="color:var(--nk-color-text-link)">text-link — リンク文字</span>
+          <span style="color:var(--nk-color-text-negative)">text-negative — エラー文</span>
+        </div>
+        <div class="label"><b>ステータス色（全テーマ共通）</b></div>
+        <div class="row" style="gap:6px"><span class="nk-status info">info</span><span class="nk-status success">success</span><span class="nk-status warning">warning</span><span class="nk-status negative">negative</span></div>
+      </div>
+      <div class="demo">
+        <div class="label"><b>角丸・影・フォント</b><span>テーマで変わる</span></div>
+        <div class="row">
+          <div style="width:64px;height:48px;background:var(--nk-color-surface-primary-subtle);border:1px solid var(--nk-color-border-primary);border-radius:var(--nk-radius-action)" title="rounded-action"></div>
+          <div style="width:64px;height:48px;background:var(--nk-color-surface-card);border:1px solid var(--nk-color-border-middle);border-radius:var(--nk-radius-container);box-shadow:var(--nk-shadow-raise)" title="rounded-container / shadow-raise"></div>
+          <div style="width:64px;height:48px;background:var(--nk-color-surface-card);border-radius:var(--nk-radius-modal);box-shadow:var(--nk-shadow-float)" title="rounded-modal / shadow-float"></div>
+          <div style="width:64px;height:48px;background:var(--nk-color-surface-card);border-radius:var(--nk-radius-modal);box-shadow:var(--nk-shadow-popout)" title="shadow-popout"></div>
+        </div>
+        <div class="t1 low">action / container / modal ・ raise / float / popout</div>
+        <div class="col" style="gap:2px">
+          <span class="t6">見出し text-6（24px）</span>
+          <span class="t5">見出し text-5（20px）</span>
+          <span>本文 text-3（16px）猫がテーマの Aa Bb 0123</span>
+          <span class="t2 mid">補足 text-2（14px）猫がテーマの Aa Bb 0123</span>
+          <span class="t1 low">ラベル text-1（12px）</span>
+          <span class="mono t2">font-mono 1,234,567.89 ／ 2026/09/21 13:05</span>
+        </div>
+        <div class="t1 low" data-role="font-name">font-pro: Zen Maru Gothic ／ font-mono: Noto Sans Mono</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== 2. アイコン ========== -->
+  <section class="section" id="icons">
+    <header><span class="num">02</span><h2 class="t5">猫耳アイコン</h2><span class="t2 low">§8 — Material Symbols と同じ名前。耳は本体の上辺に両耳、矢印・チェック・×・線には付けない</span></header>
+    <div class="grid">
+      <div class="demo wide">
+        <div class="label"><b>耳付き（T1 / T2 の見本）と耳なし規約</b><span>点線枠 = T3（猫版なし、Material Symbols フォントにフォールバック）の扱いの例</span></div>
+        <div class="icon-grid">
+          <div><svg class="nk-icon"><use href="#i-search"/></svg><span>search</span></div>
+          <div><svg class="nk-icon"><use href="#i-notifications"/></svg><span>notifications</span></div>
+          <div><svg class="nk-icon"><use href="#i-settings"/></svg><span>settings</span></div>
+          <div><svg class="nk-icon"><use href="#i-person"/></svg><span>person</span></div>
+          <div><svg class="nk-icon"><use href="#i-home"/></svg><span>home</span></div>
+          <div><svg class="nk-icon"><use href="#i-delete"/></svg><span>delete</span></div>
+          <div><svg class="nk-icon"><use href="#i-visibility"/></svg><span>visibility</span></div>
+          <div><svg class="nk-icon"><use href="#i-folder"/></svg><span>folder</span></div>
+          <div><svg class="nk-icon"><use href="#i-mail"/></svg><span>mail</span></div>
+          <div><svg class="nk-icon"><use href="#i-calendar_today"/></svg><span>calendar_today</span></div>
+          <div><svg class="nk-icon"><use href="#i-info"/></svg><span>info</span></div>
+          <div><svg class="nk-icon"><use href="#i-error"/></svg><span>error</span></div>
+          <div><svg class="nk-icon"><use href="#i-check_circle"/></svg><span>check_circle</span></div>
+          <div><svg class="nk-icon"><use href="#i-help"/></svg><span>help</span></div>
+          <div><svg class="nk-icon"><use href="#i-favorite"/></svg><span>favorite</span></div>
+          <div><svg class="nk-icon"><use href="#i-lock"/></svg><span>lock</span></div>
+          <div><svg class="nk-icon"><use href="#i-camera"/></svg><span>camera</span></div>
+          <div><svg class="nk-icon"><use href="#i-image"/></svg><span>image</span></div>
+          <div><svg class="nk-icon"><use href="#i-edit"/></svg><span>edit ※耳なし案</span></div>
+          <div><svg class="nk-icon"><use href="#i-warning"/></svg><span>warning ※耳なし</span></div>
+          <div><svg class="nk-icon"><use href="#i-chevron_right"/></svg><span>chevron_right</span></div>
+          <div><svg class="nk-icon"><use href="#i-check"/></svg><span>check</span></div>
+          <div><svg class="nk-icon"><use href="#i-close"/></svg><span>close</span></div>
+          <div><svg class="nk-icon"><use href="#i-add"/></svg><span>add</span></div>
+          <div><svg class="nk-icon"><use href="#i-filter_list"/></svg><span>filter_list</span></div>
+          <div><svg class="nk-icon"><use href="#i-more_vert"/></svg><span>more_vert</span></div>
+          <div><svg class="nk-icon"><use href="#i-download"/></svg><span>download</span></div>
+          <div><svg class="nk-icon"><use href="#i-open_in_new"/></svg><span>open_in_new</span></div>
+          <div class="t3"><span style="font-size:22px;line-height:1">?</span><span>print（T3）</span></div>
+          <div class="t3"><span style="font-size:22px;line-height:1">?</span><span>qr_code（T3）</span></div>
+        </div>
+        <div class="row" style="gap:16px;align-items:flex-end">
+          <span class="t1 low">サイズ段階:</span>
+          <svg class="nk-icon s1"><use href="#i-search"/></svg><svg class="nk-icon s2"><use href="#i-search"/></svg><svg class="nk-icon s3"><use href="#i-search"/></svg><svg class="nk-icon s5"><use href="#i-search"/></svg><svg class="nk-icon s6"><use href="#i-search"/></svg><svg class="nk-icon s8"><use href="#i-search"/></svg><svg class="nk-icon s11"><use href="#i-search"/></svg><svg class="nk-icon s12"><use href="#i-search"/></svg>
+          <span class="t1 low">12 / 14 / 16 / 20 / 24 / 32 / 48 / 54px</span>
+          <span class="nk-divider v"></span>
+          <span class="t1 low">色は text-object-*:</span>
+          <svg class="nk-icon" style="color:var(--nk-color-object-primary)"><use href="#i-favorite"/></svg>
+          <svg class="nk-icon" style="color:var(--nk-color-object-negative)"><use href="#i-delete"/></svg>
+          <svg class="nk-icon" style="color:var(--nk-color-object-low)"><use href="#i-help"/></svg>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== 3. 部品カタログ ========== -->
+  <section class="section" id="components">
+    <header><span class="num">03</span><h2 class="t5">v1 の中核部品（36）</h2><span class="t2 low">§9.1 — 番号は設計書の表と同じ</span></header>
+    <div class="grid">
+
+      <div class="demo"><div class="label"><b>1 Button</b><span>variant × size, loading</span></div>
+        <div class="row" style="gap:8px"><button class="nk-btn" type="button">保存する</button><button class="nk-btn secondary" type="button">下書き保存</button><button class="nk-btn outline" type="button">キャンセル</button><button class="nk-btn ghost" type="button">詳細</button><button class="nk-btn negative" type="button">削除する</button></div>
+        <div class="row" style="gap:8px"><button class="nk-btn sm" type="button">sm 32</button><button class="nk-btn" type="button">md 40</button><button class="nk-btn lg" type="button">lg 48</button><button class="nk-btn loading" type="button" aria-busy="true"><svg class="nk-spinner"><use href="#i-yarn"/></svg>保存中</button><button class="nk-btn" type="button" disabled>無効</button></div>
+        <div class="row" style="gap:8px"><button class="nk-btn" type="button"><svg class="nk-icon s5"><use href="#i-add"/></svg>案件を追加する</button><button class="nk-btn outline" type="button"><svg class="nk-icon s5"><use href="#i-download"/></svg>CSV を書き出す</button></div>
+      </div>
+
+      <div class="demo"><div class="label"><b>2 IconButton</b><span>label 必須</span></div>
+        <div class="row" style="gap:6px"><button class="nk-iconbtn" type="button" aria-label="編集"><svg class="nk-icon"><use href="#i-edit"/></svg></button><button class="nk-iconbtn" type="button" aria-label="削除"><svg class="nk-icon"><use href="#i-delete"/></svg></button><button class="nk-iconbtn outline" type="button" aria-label="設定"><svg class="nk-icon"><use href="#i-settings"/></svg></button><button class="nk-iconbtn sm" type="button" aria-label="閉じる"><svg class="nk-icon s5"><use href="#i-close"/></svg></button><button class="nk-iconbtn" type="button" aria-label="無効" disabled><svg class="nk-icon"><use href="#i-favorite"/></svg></button></div>
+        <div class="label"><b>3 Link</b><span>外部リンクは open_in_new</span></div>
+        <p class="t2">詳しくは <a class="nk-link" href="#components">案件の詳細</a> を見るか、<a class="nk-link" href="#components">ヘルプセンター<svg class="nk-icon s2"><use href="#i-open_in_new"/></svg></a> を参照してください。</p>
+        <div class="label"><b>5 Spinner</b><span>毛糸玉</span></div>
+        <div class="row"><svg class="nk-spinner"><use href="#i-yarn"/></svg><svg class="nk-spinner lg"><use href="#i-yarn"/></svg><span class="t2 low">読み込み中…</span></div>
+      </div>
+
+      <div class="demo"><div class="label"><b>6 Skeleton</b><span>一覧 5 行・カード 3 枚が既定</span></div>
+        <div class="row" style="gap:12px;flex-wrap:nowrap"><span class="nk-skeleton circle"></span><div class="col" style="flex:1;gap:8px"><span class="nk-skeleton" style="width:60%"></span><span class="nk-skeleton" style="width:90%"></span></div></div>
+        <span class="nk-skeleton" style="width:100%;height:40px"></span>
+        <div class="label"><b>7 Tooltip</b></div>
+        <div class="row"><span class="nk-tooltip">削除する</span><button class="nk-iconbtn outline" type="button" aria-label="削除"><svg class="nk-icon"><use href="#i-delete"/></svg></button></div>
+        <div class="label"><b>13 Divider</b></div>
+        <hr class="nk-divider">
+      </div>
+
+      <div class="demo"><div class="label"><b>8 Toast</b><span>成功は 3 秒</span></div>
+        <div class="nk-toast success"><svg class="nk-icon"><use href="#i-check_circle"/></svg><div class="body"><b>案件を保存しました</b>一覧に反映されています。</div><button class="nk-iconbtn sm" type="button" aria-label="閉じる"><svg class="nk-icon s5"><use href="#i-close"/></svg></button></div>
+        <div class="nk-toast negative"><svg class="nk-icon"><use href="#i-error"/></svg><div class="body"><b>保存できませんでした</b>通信が切れています。再試行してください。</div><button class="nk-btn ghost sm" type="button">再試行</button></div>
+      </div>
+
+      <div class="demo"><div class="label"><b>9 InlineMessage</b><span>info / success / warning / negative</span></div>
+        <div class="nk-msg info"><svg class="nk-icon s5"><use href="#i-info"/></svg><span>この案件は 2026/09/30 に自動で完了になります。</span></div>
+        <div class="nk-msg success"><svg class="nk-icon s5"><use href="#i-check_circle"/></svg><span>すべての項目が入力されています。</span></div>
+        <div class="nk-msg warning"><svg class="nk-icon s5"><use href="#i-warning"/></svg><span>担当者が未設定です。保存はできますが通知は送られません。</span></div>
+        <div class="nk-msg negative"><svg class="nk-icon s5"><use href="#i-error"/></svg><span>一覧を読み込めませんでした。</span><button class="nk-btn outline sm" type="button">再試行</button></div>
+      </div>
+
+      <div class="demo"><div class="label"><b>10 Badge ／ 11 Tag ／ 12 Avatar</b></div>
+        <div class="row" style="gap:8px"><span class="nk-badge">3</span><span class="nk-badge negative">12</span><span class="nk-badge neutral">120件</span><span class="nk-badge">99+</span><span class="nk-divider v"></span><span class="nk-status success">完了</span><span class="nk-status info">進行中</span><span class="nk-status warning">確認待ち</span><span class="nk-status negative">差し戻し</span></div>
+        <div class="row" style="gap:6px"><span class="nk-tag">デザイン<button type="button" aria-label="外す"><svg class="nk-icon s3"><use href="#i-close"/></svg></button></span><span class="nk-tag selected">優先<button type="button" aria-label="外す"><svg class="nk-icon s3"><use href="#i-close"/></svg></button></span><span class="nk-tag noclose">読み取り専用</span></div>
+        <div class="row" style="gap:8px"><span class="nk-avatar sm"><svg class="nk-icon"><use href="#i-cat"/></svg></span><span class="nk-avatar">五十</span><span class="nk-avatar lg"><svg class="nk-icon"><use href="#i-cat"/></svg></span><span class="t2 low">画像なし時は猫シルエット</span></div>
+      </div>
+
+      <div class="demo"><div class="label"><b>14 Card</b><span>rounded-container / shadow-raise</span></div>
+        <div class="nk-card"><div class="hd">基本情報<button class="nk-iconbtn sm" type="button" aria-label="操作"><svg class="nk-icon s5"><use href="#i-more_vert"/></svg></button></div><div class="bd"><dl class="dl"><dt>案件名</dt><dd>社内備品貸出アプリ 改修</dd><dt>顧客</dt><dd>山田商事</dd><dt>状態</dt><dd><span class="nk-status info">進行中</span></dd><dt>金額</dt><dd class="mono">1,200,000</dd></dl></div><div class="ft"><button class="nk-btn outline sm" type="button">編集する</button></div></div>
+      </div>
+
+      <div class="demo"><div class="label"><b>15 Input</b><span>sm 32 / md 40 / lg 48, invalid, disabled</span></div>
+        <div class="nk-field"><label for="in-1">案件名<span class="req">必須</span></label><input class="nk-input" id="in-1" type="text" value="社内備品貸出アプリ 改修"><span class="hint">顧客に見せる名前になります</span></div>
+        <div class="nk-field"><label for="in-2">メールアドレス</label><input class="nk-input invalid" id="in-2" type="email" value="taro@example" aria-invalid="true" aria-describedby="in-2-err"><span class="error" id="in-2-err"><svg class="nk-icon s2"><use href="#i-error"/></svg>メールアドレスの形式が正しくありません。@ 以降にドメインを入力してください</span></div>
+        <div class="row" style="gap:8px"><input class="nk-input sm" type="text" placeholder="sm" aria-label="sm" style="width:30%"><input class="nk-input" type="text" placeholder="md" aria-label="md" style="width:30%"><input class="nk-input lg" type="text" placeholder="lg" aria-label="lg" style="width:30%"></div>
+        <input class="nk-input" type="text" value="編集できません" aria-label="無効" disabled>
+      </div>
+
+      <div class="demo"><div class="label"><b>16 InputPassword ／ 17 InputSearch</b></div>
+        <div class="nk-field"><label for="in-pw">パスワード</label><div class="nk-input-wrap no-lead has-trail"><input class="nk-input" id="in-pw" type="password" value="nekoneko123"><span class="trail"><button class="nk-iconbtn sm" type="button" aria-label="パスワードを表示" data-role="pw-toggle"><svg class="nk-icon s5"><use href="#i-visibility"/></svg></button></span></div></div>
+        <div class="nk-field"><label for="in-s">検索</label><div class="nk-input-wrap has-trail"><svg class="nk-icon s5"><use href="#i-search"/></svg><input class="nk-input" id="in-s" type="search" placeholder="案件名・顧客名で検索"><span class="trail"><button class="nk-iconbtn sm" type="button" aria-label="クリア"><svg class="nk-icon s5"><use href="#i-close"/></svg></button><button class="nk-iconbtn sm" type="button" aria-label="検索条件"><svg class="nk-icon s5"><use href="#i-filter_list"/></svg></button></span></div><span class="hint">Container / Icon / Value / Clear / Condition の構成</span></div>
+        <div class="label"><b>18 Textarea</b><span>文字数カウンタ</span></div>
+        <div class="nk-field"><label for="ta-1">メモ</label><textarea class="nk-textarea" id="ta-1" maxlength="200" data-role="counter">ユーザーインタビューは 9/25 に 3 名。備品の返却フローが分かりにくいという声が多い。</textarea><span class="nk-counter"><span data-role="count">47</span> / 200</span></div>
+      </div>
+
+      <div class="demo"><div class="label"><b>19 Select ／ 20 Checkbox ／ 21 Radio</b></div>
+        <div class="nk-field"><label for="sel-1">担当者</label><div class="nk-select-wrap"><select class="nk-select" id="sel-1"><option>五十棲</option><option>山田</option><option>佐藤</option></select><svg class="nk-icon s5"><use href="#i-expand_more"/></svg></div></div>
+        <div class="col" style="gap:8px">
+          <label class="nk-check"><input type="checkbox" checked><span class="box"><svg class="nk-icon"><use href="#i-ear_check"/></svg></span>通知を受け取る（チェックは耳付き）</label>
+          <label class="nk-check"><input type="checkbox" data-role="indeterminate"><span class="box"><svg class="nk-icon"><use href="#i-ear_check"/></svg></span>一部選択（indeterminate）</label>
+          <label class="nk-check disabled"><input type="checkbox" disabled><span class="box"><svg class="nk-icon"><use href="#i-ear_check"/></svg></span>無効</label>
+        </div>
+        <div class="row" style="gap:16px" role="radiogroup" aria-label="公開範囲">
+          <label class="nk-radio"><input type="radio" name="r1" checked><span class="box"></span>社内のみ</label>
+          <label class="nk-radio"><input type="radio" name="r1"><span class="box"></span>顧客にも公開</label>
+          <label class="nk-radio disabled"><input type="radio" name="r1" disabled><span class="box"></span>無効</label>
+        </div>
+      </div>
+
+      <div class="demo"><div class="label"><b>22 Switch ／ 23 Slider</b></div>
+        <div class="col" style="gap:10px">
+          <label class="nk-switch"><input type="checkbox" checked><span class="track"></span>期限が近い案件を通知する</label>
+          <label class="nk-switch"><input type="checkbox"><span class="track"></span>週次レポートをメールで送る</label>
+        </div>
+        <div class="nk-field"><label for="sl-1">通知する日数（<span class="mono" data-role="slider-value">7</span> 日前）</label><input class="nk-slider" id="sl-1" type="range" min="1" max="30" value="7" data-role="slider" style="--v:20%"></div>
+      </div>
+
+      <div class="demo"><div class="label"><b>24 Form</b><span>ラベル・補足・エラーの配置を固定</span></div>
+        <form class="col" onsubmit="return false">
+          <div class="nk-field"><label for="f-name">顧客名<span class="req">必須</span></label><input class="nk-input" id="f-name" type="text" placeholder="例: 山田商事"></div>
+          <div class="nk-field"><label for="f-date">納期</label><div class="nk-input-wrap"><svg class="nk-icon s5"><use href="#i-calendar_today"/></svg><input class="nk-input mono" id="f-date" type="text" value="2026/10/31"></div><span class="hint">2026/10/31 の形式</span></div>
+          <div class="nk-field"><label for="f-amount">金額</label><input class="nk-input mono invalid" id="f-amount" type="text" value="12,00,000" aria-invalid="true" aria-describedby="f-amount-err"><span class="error" id="f-amount-err"><svg class="nk-icon s2"><use href="#i-error"/></svg>金額は半角数字で入力してください</span></div>
+          <div class="row" style="justify-content:flex-end;gap:8px"><button class="nk-btn ghost" type="button">キャンセル</button><button class="nk-btn" type="submit">保存する</button></div>
+        </form>
+      </div>
+
+      <div class="demo"><div class="label"><b>25 Tabs ／ 26 Breadcrumb</b></div>
+        <div class="nk-tabs" role="tablist" data-role="tabs"><button type="button" role="tab" aria-selected="true">概要</button><button type="button" role="tab" aria-selected="false">タスク<span class="nk-badge neutral">8</span></button><button type="button" role="tab" aria-selected="false">履歴</button><button type="button" role="tab" aria-selected="false">ファイル</button></div>
+        <ol class="nk-breadcrumb"><li><a href="#components">ホーム</a><svg class="nk-icon s3"><use href="#i-chevron_right"/></svg></li><li><a href="#components">案件</a><svg class="nk-icon s3"><use href="#i-chevron_right"/></svg></li><li aria-current="page">社内備品貸出アプリ 改修</li></ol>
+        <div class="label"><b>28 Pagination</b><span>件数表示つき</span></div>
+        <div class="nk-pagination"><span class="low">120件中 21〜40件</span><div class="pages"><button type="button" aria-label="前のページ"><svg class="nk-icon s5" style="transform:rotate(180deg)"><use href="#i-chevron_right"/></svg></button><button type="button">1</button><button type="button" aria-current="page">2</button><button type="button">3</button><button type="button">…</button><button type="button">6</button><button type="button" aria-label="次のページ"><svg class="nk-icon s5"><use href="#i-chevron_right"/></svg></button></div></div>
+      </div>
+
+      <div class="demo"><div class="label"><b>27 SideNavigation</b><span>240px ／ 折りたたみ 64px</span></div>
+        <div class="row" style="align-items:stretch;gap:12px">
+          <nav class="nk-sidenav" style="border:1px solid var(--nk-color-border-low);border-radius:var(--nk-radius-container);width:200px" aria-label="例（展開）"><div class="logo"><svg class="nk-mascot theme-face"><use href="#m-calico"/></svg><span>案件管理</span></div><a href="#components"><svg class="nk-icon s5"><use href="#i-home"/></svg><span>ダッシュボード</span></a><a href="#components" aria-current="page"><svg class="nk-icon s5"><use href="#i-folder"/></svg><span>案件</span></a><a href="#components"><svg class="nk-icon s5"><use href="#i-person"/></svg><span>顧客</span></a><a href="#components"><svg class="nk-icon s5"><use href="#i-settings"/></svg><span>設定</span></a></nav>
+          <nav class="nk-sidenav collapsed" style="border:1px solid var(--nk-color-border-low);border-radius:var(--nk-radius-container)" aria-label="例（折りたたみ）"><div class="logo"><svg class="nk-mascot theme-face"><use href="#m-calico"/></svg></div><a href="#components" aria-label="ダッシュボード"><svg class="nk-icon s5"><use href="#i-home"/></svg></a><a href="#components" aria-current="page" aria-label="案件"><svg class="nk-icon s5"><use href="#i-folder"/></svg></a><a href="#components" aria-label="顧客"><svg class="nk-icon s5"><use href="#i-person"/></svg></a><a href="#components" aria-label="設定"><svg class="nk-icon s5"><use href="#i-settings"/></svg></a></nav>
+        </div>
+      </div>
+
+      <div class="demo"><div class="label"><b>29 Menu ／ 30 Popover</b></div>
+        <div class="row" style="align-items:flex-start;gap:16px">
+          <div class="nk-menu" role="menu"><button type="button" role="menuitem"><svg class="nk-icon s5"><use href="#i-edit"/></svg>編集する<span class="sc">E</span></button><button type="button" role="menuitem"><svg class="nk-icon s5"><use href="#i-download"/></svg>書き出す</button><button type="button" role="menuitem"><svg class="nk-icon s5"><use href="#i-mail"/></svg>共有する</button><hr class="nk-divider"><button type="button" role="menuitem" class="negative"><svg class="nk-icon s5"><use href="#i-delete"/></svg>削除する</button></div>
+          <div class="nk-popover"><b class="t2">列の表示</b><label class="nk-check"><input type="checkbox" checked><span class="box"><svg class="nk-icon"><use href="#i-ear_check"/></svg></span>顧客</label><label class="nk-check"><input type="checkbox" checked><span class="box"><svg class="nk-icon"><use href="#i-ear_check"/></svg></span>金額</label><label class="nk-check"><input type="checkbox"><span class="box"><svg class="nk-icon"><use href="#i-ear_check"/></svg></span>担当者</label><button class="nk-btn secondary sm" type="button" style="align-self:flex-end">適用する</button></div>
+        </div>
+      </div>
+
+      <div class="demo"><div class="label"><b>31 Dialog</b><span>確認専用。破壊的操作は negative</span></div>
+        <div class="stage"><div class="nk-dialog" role="alertdialog" aria-labelledby="dlg-t"><h3 class="t5" id="dlg-t">この案件を削除しますか？</h3><p class="t2 mid">「社内備品貸出アプリ 改修」と関連する 8 件のタスクも削除されます。この操作は取り消せません。</p><div class="actions"><button class="nk-btn ghost" type="button">キャンセル</button><button class="nk-btn negative" type="button">削除する</button></div></div></div>
+      </div>
+
+      <div class="demo"><div class="label"><b>32 Modal</b><span>その場で完結する短い入力用</span></div>
+        <div class="stage"><div class="nk-modal" role="dialog" aria-labelledby="mdl-t"><div class="hd"><span id="mdl-t">担当者を変更する</span><button class="nk-iconbtn sm" type="button" aria-label="閉じる"><svg class="nk-icon s5"><use href="#i-close"/></svg></button></div><div class="bd"><div class="nk-field"><label for="m-sel">担当者</label><div class="nk-select-wrap"><select class="nk-select" id="m-sel"><option>五十棲</option><option>山田</option></select><svg class="nk-icon s5"><use href="#i-expand_more"/></svg></div></div><label class="nk-switch"><input type="checkbox" checked><span class="track"></span>本人に通知する</label></div><div class="ft"><button class="nk-btn ghost" type="button">キャンセル</button><button class="nk-btn" type="button">変更する</button></div></div></div>
+      </div>
+
+      <div class="demo"><div class="label"><b>33 Drawer</b><span>サイドパネル</span></div>
+        <div class="stage right"><aside class="nk-drawer" aria-label="案件の詳細"><div class="hd"><span>社内備品貸出アプリ 改修</span><button class="nk-iconbtn sm" type="button" aria-label="閉じる"><svg class="nk-icon s5"><use href="#i-close"/></svg></button></div><div class="bd"><dl class="dl"><dt>顧客</dt><dd>山田商事</dd><dt>状態</dt><dd><span class="nk-status info">進行中</span></dd><dt>担当</dt><dd>五十棲</dd><dt>更新</dt><dd class="mono">2026/09/21 13:05</dd></dl><hr class="nk-divider"><p class="t2 mid">ユーザーインタビューは 9/25 に 3 名。備品の返却フローが分かりにくいという声が多い。</p></div><div class="ft"><button class="nk-btn outline sm" type="button">編集する</button></div></aside></div>
+      </div>
+
+      <div class="demo wide"><div class="label"><b>34 Table</b><span>密度 xs 40 / sm 56 / md 80。数値は font-mono 右寄せ。縞・縦罫線なし</span></div>
+        <div class="nk-table-wrap"><table class="nk-table xs"><thead><tr><th>顧客</th><th>担当</th><th>状態</th><th class="num">案件数</th><th class="num">合計金額</th><th>最終更新</th></tr></thead><tbody>
+          <tr><td>山田商事</td><td>五十棲</td><td><span class="nk-status info">進行中</span></td><td class="num">3</td><td class="num">1,830,000</td><td class="mono">2026/09/21</td></tr>
+          <tr aria-selected="true"><td>山田製作所</td><td>山田</td><td><span class="nk-status warning">確認待ち</span></td><td class="num">1</td><td class="num">480,000</td><td class="mono">2026/09/19</td></tr>
+          <tr><td>山田物流</td><td>佐藤</td><td><span class="nk-status success">完了</span></td><td class="num">12</td><td class="num">24,150,000</td><td class="mono">2026/09/12</td></tr>
+        </tbody></table></div>
+      </div>
+
+      <div class="demo"><div class="label"><b>35 EmptyState</b><span>マスコット＋見出し＋説明＋主アクション</span></div>
+        <div class="nk-empty"><svg class="nk-mascot theme-face"><use href="#m-calico"/></svg><h3>まだ案件がありません</h3><p>最初の案件を追加すると、ここに一覧が表示されます。</p><button class="nk-btn" type="button"><svg class="nk-icon s5"><use href="#i-add"/></svg>案件を追加する</button></div>
+      </div>
+
+      <div class="demo"><div class="label"><b>36 NekoThemePicker ／ Mascot</b><span>faces / menu</span></div>
+        <div class="nk-theme-picker" role="group" aria-label="テーマ切替（見本）"><button type="button" data-theme="calico" aria-pressed="true"><svg class="nk-mascot calico"><use href="#m-calico"/></svg>三毛</button><button type="button" data-theme="american-shorthair" aria-pressed="false"><svg class="nk-mascot american-shorthair"><use href="#m-american-shorthair"/></svg>アメショ</button><button type="button" data-theme="russian-blue" aria-pressed="false"><svg class="nk-mascot russian-blue"><use href="#m-russian-blue"/></svg>ロシアンブルー</button></div>
+        <div class="row" style="gap:20px"><svg class="nk-mascot calico" style="width:72px;height:72px"><use href="#m-calico"/></svg><svg class="nk-mascot american-shorthair" style="width:72px;height:72px"><use href="#m-american-shorthair"/></svg><svg class="nk-mascot russian-blue" style="width:72px;height:72px"><use href="#m-russian-blue"/></svg></div>
+        <p class="t1 low">マスコットは空状態・初回ローディング・404・ログインの 4 か所だけ（§8.6）。ここでは幾何学的な仮絵。</p>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ========== 4. 4 状態 ========== -->
+  <section class="section" id="states">
+    <header><span class="num">04</span><h2 class="t5">状態の必須セット</h2><span class="t2 low">§10.2 — 読み込み中 / 0 件 / エラー / 成功 を必ず実装する</span></header>
+    <div class="grid">
+      <div class="demo"><div class="label"><b>読み込み中</b><span>Skeleton 5 行</span></div><div class="col" style="gap:10px"><span class="nk-skeleton" style="width:70%"></span><span class="nk-skeleton" style="width:90%"></span><span class="nk-skeleton" style="width:60%"></span><span class="nk-skeleton" style="width:85%"></span><span class="nk-skeleton" style="width:75%"></span></div></div>
+      <div class="demo"><div class="label"><b>0 件（検索結果）</b><span>条件クリアつき</span></div><div class="nk-empty" style="padding:16px"><svg class="nk-mascot theme-face"><use href="#m-calico"/></svg><h3>条件に合う案件がありません</h3><p>検索語や絞り込み条件を変えてみてください。</p><button class="nk-btn outline" type="button">条件をクリアする</button></div></div>
+      <div class="demo"><div class="label"><b>エラー</b><span>全画面にしない</span></div><div class="nk-msg negative"><svg class="nk-icon s5"><use href="#i-error"/></svg><span>案件一覧を読み込めませんでした。通信状態を確認して再試行してください。</span><button class="nk-btn outline sm" type="button">再試行</button></div><div class="col" style="gap:10px;opacity:.5"><span class="nk-skeleton" style="width:70%"></span><span class="nk-skeleton" style="width:90%"></span></div></div>
+      <div class="demo"><div class="label"><b>成功</b><span>Toast 3 秒</span></div><div class="nk-toast success"><svg class="nk-icon"><use href="#i-check_circle"/></svg><div class="body"><b>案件を追加しました</b>「採用サイト リニューアル」を一覧に追加しました。</div></div></div>
+    </div>
+  </section>
+  <!-- ========== 5. 3 テーマ比較 ========== -->
+  <section class="section" id="compare">
+    <header><span class="num">05</span><h2 class="t5">3 テーマを並べて比較</h2><span class="t2 low">同じ部品を data-neko-theme だけ変えて描画（属性はどの要素にも付けられる）</span></header>
+    <div class="compare" data-role="compare"></div>
+    <template id="compare-tpl">
+      <div class="head"><svg class="nk-mascot" data-slot="mascot"><use href="#m-calico"/></svg><div><b data-slot="label">三毛</b><br><small data-slot="mood">親しみやすい・元気・明るい</small></div></div>
+      <div class="row" style="gap:6px"><button class="nk-btn sm" type="button">保存する</button><button class="nk-btn secondary sm" type="button">下書き</button><button class="nk-btn outline sm" type="button">キャンセル</button><button class="nk-btn negative sm" type="button">削除する</button></div>
+      <div class="nk-input-wrap has-trail"><svg class="nk-icon s5"><use href="#i-search"/></svg><input class="nk-input" type="search" placeholder="案件名で検索" aria-label="検索"><span class="trail"><button class="nk-iconbtn sm" type="button" aria-label="検索条件"><svg class="nk-icon s5"><use href="#i-filter_list"/></svg></button></span></div>
+      <div class="row" style="gap:6px"><span class="nk-status info">進行中</span><span class="nk-status success">完了</span><span class="nk-status warning">確認待ち</span><span class="nk-tag selected noclose">担当: 自分</span><span class="nk-badge negative">3</span></div>
+      <div class="nk-card"><div class="hd" style="padding:10px 12px;font-size:var(--nk-text-2)">基本情報<svg class="nk-icon s5" style="color:var(--nk-color-object-low)"><use href="#i-more_vert"/></svg></div><div class="bd" style="padding:12px"><dl class="dl" style="grid-template-columns:64px 1fr"><dt>顧客</dt><dd>山田商事</dd><dt>金額</dt><dd class="mono">1,200,000</dd><dt>納期</dt><dd class="mono">2026/10/31</dd></dl></div></div>
+      <div class="nk-table-wrap"><table class="nk-table xs"><thead><tr><th>案件名</th><th>状態</th><th class="num">金額</th></tr></thead><tbody><tr><td>備品貸出アプリ</td><td><span class="nk-status info">進行中</span></td><td class="num">1,200,000</td></tr><tr><td>顧客ポータル</td><td><span class="nk-status warning">確認待ち</span></td><td class="num">480,000</td></tr></tbody></table></div>
+      <div class="row" style="gap:14px"><label class="nk-check"><input type="checkbox" checked><span class="box"><svg class="nk-icon"><use href="#i-ear_check"/></svg></span>通知</label><label class="nk-switch"><input type="checkbox" checked><span class="track"></span>公開</label><label class="nk-radio"><input type="radio" checked><span class="box"></span>社内</label></div>
+      <div class="nk-msg negative" style="padding:8px 10px"><svg class="nk-icon s5"><use href="#i-error"/></svg><span>読み込めませんでした。</span><button class="nk-btn outline sm" type="button">再試行</button></div>
+      <div class="nk-empty" style="padding:12px 8px 4px"><svg class="nk-mascot" data-slot="mascot" style="width:64px;height:64px;margin:0"><use href="#m-calico"/></svg><h3 style="font-size:var(--nk-text-2)">まだ案件がありません</h3></div>
+    </template>
+  </section>
+
+  <footer class="section t1 low" style="margin-top:56px">
+    nekodemo 実装前プレビュー（docs/preview/index.html）· 設計書 v0.1 の【初期案】· コントラスト検査は Phase 2 で適用 · 実装後は Storybook が正になります
+  </footer>
+</main>
+
+<script>
+(function () {
+  var THEMES = {
+    "calico": { label: "三毛", mood: "親しみやすい・元気・明るい", fonts: "font-pro: Zen Maru Gothic ／ font-mono: Noto Sans Mono" },
+    "american-shorthair": { label: "アメショ", mood: "中立・落ち着き・モノトーン", fonts: "font-pro: Inter ＋ Noto Sans JP ／ font-mono: Roboto Mono" },
+    "russian-blue": { label: "ロシアンブルー", mood: "上品・クール・静か", fonts: "font-pro: IBM Plex Sans JP ／ font-mono: IBM Plex Mono" }
+  };
+  var ORDER = ["calico", "american-shorthair", "russian-blue"];
+  var root = document.documentElement;
+
+  function setMascot(svg, id) {
+    var use = svg.querySelector("use");
+    if (use) use.setAttribute("href", "#m-" + id);
+    ORDER.forEach(function (t) { svg.classList.remove(t); });
+    svg.classList.add(id);
+  }
+
+  function applyTheme(id, persist) {
+    if (!THEMES[id]) id = "calico";
+    root.setAttribute("data-neko-theme", id);
+    document.querySelectorAll(".nk-theme-picker [data-theme]").forEach(function (b) {
+      b.setAttribute("aria-pressed", b.getAttribute("data-theme") === id ? "true" : "false");
+    });
+    document.querySelectorAll(".theme-face").forEach(function (svg) { setMascot(svg, id); });
+    document.querySelectorAll("[data-role='font-name']").forEach(function (el) { el.textContent = THEMES[id].fonts; });
+    if (persist) { try { localStorage.setItem("neko-theme", id); } catch (e) { /* 保存できなくても動く */ } }
+  }
+
+  var initial = "calico";
+  try { initial = localStorage.getItem("neko-theme") || initial; } catch (e) { /* noop */ }
+  applyTheme(initial, false);
+
+  document.querySelectorAll(".nk-theme-picker [data-theme]").forEach(function (b) {
+    b.addEventListener("click", function () { applyTheme(b.getAttribute("data-theme"), true); });
+  });
+
+  // 3 テーマ比較: テンプレートを 3 列に複製し、列ごとに data-neko-theme を付ける
+  var compare = document.querySelector("[data-role='compare']");
+  var tpl = document.getElementById("compare-tpl");
+  if (compare && tpl) {
+    ORDER.forEach(function (id) {
+      var col = document.createElement("div");
+      col.className = "compare-col";
+      col.setAttribute("data-neko-theme", id);
+      col.appendChild(tpl.content.cloneNode(true));
+      col.querySelectorAll("[data-slot='mascot']").forEach(function (svg) { setMascot(svg, id); });
+      col.querySelector("[data-slot='label']").textContent = THEMES[id].label;
+      col.querySelector("[data-slot='mood']").textContent = THEMES[id].mood;
+      compare.appendChild(col);
+    });
+  }
+
+  // 小さな挙動: パスワード表示切替
+  document.querySelectorAll("[data-role='pw-toggle']").forEach(function (btn) {
+    btn.addEventListener("click", function () {
+      var input = btn.closest(".nk-input-wrap").querySelector("input");
+      var show = input.type === "password";
+      input.type = show ? "text" : "password";
+      btn.setAttribute("aria-label", show ? "パスワードを隠す" : "パスワードを表示");
+      btn.setAttribute("aria-pressed", show ? "true" : "false");
+    });
+  });
+  // Textarea の文字数カウンタ
+  document.querySelectorAll("[data-role='counter']").forEach(function (ta) {
+    var out = ta.parentElement.querySelector("[data-role='count']");
+    var update = function () { if (out) out.textContent = String(ta.value.length); };
+    ta.addEventListener("input", update); update();
+  });
+  // Slider の値表示と塗り
+  document.querySelectorAll("[data-role='slider']").forEach(function (sl) {
+    var out = sl.closest(".nk-field").querySelector("[data-role='slider-value']");
+    var update = function () {
+      var min = Number(sl.min || 0), max = Number(sl.max || 100), v = Number(sl.value);
+      sl.style.setProperty("--v", ((v - min) / (max - min) * 100) + "%");
+      if (out) out.textContent = String(v);
+    };
+    sl.addEventListener("input", update); update();
+  });
+  // indeterminate の見本
+  document.querySelectorAll("[data-role='indeterminate']").forEach(function (cb) { cb.indeterminate = true; });
+  // Tabs（見た目だけ切替）
+  document.querySelectorAll("[data-role='tabs']").forEach(function (list) {
+    list.querySelectorAll("[role='tab']").forEach(function (tab) {
+      tab.addEventListener("click", function () {
+        list.querySelectorAll("[role='tab']").forEach(function (t) { t.setAttribute("aria-selected", t === tab ? "true" : "false"); });
+      });
+    });
+  });
+})();
+</script>
