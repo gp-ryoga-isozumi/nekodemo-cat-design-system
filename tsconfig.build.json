@@ -11,7 +11,12 @@
     "rootDir": "src",
     "outDir": "dist",
     "incremental": false,
-    "plugins": []
+    "plugins": [],
+    "types": [
+      "node",
+      "react",
+      "react-dom"
+    ]
   },
   "include": [
     "src/index.ts",
