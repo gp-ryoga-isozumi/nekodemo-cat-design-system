@@ -240,12 +240,8 @@ export const Scrollable: Story = {
   name: "横スクロールと固定ヘッダー",
   render: () => (
     // スクロールする領域はキーボードで到達できるようにする（axe: scrollable-region-focusable）
-    <div
-      className="max-h-72 overflow-y-auto"
-      tabIndex={0}
-      role="region"
-      aria-label="案件一覧（スクロール）"
-    >
+    // biome-ignore lint/a11y/noNoninteractiveTabindex: スクロール領域は tabIndex が無いとキーボードでスクロールできない
+    <section className="max-h-72 overflow-y-auto" tabIndex={0} aria-label="案件一覧（スクロール）">
       <Table density="xs">
         <TableCaption>行数が多いとヘッダーが上に固定されます。</TableCaption>
         <TableHeader>
@@ -271,6 +267,6 @@ export const Scrollable: Story = {
           ))}
         </TableBody>
       </Table>
-    </div>
+    </section>
   ),
 };
