@@ -154,7 +154,17 @@
     "rotate_left",
     "rotate_right",
     "battery_full",
-    "thermostat"
+    "thermostat",
+    "call",
+    "category",
+    "cruelty_free",
+    "park",
+    "password",
+    "pets",
+    "query_stats",
+    "restaurant",
+    "volume_off",
+    "volume_up"
   ],
   "earlessPatterns": [
     "^arrow_",
@@ -191,5 +201,18 @@
     "tips_and_updates": "lightbulb",
     "smartphone": "devices",
     "settings_suggest": "settings"
+  },
+  "earlessNotes": {
+    "$comment": "耳なし規約の補足。自動耳が付け根を見つけられず、手で置いても不自然な形（頭に相当する上辺が無い）。Phase 3b（2026-09-22）",
+    "call": "斜めの受話器で上辺が無い",
+    "category": "三角・四角・丸の記号",
+    "cruelty_free": "ウサギの耳がある",
+    "park": "木の頂点が尖っている",
+    "password": "アスタリスクと線",
+    "pets": "肉球（猫要素そのもの）",
+    "query_stats": "折れ線と虫めがね",
+    "restaurant": "フォークとナイフ",
+    "volume_off": "スピーカーの上辺が斜めで斜線が重なる",
+    "volume_up": "スピーカーの上辺が斜め"
   }
 }

@@ -4,8 +4,9 @@
     "total": 311,
     "bespoke": 1,
     "autoEar": 134,
-    "earless": 163,
-    "noEar": 13,
+    "manualEar": 3,
+    "earless": 173,
+    "noEar": 0,
     "missing": 0
   },
   "descriptions": {
@@ -335,6 +336,11 @@
   "bespoke": [
     "cat_face"
   ],
+  "manualEar": [
+    "badge",
+    "cake",
+    "cloud_download"
+  ],
   "autoEar": [
     "account_balance",
     "account_balance_wallet",
@@ -491,9 +497,11 @@
     "bluetooth",
     "brush",
     "build",
+    "call",
     "call_made",
     "call_received",
     "campaign",
+    "category",
     "celebration",
     "check",
     "check_box",
@@ -508,6 +516,7 @@
     "content_cut",
     "contrast",
     "crop",
+    "cruelty_free",
     "currency_yen",
     "dark_mode",
     "data_object",
@@ -571,11 +580,15 @@
     "north",
     "open_in_new",
     "output",
+    "park",
+    "password",
     "pause",
     "pending",
+    "pets",
     "play_arrow",
     "public",
     "published_with_changes",
+    "query_stats",
     "radio_button_checked",
     "radio_button_unchecked",
     "redo",
@@ -584,6 +597,7 @@
     "reorder",
     "reply",
     "reply_all",
+    "restaurant",
     "restore_from_trash",
     "rotate_left",
     "rotate_right",
@@ -626,6 +640,8 @@
     "upload",
     "view_list",
     "view_module",
+    "volume_off",
+    "volume_up",
     "warning",
     "water_drop",
     "wb_sunny",
@@ -636,60 +652,7 @@
     "zoom_in",
     "zoom_out"
   ],
-  "noEar": [
-    {
-      "name": "badge",
-      "note": "上辺の幅が 5.4 未満（3.7）"
-    },
-    {
-      "name": "cake",
-      "note": "上辺の幅が 5.4 未満（2.9）"
-    },
-    {
-      "name": "call",
-      "note": "上辺の幅が 5.4 未満（5.2）"
-    },
-    {
-      "name": "category",
-      "note": "上辺の幅が 5.4 未満（4.5）"
-    },
-    {
-      "name": "cloud_download",
-      "note": "付け根を輪郭上に置けない（突起・傾き・幅不足）"
-    },
-    {
-      "name": "cruelty_free",
-      "note": "上辺の幅が 5.4 未満（5）"
-    },
-    {
-      "name": "park",
-      "note": "上辺の幅が 5.4 未満（4.9）"
-    },
-    {
-      "name": "password",
-      "note": "上辺の幅が 5.4 未満（4.7）"
-    },
-    {
-      "name": "pets",
-      "note": "上辺の幅が 5.4 未満（3.6）"
-    },
-    {
-      "name": "query_stats",
-      "note": "上辺の幅が 5.4 未満（3.4）"
-    },
-    {
-      "name": "restaurant",
-      "note": "上辺の幅が 5.4 未満（3.5）"
-    },
-    {
-      "name": "volume_off",
-      "note": "上辺の幅が 5.4 未満（3.8）"
-    },
-    {
-      "name": "volume_up",
-      "note": "上辺の幅が 5.4 未満（4.3）"
-    }
-  ],
+  "noEar": [],
   "missing": [],
   "aliases": {
     "expand_more": "keyboard_arrow_down",

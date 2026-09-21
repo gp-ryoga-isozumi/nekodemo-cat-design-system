@@ -765,10 +765,12 @@ flowchart LR
 1. **プロンプト**（`icons/prompts/<name>.md` に保存。モデル名・日付・設定も残す）。テンプレート:
    > 24-grid の UI ピクトグラム。黒 1 色、純白の背景、影・グラデーション・文字なし。線の太さは 2px 相当、端と角は丸い（Material Symbols Rounded の weight 500 と同じ太さ）。題材: 「<説明>」。図形本体の上辺に、小さな三角形の猫耳を左右 1 つずつ付ける（耳の高さはアイコン全体の 1/6、顔・ひげ・目は描かない）。中央配置、上下左右に 2px の余白。
 2. **画像生成**: 利用する画像生成サービスは固定しない（社内で使えるものを使う）。**利用規約で生成物の商用利用・再配布が許可されていることを確認してから使う**【未確認】。元 PNG はリポジトリにコミットしない（プロンプトと SVG だけを残す）。
-3. **ベクター化**: `vectorize.mjs` が VTracer CLI を呼ぶ（`--preset bw --mode spline --filter-speckle 8 --color-precision 6`【初期案】）。
+3. **ベクター化**: `vectorize.mjs` が VTracer を呼ぶ（`colormode=binary, mode=spline, filter_speckle=8, color_precision=6, corner_threshold=60, length_threshold=4, splice_threshold=45, path_precision=3`【Phase 3b で確定】）。CLI（`vtracer`）があればそれ、無ければ Python パッケージ `vtracer`（`.venv`）。Python 3.14 ではキーワード引数で segfault するため既定値で再試行する（Python 3.9〜3.13 推奨）。
 4. **正規化**: `svgo`（`removeDimensions`, `convertPathData`, `mergePaths`）→ 図形の外接矩形が 24 グリッドの (2,2)〜(22,22) に収まるようスケール・平行移動 → `fill` 属性を削除して `currentColor` に統一。
 5. **検査**（`audit.mjs`）: (a) `viewBox="0 0 24 24"`、(b) `path` 要素 3 個以内、(c) 24px にラスタライズ（`sharp`、Apache-2.0）したときの塗り面積比率が **T2 版の中央値 ±30% 以内**（線が太すぎ／細すぎを検出）、(d) 耳が y ≤ 6 の帯に存在する（上部の連結成分を検出）、(e) 16px でも 2 つの耳が分離して見える（上部の連結成分が 2 個）。
 6. **レビュー**: Storybook の「Icon Catalog」で T1・T2・Material 原版を並べて表示し、12 / 16 / 24 / 48px で確認する。チェック項目: 元のアイコンだと分かるか、耳が「耳」に見えるか、他の T1 と太さが揃っているか。
+
+【Phase 3b で追加】自動耳が付け根を見つけられない形のうち、頭に相当する上辺がある 3 個（badge / cake / cloud_download）は `icons/manual-ears.json` に手で座標を置く（tier `manual-ear`、耳の規格は自動耳と同じ）。上辺が無い 10 個（call / category / cruelty_free / park / password / pets / query_stats / restaurant / volume_off / volume_up）は耳なし規約に加え、理由を `manifest.earlessNotes` に記録した。
 
 ### 8.5 T2（自動耳）の生成
 
@@ -1157,9 +1159,10 @@ Next.js（App Router）の場合。Vite の場合は `index.html` と `src/index
 | `build:themes` | `themes/*.json` → `src/styles/themes.css` ＋ `src/themes/registry.ts` ＋ `src/components/theme/NekoHead.tsx`（フォント URL 検証込み） |
 | `check:contrast` | §7.6（`build:themes` からも呼ぶ） |
 | `icons:list` | 部品内で使っているアイコン名を抽出し、猫版が無いもの（T3）があれば exit 1 |
-| `icons:vectorize <name>` | `icons/raw/<name>.png` → `icons/src/<name>.svg` |
-| `icons:ears` | T2 生成（`icons/generated/`） |
-| `icons:audit` | §8.4 の検査 |
+| `icons:vectorize <name>` | `icons/raw/<name>.png` → `icons/src/<name>.svg`（VTracer → svgo → 24 グリッドに正規化） |
+| `icons:prompts` | T1 用プロンプトを `icons/prompts/<name>.md` に生成（70 件） |
+| `icons:inspect <name>` | 耳の手動配置用に 24 グリッド付き PNG と上辺のプロファイルを出す |
+| `icons:audit` | §8.4 の検査 (a)〜(e)。T2 の中央値は `icons/generated/` から算出 |
 | `build:icons` | `icons.generated.ts` ＋ `icons/status.json` |
 | `build:registry` | `src/components/ui/*/item.json` → `registry.json` → `shadcn build` → `public/r/*.json`、`llms.txt` → `public/` |
 | `build:package` | `dist/`（tsc → 相対 import の拡張子補完）＋ `styles.css` 結合 ＋ `ai/` コピー |
@@ -1337,3 +1340,4 @@ description: >
 | 2026-09-21 | v0.1.8 | Phase 3a の結果を反映: §8.5 の【未確認】を解消（パッケージ構成、bbox、ラスタライズによる付け根探索）、別名、生成物のサイズ |
 | 2026-09-21 | v0.1.9 | Phase 4 の結果を反映: §9.1 の 36 部品を実装（Tag に StatusTag、Form に Field、Skeleton に SkeletonRows を追加）、§11.4 の check を実装（NK001〜NK010、除外コメント、Stop hook）、§9.2 に tailwind-merge と Slot の注意を追記 |
 | 2026-09-22 | v0.1.10 | Phase 5 の結果を反映: §12 の registry 項目構成（`css` / `cssVars` 配布は不採用、`styles` 項目）、`exports`（個別エントリは v1 では無し）、dist の import 書き換え、§14 に `pack:test` |
+| 2026-09-22 | v0.1.11 | Phase 3b の結果を反映: §8.4 の VTracer 設定を確定、手動耳（manual-ears.json）と耳なし規約の追加、§14 に icons:prompts / icons:inspect |

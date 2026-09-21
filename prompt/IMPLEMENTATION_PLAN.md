@@ -212,7 +212,7 @@ Phase 2 の実施メモ（2026-09-21）:
 | 3a.1 | 〔spike〕`@material-symbols/svg-500` のパス構成（`rounded/<name>.svg`、fill 版の命名）を確認し設計書 §8.5 に追記。パスの拡縮に `svgpath`（npm）が必要かを確認 | |
 | 3a.2 | `icons/wanted.txt`（T1 候補 60 ＋ 一般的な UI アイコン 200 の名前と一行説明）、`icons/manifest.json`（`ears: "none"` の名前: 矢印・シェブロン・チェック・×・＋・−・ハンドル・メニュー・展開／折りたたみ） | |
 | 3a.3 | `icons/ear.svg`（§8.3 の標準耳: 底辺 5・高さ 4.5・頂点丸み 0.75・外側 15°） | |
-| 3a.4 | `scripts/icons/add-ears.mjs`（bbox → 耳配置 → 必要なら本体 0.85 倍 → evenodd で 1 path に結合 → `icons/generated/<name>.svg`） | `pnpm icons:ears` |
+| 3a.4 | `scripts/icons/add-ears.mjs`（bbox → 耳配置 → 必要なら本体 0.85 倍 → evenodd で 1 path に結合 → `icons/generated/<name>.svg`） | `pnpm build:icons`（`icons:ears` は統合） |
 | 3a.5 | `scripts/icons/build-icons.mjs`（`icons/src` が `icons/generated` より優先 → `src/components/ui/icon/icons.generated.ts` ＋ `icons/status.json`） | `pnpm build:icons` |
 | 3a.6 | `Icon` 部品（§8.2 の props。T1/T2 は inline SVG、T3 は Material Symbols Rounded の `span` ＋ 開発時 `console.warn`）。`NekoHead` に Material Symbols のフォント link を追加 | `src/components/ui/icon/` |
 | 3a.7 | `scripts/icons/list-used-icons.mjs`（`icon="..."` を抽出し wanted.txt と差分表示） | `pnpm icons:list` |
@@ -241,6 +241,14 @@ Phase 3a の実施メモ（2026-09-21）:
 | 3b.5 | 60 枚生成 → `icons/raw/` → vectorize → audit → カタログでレビュー → 採用分を `icons/src/` にコミットし manifest に tier / reviewer / date を記録（H4） | 〔人〕＋AI |
 
 完成条件: audit 全件合格、T1 60 個レビュー済み。**T1 が間に合わない場合は T2 を基準として v1 を出せる**（設計書 §8.1 の「T2 を統一基準にする」判断に基づく）。可否は H4 の進捗を見て利用者が決める。
+
+Phase 3b の実施メモ（2026-09-22、AI 側の作業は完了。3b.4 / 3b.5 は人）:
+
+- 3b.1 `scripts/icons/vectorize.mjs`（`pnpm icons:vectorize <name>`）: sharp で 2 値化 → VTracer → svgo（convertPathData / mergePaths）→ 外接矩形を (2,2)〜(22,22) に等倍で収める → `icons/src/<name>.svg`。VTracer は CLI（`cargo install vtracer-cli`）があればそれ、無ければ Python パッケージ（`python3 -m venv .venv && .venv/bin/pip install vtracer`、`VTRACER_PYTHON` で指定可）。**Python 3.14 の vtracer 0.6 はキーワード引数を渡すと segfault する**ため既定値で再試行する（Python 3.9 では引数指定が通ることを確認）。T2 の `search` を 1024px にラスタライズした合成画像で通し試験し、audit (a)〜(e) に合格。
+- 3b.2 `scripts/icons/audit.mjs`（`pnpm icons:audit [name]`）: (a) viewBox、(b) path ≤ 3、(c) 24px の塗り面積比が T2（`icons/generated/` の auto-ear / manual-ear）の中央値 ±30%（現在の中央値 21.9%）、(d) y ≤ 6 の帯の連結成分が 2、(e) 16px でも 2。`manifest.nekodemo` のシルエット（cat_face）は (c) を外す。
+- 3b.3 `scripts/icons/gen-prompts.mjs`（`pnpm icons:prompts`）: 「基本操作」「一覧・整理」「ファイル・データ」「コミュニケーション」の節（耳なし規約を除く）＋ 手動耳 3 つ = 70 件を `icons/prompts/<name>.md` に生成（モデル・日付・規約確認の記入欄つき。記入済みは上書きしない）。
+- 追加: 自動耳が置けなかった 13 個のうち、上辺に相当する部分がある 3 個（badge / cake / cloud_download）は `icons/manual-ears.json` に手で座標を置いた（tier `manual-ear`。`pnpm icons:inspect <name>` で 24 グリッド付き PNG と上辺プロファイルを出して決めた）。残り 10 個（call / category / cruelty_free / park / password / pets / query_stats / restaurant / volume_off / volume_up）は頭に相当する上辺が無いので耳なし規約に入れ、理由を `manifest.earlessNotes` に記録。これで「耳を置けず」は 0。
+- `scripts/icons/icons.test.mjs` で手動耳・audit・vectorize（純粋関数と、VTracer がある環境だけの通し）・プロンプト生成を検査する。
 
 ### Phase 4: 部品 36 ＋ check の中核
 
@@ -349,3 +357,4 @@ Phase 5 の実施メモ（2026-09-22）:
 | 2026-09-21 | v0.1.8 | Phase 3a の実施メモを追加 |
 | 2026-09-21 | v0.1.9 | Phase 4 の実施メモを追加 |
 | 2026-09-22 | v0.1.10 | Phase 5 の実施メモ（registry の項目構成、dist の import 書き換え、pack:test、copy-in の確認、Claude Code Review の修正）を追加 |
+| 2026-09-22 | v0.1.11 | Phase 3b の実施メモ（vectorize / audit / prompts、手動耳、耳なし規約の追加）と H6 / H7 の記録 |

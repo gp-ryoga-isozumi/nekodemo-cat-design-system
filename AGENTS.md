@@ -39,13 +39,13 @@ shadcn（copy-in）/ radix-ui / Storybook 10（`@storybook/nextjs-vite`）/ Vite
 | `pnpm build:package` | ライブラリを `dist/` に出力（`tsconfig.build.json`） |
 | `pnpm new-component <kebab-name>` | 部品の雛形（index / stories / test / README / item.json） |
 | `pnpm build:tokens` / `build:themes` / `check:contrast` | `tokens/*.json` → `src/styles/tokens.css`、`themes/*.json` → `themes.css` / `registry.ts` / `NekoHead.tsx`（コントラスト検査つき） |
-| `pnpm build:icons` / `icons:list` | `icons/wanted.txt` → `icons.generated.ts` / `icons/status.json`。部品が使うアイコンに猫版が無ければ exit 1 |
+| `pnpm build:icons` / `icons:list` | `icons/wanted.txt` ＋ `icons/src`（T1）＋ `icons/manual-ears.json`（手動耳）→ `icons.generated.ts` / `icons/status.json`。部品が使うアイコンに猫版が無ければ exit 1 |
+| `pnpm icons:prompts` / `icons:vectorize <name>` / `icons:audit` / `icons:inspect <name>` | T1 パイプライン: プロンプト生成（`icons/prompts/`）→ 人が画像生成 → `icons/raw/<name>.png` をベクター化（VTracer。`.venv` に `pip install vtracer`、Python 3.9〜3.13 推奨）→ 検査 (a)〜(e) → `pnpm build:icons`。`icons:inspect` は耳の手動配置用に 24 グリッド付き PNG と上辺のプロファイルを出す |
 | `pnpm check` | `nekodemo check src --strict`（NK001〜NK010）。Stop hook でも自動実行 |
 | `pnpm build:readmes` | 部品の JSDoc → `README.md` |
 | `pnpm build:registry` | `src/components/ui/*/item.json` → `registry.json` → `shadcn build` → `public/r/*.json`、`llms.txt` → `public/` |
 | `pnpm pack:test` | `npm pack` → 一時プロジェクトに入れて import / SSR / CSS コンパイル / bin を検証 |
 | `pnpm screenshots` | `pnpm build` 後にデモサイトを 3 テーマで撮影 → `docs/screenshots/` |
-| `pnpm icons:vectorize` / `icons:audit` | Phase 3b（T1 アイコン）で実装。現在は案内を出して終了 |
 
 ## 4. リポジトリ構成（要点）
 
