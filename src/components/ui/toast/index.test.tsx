@@ -1,4 +1,4 @@
-import { render, screen, waitForElementToBeRemoved } from "@testing-library/react";
+import { act, render, screen, waitForElementToBeRemoved } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { afterEach, describe, expect, it, vi } from "vitest";
 import { Toaster, toast } from ".";
@@ -24,9 +24,12 @@ if (typeof Element.prototype.setPointerCapture !== "function") {
   Element.prototype.hasPointerCapture = () => false;
 }
 
-afterEach(() => {
+afterEach(async () => {
   // sonner の通知はモジュール全体で共有されるため、テストごとに片付ける
   toast.dismiss();
+  // sonner は dismiss 後に 200ms の setTimeout で状態を更新する（TIME_BEFORE_UNMOUNT）。
+  // それを待たずにファイルを終えると jsdom の破棄後にタイマーが動き「window is not defined」で CI が落ちる
+  await act(() => new Promise((resolve) => setTimeout(resolve, 250)));
 });
 
 // disabled: Toast は入力部品ではなく無効状態を持たないため省略する。

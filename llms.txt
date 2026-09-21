@@ -1,0 +1,20 @@
+# nekodemo
+> 猫がテーマのプロトタイプ用デザインシステム（React 19 / Tailwind CSS v4 / shadcn）。AI コーディングツール向け。
+
+## AI 向けガイド
+- https://github.com/gp-ryoga-isozumi/nekodemo-cat-design-system/blob/main/docs/ai/USING_NEKODEMO.md
+- https://github.com/gp-ryoga-isozumi/nekodemo-cat-design-system/blob/main/docs/ai/SETUP.md
+- https://github.com/gp-ryoga-isozumi/nekodemo-cat-design-system/blob/main/docs/ai/GUARD_BLOCK.md
+
+## UX ガイドライン
+- https://github.com/gp-ryoga-isozumi/nekodemo-cat-design-system/blob/main/docs/guidelines/README.md
+
+## skills
+- https://github.com/gp-ryoga-isozumi/nekodemo-cat-design-system/tree/main/skills
+- 導入: `npx skills add gp-ryoga-isozumi/nekodemo-cat-design-system -s use-nekodemo` または `gh skill install gp-ryoga-isozumi/nekodemo-cat-design-system use-nekodemo --agent claude-code`
+
+## 配布
+- npm: https://www.npmjs.com/package/nekodemo（公開前）
+- registry: https://gp-ryoga-isozumi.github.io/nekodemo-cat-design-system/r/registry.json
+- デモ: https://gp-ryoga-isozumi.github.io/nekodemo-cat-design-system/
+- Storybook: https://gp-ryoga-isozumi.github.io/nekodemo-cat-design-system/storybook/

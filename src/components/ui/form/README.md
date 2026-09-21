@@ -21,6 +21,7 @@ Form（FormProvider）> FormField（Controller）> FormItem > FormLabel / FormCo
 ## 使用例
 
 ```tsx
+// useForm / zodResolver / z は nekodemo から import できる（別途インストール不要）
 const form = useForm({ resolver: zodResolver(schema) });
 <Form {...form}>
   <form onSubmit={form.handleSubmit(onSubmit)}>

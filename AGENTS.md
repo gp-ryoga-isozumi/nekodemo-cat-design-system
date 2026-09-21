@@ -2,7 +2,7 @@
 
 このファイルは nekodemo **自体を開発する** AI（Claude Code / Gemini CLI / Codex 等）への指示。
 `CLAUDE.md` と `GEMINI.md` はこのファイルへのシンボリックリンク。
-nekodemo を**使って**プロトタイプを作る AI 向けのガイドは `docs/ai/USING_NEKODEMO.md`（Phase 5 で作成）。
+nekodemo を**使って**プロトタイプを作る AI 向けのガイドは `docs/ai/USING_NEKODEMO.md`、導入手順は `docs/ai/SETUP.md`、skills は `skills/`。
 
 ## 1. まず読むもの
 
@@ -38,7 +38,14 @@ shadcn（copy-in）/ radix-ui / Storybook 10（`@storybook/nextjs-vite`）/ Vite
 | `pnpm typecheck` | `tsc --noEmit` |
 | `pnpm build:package` | ライブラリを `dist/` に出力（`tsconfig.build.json`） |
 | `pnpm new-component <kebab-name>` | 部品の雛形（index / stories / test / README / item.json） |
-| `pnpm build:tokens` `build:themes` `check:contrast` `icons:*` `build:icons` `build:registry` `build:readmes` `check` `screenshots` | 後続フェーズで実装（現在は案内を出して終了） |
+| `pnpm build:tokens` / `build:themes` / `check:contrast` | `tokens/*.json` → `src/styles/tokens.css`、`themes/*.json` → `themes.css` / `registry.ts` / `NekoHead.tsx`（コントラスト検査つき） |
+| `pnpm build:icons` / `icons:list` | `icons/wanted.txt` → `icons.generated.ts` / `icons/status.json`。部品が使うアイコンに猫版が無ければ exit 1 |
+| `pnpm check` | `nekodemo check src --strict`（NK001〜NK010）。Stop hook でも自動実行 |
+| `pnpm build:readmes` | 部品の JSDoc → `README.md` |
+| `pnpm build:registry` | `src/components/ui/*/item.json` → `registry.json` → `shadcn build` → `public/r/*.json`、`llms.txt` → `public/` |
+| `pnpm pack:test` | `npm pack` → 一時プロジェクトに入れて import / SSR / CSS コンパイル / bin を検証 |
+| `pnpm screenshots` | `pnpm build` 後にデモサイトを 3 テーマで撮影 → `docs/screenshots/` |
+| `pnpm icons:vectorize` / `icons:audit` | Phase 3b（T1 アイコン）で実装。現在は案内を出して終了 |
 
 ## 4. リポジトリ構成（要点）
 
@@ -48,7 +55,8 @@ shadcn（copy-in）/ radix-ui / Storybook 10（`@storybook/nextjs-vite`）/ Vite
 - `src/components/theme/` … NekoThemeProvider / NekoThemePicker / NekoHead / useNekoTheme。
 - `src/app/` … デモサイト。`src/index.ts` … 公開 API。
 - `scripts/` … ビルド・検査スクリプト（Node ESM、`.mjs`）。`scripts/hooks/` … Claude Code hooks。
-- `docs/ai/` `docs/guidelines/` `skills/` … AI 向け提供物（Phase 5）。`docs/preview/` … 実装前のビジュアルプレビュー（参考）。
+- `docs/ai/` `docs/guidelines/` `skills/` … AI 向け提供物（`.claude/skills` 等は `skills/` へのシンボリックリンク）。`docs/preview/` … 実装前のビジュアルプレビュー（参考）。
+- `bin/nekodemo.mjs` `scripts/check/` `icons/status.json` … npm 配布物にも同梱される（`package.json` の `files`）。`scripts/build-package.mjs` が `dist/styles.css` と `dist/ai/` を作る。
 
 ## 5. コーディング規約
 
@@ -69,8 +77,8 @@ shadcn（copy-in）/ radix-ui / Storybook 10（`@storybook/nextjs-vite`）/ Vite
   `.claude/settings.json` の PreToolUse hook（`scripts/hooks/irreversible-ops-guard.sh` → `.mjs`）が exit 2 でブロックする。
 - 判定はコマンド位置（行頭、`&&` `||` `;` `|` の直後）でのみ行う。heredoc で書くドキュメント本文の行頭にこれらの語を置くと誤検知するので、その場合は Write ツールでファイルを書く。
 - 利用者がその操作を明示したときだけ、そのコマンドの直前に `NEKODEMO_CONFIRM=1 ` を付けて実行する（コマンド単位の承認。環境変数として export したものは無視される）。
-- `package.json` の `private: true` は Phase 5 の公開時まで外さない。
-- Stop hook（`pnpm check --strict`）は Phase 4 で `check` を実装してから有効化する。
+- `package.json` の `private: true` は npm 公開（H7）を利用者が明示するまで外さない。公開前の確認は `pnpm pack:test` で行う。
+- Stop hook（`scripts/hooks/nekodemo-check-stop.mjs`）が応答終了時に `pnpm check` を実行する。error があると停止がブロックされるので、直してから完了報告する。
 
 <!-- BEGIN:nextjs-agent-rules -->
 

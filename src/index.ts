@@ -1,4 +1,16 @@
 // nekodemo の公開 API。部品は src/components/ui/<name>/index.tsx を正とする。
+
+// Form 用。利用側が react-hook-form / zod を別途インストールしなくてよいように再 export する
+// （pnpm の厳密な node_modules で解決できない問題と、バージョン不一致による FormProvider の二重化を防ぐ）
+export { zodResolver } from "@hookform/resolvers/zod";
+export {
+  type SubmitHandler,
+  type UseFormReturn,
+  useFieldArray,
+  useForm,
+  useWatch,
+} from "react-hook-form";
+export { z } from "zod";
 export { Mascot } from "./components/mascot";
 export { NekoHead } from "./components/theme/NekoHead";
 export { NekoThemePicker } from "./components/theme/NekoThemePicker";

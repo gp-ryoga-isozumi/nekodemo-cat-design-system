@@ -70,11 +70,17 @@ describe("nekodemo check のルール", () => {
   });
 
   it("NK010: .map で一覧を描画しているのに Skeleton / EmptyState が無いと info", () => {
-    const src = `items.map((i) => <li key={i}>{i}</li>)`;
+    const src = `<ul>{items.map((i) => <li key={i}>{i}</li>)}</ul>`;
     expect(ids(checkSource(src, "src/app/list/page.tsx"))).toContain("NK010");
     expect(ids(checkSource(`${src}; <EmptyState />`, "src/app/list/page.tsx"))).not.toContain(
       "NK010",
     );
+    // データの変換（generateStaticParams や JSX 外の .map）は一覧の描画とみなさない
+    const staticParams = `export function generateStaticParams() {\n  return projects.map((p) => ({ id: p.id }));\n}\nexport default function Page() { return <Detail />; }`;
+    expect(ids(checkSource(staticParams, "src/app/projects/[id]/page.tsx"))).not.toContain("NK010");
+    expect(
+      ids(checkSource(`const ids = items.map((i) => i.id);`, "src/app/list/page.tsx")),
+    ).not.toContain("NK010");
   });
 
   it("除外コメント: ignore-file と ignore-next-line", () => {
