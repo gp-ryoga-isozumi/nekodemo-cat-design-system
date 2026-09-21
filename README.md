@@ -4,7 +4,7 @@
 > AI コーディングツールに「nekodemo を使って」と指定するだけで、**かわいくて使いやすいプロトタイプ**が、決まったルールで、少ないトークンで出来上がることを目指しています。
 
 - 状態: **v0.1.0（Phase 0〜5 完了。npm 公開は準備中。受け入れテストの手順は [`docs/ai/ACCEPTANCE_TEST.md`](docs/ai/ACCEPTANCE_TEST.md)）**
-- デモサイト: https://gp-ryoga-isozumi.github.io/nekodemo-cat-design-system/ ／ Storybook: [`/storybook/`](https://gp-ryoga-isozumi.github.io/nekodemo-cat-design-system/storybook/)
+- デモサイト: https://gp-ryoga-isozumi.github.io/nekodemo-cat-design-system/ ／ ガイドライン: [`/guidelines/`](https://gp-ryoga-isozumi.github.io/nekodemo-cat-design-system/guidelines/)（Foundations / Themes / Components / Patterns）／ Storybook: [`/storybook/`](https://gp-ryoga-isozumi.github.io/nekodemo-cat-design-system/storybook/)
 - 実装前のビジュアルプレビュー: [`docs/preview/index.html`](docs/preview/index.html)（36 部品 × 3 テーマ。Phase 4 以降は Storybook が正）
 - 設計書: [`prompt/NEKODEMO_DESIGN.md`](prompt/NEKODEMO_DESIGN.md) ／ 実装計画: [`prompt/IMPLEMENTATION_PLAN.md`](prompt/IMPLEMENTATION_PLAN.md)
 
@@ -32,7 +32,7 @@
 |---|---|---|
 | npm パッケージ `nekodemo`（公開準備中） | 部品（ESM + 型定義）、`nekodemo/styles.css`（トークン + 3 テーマ）、`nekodemo check`（lint）、`ai/`（AI 向けガイド）、`skills/` | `pnpm add nekodemo`（公開前は `pnpm add https://gp-ryoga-isozumi.github.io/nekodemo-cat-design-system/nekodemo.tgz`） |
 | shadcn registry | 部品のソースを copy-in（npm 依存を増やしたくない場合） | `components.json` に `"registries": { "@nekodemo": "https://gp-ryoga-isozumi.github.io/nekodemo-cat-design-system/r/{name}.json" }` → `npx shadcn@latest add @nekodemo/styles @nekodemo/theme @nekodemo/button` |
-| デモサイト / Storybook | テーマ切替、トークン一覧、4 画面型のサンプル、全部品のストーリー | https://gp-ryoga-isozumi.github.io/nekodemo-cat-design-system/ ・ [`/storybook/`](https://gp-ryoga-isozumi.github.io/nekodemo-cat-design-system/storybook/) |
+| デモサイト / ガイドライン / Storybook | テーマ切替、トークン一覧、4 画面型のサンプル、ガイドライン（部品ごとの節立てと整備状況）、全部品のストーリー | https://gp-ryoga-isozumi.github.io/nekodemo-cat-design-system/ ・ [`/storybook/`](https://gp-ryoga-isozumi.github.io/nekodemo-cat-design-system/storybook/) |
 
 ## 解決したい課題
 

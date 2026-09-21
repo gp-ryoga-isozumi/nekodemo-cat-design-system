@@ -39,6 +39,11 @@ const PAGES: { href: string; title: string; description: string }[] = [
     description: "縦 Tabs と設定項目（見出し・説明・入力）",
   },
   {
+    href: "/guidelines/",
+    title: "ガイドライン",
+    description: "Foundations / Themes / Components / Patterns。部品ごとの使い方と整備状況",
+  },
+  {
     href: "/storybook/",
     title: "Storybook",
     description: "全部品のストーリー、a11y 結果、アイコンカタログ、テーマ切替ツールバー",
