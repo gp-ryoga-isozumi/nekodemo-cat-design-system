@@ -446,7 +446,7 @@ flowchart LR
 }
 ```
 
-【未確認】Tailwind v4 の `@theme { --color-*: initial; }` で既定パレットを無効化した上で `@theme inline` に同じ名前空間の変数を再定義する組み合わせが、意図どおり「nekodemo の色だけがユーティリティになる」動作をするか。Phase 1 の最初に最小構成で検証し、生成 CSS のスナップショットテストを置く。
+【確認済（2026-09-21、Phase 1）】Tailwind v4.3.3 で `@theme { --color-*: initial; … }` と `@theme inline { --color-primary-600: var(--nk-color-primary-600); … }` の組み合わせは意図どおり動く。`bg-blue-500` / `text-gray-600` / `font-serif` / `text-5xl` / `rounded-2xl` は生成されず、`bg-primary-600` は `background-color: var(--nk-color-primary-600)` に展開される（`scripts/build-tokens.test.mjs` が `@tailwindcss/node` でコンパイルして検証）。**注意: `--font-*: initial` は `--font-weight-*` を消さない**（別の名前空間として扱われる）ため、`--font-weight-*: initial` を明示したうえで `--font-weight-normal: 400` / `--font-weight-bold: 700` だけを再定義する。これで `font-semibold` / `font-medium` / `font-light` は構造的に存在しなくなる（NK007 は二重の防御）。生成物の同期テスト（`tokens.css` がコミット済みの内容と一致すること）も同ファイルにある。
 
 ### 6.3 shadcn 変数ブリッジ
 
@@ -563,7 +563,7 @@ shadcn/ui のコンポーネントは `bg-primary` `text-muted-foreground` `bord
 | scheme | light | light | **dark**（2026-09-21） |
 | primary-600（主ボタン） | `oklch(0.55 0.150 48)` オレンジ茶 | `oklch(0.42 0.024 250)` 黒鉛色 | `oklch(0.46 0.065 250)` 青鼠色 |
 | primary-50（選択背景） | `oklch(0.975 0.020 60)` | `oklch(0.97 0.004 250)` | `oklch(0.97 0.010 250)` |
-| neutral の色味 | 暖色寄り（hue 70） | 寒色寄り・銀（hue 240） | 青寄り（hue 250）。dark 用に 900 = `oklch(0.245 0.028 250)`（地色）、800 = `oklch(0.29 0.028 250)`（カード）、50 = `oklch(0.95 0.008 250)`（文字）。主ボタンは primary-300 `oklch(0.78 0.052 250)` に primary-900 の文字 |
+| neutral の色味（neutral-500 は `text-low` に使うため L ≤ 0.53 にする。L 0.60 では白地で 3.94:1 となり §7.6 を満たさない。2026-09-21 Phase 1 で確認） | 暖色寄り（hue 70） | 寒色寄り・銀（hue 240） | 青寄り（hue 250）。dark 用に 900 = `oklch(0.245 0.028 250)`（地色）、800 = `oklch(0.29 0.028 250)`（カード）、50 = `oklch(0.95 0.008 250)`（文字）。主ボタンは primary-300 `oklch(0.78 0.052 250)` に primary-900 の文字 |
 | accent-1 | 黒ぶち `oklch(0.22 0.010 60)` | 琥珀の目 `oklch(0.78 0.140 80)` | 緑の目 `oklch(0.62 0.150 160)` |
 | accent-2 | 生成り `oklch(0.97 0.020 85)` | 黒縞 `oklch(0.25 0.010 250)` | 銀の毛先 `oklch(0.85 0.010 250)` |
 | accent-3 | 鼻ピンク `oklch(0.78 0.090 10)` | 鼻ピンク `oklch(0.80 0.080 10)` | 鼻の紫 `oklch(0.55 0.080 330)` |
@@ -1329,3 +1329,4 @@ description: >
 | 2026-09-21 | v0.1.3 | D15（フォントを 3 テーマ共通に）。§7.1 / §7.2 を更新 |
 | 2026-09-21 | v0.1.4 | D13 を肉球から猫の顔に、D14 を中抜きの線画の耳に改訂（参考画像に基づく）。§8.3 の耳ルールと §9.1 の Badge / Checkbox を更新 |
 | 2026-09-21 | v0.1.5 | D13: Badge は通常の丸に戻す（猫の顔は Checkbox と Avatar のみ） |
+| 2026-09-21 | v0.1.6 | §6.2 の【未確認】を Phase 1 で確認済に（`--font-weight-*: initial` が必要）。text-low（neutral-500）は L 0.60 だと白地で 3.94:1 になるため 0.53 に下げる方針を §7.2 の初期案に追記 |
