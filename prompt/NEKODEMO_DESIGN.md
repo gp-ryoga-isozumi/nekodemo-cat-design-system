@@ -774,11 +774,11 @@ flowchart LR
 
 `scripts/icons/add-ears.mjs`:
 
-1. `@material-symbols/svg-500/rounded/<name>.svg`（Apache-2.0）を読む【未確認: パッケージ内のパス構成は実装時に確認】。
-2. `path` の外接矩形を求め（`svg-path-bbox` 等【未確認】）、上辺 y と左右端 x を得る。
-3. §8.3 の規約で耳パスを配置（必要なら本体を 0.85 倍に縮小）し、`fill-rule="evenodd"` で 1 つの `path` に結合。
+1. `@material-symbols/svg-500/rounded/<name>.svg`（Apache-2.0）を読む【確認済 2026-09-21: 0.47.4 は `rounded/<name>.svg` と `rounded/<name>-fill.svg`（各 3,912 個）、viewBox は `0 -960 960 960` の塗りパス。`svgpath` で `translate(0,960) scale(1/40)` して 24 グリッドに変換する】。
+2. `svg-path-bbox` 2.1.0 で外接矩形を求め、本体を 0.8 倍に縮小して上辺が y=5.4 になるまで下げる（耳の余白）【確認済】。
+3. 本体を `sharp` で 240px にラスタライズし、列ごとの最上端の塗りを走査する。「最上端から 3 以内」の列が連続する最も広い区間を上辺とみなし（歯車の歯のような 1 未満の切れ目は同じ上辺）、その左右端寄りに付け根 2 点ずつ（幅 3.6、上辺が狭ければ 2.2 まで縮める）を置き、頂点を付け根から 4.6 上・外側に 0.3 倒す。耳は本体とは別の `path`（stroke、線幅 2、round join / cap）として出力し、`Icon` が 2 つの path を描く（D14 の中抜き耳）。上辺の幅が 5.4 未満、付け根の高低差が 3 超、耳の線が本体の突起を横切る場合は耳なし（`status.json` の `noEar` に理由つきで記録）【実装済 2026-09-21】。
 4. `manifest.json` の `ears: "none"` の名前はそのまま（耳なし）で出力する。
-5. 出力は `icons/generated/<name>.svg`（git 管理外、ビルド時生成）。
+5. 出力は `icons/generated/<name>.svg`（レビュー用、git 管理外）と `src/components/ui/icon/icons.generated.ts`（コミットする。`{ d, ears?, fill?, fillEars?, tier }` のマップ。311 名で約 350KB【初期案の見積もりを超過。v1.2 で名前付き import 版を検討】）。`icons/manifest.json` の `aliases` で AI が使いがちな旧名（`expand_more` → `keyboard_arrow_down`、`place` → `location_on` 等 18 個）も同じ定義で引ける。
 
 ### 8.6 マスコットと猫要素の使いどころ
 
@@ -1331,3 +1331,4 @@ description: >
 | 2026-09-21 | v0.1.5 | D13: Badge は通常の丸に戻す（猫の顔は Checkbox と Avatar のみ） |
 | 2026-09-21 | v0.1.6 | §6.2 の【未確認】を Phase 1 で確認済に（`--font-weight-*: initial` が必要）。text-low（neutral-500）は L 0.60 だと白地で 3.94:1 になるため 0.53 に下げる方針を §7.2 の初期案に追記 |
 | 2026-09-21 | v0.1.7 | Phase 2 の結果を反映: §7.3（テーマブロックに役割層一式を書く）、§7.6（culori 確認済、25 ペア、neutral-400 / 500 の調整、`text-on-negative` 追加）、§7.4（suppressHydrationWarning、Material Symbols link） |
+| 2026-09-21 | v0.1.8 | Phase 3a の結果を反映: §8.5 の【未確認】を解消（パッケージ構成、bbox、ラスタライズによる付け根探索）、別名、生成物のサイズ |
