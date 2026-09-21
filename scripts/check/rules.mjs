@@ -206,8 +206,13 @@ export const rules = [
     test: (ctx) => {
       // 画面（page.tsx / pages/*.tsx）だけを対象にする（ナビや部品内の .map は対象外）
       if (!/(^|\/)(page\.tsx|pages\/[^/]+\.tsx)$/.test(ctx.path)) return [];
-      if (!/\.map\(/.test(ctx.source)) return [];
-      if (/Skeleton|EmptyState/.test(ctx.source)) return [];
+      // generateStaticParams 内の .map（データの変換）は対象外。JSX 式の中の .map（{items.map(...)}）だけを一覧の描画とみなす
+      const source = ctx.source.replace(
+        /export\s+(?:async\s+)?function\s+generateStaticParams[\s\S]*?\n\}/g,
+        "",
+      );
+      if (!/\{[^{}\n]*\.map\(/.test(source)) return [];
+      if (/Skeleton|EmptyState/.test(source)) return [];
       return [
         {
           line: 1,

@@ -288,6 +288,19 @@ Phase 4 の実施メモ（2026-09-21）:
 
 完成条件（§15）: 受け入れテスト合格 ＋ §3.3 チェックリスト完了 ＋ npm 公開。
 
+Phase 5 の実施メモ（2026-09-22）:
+
+- 5.1 は Phase 4 で完了済（NK001〜NK010、`--format json`、Stop hook）。`bin/nekodemo.mjs` は `scripts/check/index.mjs` を子プロセスで呼ぶ薄いラッパーで、npm 配布物には `scripts/check/{index,rules}.mjs` と `icons/status.json` をそのまま同梱する（`package.json` の `files`）。
+- 5.3 / 5.4: `docs/ai/USING_NEKODEMO.md`（部品一覧と props の要約、役割トークン表、check のルール表、完成チェックリスト）、`SETUP.md`（Next.js / Vite、Stop hook、registry からの copy-in）、`GUARD_BLOCK.md`、skills 5 つ。`.claude/skills` `.agents/skills` `.codex/skills` `.cursor/skills` は `../skills` へのシンボリックリンク。
+- 5.5: `llms.txt`（GitHub の絶対 URL と Pages の URL）、`LICENSE`（MIT）、`THIRD_PARTY_NOTICES.md`、`CHANGELOG.md`、README の「AI に使わせるには」（skills / USING_NEKODEMO.md / llms.txt の 3 経路と配布経路の表）。
+- 5.6: `registry.json` は `src/components/ui/*/item.json` から `scripts/build-registry.mjs` が生成する（git 管理外）。`shadcn` CLI は devDependency に入れ `pnpm exec shadcn build --output public/r` で 40 項目を出力。部品以外の項目は `lib`（cn）/ `styles`（tokens.css と themes.css を `registry:file` で `styles/nekodemo-*.css` に置く）/ `themes`（registry.ts）/ `mascot` / `theme`（Provider / Picker / NekoHead）。設計書 §12 の「`css` / `cssVars` で配布」は、`@theme` のリセットや 3 テーマ分のブロックを JSON に変換すると利用側の CSS が読めなくなるため採用しなかった。`theme` ↔ `mascot` の循環は `themes` 項目を分けて解消。`scripts/build-registry.test.mjs` が item.json の依存と実際の import の一致・循環なし・参照ファイルの存在を検査する。
+- 5.7: `tsc` は相対 import に拡張子を付けないため Node ESM でディレクトリ import（`./components/mascot`）が失敗した。`scripts/build-package.mjs` が `dist/**/*.js, *.d.ts` の相対 import を `.js` / `/index.js` に書き換える（45 ファイル）。`exports` は `.` / `./styles.css` / `./themes/registry` / `./ai/*` / `./package.json`。`./<component>` の個別エントリは v1 では提供しない（ESM で各ファイルに `"use client"` を保持しているのでツリーシェイクで足りる）。`react` / `react-dom` は peerDependencies、`next` は devDependencies へ移動。`scripts/pack-test.mjs`（`pnpm pack:test`、CI にも追加）が `npm pack` → 一時プロジェクトに install → 全 export の SSR 描画 / `@source` 込みの Tailwind コンパイル（既定パレットが出ないこと）/ `npx nekodemo check` の exit code / `dist/ai` と `skills` の同梱を検証する。tarball は 201 KB（展開後 837 KB、199 ファイル）。
+- registry の copy-in は、新規 Next.js 16 プロジェクトで `shadcn init` → `components.json` に registries を登録 → `shadcn add @nekodemo/styles @nekodemo/theme @nekodemo/button @nekodemo/empty-state @nekodemo/table` → `next build` が通ることを確認した（ローカルの `public/r` を http.server で配信）。`shadcn init` が入れる既定の `components/ui/button.tsx` が `@/components/ui/button` の解決を奪うので、SETUP.md §8 と skill に削除手順を書いた。
+- 5.8: `pages.yml` に `pnpm build:registry` を追加（`public/r` と `public/llms.txt` を `next build` の前に用意）。
+- Claude Code Review（GitHub Actions）は PR #3〜#8 でレビューを飛ばしていた（4〜6 ターンで終了、コメントなし）。PR #9 で gh コマンドの許可と system prompt の補足、`show_full_output: true` を入れた。workflow 変更 PR ではレビューが走らない仕様のため、効果は Phase 5 の PR で確認する。
+- 5.9 受け入れテスト（2026-09-22、Opus 5 のサブエージェントが利用側 AI として実施）: create-next-app の新規プロジェクトに tarball で導入し、skills の手順で一覧 / 詳細 / 編集の 3 画面（4 状態の切替つき）を作成。`pnpm nekodemo check src --strict` 0 件、`next build` 成功、3 画面が dev で 200。人手介入なし。指摘 12 件（D-1〜D-12）を反映: `useForm` / `zodResolver` / `z` を `nekodemo` から再 export（利用側で react-hook-form / zod が解決できず build が落ちた）、公開前の導入経路を Pages 上の tarball（`nekodemo.tgz`）に変更（`pnpm add github:` は dist が無く動かない）、テンプレート既定の CSS / page.tsx の置き換え手順、ガードブロックにウェイトと style 属性の行、Menu から開く Dialog の書き方、`Field` と欠けていた props の記載、NK010 が `generateStaticParams` 内の `.map` を誤検知していたのを JSX 式内だけに限定、`scripts/check/index.mjs` の直接実行判定を realpath に変更（pnpm のシンボリックリンク越しに無言終了していた）、`CLAUDE.md` が `@AGENTS.md` だけのときの扱い。ブラウザでのテーマ切替とキーボード操作の通し確認は未実施（静的には確認済み）。Gemini CLI / Codex での実施（H6）は利用者の環境で行う。
+- 5.10 / 5.11（H5・H7）: 利用者の判断待ち。`private: true` は外していない。
+
 ### Phase 6（v1.1）: SearchCombobox・DataGrid
 
 | # | 作業 |
@@ -316,7 +329,7 @@ Phase 4 の実施メモ（2026-09-21）:
 | §8.5 | `@material-symbols/svg-500` のパス構成、bbox ライブラリ | 3a.1（svg-path-bbox 2.1.0 は存在確認済） |
 | §3.3 / §8.4 | 画像生成サービスの規約 | 3b.4（人） |
 | §9.4 | TanStack Table v9 の API 差分 | 6.0 |
-| §11.4 | Cursor / Codex の hook 形式 | 5.3 |
+| §11.4 | Cursor / Codex の hook 形式 | 5.3（SETUP.md §6 に記載。Claude Code は Stop hook、他は AGENTS.md のガードブロックの「作業の最後に check を実行する」で代替） |
 | §14 | ESLint か Biome か | 0.6（H2） |
 
 ---
@@ -335,3 +348,4 @@ Phase 4 の実施メモ（2026-09-21）:
 | 2026-09-21 | v0.1.7 | Phase 2 の実施メモを追加 |
 | 2026-09-21 | v0.1.8 | Phase 3a の実施メモを追加 |
 | 2026-09-21 | v0.1.9 | Phase 4 の実施メモを追加 |
+| 2026-09-22 | v0.1.10 | Phase 5 の実施メモ（registry の項目構成、dist の import 書き換え、pack:test、copy-in の確認、Claude Code Review の修正）を追加 |

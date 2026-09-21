@@ -31,3 +31,5 @@ jobs:
       - run: pnpm test
       - run: pnpm build-storybook
       - run: pnpm build:package
+      - run: pnpm build:registry
+      - run: pnpm pack:test

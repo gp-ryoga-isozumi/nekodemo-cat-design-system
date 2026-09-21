@@ -6,7 +6,7 @@
 // 除外コメント:
 //   // nekodemo-check-ignore-file NK001,NK005   … ファイル全体でそのルールを無視（先頭 20 行以内）
 //   // nekodemo-check-ignore-next-line NK009    … 次の行だけ無視
-import { existsSync, readdirSync, readFileSync, statSync } from "node:fs";
+import { existsSync, readdirSync, readFileSync, realpathSync, statSync } from "node:fs";
 import { dirname, extname, join, relative, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 import { manualChecks, rules } from "./rules.mjs";
@@ -166,7 +166,17 @@ export function formatText(result) {
   return lines.join("\n");
 }
 
-if (process.argv[1] && fileURLToPath(import.meta.url) === process.argv[1]) {
+/** 直接実行かどうか（pnpm のシンボリックリンク越しでも判定できるように realpath で比べる） */
+function isMainModule() {
+  if (!process.argv[1]) return false;
+  try {
+    return realpathSync(fileURLToPath(import.meta.url)) === realpathSync(process.argv[1]);
+  } catch {
+    return false;
+  }
+}
+
+if (isMainModule()) {
   const args = process.argv.slice(2);
   const strict = args.includes("--strict");
   const fmtIdx = args.indexOf("--format");

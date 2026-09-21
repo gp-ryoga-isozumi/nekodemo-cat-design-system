@@ -1061,7 +1061,7 @@ flowchart TB
     }
   }
   ```
-  findings を stderr に出すことで、Claude が指摘内容を読んで修正を続ける。Cursor / Codex にも同等の hook 設定を `docs/ai/SETUP.md` に書く【未確認: Cursor / Codex の hook 形式は実装時に各ドキュメントで確認】。
+  findings を stderr に出すことで、Claude が指摘内容を読んで修正を続ける。Cursor / Codex にも同等の hook 設定を `docs/ai/SETUP.md` に書く【確認済 2026-09-22: Codex CLI は `.codex/hooks.json` の `Stop`（Claude Code と同じ形式、exit 2 でブロック）、Cursor は `.cursor/hooks.json` の `stop`（観測用でブロック不可。`followup_message` で修正を促す）。Gemini CLI は hook が無いのでガードブロックの指示で代替】。
 
 ### 11.5 MCP【対象外（v1.2 以降）】
 
@@ -1085,12 +1085,12 @@ flowchart LR
 | 経路 | 内容 | 利用側のコマンド・設定 |
 |---|---|---|
 | npm パッケージ `nekodemo` | `dist/`（ESM + 型定義）、`styles.css`（tokens.css + themes.css を結合、3 テーマ同梱）、`bin/nekodemo`（check）、`ai/`（USING_NEKODEMO.md 等のコピー） | `pnpm add nekodemo` |
-| shadcn registry | `registry.json` → `pnpm build:registry`（`shadcn build`）→ `public/r/*.json`。`@nekodemo/theme`（tokens.css / themes.css を `css` / `cssVars` として配布）と各部品 | `components.json` に `"registries": { "@nekodemo": "https://<owner>.github.io/nekodemo/r/{name}.json" }` → `npx shadcn@latest add @nekodemo/button` |
+| shadcn registry | `src/components/ui/*/item.json` → `registry.json`（生成、git 管理外）→ `pnpm build:registry`（`shadcn build`）→ `public/r/*.json`。部品 36 ＋ `styles`（tokens.css / themes.css を `registry:file` で `styles/nekodemo-*.css` に置く。【Phase 5 で変更】`css` / `cssVars` での配布は、`@theme` のリセットと 3 テーマ分のブロックを JSON 化すると利用側の CSS が読めなくなるため不採用）/ `theme`（Provider / Picker / NekoHead）/ `themes`（registry.ts）/ `mascot` / `lib`（cn） | `components.json` に `"registries": { "@nekodemo": "https://gp-ryoga-isozumi.github.io/nekodemo-cat-design-system/r/{name}.json" }` → `npx shadcn@latest add @nekodemo/styles @nekodemo/theme @nekodemo/button` |
 | skills | `skills/*/SKILL.md` | `npx skills add <owner>/nekodemo -s use-nekodemo` / `gh skill install <owner>/nekodemo use-nekodemo --agent claude-code` |
 | デモサイト | テーマ切替、全部品のギャラリー、アイコンカタログ（T1 / T2 / T3 の状態表示）、4 画面型のサンプル | ブラウザで見る。インタビュー時の「見せ方」の見本にもなる |
 | Storybook | 各部品のストーリー、a11y 結果、テーマ切替ツールバー | `/storybook/` |
 
-- パッケージの `exports`: `"."`（全部品）、`"./<component>"`（個別、`"use client"` 部品用）、`"./styles.css"`、`"./themes/registry"`。
+- パッケージの `exports`: `"."`（全部品）、`"./styles.css"`、`"./themes/registry"`、`"./ai/*"`、`"./package.json"`。`"./<component>"` の個別エントリは v1 では提供しない（ESM で各ファイルに `"use client"` を保持しており、ツリーシェイクで足りる。必要になれば v1.1 で追加）。`tsc` は相対 import に拡張子を付けないため、`build:package` が `dist/` の相対 import を `.js` / `/index.js` に書き換える（Node ESM でディレクトリ import は不可）。`react` / `react-dom` は peerDependencies。
 - バージョニングは semver。`CHANGELOG.md` を必須にし、リリース PR で更新する。`npm publish` などの不可逆操作は AI の hook（PreToolUse）でブロックし、人が明示したときだけ実行する（§17.4）。
 - registry の `registryDependencies` で部品間の依存（Button → Icon, Spinner）を宣言し、1 部品の追加で必要な部品が揃うようにする。
 
@@ -1156,14 +1156,15 @@ Next.js（App Router）の場合。Vite の場合は `index.html` と `src/index
 | `build:tokens` | `tokens/*.json` → `src/styles/tokens.css` |
 | `build:themes` | `themes/*.json` → `src/styles/themes.css` ＋ `src/themes/registry.ts` ＋ `src/components/theme/NekoHead.tsx`（フォント URL 検証込み） |
 | `check:contrast` | §7.6（`build:themes` からも呼ぶ） |
-| `icons:list` | コンポーネント内で使っているアイコン名を抽出して `icons/wanted.txt` と差分表示 |
+| `icons:list` | 部品内で使っているアイコン名を抽出し、猫版が無いもの（T3）があれば exit 1 |
 | `icons:vectorize <name>` | `icons/raw/<name>.png` → `icons/src/<name>.svg` |
 | `icons:ears` | T2 生成（`icons/generated/`） |
 | `icons:audit` | §8.4 の検査 |
 | `build:icons` | `icons.generated.ts` ＋ `icons/status.json` |
-| `build:registry` | `registry.json` → `public/r/*.json` |
-| `build:package` | `dist/`（tsc + tsc-alias）＋ `styles.css` 結合 ＋ `ai/` コピー |
-| `check` | `node scripts/check/index.mjs src`（自分自身にも lint をかける） |
+| `build:registry` | `src/components/ui/*/item.json` → `registry.json` → `shadcn build` → `public/r/*.json`、`llms.txt` → `public/` |
+| `build:package` | `dist/`（tsc → 相対 import の拡張子補完）＋ `styles.css` 結合 ＋ `ai/` コピー |
+| `pack:test` | `npm pack` → 一時プロジェクトに install → 全 export の SSR 描画 / Tailwind コンパイル / `npx nekodemo check` / 同梱ファイルを検証（CI でも実行） |
+| `check` | `node scripts/check/index.mjs src --strict`（自分自身にも lint をかける。Stop hook でも実行） |
 | `test` / `test:watch` | Vitest |
 | `lint` / `format` | Biome（`biome check` ＋ `scripts/lint-imports.mjs`）【決定: 2026-09-21、Phase 0。ESLint / Prettier は使わない】 |
 | `new-component <name>` | 雛形生成 |
@@ -1335,3 +1336,4 @@ description: >
 | 2026-09-21 | v0.1.7 | Phase 2 の結果を反映: §7.3（テーマブロックに役割層一式を書く）、§7.6（culori 確認済、25 ペア、neutral-400 / 500 の調整、`text-on-negative` 追加）、§7.4（suppressHydrationWarning、Material Symbols link） |
 | 2026-09-21 | v0.1.8 | Phase 3a の結果を反映: §8.5 の【未確認】を解消（パッケージ構成、bbox、ラスタライズによる付け根探索）、別名、生成物のサイズ |
 | 2026-09-21 | v0.1.9 | Phase 4 の結果を反映: §9.1 の 36 部品を実装（Tag に StatusTag、Form に Field、Skeleton に SkeletonRows を追加）、§11.4 の check を実装（NK001〜NK010、除外コメント、Stop hook）、§9.2 に tailwind-merge と Slot の注意を追記 |
+| 2026-09-22 | v0.1.10 | Phase 5 の結果を反映: §12 の registry 項目構成（`css` / `cssVars` 配布は不採用、`styles` 項目）、`exports`（個別エントリは v1 では無し）、dist の import 書き換え、§14 に `pack:test` |

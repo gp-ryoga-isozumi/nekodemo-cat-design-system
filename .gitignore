@@ -30,3 +30,8 @@ playwright-report/
 !.env.example
 
 *storybook.log
+
+# copied at build time from llms.txt
+public/llms.txt
+registry.json
+public/*.tgz

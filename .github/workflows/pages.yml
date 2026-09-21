@@ -1,6 +1,6 @@
 name: Pages
 
-# デモサイト（Next.js 静的書き出し）＋ Storybook（/storybook/）＋ shadcn registry（/r/、Phase 5）を
+# デモサイト（Next.js 静的書き出し）＋ Storybook（/storybook/）＋ shadcn registry（/r/）＋ llms.txt を
 # https://gp-ryoga-isozumi.github.io/nekodemo-cat-design-system/ に配信する。
 on:
   push:
@@ -29,6 +29,9 @@ jobs:
           cache: pnpm
       - run: pnpm install --frozen-lockfile
       - run: pnpm build-storybook
+      - run: pnpm build:registry
+      # 公開前の導入経路: デモサイトに npm tarball を置く（pnpm add https://.../nekodemo.tgz）
+      - run: pnpm build:package && npm pack --pack-destination public && cp public/nekodemo-*.tgz public/nekodemo.tgz
       - run: pnpm build
         env:
           NEXT_BASE_PATH: /nekodemo-cat-design-system
