@@ -1,0 +1,6 @@
+{
+  "$comment": "デモサイト自身のテーマ設定。利用側プロジェクトと同じ形式（設計書 §7.5、§13）。build:themes が defaultTheme を :root の既定テーマにする。",
+  "defaultTheme": "calico",
+  "themes": ["calico", "american-shorthair", "russian-blue"],
+  "switcher": true
+}

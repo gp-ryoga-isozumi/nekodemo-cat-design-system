@@ -193,6 +193,16 @@ Phase 0.5 のプレビューで判明した Phase 1 への要件（2026-09-21）
 
 完成条件（§15）: 3 テーマ合格、切替で全体が変わる、スクリーンショットが保存されている、フォント URL 検証が通る。
 
+Phase 2 の実施メモ（2026-09-21）:
+
+- コントラスト検査は 25 ペア × 3 テーマ全合格（`pnpm check:contrast`）。初期案から neutral-400（L 0.63）・neutral-500（L 0.53）を下げ、dark の `text-placeholder` を neutral.400 に、`text-on-negative` 役割を追加した。
+- テーマブロックは役割層一式を実値で書く方式にした（既定テーマが `:root` に併記されるため。設計書 §7.3 を更新）。
+- `NekoHead` / `registry.ts` / `themes.css` は生成物。同期テスト（`scripts/build-themes.test.mjs`）で実行忘れを検出する。フォント URL は Google Fonts へ実際に取得して検証（`--skip-font-check` で省略可）。
+- Mascot（3 体）は Phase 4 予定だったが NekoThemePicker が必要とするため前倒し。色は役割トークン・アクセントだけで描き、自分に `data-neko-theme` を付けて常に自分の毛色で表示する（ネストしたテーマ切替の実例）。
+- Storybook のテーマ切替ツールバーは `NekoThemeProvider` を `key` 付きで包み直す方式。
+- Vitest は globals を使わないため Testing Library の自動 cleanup が効かず、`vitest.setup.ts` で `afterEach(cleanup)` を入れた。
+- `docs/screenshots/` に home / tokens / themes × 3 テーマの 9 枚を保存（`pnpm build && pnpm screenshots`）。
+
 ### Phase 3a: アイコン基盤（Phase 4 の前提）
 
 目的: `<Icon icon="search" />` が T1 → T2 → T3 の順で解決され、部品内部で使うアイコンの T3 が 0 件になる。
@@ -303,3 +313,4 @@ Phase 0.5 のプレビューで判明した Phase 1 への要件（2026-09-21）
 | 2026-09-21 | v0.1.4 | フィードバック 3 回目（中抜きの耳、猫の顔のチェック・バッジ）を Phase 3a / 4 の要件に反映 |
 | 2026-09-21 | v0.1.5 | フィードバック 4 回目（Badge を通常の丸に戻す）を反映 |
 | 2026-09-21 | v0.1.6 | Phase 1 の実施メモ（スパイク結果、a11y 検出）を追加 |
+| 2026-09-21 | v0.1.7 | Phase 2 の実施メモを追加 |

@@ -1,35 +1,246 @@
-/* 暫定（Phase 1）: 三毛のプリミティブだけを手書きしている。Phase 2 で scripts/build-themes.mjs の生成物に置き換える。 */
+/* 生成物: scripts/build-themes.mjs が themes/*.json から生成する。手で編集しない（pnpm build:themes）。 */
+/* 既定テーマ（:root に併記）: calico。属性が無い HTML でも既定テーマで表示される。 */
+
+/* 三毛（Calico） */
 :root,
 [data-neko-theme="calico"] {
-  --nk-p-primary-50: oklch(0.975 0.02 60);
+  color-scheme: light;
+  /* プリミティブ（このテーマだけの値） */
+  --nk-p-primary-50: oklch(0.975 0.020 60);
   --nk-p-primary-100: oklch(0.94 0.045 55);
-  --nk-p-primary-200: oklch(0.88 0.08 52);
-  --nk-p-primary-300: oklch(0.8 0.11 50);
+  --nk-p-primary-200: oklch(0.88 0.080 52);
+  --nk-p-primary-300: oklch(0.80 0.110 50);
   --nk-p-primary-400: oklch(0.71 0.135 49);
-  --nk-p-primary-500: oklch(0.63 0.15 48);
-  --nk-p-primary-600: oklch(0.53 0.15 48);
+  --nk-p-primary-500: oklch(0.63 0.150 48);
+  --nk-p-primary-600: oklch(0.53 0.150 48);
   --nk-p-primary-700: oklch(0.46 0.135 47);
-  --nk-p-primary-800: oklch(0.39 0.11 46);
-  --nk-p-primary-900: oklch(0.3 0.08 45);
+  --nk-p-primary-800: oklch(0.39 0.110 46);
+  --nk-p-primary-900: oklch(0.30 0.080 45);
   --nk-p-neutral-50: oklch(0.975 0.008 70);
-  --nk-p-neutral-100: oklch(0.94 0.01 70);
+  --nk-p-neutral-100: oklch(0.94 0.010 70);
   --nk-p-neutral-200: oklch(0.89 0.012 70);
   --nk-p-neutral-300: oklch(0.81 0.014 70);
-  --nk-p-neutral-400: oklch(0.72 0.016 70);
-  --nk-p-neutral-500: oklch(0.53 0.018 70); /* text-low が白地で 4.5:1 を満たすよう 0.60 → 0.53（Storybook a11y で検出） */
-  --nk-p-neutral-600: oklch(0.5 0.02 70);
-  --nk-p-neutral-700: oklch(0.42 0.02 70);
-  --nk-p-neutral-800: oklch(0.33 0.02 70);
-  --nk-p-neutral-900: oklch(0.25 0.02 70);
-  --nk-p-accent-1: oklch(0.22 0.01 60);
-  --nk-p-accent-2: oklch(0.97 0.02 85);
-  --nk-p-accent-3: oklch(0.78 0.09 10);
-  --nk-p-radius-action: 12px;
-  --nk-p-radius-container: 16px;
-  --nk-p-radius-modal: 24px;
-  --nk-p-radius-notice: 4px;
+  --nk-p-neutral-400: oklch(0.63 0.016 70);
+  --nk-p-neutral-500: oklch(0.53 0.018 70);
+  --nk-p-neutral-600: oklch(0.46 0.020 70);
+  --nk-p-neutral-700: oklch(0.40 0.020 70);
+  --nk-p-neutral-800: oklch(0.33 0.020 70);
+  --nk-p-neutral-900: oklch(0.25 0.020 70);
+  --nk-p-accent-1: oklch(0.22 0.010 60);
+  --nk-p-accent-2: oklch(0.97 0.020 85);
+  --nk-p-accent-3: oklch(0.78 0.090 10);
+  --nk-p-radius-action: 12px; /* xl */
+  --nk-p-radius-container: 16px; /* 2xl */
+  --nk-p-radius-modal: 24px; /* 3xl */
+  --nk-p-radius-notice: 4px; /* sm */
   --nk-p-font-pro: "Zen Maru Gothic", "Hiragino Maru Gothic ProN", sans-serif;
   --nk-p-font-mono: "Noto Sans Mono", ui-monospace, monospace;
-  --nk-p-shadow-tint: oklch(0.22 0.01 60);
-  --nk-color-text-high: var(--nk-p-accent-1);
+  --nk-p-shadow-tint: oklch(0.22 0.010 60);
+  /* 役割層（scheme: light、overrides あり）。実値で書く */
+  --nk-color-text-high: oklch(0.22 0.010 60);
+  --nk-color-text-middle: oklch(0.40 0.020 70);
+  --nk-color-text-low: oklch(0.53 0.018 70);
+  --nk-color-text-placeholder: oklch(0.53 0.018 70);
+  --nk-color-text-disabled: oklch(0.81 0.014 70);
+  --nk-color-text-on-primary: oklch(1 0 0);
+  --nk-color-text-on-negative: oklch(1 0 0);
+  --nk-color-text-link: oklch(0.46 0.135 47);
+  --nk-color-text-primary: oklch(0.46 0.135 47);
+  --nk-color-text-negative: oklch(0.45 0.180 25);
+  --nk-color-text-info: oklch(0.43 0.130 240);
+  --nk-color-text-success: oklch(0.44 0.120 150);
+  --nk-color-text-warning: oklch(0.52 0.120 60);
+  --nk-color-text-inverse: oklch(1 0 0);
+  --nk-color-surface-page: oklch(1 0 0);
+  --nk-color-surface-card: oklch(1 0 0);
+  --nk-color-surface-well: oklch(0.975 0.008 70);
+  --nk-color-surface-input: oklch(1 0 0);
+  --nk-color-surface-disabled: oklch(0.94 0.010 70);
+  --nk-color-surface-overlay: oklch(0.2 0.02 250 / 0.45);
+  --nk-color-surface-inverse: oklch(0.25 0.020 70);
+  --nk-color-surface-primary: oklch(0.53 0.150 48);
+  --nk-color-surface-primary-hover: oklch(0.46 0.135 47);
+  --nk-color-surface-primary-active: oklch(0.39 0.110 46);
+  --nk-color-surface-primary-subtle: oklch(0.975 0.020 60);
+  --nk-color-surface-primary-subtle-hover: oklch(0.94 0.045 55);
+  --nk-color-surface-negative: oklch(0.53 0.200 25);
+  --nk-color-surface-negative-subtle: oklch(0.97 0.015 25);
+  --nk-color-surface-info-subtle: oklch(0.97 0.015 240);
+  --nk-color-surface-success-subtle: oklch(0.97 0.020 150);
+  --nk-color-surface-warning-subtle: oklch(0.98 0.025 80);
+  --nk-color-surface-selected: oklch(0.975 0.020 60);
+  --nk-color-border-low: oklch(0.94 0.010 70);
+  --nk-color-border-middle: oklch(0.89 0.012 70);
+  --nk-color-border-high: oklch(0.63 0.016 70);
+  --nk-color-border-primary: oklch(0.63 0.150 48);
+  --nk-color-border-negative: oklch(0.62 0.200 25);
+  --nk-color-border-focus: oklch(0.63 0.150 48);
+  --nk-color-object-high: oklch(0.25 0.020 70);
+  --nk-color-object-middle: oklch(0.40 0.020 70);
+  --nk-color-object-low: oklch(0.53 0.018 70);
+  --nk-color-object-primary: oklch(0.53 0.150 48);
+  --nk-color-object-negative: oklch(0.53 0.200 25);
+  --nk-color-object-on-primary: oklch(1 0 0);
+}
+
+/* アメショ（American Shorthair） */
+[data-neko-theme="american-shorthair"] {
+  color-scheme: light;
+  /* プリミティブ（このテーマだけの値） */
+  --nk-p-primary-50: oklch(0.97 0.004 250);
+  --nk-p-primary-100: oklch(0.93 0.008 250);
+  --nk-p-primary-200: oklch(0.86 0.012 250);
+  --nk-p-primary-300: oklch(0.77 0.016 250);
+  --nk-p-primary-400: oklch(0.67 0.020 250);
+  --nk-p-primary-500: oklch(0.55 0.024 250);
+  --nk-p-primary-600: oklch(0.42 0.024 250);
+  --nk-p-primary-700: oklch(0.36 0.022 250);
+  --nk-p-primary-800: oklch(0.30 0.020 250);
+  --nk-p-primary-900: oklch(0.24 0.018 250);
+  --nk-p-neutral-50: oklch(0.975 0.004 240);
+  --nk-p-neutral-100: oklch(0.94 0.006 240);
+  --nk-p-neutral-200: oklch(0.89 0.008 240);
+  --nk-p-neutral-300: oklch(0.81 0.010 240);
+  --nk-p-neutral-400: oklch(0.63 0.012 240);
+  --nk-p-neutral-500: oklch(0.53 0.012 240);
+  --nk-p-neutral-600: oklch(0.46 0.012 240);
+  --nk-p-neutral-700: oklch(0.40 0.012 240);
+  --nk-p-neutral-800: oklch(0.33 0.012 240);
+  --nk-p-neutral-900: oklch(0.25 0.012 240);
+  --nk-p-accent-1: oklch(0.78 0.140 80);
+  --nk-p-accent-2: oklch(0.25 0.010 250);
+  --nk-p-accent-3: oklch(0.80 0.080 10);
+  --nk-p-radius-action: 6px; /* md */
+  --nk-p-radius-container: 8px; /* lg */
+  --nk-p-radius-modal: 12px; /* xl */
+  --nk-p-radius-notice: 4px; /* sm */
+  --nk-p-font-pro: "Zen Maru Gothic", "Hiragino Maru Gothic ProN", sans-serif;
+  --nk-p-font-mono: "Noto Sans Mono", ui-monospace, monospace;
+  --nk-p-shadow-tint: oklch(0.25 0.010 250);
+  /* 役割層（scheme: light）。実値で書く */
+  --nk-color-text-high: oklch(0.25 0.012 240);
+  --nk-color-text-middle: oklch(0.40 0.012 240);
+  --nk-color-text-low: oklch(0.53 0.012 240);
+  --nk-color-text-placeholder: oklch(0.53 0.012 240);
+  --nk-color-text-disabled: oklch(0.81 0.010 240);
+  --nk-color-text-on-primary: oklch(1 0 0);
+  --nk-color-text-on-negative: oklch(1 0 0);
+  --nk-color-text-link: oklch(0.36 0.022 250);
+  --nk-color-text-primary: oklch(0.36 0.022 250);
+  --nk-color-text-negative: oklch(0.45 0.180 25);
+  --nk-color-text-info: oklch(0.43 0.130 240);
+  --nk-color-text-success: oklch(0.44 0.120 150);
+  --nk-color-text-warning: oklch(0.52 0.120 60);
+  --nk-color-text-inverse: oklch(1 0 0);
+  --nk-color-surface-page: oklch(1 0 0);
+  --nk-color-surface-card: oklch(1 0 0);
+  --nk-color-surface-well: oklch(0.975 0.004 240);
+  --nk-color-surface-input: oklch(1 0 0);
+  --nk-color-surface-disabled: oklch(0.94 0.006 240);
+  --nk-color-surface-overlay: oklch(0.2 0.02 250 / 0.45);
+  --nk-color-surface-inverse: oklch(0.25 0.012 240);
+  --nk-color-surface-primary: oklch(0.42 0.024 250);
+  --nk-color-surface-primary-hover: oklch(0.36 0.022 250);
+  --nk-color-surface-primary-active: oklch(0.30 0.020 250);
+  --nk-color-surface-primary-subtle: oklch(0.97 0.004 250);
+  --nk-color-surface-primary-subtle-hover: oklch(0.93 0.008 250);
+  --nk-color-surface-negative: oklch(0.53 0.200 25);
+  --nk-color-surface-negative-subtle: oklch(0.97 0.015 25);
+  --nk-color-surface-info-subtle: oklch(0.97 0.015 240);
+  --nk-color-surface-success-subtle: oklch(0.97 0.020 150);
+  --nk-color-surface-warning-subtle: oklch(0.98 0.025 80);
+  --nk-color-surface-selected: oklch(0.97 0.004 250);
+  --nk-color-border-low: oklch(0.94 0.006 240);
+  --nk-color-border-middle: oklch(0.89 0.008 240);
+  --nk-color-border-high: oklch(0.63 0.012 240);
+  --nk-color-border-primary: oklch(0.55 0.024 250);
+  --nk-color-border-negative: oklch(0.62 0.200 25);
+  --nk-color-border-focus: oklch(0.55 0.024 250);
+  --nk-color-object-high: oklch(0.25 0.012 240);
+  --nk-color-object-middle: oklch(0.40 0.012 240);
+  --nk-color-object-low: oklch(0.53 0.012 240);
+  --nk-color-object-primary: oklch(0.42 0.024 250);
+  --nk-color-object-negative: oklch(0.53 0.200 25);
+  --nk-color-object-on-primary: oklch(1 0 0);
+}
+
+/* ロシアンブルー（Russian Blue） */
+[data-neko-theme="russian-blue"] {
+  color-scheme: dark;
+  /* プリミティブ（このテーマだけの値） */
+  --nk-p-primary-50: oklch(0.97 0.010 250);
+  --nk-p-primary-100: oklch(0.93 0.020 250);
+  --nk-p-primary-200: oklch(0.86 0.035 250);
+  --nk-p-primary-300: oklch(0.78 0.052 250);
+  --nk-p-primary-400: oklch(0.68 0.060 250);
+  --nk-p-primary-500: oklch(0.57 0.065 250);
+  --nk-p-primary-600: oklch(0.46 0.065 250);
+  --nk-p-primary-700: oklch(0.39 0.060 250);
+  --nk-p-primary-800: oklch(0.32 0.050 250);
+  --nk-p-primary-900: oklch(0.25 0.040 250);
+  --nk-p-neutral-50: oklch(0.95 0.008 250);
+  --nk-p-neutral-100: oklch(0.90 0.010 250);
+  --nk-p-neutral-200: oklch(0.84 0.014 250);
+  --nk-p-neutral-300: oklch(0.75 0.018 250);
+  --nk-p-neutral-400: oklch(0.68 0.022 250);
+  --nk-p-neutral-500: oklch(0.55 0.024 250);
+  --nk-p-neutral-600: oklch(0.43 0.026 250);
+  --nk-p-neutral-700: oklch(0.34 0.028 250);
+  --nk-p-neutral-800: oklch(0.29 0.028 250);
+  --nk-p-neutral-900: oklch(0.245 0.028 250);
+  --nk-p-accent-1: oklch(0.72 0.150 160);
+  --nk-p-accent-2: oklch(0.85 0.010 250);
+  --nk-p-accent-3: oklch(0.65 0.080 330);
+  --nk-p-radius-action: 4px; /* sm */
+  --nk-p-radius-container: 6px; /* md */
+  --nk-p-radius-modal: 8px; /* lg */
+  --nk-p-radius-notice: 2px; /* xs */
+  --nk-p-font-pro: "Zen Maru Gothic", "Hiragino Maru Gothic ProN", sans-serif;
+  --nk-p-font-mono: "Noto Sans Mono", ui-monospace, monospace;
+  --nk-p-shadow-tint: oklch(0.05 0.020 250);
+  /* 役割層（scheme: dark）。実値で書く */
+  --nk-color-text-high: oklch(0.95 0.008 250);
+  --nk-color-text-middle: oklch(0.84 0.014 250);
+  --nk-color-text-low: oklch(0.68 0.022 250);
+  --nk-color-text-placeholder: oklch(0.68 0.022 250);
+  --nk-color-text-disabled: oklch(0.43 0.026 250);
+  --nk-color-text-on-primary: oklch(0.25 0.040 250);
+  --nk-color-text-on-negative: oklch(1 0 0);
+  --nk-color-text-link: oklch(0.78 0.052 250);
+  --nk-color-text-primary: oklch(0.78 0.052 250);
+  --nk-color-text-negative: oklch(0.78 0.120 25);
+  --nk-color-text-info: oklch(0.78 0.100 240);
+  --nk-color-text-success: oklch(0.80 0.120 150);
+  --nk-color-text-warning: oklch(0.85 0.120 80);
+  --nk-color-text-inverse: oklch(0.245 0.028 250);
+  --nk-color-surface-page: oklch(0.245 0.028 250);
+  --nk-color-surface-card: oklch(0.29 0.028 250);
+  --nk-color-surface-well: oklch(0.34 0.028 250);
+  --nk-color-surface-input: oklch(0.245 0.028 250);
+  --nk-color-surface-disabled: oklch(0.34 0.028 250);
+  --nk-color-surface-overlay: oklch(0.10 0.02 250 / 0.65);
+  --nk-color-surface-inverse: oklch(0.90 0.010 250);
+  --nk-color-surface-primary: oklch(0.78 0.052 250);
+  --nk-color-surface-primary-hover: oklch(0.86 0.035 250);
+  --nk-color-surface-primary-active: oklch(0.68 0.060 250);
+  --nk-color-surface-primary-subtle: oklch(0.32 0.050 250);
+  --nk-color-surface-primary-subtle-hover: oklch(0.39 0.060 250);
+  --nk-color-surface-negative: oklch(0.53 0.200 25);
+  --nk-color-surface-negative-subtle: oklch(0.30 0.090 25);
+  --nk-color-surface-info-subtle: oklch(0.30 0.060 240);
+  --nk-color-surface-success-subtle: oklch(0.30 0.060 150);
+  --nk-color-surface-warning-subtle: oklch(0.32 0.070 70);
+  --nk-color-surface-selected: oklch(0.32 0.050 250);
+  --nk-color-border-low: oklch(0.34 0.028 250);
+  --nk-color-border-middle: oklch(0.43 0.026 250);
+  --nk-color-border-high: oklch(0.55 0.024 250);
+  --nk-color-border-primary: oklch(0.78 0.052 250);
+  --nk-color-border-negative: oklch(0.62 0.200 25);
+  --nk-color-border-focus: oklch(0.78 0.052 250);
+  --nk-color-object-high: oklch(0.95 0.008 250);
+  --nk-color-object-middle: oklch(0.84 0.014 250);
+  --nk-color-object-low: oklch(0.68 0.022 250);
+  --nk-color-object-primary: oklch(0.78 0.052 250);
+  --nk-color-object-negative: oklch(0.78 0.120 25);
+  --nk-color-object-on-primary: oklch(0.25 0.040 250);
 }

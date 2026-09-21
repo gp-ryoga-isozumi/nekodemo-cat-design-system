@@ -87,6 +87,7 @@
   --color-text-placeholder: var(--nk-color-text-placeholder);
   --color-text-disabled: var(--nk-color-text-disabled);
   --color-text-on-primary: var(--nk-color-text-on-primary);
+  --color-text-on-negative: var(--nk-color-text-on-negative);
   --color-text-link: var(--nk-color-text-link);
   --color-text-primary: var(--nk-color-text-primary);
   --color-text-negative: var(--nk-color-text-negative);
@@ -303,6 +304,7 @@
   --nk-color-text-placeholder: var(--nk-color-neutral-500);
   --nk-color-text-disabled: var(--nk-color-neutral-300);
   --nk-color-text-on-primary: var(--nk-color-white);
+  --nk-color-text-on-negative: var(--nk-color-white);
   --nk-color-text-link: var(--nk-color-primary-700);
   --nk-color-text-primary: var(--nk-color-primary-700);
   --nk-color-text-negative: var(--nk-color-negative-700);
@@ -330,7 +332,7 @@
   --nk-color-surface-selected: var(--nk-color-primary-50);
   --nk-color-border-low: var(--nk-color-neutral-100);
   --nk-color-border-middle: var(--nk-color-neutral-200);
-  --nk-color-border-high: var(--nk-color-neutral-300);
+  --nk-color-border-high: var(--nk-color-neutral-400);
   --nk-color-border-primary: var(--nk-color-primary-500);
   --nk-color-border-negative: var(--nk-color-negative-500);
   --nk-color-border-focus: var(--nk-color-primary-500);

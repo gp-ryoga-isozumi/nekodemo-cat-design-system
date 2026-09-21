@@ -1,0 +1,147 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/gp-ryoga-isozumi/nekodemo-cat-design-system/themes/neko-theme.schema.json",
+  "title": "nekodemo theme",
+  "description": "猫テーマ 1 つ分の定義（設計書 §7.2）。新しい猫を増やすときは themes/<id>.json を 1 つ追加する。",
+  "type": "object",
+  "required": ["id", "scheme", "label", "mood", "palette", "radius", "fonts", "mascot"],
+  "additionalProperties": false,
+  "properties": {
+    "$schema": { "type": "string" },
+    "id": {
+      "type": "string",
+      "pattern": "^[a-z][a-z0-9-]*$",
+      "description": "テーマ ID。data-neko-theme の値"
+    },
+    "scheme": {
+      "type": "string",
+      "enum": ["light", "dark"],
+      "description": "役割トークンの対応表（semantic.map.json の light / dark）と color-scheme を決める（D12）"
+    },
+    "label": {
+      "type": "object",
+      "required": ["ja", "en"],
+      "additionalProperties": false,
+      "properties": {
+        "ja": { "type": "string", "minLength": 1 },
+        "en": { "type": "string", "minLength": 1 }
+      }
+    },
+    "mood": {
+      "type": "object",
+      "required": ["ja", "keywords"],
+      "additionalProperties": false,
+      "description": "AI が雰囲気語からテーマを選ぶための語彙（§7.5）",
+      "properties": {
+        "ja": { "type": "array", "minItems": 3, "items": { "type": "string", "minLength": 1 } },
+        "keywords": {
+          "type": "array",
+          "minItems": 5,
+          "items": { "type": "string", "minLength": 1 }
+        }
+      }
+    },
+    "palette": {
+      "type": "object",
+      "required": ["primary", "neutral", "accent"],
+      "additionalProperties": false,
+      "properties": {
+        "primary": { "$ref": "#/$defs/scale" },
+        "neutral": { "$ref": "#/$defs/scale" },
+        "accent": {
+          "type": "object",
+          "required": ["1", "2", "3"],
+          "additionalProperties": false,
+          "properties": {
+            "1": { "$ref": "#/$defs/oklch" },
+            "2": { "$ref": "#/$defs/oklch" },
+            "3": { "$ref": "#/$defs/oklch" }
+          }
+        }
+      }
+    },
+    "radius": {
+      "type": "object",
+      "required": ["action", "container", "modal", "notice"],
+      "additionalProperties": false,
+      "properties": {
+        "action": { "$ref": "#/$defs/radiusStep" },
+        "container": { "$ref": "#/$defs/radiusStep" },
+        "modal": { "$ref": "#/$defs/radiusStep" },
+        "notice": { "$ref": "#/$defs/radiusStep" }
+      }
+    },
+    "fonts": {
+      "type": "object",
+      "required": ["pro", "mono"],
+      "additionalProperties": false,
+      "properties": { "pro": { "$ref": "#/$defs/font" }, "mono": { "$ref": "#/$defs/font" } }
+    },
+    "shadowTint": { "$ref": "#/$defs/oklch", "description": "影の色（毛色に寄せる）。省略時は黒" },
+    "overrides": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "color": {
+          "type": "object",
+          "description": "semantic.map.json の対応をこのテーマだけ差し替える。値は 'neutral.900' 'accent.1' 'white' 等",
+          "additionalProperties": {
+            "type": "string",
+            "pattern": "^(white|black|[a-z]+\\.\\d+|oklch\\(.+\\))$"
+          }
+        }
+      }
+    },
+    "mascot": {
+      "type": "string",
+      "pattern": "^[a-z][a-z0-9-]*$",
+      "description": "src/components/mascot/<id> の名前"
+    }
+  },
+  "$defs": {
+    "oklch": {
+      "type": "string",
+      "pattern": "^oklch\\(\\s*[0-9.]+%?\\s+[0-9.]+\\s+[0-9.]+\\s*(/\\s*[0-9.]+%?\\s*)?\\)$"
+    },
+    "scale": {
+      "type": "object",
+      "required": ["50", "100", "200", "300", "400", "500", "600", "700", "800", "900"],
+      "additionalProperties": false,
+      "properties": {
+        "50": { "$ref": "#/$defs/oklch" },
+        "100": { "$ref": "#/$defs/oklch" },
+        "200": { "$ref": "#/$defs/oklch" },
+        "300": { "$ref": "#/$defs/oklch" },
+        "400": { "$ref": "#/$defs/oklch" },
+        "500": { "$ref": "#/$defs/oklch" },
+        "600": { "$ref": "#/$defs/oklch" },
+        "700": { "$ref": "#/$defs/oklch" },
+        "800": { "$ref": "#/$defs/oklch" },
+        "900": { "$ref": "#/$defs/oklch" }
+      }
+    },
+    "radiusStep": {
+      "type": "string",
+      "enum": ["none", "xs", "sm", "md", "lg", "xl", "2xl", "3xl"]
+    },
+    "font": {
+      "type": "object",
+      "required": ["family", "weights", "fallback"],
+      "additionalProperties": false,
+      "properties": {
+        "family": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Google Fonts 上のファミリー名"
+        },
+        "weights": {
+          "type": "array",
+          "items": { "type": "integer" },
+          "allOf": [{ "contains": { "const": 400 } }, { "contains": { "const": 700 } }],
+          "description": "400 と 700 を必ず含む（§6.4）"
+        },
+        "fallback": { "type": "string", "minLength": 1 }
+      }
+    }
+  }
+}
