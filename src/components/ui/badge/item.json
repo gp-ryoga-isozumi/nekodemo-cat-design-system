@@ -1,0 +1,17 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "badge",
+  "type": "registry:ui",
+  "title": "Badge",
+  "description": "件数を示す小さな丸。primary / negative / neutral、max を超えると「99+」",
+  "registryDependencies": [],
+  "dependencies": ["class-variance-authority"],
+  "files": [
+    {
+      "path": "src/components/ui/badge/index.tsx",
+      "type": "registry:ui",
+      "target": "components/ui/badge/index.tsx"
+    }
+  ],
+  "meta": { "shadcnSource": "badge", "shadcnVersion": "4.21.0" }
+}

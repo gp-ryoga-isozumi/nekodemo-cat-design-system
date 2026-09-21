@@ -1,0 +1,17 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "toast",
+  "type": "registry:ui",
+  "title": "Toast",
+  "description": "操作結果の一時的な通知。Toaster をルートに 1 つ置き、toast.success / error / warning / info で出す",
+  "registryDependencies": ["icon"],
+  "dependencies": ["sonner"],
+  "files": [
+    {
+      "path": "src/components/ui/toast/index.tsx",
+      "type": "registry:ui",
+      "target": "components/ui/toast/index.tsx"
+    }
+  ],
+  "meta": { "shadcnSource": "sonner", "shadcnVersion": "4.21.0" }
+}

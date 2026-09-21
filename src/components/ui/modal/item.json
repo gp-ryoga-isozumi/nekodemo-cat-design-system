@@ -1,0 +1,17 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "modal",
+  "type": "registry:ui",
+  "title": "Modal",
+  "description": "その場で完結する短い入力やコンテンツ用のモーダル。Esc と外側クリックで閉じる。確認だけなら Dialog",
+  "registryDependencies": ["icon-button"],
+  "dependencies": ["radix-ui"],
+  "files": [
+    {
+      "path": "src/components/ui/modal/index.tsx",
+      "type": "registry:ui",
+      "target": "components/ui/modal/index.tsx"
+    }
+  ],
+  "meta": { "shadcnSource": "dialog", "shadcnVersion": "4.21.0" }
+}

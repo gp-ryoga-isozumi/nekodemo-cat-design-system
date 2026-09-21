@@ -1,0 +1,17 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "select",
+  "type": "registry:ui",
+  "title": "Select",
+  "description": "単一選択のドロップダウン。sm / md / lg、グループ・区切り線・選択チェック付き",
+  "registryDependencies": ["icon"],
+  "dependencies": ["radix-ui"],
+  "files": [
+    {
+      "path": "src/components/ui/select/index.tsx",
+      "type": "registry:ui",
+      "target": "components/ui/select/index.tsx"
+    }
+  ],
+  "meta": { "shadcnSource": "select", "shadcnVersion": "4.21.0" }
+}

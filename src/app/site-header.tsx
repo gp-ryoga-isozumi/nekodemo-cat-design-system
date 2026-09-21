@@ -8,6 +8,7 @@ import { useNekoTheme } from "@/components/theme/NekoThemeProvider";
 const NAV: { href: string; label: string }[] = [
   { href: "/tokens/", label: "トークン" },
   { href: "/themes/", label: "テーマ" },
+  { href: "/samples/list/", label: "サンプル" },
 ];
 
 export function SiteHeader() {

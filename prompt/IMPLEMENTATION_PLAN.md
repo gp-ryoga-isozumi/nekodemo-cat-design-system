@@ -260,6 +260,16 @@ Phase 3a の実施メモ（2026-09-21）:
 
 完成条件（§15）: 全部品に story・test・README・item.json。a11y 違反 0。check 0 件。4 画面型が 3 テーマで崩れない。
 
+Phase 4 の実施メモ（2026-09-21）:
+
+- 36 部品（§9.1 #1〜#36）を実装。Icon / Mascot / Theme は前フェーズ分を流用。追加した派生: Tag の StatusTag、Form の Field（静的版）、Skeleton の SkeletonRows、Pagination の pageItems。
+- `nekodemo check`（scripts/check/）を Phase 4 の冒頭に実装し、`pnpm check` を CI と Claude Code の Stop hook（scripts/hooks/nekodemo-check-stop.mjs、stop_hook_active で無限ループ回避）に登録した。NK010 は画面（page.tsx / pages/*.tsx）だけを対象にした。
+- stories / tests / item.json は Opus 5 のサブエージェント 6 体に分担（部品 index.tsx は Fable が実装）。README は `pnpm build:readmes` で JSDoc から生成する。
+- 単体テスト 268 件、ストーリー（a11y を error で実行）232 件がすべて通過。`pnpm check` は error 0（warn 2 は Icon の T3 例示）。`pnpm icons:list` で部品内の T3 は 0 件。
+- 検出した不具合: (1) tailwind-merge が `text-2` を色と誤判定して `text-text-on-primary` を落とす → `src/lib/utils.ts` で font-size / rounded / shadow を登録。(2) Radix Slot の asChild で子が複数だと例外 → Button / Link / SideNavItem を `Slot.Slottable` で包む。(3) FormControl の aria-describedby が存在しない id を指す → FormDescription の有無を context で伝える。(4) InputPassword / InputSearch の disabled が内側のボタンに伝わらない → 修正。
+- デモサイトに 4 画面型のサンプル（/samples/list・detail・form・settings）と AppShell（SideNavigation）を追加。一覧と詳細は 4 状態を切り替えて確認できる。docs/screenshots に list / form を追加。
+- shadcn 部品の取り込みは、shadcn CLI をスクラッチ用ディレクトリで実行して元コードを読み、役割トークン・Icon に置き換えて index.tsx を書き直す方式にした（`item.json` の meta.shadcnSource に元の名前を記録）。
+
 ### Phase 5: AI 提供・配布
 
 | # | 作業 | 成果物 |
@@ -324,3 +334,4 @@ Phase 3a の実施メモ（2026-09-21）:
 | 2026-09-21 | v0.1.6 | Phase 1 の実施メモ（スパイク結果、a11y 検出）を追加 |
 | 2026-09-21 | v0.1.7 | Phase 2 の実施メモを追加 |
 | 2026-09-21 | v0.1.8 | Phase 3a の実施メモを追加 |
+| 2026-09-21 | v0.1.9 | Phase 4 の実施メモを追加 |

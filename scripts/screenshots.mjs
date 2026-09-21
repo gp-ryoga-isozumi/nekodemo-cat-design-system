@@ -10,7 +10,7 @@ import { loadThemes } from "./check-contrast.mjs";
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), "..");
 const OUT = join(ROOT, "out");
 const DEST = join(ROOT, "docs", "screenshots");
-const PAGES = ["/", "/tokens/", "/themes/"];
+const PAGES = ["/", "/tokens/", "/themes/", "/samples/list/", "/samples/form/"];
 const MIME = {
   ".html": "text/html; charset=utf-8",
   ".css": "text/css",
@@ -64,7 +64,7 @@ async function main() {
       for (const path of PAGES) {
         await page.goto(`http://127.0.0.1:${port}${path}`, { waitUntil: "networkidle" });
         await page.waitForTimeout(300);
-        const name = `${path === "/" ? "home" : path.replaceAll("/", "")}-${theme.id}.png`;
+        const name = `${path === "/" ? "home" : path.replace(/^\/|\/$/g, "").replaceAll("/", "-")}-${theme.id}.png`;
         await page.screenshot({ path: join(DEST, name), fullPage: true });
         console.log(`[screenshots] docs/screenshots/${name}`);
       }

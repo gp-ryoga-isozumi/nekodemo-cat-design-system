@@ -1,0 +1,17 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "textarea",
+  "type": "registry:ui",
+  "title": "Textarea",
+  "description": "複数行のテキスト入力。maxLength で文字数カウンタ（12 / 200）が出る",
+  "registryDependencies": [],
+  "dependencies": [],
+  "files": [
+    {
+      "path": "src/components/ui/textarea/index.tsx",
+      "type": "registry:ui",
+      "target": "components/ui/textarea/index.tsx"
+    }
+  ],
+  "meta": { "shadcnSource": "textarea", "shadcnVersion": "4.21.0" }
+}
