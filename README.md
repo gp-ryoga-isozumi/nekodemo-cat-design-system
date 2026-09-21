@@ -30,7 +30,7 @@
 
 | 経路 | 内容 | 使い方 |
 |---|---|---|
-| npm パッケージ `nekodemo`（公開準備中） | 部品（ESM + 型定義）、`nekodemo/styles.css`（トークン + 3 テーマ）、`nekodemo check`（lint）、`ai/`（AI 向けガイド）、`skills/` | `pnpm add nekodemo`（公開前は `pnpm add github:gp-ryoga-isozumi/nekodemo-cat-design-system`） |
+| npm パッケージ `nekodemo`（公開準備中） | 部品（ESM + 型定義）、`nekodemo/styles.css`（トークン + 3 テーマ）、`nekodemo check`（lint）、`ai/`（AI 向けガイド）、`skills/` | `pnpm add nekodemo`（公開前は `pnpm add https://gp-ryoga-isozumi.github.io/nekodemo-cat-design-system/nekodemo.tgz`） |
 | shadcn registry | 部品のソースを copy-in（npm 依存を増やしたくない場合） | `components.json` に `"registries": { "@nekodemo": "https://gp-ryoga-isozumi.github.io/nekodemo-cat-design-system/r/{name}.json" }` → `npx shadcn@latest add @nekodemo/styles @nekodemo/theme @nekodemo/button` |
 | デモサイト / Storybook | テーマ切替、トークン一覧、4 画面型のサンプル、全部品のストーリー | https://gp-ryoga-isozumi.github.io/nekodemo-cat-design-system/ ・ [`/storybook/`](https://gp-ryoga-isozumi.github.io/nekodemo-cat-design-system/storybook/) |
 

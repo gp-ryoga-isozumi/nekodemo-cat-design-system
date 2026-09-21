@@ -163,12 +163,27 @@ const good = run("npx", ["nekodemo", "check", "good.tsx", "--strict"], app, {
 });
 if (good.status !== 0)
   throw new Error(`正常ファイルで check が失敗しました\n${good.stdout}${good.stderr}`);
-const iconCheck = run("npx", ["nekodemo", "check", "--format", "json", "icon.tsx"], app, {
+// 猫版が無いアイコン名は warn（NK006）。同梱した icons/status.json を bin 経由でも参照できることの確認
+writeFileSync(
+  join(app, "icon.tsx"),
+  'import { Icon } from "nekodemo";\nexport const A = () => <Icon icon="print_disabled" label="印刷不可" />;\n',
+);
+const iconCheck = run("npx", ["nekodemo", "check", "icon.tsx", "--format", "json"], app, {
   capture: true,
   allowFail: true,
 });
-log("bin nekodemo check OK（違反で exit 1、正常で exit 0）");
-void iconCheck;
+if (iconCheck.status !== 0)
+  throw new Error(
+    `warn だけのファイルで check が失敗しました（exit ${iconCheck.status}）\n${iconCheck.stdout}${iconCheck.stderr}`,
+  );
+const iconJson = JSON.parse(iconCheck.stdout);
+if (
+  !iconJson.findings.some((f) => f.rule === "NK006") ||
+  !(iconJson.missingIcons ?? []).includes("print_disabled")
+) {
+  throw new Error(`NK006 / missingIcons が出ていません: ${iconCheck.stdout.slice(0, 300)}`);
+}
+log("bin nekodemo check OK（違反で exit 1、正常で exit 0、猫版が無いアイコンは warn）");
 
 // 3d. AI ドキュメントが node_modules から読める
 const ai = readdirSync(join(app, "node_modules", "nekodemo", "dist", "ai"));
