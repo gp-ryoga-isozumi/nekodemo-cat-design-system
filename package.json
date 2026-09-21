@@ -1,0 +1,80 @@
+{
+  "name": "nekodemo",
+  "version": "0.0.0",
+  "private": true,
+  "description": "猫がテーマのプロトタイプ用デザインシステム（React / Tailwind v4 / shadcn）。AI コーディングツール向け。",
+  "type": "module",
+  "packageManager": "pnpm@10.20.0",
+  "engines": {
+    "node": ">=22"
+  },
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "storybook": "storybook dev -p 6006",
+    "build-storybook": "storybook build -o public/storybook",
+    "build:tokens": "node scripts/todo.mjs build:tokens",
+    "build:themes": "node scripts/todo.mjs build:themes",
+    "check:contrast": "node scripts/todo.mjs check:contrast",
+    "icons:list": "node scripts/todo.mjs icons:list",
+    "icons:vectorize": "node scripts/todo.mjs icons:vectorize",
+    "icons:ears": "node scripts/todo.mjs icons:ears",
+    "icons:audit": "node scripts/todo.mjs icons:audit",
+    "build:icons": "node scripts/todo.mjs build:icons",
+    "build:registry": "node scripts/todo.mjs build:registry",
+    "build:readmes": "node scripts/todo.mjs build:readmes",
+    "build:package": "tsc -p tsconfig.build.json && node scripts/build-package.mjs",
+    "check": "node scripts/todo.mjs check",
+    "screenshots": "node scripts/todo.mjs screenshots",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "typecheck": "tsc --noEmit",
+    "lint": "biome check . && node scripts/lint-imports.mjs",
+    "format": "biome format --write .",
+    "new-component": "bash scripts/new-component.sh"
+  },
+  "pnpm": {
+    "onlyBuiltDependencies": [
+      "@biomejs/biome",
+      "@tailwindcss/oxide",
+      "esbuild",
+      "sharp",
+      "unrs-resolver"
+    ]
+  },
+  "dependencies": {
+    "class-variance-authority": "^0.7.1",
+    "clsx": "^2.1.1",
+    "next": "^16.3.5",
+    "radix-ui": "^1.6.7",
+    "react": "^19.3.0",
+    "react-dom": "^19.3.0",
+    "tailwind-merge": "^3.7.0"
+  },
+  "devDependencies": {
+    "@biomejs/biome": "^2.5.14",
+    "@storybook/addon-a11y": "^10.6.0",
+    "@storybook/addon-docs": "^10.6.0",
+    "@storybook/addon-vitest": "^10.6.0",
+    "@storybook/nextjs-vite": "^10.6.0",
+    "@tailwindcss/postcss": "^4.3.3",
+    "@testing-library/jest-dom": "^7.0.1",
+    "@testing-library/react": "^16.3.3",
+    "@testing-library/user-event": "^14.6.7",
+    "@types/node": "^26.6.2",
+    "@types/react": "^19.3.0",
+    "@types/react-dom": "^19.3.0",
+    "@vitejs/plugin-react": "^6.1.1",
+    "@vitest/browser": "^4.1.11",
+    "@vitest/browser-playwright": "^4.1.11",
+    "@vitest/coverage-v8": "4.1.11",
+    "jsdom": "^30.1.0",
+    "playwright": "^1.63.0",
+    "storybook": "^10.6.0",
+    "tailwindcss": "^4.3.3",
+    "typescript": "^7.0.2",
+    "vite": "latest",
+    "vitest": "^4.1.11"
+  }
+}

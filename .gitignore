@@ -1,0 +1,32 @@
+# dependencies
+node_modules/
+.pnpm-store/
+
+# next.js
+.next/
+out/
+next-env.d.ts
+
+# library build
+dist/
+
+# generated at build time (do not commit)
+public/storybook/
+public/r/
+storybook-static/
+icons/generated/
+icons/raw/
+
+# test / coverage
+coverage/
+test-results/
+playwright-report/
+*.tsbuildinfo
+
+# misc
+.DS_Store
+*.log
+.env*
+!.env.example
+
+*storybook.log
