@@ -4,6 +4,8 @@
 
 ## Unreleased
 
+## 0.1.0（公開準備中。npm 公開は H7 の承認後）
+
 ### Added
 - Phase 0: 開発土台（Next.js 16 / React 19 / Tailwind v4 / Storybook 10 / Vitest 4 / Biome / CI / Claude Code hooks）
 - Phase 1: トークン（3 層構造、Tailwind 既定パレットの無効化、shadcn 変数ブリッジ）
