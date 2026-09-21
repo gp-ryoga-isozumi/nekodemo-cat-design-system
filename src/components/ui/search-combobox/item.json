@@ -1,0 +1,17 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "search-combobox",
+  "type": "registry:ui",
+  "title": "SearchCombobox",
+  "description": "サジェスト付きの検索入力（単一／複数／自由入力／グループ）。挙動は MUI useAutocomplete、見た目は nekodemo の Input / Tag",
+  "registryDependencies": ["icon", "spinner", "tag"],
+  "dependencies": ["@mui/material", "class-variance-authority"],
+  "files": [
+    {
+      "path": "src/components/ui/search-combobox/index.tsx",
+      "type": "registry:ui",
+      "target": "components/ui/search-combobox/index.tsx"
+    }
+  ],
+  "meta": { "shadcnSource": null, "shadcnVersion": null }
+}

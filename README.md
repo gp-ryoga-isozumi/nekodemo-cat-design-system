@@ -62,7 +62,7 @@
 - **用途**: デモ、プロトタイプ、社内検証、ユーザーインタビュー用モック。本番プロダクトでの利用は想定していません。
 - **利用者**: PdM・デザイナー・エンジニアが AI コーディングツールに指定して使います。人が直接 import して使うこともできます。
 - **v1 の範囲**: テーマ 3 種、猫耳アイコン基盤、画面が組める中核部品 36 種、AI 向け提供物（ガイド・skills・lint）、配布（GitHub / npm / shadcn registry / デモサイト）。
-- **v1.1**: 検索フォーム（サジェスト＋複数選択）、DataGrid。
+- **v1.1**: SearchCombobox（サジェスト＋複数選択）と DataGrid（TanStack Table v9 ベース）。実装済み。
 
 ## 技術構成
 
@@ -106,7 +106,7 @@ pnpm pack:test        # npm pack → 一時プロジェクトで import / CSS / 
 | 3b | 専用に描く猫耳アイコン（T1）のパイプライン（プロンプト 70 件・ベクター化・検査）と手動耳 | ツール完了。画像生成とレビューは人（H3 / H4） |
 | 4 | 中核部品 36 種、`nekodemo check`、4 画面型のサンプル | 完了 |
 | 5 | AI 向け提供物（ガイド・skills・lint）、配布（registry / npm / デモサイト） | 完了（npm 公開は人の承認待ち） |
-| 6 | v1.1（SearchCombobox、DataGrid） | |
+| 6 | v1.1（SearchCombobox、DataGrid） | 完了 |
 
 ## 参考にしたもの・ライセンス
 

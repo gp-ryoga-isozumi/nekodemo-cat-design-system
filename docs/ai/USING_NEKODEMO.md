@@ -69,13 +69,13 @@ export default function RootLayout({ children }) {
 
 | 型 | 構成（上から） | 使う部品 |
 |---|---|---|
-| A. 一覧 | ページ見出し＋主アクション（右上） → 検索・絞り込み行 → Table → Pagination | `Button` `InputSearch` `Tag`（絞り込み）`Table` `Pagination` `EmptyState` `SkeletonRows` |
+| A. 一覧 | ページ見出し＋主アクション（右上） → 検索・絞り込み行 → Table → Pagination | `Button` `InputSearch` `Tag`（絞り込み）`Table` `Pagination` `EmptyState` `SkeletonRows`。ソート・列幅・選択・列の絞り込みまで要るなら `DataGrid` 1 つで済む（4 状態も内蔵） |
 | B. 詳細 | Breadcrumb → 見出し＋状態（`StatusTag`）＋操作 `Menu` → 2 カラム（左: 情報 `Card`、右: 関連 `Card`） | `Breadcrumb` `StatusTag` `Menu` `Card` `Tabs` `Drawer` |
 | C. 作成・編集フォーム | 見出し → `Form`（セクションごとに `Card`）→ 画面下部に固定のフッター（キャンセル／保存） | `Form` `Input` `Select` `Textarea` `Checkbox` `RadioGroup` `Switch` `Button` |
 | D. 設定 | 左に縦 `Tabs` → 右に設定項目（1 項目 = 見出し・説明・入力の 3 行） | `Tabs`（`orientation="vertical"`）`Switch` `Select` `Divider` `Field` |
 
 共通: 左に `SideNavigation`（幅 240px、折りたたみ 64px）、上にアプリ名＋`NekoThemePicker`＋`Avatar`。コンテンツ幅の最大は 1200px、ページ余白 24px。
-実例: リポジトリの `src/app/samples/{list,detail,form,settings}/page.tsx`。
+実例: リポジトリの `src/app/samples/{list,detail,form,settings}/page.tsx`。DataGrid ＋ SearchCombobox 版の一覧は `src/app/samples/grid/page.tsx`。
 
 ## 5. 状態の必須セット（省略不可）
 
@@ -126,7 +126,9 @@ export default function RootLayout({ children }) {
 | `Dialog` | `Dialog` > `DialogTrigger` + `DialogContent` > `DialogHeader`（`DialogTitle` `DialogDescription`）`DialogFooter`（`DialogCancel` `DialogAction variant="negative"`）。一覧の行メニュー（`MenuItem`）から開くときは `DialogTrigger` を使わず、`<Dialog open={…} onOpenChange={…}>` をページに 1 つ置いて state で開く（Menu が閉じるとトリガーごと消えるため） | 確認専用 |
 | `Modal` | `Modal` > `ModalTrigger` + `ModalContent` > `ModalHeader`（`ModalTitle`）`ModalBody` `ModalFooter`（`ModalClose`） | 短い入力 |
 | `Drawer` | `Drawer` > `DrawerTrigger` + `DrawerContent side` > `DrawerHeader`（`DrawerTitle`）`DrawerBody` `DrawerFooter` | サイドパネル |
-| `Table` | `Table density`（xs / sm / md）> `TableHeader` > `TableRow` > `TableHead`（`numeric` `sort` `onSort`）、`TableBody` > `TableRow` > `TableCell numeric` | 数値は右寄せ等幅 |
+| `Table` | `Table density`（xs / sm / md）> `TableHeader` > `TableRow` > `TableHead`（`numeric` `sort` `onSort`）、`TableBody` > `TableRow` > `TableCell numeric` | 数値は右寄せ等幅。静的な表 |
+| `DataGrid` | `aria-label`（必須）`columns`（`{ id, header, accessor?, cell?, numeric?, size?, filter?: "select" }`）`data` `getRowId` `density` `status`（loading / error）`onRetry` `emptyTitle` `emptyAction` `selectable` `onSelectionChange` `searchable` `columnMenu` `pinFirstColumn` `pagination` `pageSize` `virtualize` `height` `rowActions` `toolbar` `caption` | ソート・列幅・固定・選択・ページング・検索・列の絞り込み・列の表示切替・4 状態・仮想化・行内操作をまとめて持つ一覧。0 件は自動で EmptyState |
+| `SearchCombobox` | `label`（必須。`hideLabel` で見た目だけ隠す）`options` `getOptionLabel` `getOptionDescription` `groupBy` `multiple` `freeSolo` `value` / `onChange` `inputValue` / `onInputChange` `loading` `emptyText` `size` `disabled` | サジェスト付きの入力。複数選択は Tag、候補に無い値は freeSolo。5 件程度の固定候補は Select |
 | `EmptyState` | `title`、`description`、`action`、`headingLevel`（2 / 3 / 4）、`hideMascot` | 0 件 |
 | `NekoThemeProvider` / `NekoThemePicker` / `NekoHead` / `useNekoTheme` | `defaultTheme` `persist` ／ `variant`: faces / menu | テーマ |
 | `Mascot` | `theme`、`size`、`label` | 空状態・初回ローディング・404・ログインだけ |

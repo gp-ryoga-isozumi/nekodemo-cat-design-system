@@ -1,4 +1,5 @@
-import type { ComponentProps } from "react";
+import type React from "react";
+import type { ComponentProps, ReactNode } from "react";
 import { cn } from "../../../lib/utils";
 import { Icon } from "../icon";
 
@@ -27,12 +28,21 @@ export type TableDensity = "xs" | "sm" | "md";
 export function Table({
   className,
   density = "sm",
+  containerProps,
   ...props
-}: ComponentProps<"table"> & { density?: TableDensity }) {
+}: ComponentProps<"table"> & {
+  density?: TableDensity;
+  /** スクロールする外側の div に渡す props（仮想化のスクロール要素など） */
+  containerProps?: ComponentProps<"div">;
+}) {
   return (
     <div
       data-slot="table-container"
-      className="relative w-full overflow-x-auto rounded-container border border-border-low bg-surface-card"
+      {...containerProps}
+      className={cn(
+        "relative w-full overflow-x-auto rounded-container border border-border-low bg-surface-card",
+        containerProps?.className,
+      )}
     >
       <table
         data-slot="table"
@@ -91,7 +101,10 @@ export type TableHeadProps = ComponentProps<"th"> & {
   numeric?: boolean;
   /** ソート状態。指定するとヘッダーがボタンになる */
   sort?: "asc" | "desc" | "none";
-  onSort?: () => void;
+  /** クリック時。Shift+クリックの複数列ソートのためにイベントを渡す */
+  onSort?: (event: React.MouseEvent<HTMLButtonElement>) => void;
+  /** ソートボタンの隣に置く操作（絞り込みボタンなど）。ボタンの入れ子を避けるため children とは別に描く */
+  actions?: ReactNode;
 };
 
 export function TableHead({
@@ -99,6 +112,7 @@ export function TableHead({
   numeric,
   sort,
   onSort,
+  actions,
   children,
   ...props
 }: TableHeadProps) {
@@ -122,19 +136,27 @@ export function TableHead({
       {...props}
     >
       {sort !== undefined ? (
-        <button
-          type="button"
-          onClick={onSort}
-          className="inline-flex items-center gap-1 rounded-notice outline-none hover:text-text-high focus-visible:outline-2 focus-visible:outline-border-focus"
-        >
+        <span className="inline-flex items-center gap-1">
+          <button
+            type="button"
+            onClick={onSort}
+            className="inline-flex items-center gap-1 rounded-notice outline-none hover:text-text-high focus-visible:outline-2 focus-visible:outline-border-focus"
+          >
+            {children}
+            <Icon
+              icon={
+                sort === "desc" ? "arrow_downward" : sort === "asc" ? "arrow_upward" : "swap_vert"
+              }
+              size={3}
+            />
+          </button>
+          {actions}
+        </span>
+      ) : actions ? (
+        <span className="inline-flex items-center gap-1">
           {children}
-          <Icon
-            icon={
-              sort === "desc" ? "arrow_downward" : sort === "asc" ? "arrow_upward" : "swap_vert"
-            }
-            size={3}
-          />
-        </button>
+          {actions}
+        </span>
       ) : (
         children
       )}

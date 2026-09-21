@@ -42,6 +42,12 @@ export {
 } from "./components/ui/card";
 export { Checkbox, type CheckboxProps } from "./components/ui/checkbox";
 export {
+  DataGrid,
+  type DataGridColumn,
+  type DataGridProps,
+  type DataGridStatus,
+} from "./components/ui/data-grid";
+export {
   Dialog,
   DialogAction,
   DialogCancel,
@@ -129,6 +135,11 @@ export {
   PopoverTrigger,
 } from "./components/ui/popover";
 export { RadioGroup, RadioItem } from "./components/ui/radio";
+export {
+  SearchCombobox,
+  type SearchComboboxProps,
+  type SearchComboboxSize,
+} from "./components/ui/search-combobox";
 export {
   Select,
   SelectContent,
