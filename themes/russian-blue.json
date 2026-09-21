@@ -1,0 +1,66 @@
+{
+  "$schema": "./neko-theme.schema.json",
+  "id": "russian-blue",
+  "scheme": "dark",
+  "label": { "ja": "ロシアンブルー", "en": "Russian Blue" },
+  "mood": {
+    "ja": ["上品", "クール", "静か", "夜"],
+    "keywords": [
+      "高級感",
+      "落ち着き",
+      "金融",
+      "法務",
+      "ヘルスケア",
+      "フォーマル",
+      "ダーク",
+      "ダークモード"
+    ]
+  },
+  "palette": {
+    "primary": {
+      "50": "oklch(0.97 0.010 250)",
+      "100": "oklch(0.93 0.020 250)",
+      "200": "oklch(0.86 0.035 250)",
+      "300": "oklch(0.78 0.052 250)",
+      "400": "oklch(0.68 0.060 250)",
+      "500": "oklch(0.57 0.065 250)",
+      "600": "oklch(0.46 0.065 250)",
+      "700": "oklch(0.39 0.060 250)",
+      "800": "oklch(0.32 0.050 250)",
+      "900": "oklch(0.25 0.040 250)"
+    },
+    "neutral": {
+      "50": "oklch(0.95 0.008 250)",
+      "100": "oklch(0.90 0.010 250)",
+      "200": "oklch(0.84 0.014 250)",
+      "300": "oklch(0.75 0.018 250)",
+      "400": "oklch(0.68 0.022 250)",
+      "500": "oklch(0.55 0.024 250)",
+      "600": "oklch(0.43 0.026 250)",
+      "700": "oklch(0.34 0.028 250)",
+      "800": "oklch(0.29 0.028 250)",
+      "900": "oklch(0.245 0.028 250)"
+    },
+    "accent": {
+      "1": "oklch(0.72 0.150 160)",
+      "2": "oklch(0.85 0.010 250)",
+      "3": "oklch(0.65 0.080 330)"
+    }
+  },
+  "radius": { "action": "sm", "container": "md", "modal": "lg", "notice": "xs" },
+  "fonts": {
+    "pro": {
+      "family": "Zen Maru Gothic",
+      "weights": [400, 700],
+      "fallback": "\"Hiragino Maru Gothic ProN\", sans-serif"
+    },
+    "mono": {
+      "family": "Noto Sans Mono",
+      "weights": [400, 700],
+      "fallback": "ui-monospace, monospace"
+    }
+  },
+  "shadowTint": "oklch(0.05 0.020 250)",
+  "overrides": { "color": {} },
+  "mascot": "russian-blue"
+}

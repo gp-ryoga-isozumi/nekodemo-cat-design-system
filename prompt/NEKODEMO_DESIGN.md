@@ -611,7 +611,7 @@ flowchart LR
 
 ルール:
 
-- テーマブロックに書くのは **プリミティブ層（`--nk-p-*`）と overrides で指定された役割トークンだけ**。セマンティック層・役割層は `tokens.css` の `:root` に 1 回だけ定義され、`var()` でプリミティブを参照するため、テーマブロックの上書きが全部に伝播する。
+- テーマブロックには **プリミティブ層（`--nk-p-*`）と、scheme の対応表（＋overrides）で解決した役割トークン一式** を書く（2026-09-21 Phase 2 で変更）。理由: 既定テーマは `:root` に併記されるため、別テーマを選んだ要素では `:root` 由来の役割値を必ず全部上書きする必要がある。また light / dark で対応表が異なる（D12）。セマンティック層（`--nk-color-primary-600` 等）は `tokens.css` の `:root, [data-neko-theme]` に 1 回だけ定義され、`var()` でプリミティブを参照する。
 - 値はすべて**実値**（`var()` の連鎖を書かない）。読みやすさとデバッグのため。
 - `:root` に併記するのが既定テーマ。既定は `nekodemo.config.json` の `defaultTheme`（リポジトリ既定は `calico`【設計判断】）。属性が無い HTML でも既定テーマで表示される。
 - ダークはテーマの `scheme: "dark"` で表現する（ロシアンブルーが該当。D12）。テーマブロックにはプリミティブに加えて、`scheme` に応じた役割トークンの対応（`semantic.map.json` の `dark`）と `color-scheme: dark` を書き出す。セマンティック層・役割層は `:root, [data-neko-theme]` に定義する（§6.2 追記参照）。
@@ -658,7 +658,7 @@ sequenceDiagram
 const { theme, setTheme, themes } = useNekoTheme();
 ```
 
-- `NekoThemeProvider` は約 60 行の自前実装（外部依存なし）。`persist` 有効時は hydration 前に `localStorage` を読む 1 行の inline script を `NekoHead` が出力する（ちらつき防止）。
+- `NekoThemeProvider` は約 60 行の自前実装（外部依存なし）。`persist` 有効時は hydration 前に `localStorage` を読む 1 行の inline script を `NekoHead` が出力する（ちらつき防止）。inline script が `<html>` の属性を変えるため、利用側は `<html suppressHydrationWarning>` を付ける（Phase 2 で確認、SETUP.md に書く）。`NekoHead` は Material Symbols Rounded の `<link>` も出す（T3 フォールバック用、§8）。
 - Storybook にはツールバーからテーマを切り替えるグローバル設定を入れる（`globalTypes.nekoTheme`）。
 
 ### 7.5 トンマナの指定方法（誰が・どうやって）
@@ -688,7 +688,7 @@ const { theme, setTheme, themes } = useNekoTheme();
 | `border-focus` | `surface-page` | 3:1 以上 |
 | `object-primary` | `surface-page` | 3:1 以上（アイコン） |
 
-oklch → sRGB の変換には `culori`（MIT）を使う【未確認: バージョンと API は実装時に確認】。
+oklch → sRGB の変換には `culori` 4.0.2（MIT）の `parse` / `wcagContrast` を使う【確認済 2026-09-21】。実装（`scripts/check-contrast.mjs`）では上表に加えて、`text-low` on card、`text-placeholder` on `surface-input`、`text-on-negative` on `surface-negative`、`text-primary` on page / `surface-primary-subtle`、`text-negative` / `text-info` / `text-success` / `text-warning` on それぞれの subtle 面、`text-inverse` on `surface-inverse`、`object-negative` on page（3:1）の 25 ペアを検査する。初期案からの調整（Phase 2）: light テーマの neutral-400 を L 0.63（`border-high` が白地で 3:1 を満たす値）、neutral-500 を L 0.53（`text-low` が 4.5:1）に下げた。dark の `text-placeholder` は neutral.400。`text-on-negative` 役割（両 scheme とも white）を追加した。ダーク scheme では `text-on-primary` が濃色（primary.900）になるため、negative ボタンの文字色を別役割にする必要があった。
 
 ---
 
@@ -1330,3 +1330,4 @@ description: >
 | 2026-09-21 | v0.1.4 | D13 を肉球から猫の顔に、D14 を中抜きの線画の耳に改訂（参考画像に基づく）。§8.3 の耳ルールと §9.1 の Badge / Checkbox を更新 |
 | 2026-09-21 | v0.1.5 | D13: Badge は通常の丸に戻す（猫の顔は Checkbox と Avatar のみ） |
 | 2026-09-21 | v0.1.6 | §6.2 の【未確認】を Phase 1 で確認済に（`--font-weight-*: initial` が必要）。text-low（neutral-500）は L 0.60 だと白地で 3.94:1 になるため 0.53 に下げる方針を §7.2 の初期案に追記 |
+| 2026-09-21 | v0.1.7 | Phase 2 の結果を反映: §7.3（テーマブロックに役割層一式を書く）、§7.6（culori 確認済、25 ペア、neutral-400 / 500 の調整、`text-on-negative` 追加）、§7.4（suppressHydrationWarning、Material Symbols link） |

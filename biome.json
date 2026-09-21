@@ -19,7 +19,9 @@
       "!src/styles/themes.css",
       "!**/*.generated.ts",
       "!pnpm-lock.yaml",
-      "!docs/preview"
+      "!docs/preview",
+      "!src/themes/registry.ts",
+      "!src/components/theme/NekoHead.tsx"
     ]
   },
   "formatter": {

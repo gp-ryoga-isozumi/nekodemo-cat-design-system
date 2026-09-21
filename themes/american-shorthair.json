@@ -1,0 +1,75 @@
+{
+  "$schema": "./neko-theme.schema.json",
+  "id": "american-shorthair",
+  "scheme": "light",
+  "label": {
+    "ja": "アメショ",
+    "en": "American Shorthair"
+  },
+  "mood": {
+    "ja": ["中立", "落ち着き", "モノトーン"],
+    "keywords": [
+      "業務システム",
+      "管理画面",
+      "ダッシュボード",
+      "SaaS",
+      "真面目",
+      "シンプル",
+      "バックオフィス"
+    ]
+  },
+  "palette": {
+    "primary": {
+      "50": "oklch(0.97 0.004 250)",
+      "100": "oklch(0.93 0.008 250)",
+      "200": "oklch(0.86 0.012 250)",
+      "300": "oklch(0.77 0.016 250)",
+      "400": "oklch(0.67 0.020 250)",
+      "500": "oklch(0.55 0.024 250)",
+      "600": "oklch(0.42 0.024 250)",
+      "700": "oklch(0.36 0.022 250)",
+      "800": "oklch(0.30 0.020 250)",
+      "900": "oklch(0.24 0.018 250)"
+    },
+    "neutral": {
+      "50": "oklch(0.975 0.004 240)",
+      "100": "oklch(0.94 0.006 240)",
+      "200": "oklch(0.89 0.008 240)",
+      "300": "oklch(0.81 0.010 240)",
+      "400": "oklch(0.63 0.012 240)",
+      "500": "oklch(0.53 0.012 240)",
+      "600": "oklch(0.46 0.012 240)",
+      "700": "oklch(0.40 0.012 240)",
+      "800": "oklch(0.33 0.012 240)",
+      "900": "oklch(0.25 0.012 240)"
+    },
+    "accent": {
+      "1": "oklch(0.78 0.140 80)",
+      "2": "oklch(0.25 0.010 250)",
+      "3": "oklch(0.80 0.080 10)"
+    }
+  },
+  "radius": {
+    "action": "md",
+    "container": "lg",
+    "modal": "xl",
+    "notice": "sm"
+  },
+  "fonts": {
+    "pro": {
+      "family": "Zen Maru Gothic",
+      "weights": [400, 700],
+      "fallback": "\"Hiragino Maru Gothic ProN\", sans-serif"
+    },
+    "mono": {
+      "family": "Noto Sans Mono",
+      "weights": [400, 700],
+      "fallback": "ui-monospace, monospace"
+    }
+  },
+  "shadowTint": "oklch(0.25 0.010 250)",
+  "overrides": {
+    "color": {}
+  },
+  "mascot": "american-shorthair"
+}

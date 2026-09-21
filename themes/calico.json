@@ -1,0 +1,69 @@
+{
+  "$schema": "./neko-theme.schema.json",
+  "id": "calico",
+  "scheme": "light",
+  "label": {
+    "ja": "三毛",
+    "en": "Calico"
+  },
+  "mood": {
+    "ja": ["親しみやすい", "元気", "明るい"],
+    "keywords": ["toC", "コミュニティ", "学習", "子ども向け", "カジュアル", "あたたかい", "ポップ"]
+  },
+  "palette": {
+    "primary": {
+      "50": "oklch(0.975 0.020 60)",
+      "100": "oklch(0.94 0.045 55)",
+      "200": "oklch(0.88 0.080 52)",
+      "300": "oklch(0.80 0.110 50)",
+      "400": "oklch(0.71 0.135 49)",
+      "500": "oklch(0.63 0.150 48)",
+      "600": "oklch(0.53 0.150 48)",
+      "700": "oklch(0.46 0.135 47)",
+      "800": "oklch(0.39 0.110 46)",
+      "900": "oklch(0.30 0.080 45)"
+    },
+    "neutral": {
+      "50": "oklch(0.975 0.008 70)",
+      "100": "oklch(0.94 0.010 70)",
+      "200": "oklch(0.89 0.012 70)",
+      "300": "oklch(0.81 0.014 70)",
+      "400": "oklch(0.63 0.016 70)",
+      "500": "oklch(0.53 0.018 70)",
+      "600": "oklch(0.46 0.020 70)",
+      "700": "oklch(0.40 0.020 70)",
+      "800": "oklch(0.33 0.020 70)",
+      "900": "oklch(0.25 0.020 70)"
+    },
+    "accent": {
+      "1": "oklch(0.22 0.010 60)",
+      "2": "oklch(0.97 0.020 85)",
+      "3": "oklch(0.78 0.090 10)"
+    }
+  },
+  "radius": {
+    "action": "xl",
+    "container": "2xl",
+    "modal": "3xl",
+    "notice": "sm"
+  },
+  "fonts": {
+    "pro": {
+      "family": "Zen Maru Gothic",
+      "weights": [400, 700],
+      "fallback": "\"Hiragino Maru Gothic ProN\", sans-serif"
+    },
+    "mono": {
+      "family": "Noto Sans Mono",
+      "weights": [400, 700],
+      "fallback": "ui-monospace, monospace"
+    }
+  },
+  "shadowTint": "oklch(0.22 0.010 60)",
+  "overrides": {
+    "color": {
+      "text-high": "accent.1"
+    }
+  },
+  "mascot": "calico"
+}
