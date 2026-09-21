@@ -43,8 +43,12 @@ jobs:
           # このリポジトリの PR は所有者が Claude Code と作るため、本文末尾の「Generated with Claude Code」を
           # 「自動生成 PR」「Claude のコメント済み」と誤判定してレビューを飛ばさないように補足する。
           claude_args: |
-            --allowedTools "mcp__github_inline_comment__create_inline_comment,Bash(gh pr comment:*),Bash(gh pr view:*),Bash(gh pr diff:*),Bash(gh pr list:*),Bash(gh issue view:*),Bash(gh issue list:*),Bash(gh search:*)"
+            --allowedTools "Skill,mcp__github_inline_comment__create_inline_comment,Bash(gh pr comment:*),Bash(gh pr view:*),Bash(gh pr diff:*),Bash(gh pr list:*),Bash(gh issue view:*),Bash(gh issue list:*),Bash(gh search:*)"
             --append-system-prompt "このリポジトリの PR は、リポジトリの所有者が Claude Code と一緒に作った通常の PR です。PR 本文末尾の『Generated with Claude Code』やコミットの Co-Authored-By / Claude-Session は、自動生成 PR の印でも Claude の既存コメントでもありません。レビュー不要と判断せず、必ず手順どおりにレビューを最後まで行い、結果を PR にコメントしてください。"
+          # code-review プラグインはサブエージェントを起動するが、ヘッドレス実行ではバックグラウンド起動されて
+          # 本体が待たずに応答を終え、レビューが投稿されない（anthropics/claude-code-action#1646、anthropics/claude-code#85275）。
+          # サブエージェントを前面（同期）で実行させて回避する。
+          settings: '{"env": {"CLAUDE_CODE_DISABLE_BACKGROUND_TASKS": "1"}}'
           # レビューの経過を Actions のログに出す（公開リポジトリ。秘密情報は含まれない）
           show_full_output: true
           # See https://github.com/anthropics/claude-code-action/blob/main/docs/usage.md
