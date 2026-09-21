@@ -847,7 +847,9 @@ v1.2: Calendar、Input Date / Time / Number / File / Chip、Filter Chip、Steppe
 | バリアント | `class-variance-authority` で定義。バリアント名は Sparkle 公開ガイドラインの語彙に寄せる（`primary` / `secondary` / `outline` / `ghost` / `negative`、`sm` / `md` / `lg`） |
 | アクセシビリティ | Radix ベースの部品はそのまま。独自部品は `role` / `aria-*` / キーボード操作を Storybook の a11y アドオンで検査 |
 | テスト | Vitest + Testing Library。表示・操作・disabled・アクセシブルネームの 4 観点 |
-| 依存 | `radix-ui`、`class-variance-authority`、`clsx`、`tailwind-merge`、`sonner`、`react-hook-form`、`zod`。`lucide-react` は**使わない**（Icon に統一） |
+| 依存 | `radix-ui`、`class-variance-authority`、`clsx`、`tailwind-merge`、`sonner`、`react-hook-form`、`zod`、`tw-animate-css`。`lucide-react` は**使わない**（Icon に統一） |
+| tailwind-merge | `cn()` は `extendTailwindMerge` で nekodemo の文字サイズ段階（`text-1〜12` と別名）・角丸（`rounded-action` 等）・影を登録する。登録しないと `text-2` が色と誤判定され、`text-text-on-primary text-2` の並びで色が落ちる（Phase 4 で検出） |
+| asChild | Radix の `Slot` は子が 1 つでないと落ちるため、アイコンや Spinner と子要素を並べる部品（Button / Link / SideNavItem）は `<Slot.Slottable>` で子要素を包む（Phase 4 で検出） |
 | Server / Client | `"use client"` が必要な部品は個別 import パス（`nekodemo/button`）を用意する |
 
 ### 9.3 SearchCombobox（v1.1）— サジェスト＋複数選択
@@ -1332,3 +1334,4 @@ description: >
 | 2026-09-21 | v0.1.6 | §6.2 の【未確認】を Phase 1 で確認済に（`--font-weight-*: initial` が必要）。text-low（neutral-500）は L 0.60 だと白地で 3.94:1 になるため 0.53 に下げる方針を §7.2 の初期案に追記 |
 | 2026-09-21 | v0.1.7 | Phase 2 の結果を反映: §7.3（テーマブロックに役割層一式を書く）、§7.6（culori 確認済、25 ペア、neutral-400 / 500 の調整、`text-on-negative` 追加）、§7.4（suppressHydrationWarning、Material Symbols link） |
 | 2026-09-21 | v0.1.8 | Phase 3a の結果を反映: §8.5 の【未確認】を解消（パッケージ構成、bbox、ラスタライズによる付け根探索）、別名、生成物のサイズ |
+| 2026-09-21 | v0.1.9 | Phase 4 の結果を反映: §9.1 の 36 部品を実装（Tag に StatusTag、Form に Field、Skeleton に SkeletonRows を追加）、§11.4 の check を実装（NK001〜NK010、除外コメント、Stop hook）、§9.2 に tailwind-merge と Slot の注意を追記 |

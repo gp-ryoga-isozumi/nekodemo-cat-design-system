@@ -1,0 +1,17 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "pagination",
+  "type": "registry:ui",
+  "title": "Pagination",
+  "description": "一覧のページ送り。「120件中 1〜20件を表示」の要約と、前後ボタン・ページ番号（多いときは省略記号）",
+  "registryDependencies": ["icon"],
+  "dependencies": [],
+  "files": [
+    {
+      "path": "src/components/ui/pagination/index.tsx",
+      "type": "registry:ui",
+      "target": "components/ui/pagination/index.tsx"
+    }
+  ],
+  "meta": { "shadcnSource": "pagination", "shadcnVersion": "4.21.0" }
+}

@@ -1,0 +1,17 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "radio",
+  "type": "registry:ui",
+  "title": "Radio",
+  "description": "排他選択。RadioGroup の中に RadioItem を並べる（選択肢は 2〜5 個）",
+  "registryDependencies": [],
+  "dependencies": ["radix-ui"],
+  "files": [
+    {
+      "path": "src/components/ui/radio/index.tsx",
+      "type": "registry:ui",
+      "target": "components/ui/radio/index.tsx"
+    }
+  ],
+  "meta": { "shadcnSource": "radio-group", "shadcnVersion": "4.21.0" }
+}

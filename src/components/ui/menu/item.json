@@ -1,0 +1,17 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "menu",
+  "type": "registry:ui",
+  "title": "Menu",
+  "description": "操作の一覧を出すドロップダウン。チェック項目・ラジオ項目・ショートカットに対応。破壊的操作は negative で最後に置く",
+  "registryDependencies": ["icon"],
+  "dependencies": ["radix-ui"],
+  "files": [
+    {
+      "path": "src/components/ui/menu/index.tsx",
+      "type": "registry:ui",
+      "target": "components/ui/menu/index.tsx"
+    }
+  ],
+  "meta": { "shadcnSource": "dropdown-menu", "shadcnVersion": "4.21.0" }
+}

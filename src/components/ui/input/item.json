@@ -1,0 +1,17 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "input",
+  "type": "registry:ui",
+  "title": "Input",
+  "description": "1 行のテキスト入力。sm / md / lg、aria-invalid でエラー表示",
+  "registryDependencies": [],
+  "dependencies": ["class-variance-authority"],
+  "files": [
+    {
+      "path": "src/components/ui/input/index.tsx",
+      "type": "registry:ui",
+      "target": "components/ui/input/index.tsx"
+    }
+  ],
+  "meta": { "shadcnSource": "input", "shadcnVersion": "4.21.0" }
+}

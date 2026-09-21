@@ -1,0 +1,22 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "icon",
+  "type": "registry:ui",
+  "title": "Icon",
+  "description": "猫耳アイコン。Material Symbols の名前で指定し、猫版が無い名前はフォントにフォールバックする",
+  "registryDependencies": [],
+  "dependencies": [],
+  "files": [
+    {
+      "path": "src/components/ui/icon/index.tsx",
+      "type": "registry:ui",
+      "target": "components/ui/icon/index.tsx"
+    },
+    {
+      "path": "src/components/ui/icon/icons.generated.ts",
+      "type": "registry:ui",
+      "target": "components/ui/icon/icons.generated.ts"
+    }
+  ],
+  "meta": { "shadcnSource": null, "shadcnVersion": null }
+}

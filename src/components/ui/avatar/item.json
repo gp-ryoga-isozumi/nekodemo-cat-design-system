@@ -1,0 +1,17 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "avatar",
+  "type": "registry:ui",
+  "title": "Avatar",
+  "description": "人やアカウントを表す丸い画像。画像が無いときはイニシャルか猫の顔のシルエット。sm / md / lg",
+  "registryDependencies": ["icon"],
+  "dependencies": ["radix-ui"],
+  "files": [
+    {
+      "path": "src/components/ui/avatar/index.tsx",
+      "type": "registry:ui",
+      "target": "components/ui/avatar/index.tsx"
+    }
+  ],
+  "meta": { "shadcnSource": "avatar", "shadcnVersion": "4.21.0" }
+}

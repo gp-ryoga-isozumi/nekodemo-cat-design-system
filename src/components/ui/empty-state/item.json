@@ -1,0 +1,17 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "empty-state",
+  "type": "registry:ui",
+  "title": "EmptyState",
+  "description": "0 件のときの表示。テーマのマスコット＋見出し＋説明＋主アクション。hideMascot で狭い領域にも置ける",
+  "registryDependencies": ["mascot", "theme"],
+  "dependencies": [],
+  "files": [
+    {
+      "path": "src/components/ui/empty-state/index.tsx",
+      "type": "registry:ui",
+      "target": "components/ui/empty-state/index.tsx"
+    }
+  ],
+  "meta": { "shadcnSource": null, "shadcnVersion": null }
+}

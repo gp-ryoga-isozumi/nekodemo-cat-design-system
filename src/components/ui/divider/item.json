@@ -1,0 +1,17 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "divider",
+  "type": "registry:ui",
+  "title": "Divider",
+  "description": "区切り線。horizontal / vertical、decorative を外すと読み上げにも区切りが伝わる",
+  "registryDependencies": [],
+  "dependencies": ["radix-ui"],
+  "files": [
+    {
+      "path": "src/components/ui/divider/index.tsx",
+      "type": "registry:ui",
+      "target": "components/ui/divider/index.tsx"
+    }
+  ],
+  "meta": { "shadcnSource": "separator", "shadcnVersion": "4.21.0" }
+}

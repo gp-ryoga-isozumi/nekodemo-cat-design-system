@@ -1,0 +1,17 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "drawer",
+  "type": "registry:ui",
+  "title": "Drawer",
+  "description": "画面端から出るサイドパネル。side は right（既定）／ left ／ bottom、幅は最大 480px",
+  "registryDependencies": ["icon-button"],
+  "dependencies": ["radix-ui"],
+  "files": [
+    {
+      "path": "src/components/ui/drawer/index.tsx",
+      "type": "registry:ui",
+      "target": "components/ui/drawer/index.tsx"
+    }
+  ],
+  "meta": { "shadcnSource": "sheet", "shadcnVersion": "4.21.0" }
+}

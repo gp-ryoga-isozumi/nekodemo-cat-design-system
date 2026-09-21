@@ -1,3 +1,4 @@
+// nekodemo-check-ignore-file NK010 — 静的なカタログ（データ取得が無いので 4 状態は不要）
 import { Mascot } from "@/components/mascot";
 import { nekoThemes } from "@/themes/registry";
 

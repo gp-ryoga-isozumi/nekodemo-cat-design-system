@@ -1,0 +1,17 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "form",
+  "type": "registry:ui",
+  "title": "Form",
+  "description": "react-hook-form と zod でフォームを組む土台。ラベル・補足・エラーを aria-describedby / aria-invalid で自動的に結ぶ",
+  "registryDependencies": ["icon"],
+  "dependencies": ["radix-ui", "react-hook-form", "zod", "@hookform/resolvers"],
+  "files": [
+    {
+      "path": "src/components/ui/form/index.tsx",
+      "type": "registry:ui",
+      "target": "components/ui/form/index.tsx"
+    }
+  ],
+  "meta": { "shadcnSource": "form", "shadcnVersion": "4.21.0" }
+}

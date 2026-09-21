@@ -2,6 +2,8 @@ import type { Metadata } from "next";
 import type { ReactNode } from "react";
 import { NekoHead } from "@/components/theme/NekoHead";
 import { NekoThemeProvider } from "@/components/theme/NekoThemeProvider";
+import { Toaster } from "@/components/ui/toast";
+import { TooltipProvider } from "@/components/ui/tooltip";
 import { SiteHeader } from "./site-header";
 import "../styles/globals.css";
 
@@ -20,8 +22,11 @@ export default function RootLayout({ children }: { children: ReactNode }) {
       </head>
       <body className="min-h-screen bg-surface-page text-text-high">
         <NekoThemeProvider defaultTheme="calico" persist>
-          <SiteHeader />
-          {children}
+          <TooltipProvider>
+            <SiteHeader />
+            {children}
+            <Toaster />
+          </TooltipProvider>
         </NekoThemeProvider>
       </body>
     </html>

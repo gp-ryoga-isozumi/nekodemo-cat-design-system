@@ -1,3 +1,4 @@
+// nekodemo-check-ignore-file NK005 — T3 フォールバック（material-symbols クラス）はこの部品だけが使う
 import { cn } from "../../../lib/utils";
 import { icons } from "./icons.generated";
 

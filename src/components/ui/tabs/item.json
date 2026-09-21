@@ -1,0 +1,17 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "tabs",
+  "type": "registry:ui",
+  "title": "Tabs",
+  "description": "同じ階層の内容を切り替えるタブ。横（既定）と縦（orientation=\"vertical\"）、キーボード操作は Radix",
+  "registryDependencies": [],
+  "dependencies": ["radix-ui"],
+  "files": [
+    {
+      "path": "src/components/ui/tabs/index.tsx",
+      "type": "registry:ui",
+      "target": "components/ui/tabs/index.tsx"
+    }
+  ],
+  "meta": { "shadcnSource": "tabs", "shadcnVersion": "4.21.0" }
+}

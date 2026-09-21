@@ -23,6 +23,8 @@ jobs:
       - run: pnpm install --frozen-lockfile
       - run: pnpm exec playwright install --with-deps chromium
       - run: pnpm lint
+      - run: pnpm check
+      - run: pnpm icons:list
       # next build が next-env.d.ts を生成するので typecheck より先に実行する
       - run: pnpm build
       - run: pnpm typecheck

@@ -1,0 +1,17 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "tag",
+  "type": "registry:ui",
+  "title": "Tag",
+  "description": "絞り込み条件やラベルを示すチップ。default / selected、onRemove で外せる。状態は StatusTag",
+  "registryDependencies": ["icon"],
+  "dependencies": ["class-variance-authority"],
+  "files": [
+    {
+      "path": "src/components/ui/tag/index.tsx",
+      "type": "registry:ui",
+      "target": "components/ui/tag/index.tsx"
+    }
+  ],
+  "meta": { "shadcnSource": "badge", "shadcnVersion": "4.21.0" }
+}

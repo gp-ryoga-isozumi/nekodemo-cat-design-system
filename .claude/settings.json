@@ -11,6 +11,18 @@
           }
         ]
       }
+    ],
+    "Stop": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node \"$CLAUDE_PROJECT_DIR/scripts/hooks/nekodemo-check-stop.mjs\"",
+            "timeout": 60,
+            "statusMessage": "nekodemo check を実行中…"
+          }
+        ]
+      }
     ]
   }
 }

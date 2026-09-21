@@ -1,0 +1,17 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "breadcrumb",
+  "type": "registry:ui",
+  "title": "Breadcrumb",
+  "description": "現在地の階層。最後の項目は BreadcrumbPage（aria-current=\"page\"）、中間は BreadcrumbEllipsis で省略する",
+  "registryDependencies": ["icon"],
+  "dependencies": ["radix-ui"],
+  "files": [
+    {
+      "path": "src/components/ui/breadcrumb/index.tsx",
+      "type": "registry:ui",
+      "target": "components/ui/breadcrumb/index.tsx"
+    }
+  ],
+  "meta": { "shadcnSource": "breadcrumb", "shadcnVersion": "4.21.0" }
+}

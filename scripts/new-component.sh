@@ -77,7 +77,7 @@ TSX
 cat > "$dir/README.md" <<MD
 # ${pascal}
 
-> このファイルは \`pnpm build:readmes\` で index.tsx の JSDoc から再生成される（Phase 4）。それまでは手書き。
+> このファイルは \`pnpm build:readmes\` が \`index.tsx\` の JSDoc から生成する。手で編集せず JSDoc を直す。
 
 ## 概要
 
@@ -95,7 +95,13 @@ cat > "$dir/item.json" <<JSON
   "description": "",
   "registryDependencies": [],
   "dependencies": [],
-  "files": [{ "path": "src/components/ui/${name}/index.tsx", "type": "registry:ui" }],
+  "files": [
+    {
+      "path": "src/components/ui/${name}/index.tsx",
+      "type": "registry:ui",
+      "target": "components/ui/${name}/index.tsx"
+    }
+  ],
   "meta": { "shadcnSource": null, "shadcnVersion": null }
 }
 JSON
