@@ -1,9 +1,9 @@
 {
   "$comment": "生成物（pnpm build:icons）。tier ごとのアイコン名。missing は Material Symbols に無い名前（wanted.txt を見直す）。",
   "counts": {
-    "total": 311,
+    "total": 312,
     "bespoke": 1,
-    "autoEar": 134,
+    "autoEar": 135,
     "manualEar": 3,
     "earless": 173,
     "noEar": 0,
@@ -75,6 +75,7 @@
     "output": "出力",
     "undo": "元に戻す",
     "redo": "やり直す",
+    "view_column": "列の表示切替",
     "menu": "メニュー",
     "more_vert": "縦の三点",
     "more_horiz": "横の三点",
@@ -473,6 +474,7 @@
     "verified",
     "verified_user",
     "videocam",
+    "view_column",
     "visibility",
     "visibility_off",
     "work"

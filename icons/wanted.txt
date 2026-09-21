@@ -71,6 +71,7 @@ undo 元に戻す
 redo やり直す
 
 # --- 一覧・整理 ---
+view_column 列の表示切替
 menu メニュー
 more_vert 縦の三点
 more_horiz 横の三点

@@ -15,7 +15,7 @@ description: >
 
 ## 手順
 1. 依頼内容を画面の型に当てはめる。
-   - A 一覧: 見出し＋主アクション → `InputSearch`＋`Tag`（絞り込み） → `Table` → `Pagination`
+   - A 一覧: 見出し＋主アクション → `InputSearch`＋`Tag`（絞り込み） → `Table` → `Pagination`。ソート・列幅・選択・列の絞り込みが要るなら `DataGrid`（4 状態内蔵、`aria-label` 必須）。サジェスト付きの入力は `SearchCombobox`
    - B 詳細: `Breadcrumb` → 見出し＋`StatusTag`＋操作 `Menu` → 2 カラムの `Card`（左: 情報、右: 関連）＋`Tabs`
    - C 作成・編集フォーム: 見出し → `Form`（セクションごとに `Card`）→ 画面下部に固定のフッター（キャンセル／保存）
    - D 設定: 左に縦 `Tabs` → 右に設定項目（見出し・説明・入力の 3 行、`Field` / `Switch` / `Select`）

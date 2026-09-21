@@ -10,6 +10,8 @@ nekodemo は次のオープンソースソフトウェアとデザイン資産�
 | [Tailwind CSS](https://github.com/tailwindlabs/tailwindcss) / `tw-animate-css` | MIT | ユーティリティ CSS |
 | [class-variance-authority](https://github.com/joe-bell/cva) / [clsx](https://github.com/lukeed/clsx) / [tailwind-merge](https://github.com/dcastil/tailwind-merge) | Apache-2.0 / MIT / MIT | クラス名の組み立て |
 | [sonner](https://github.com/emilkowalski/sonner) | MIT | Toast |
+| [TanStack Table](https://github.com/TanStack/table) / [TanStack Virtual](https://github.com/TanStack/virtual) | MIT | DataGrid の状態（ソート・絞り込み・ページング・選択・列幅）と行の仮想化 |
+| [MUI](https://github.com/mui/material-ui)（`@mui/material/useAutocomplete`） | MIT | SearchCombobox の挙動（ヘッドレスフック。emotion は使わない） |
 | [react-hook-form](https://github.com/react-hook-form/react-hook-form) / [zod](https://github.com/colinhacks/zod) / `@hookform/resolvers` | MIT | Form |
 | [culori](https://github.com/Evercoder/culori) | MIT | コントラスト検査（ビルド時） |
 | [sharp](https://github.com/lovell/sharp) / [svgpath](https://github.com/fontello/svgpath) / [svg-path-bbox](https://github.com/mondeja/svg-path-bbox) | Apache-2.0 / MIT / BSD-3-Clause | 自動耳の生成（ビルド時） |

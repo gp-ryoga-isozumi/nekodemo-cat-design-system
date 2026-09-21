@@ -318,6 +318,15 @@ Phase 5 の実施メモ（2026-09-22）:
 | 6.2 | SearchCombobox（§9.3: 単一／複数・サジェスト・freeSolo・groupBy・キーボード・Popover 表示・空表示・a11y）。フック呼び出しは 1 ファイルに閉じ込める（R5） |
 | 6.3 | サンプル: 案件一覧（検索・絞り込み・ページング）を DataGrid ＋ SearchCombobox で再現 |
 
+Phase 6 の実施メモ（2026-09-22）:
+
+- 6.0 spike: TanStack Table は 9.2.4。v8 と API が大きく違う（`useTable({ features, columns, data }, selector)`、`tableFeatures({...})` に使う機能と row model（`createSortedRowModel()` 等）を明示登録、`table.FlexRender`、`filterFns` / `sortFns` の登録名が文字列オプションになる、`useLegacyTable` は v8 互換の非推奨 API）。公式サイトの migrating ページは 404 だったため、npm パッケージに同梱された skills（`node_modules/@tanstack/react-table/skills/*/SKILL.md`: getting-started / table-state / with-tanstack-virtual）と `.d.ts` を正にした。`@mui/material@9.4.0` は `@emotion/*` が optional peer で、pnpm の strict な node_modules でも `@mui/material/useAutocomplete` だけを import して動く（emotion 無しで確認）。
+- 依存の扱い（設計書 §9.3 からの変更）: `@mui/material` / `@tanstack/react-table` / `@tanstack/react-virtual` は peerDependency ではなく通常の dependencies にした。`nekodemo` のバレル import（`import { Button } from "nekodemo"`）が DataGrid / SearchCombobox のモジュールを必ず評価するため、peer だと利用側が入れない限り import 自体が失敗する（Phase 5 の受け入れテストで react-hook-form が同じ理由で落ちた）。使わない部品は ESM のツリーシェイクで落ちる。
+- 6.1 DataGrid: 状態は TanStack、描画は Table 部品（D5）。列定義は nekodemo 独自の薄い型 `DataGridColumn`（id / header / accessor / cell / numeric / size / filter）に絞り、TanStack の ColumnDef を利用側に見せない。数値列も「昇順 → 降順 → 解除」に揃えるため `sortDescFirst: false`。列の絞り込み（`filter: "select"`）はヘッダーの Popover に SearchCombobox（複数選択）を置き、`constructFilterFn` で作った `inList` で判定（TanStack の `arrIncludesSome` はセル側が配列である前提なので使えない）。仮想化は `@tanstack/react-virtual` で、`<tbody>` 内に余白の `<tr>` を置く方式（`Table` に `containerProps` を追加してスクロール要素を渡す）。行クリックでの遷移は付けない（`tr` にフォーカスを持たせるとキーボード操作と a11y ルールに反するため、セル内の Link と行末の操作で代替）。セル間の矢印移動（roving tabindex）は v1.2。
+- 6.2 SearchCombobox: `useAutocomplete` のフック呼び出しは 1 ファイルに閉じ込めた（R5）。候補パネルは Radix Popover ではなく入力欄直下の絶対配置（Portal がフックのフォーカス管理と干渉するため）。ハイライト中の候補にはフックが `nk-focused` クラスを付けるので `[&.nk-focused]:bg-surface-well`（NK003 の除外コメント付き）で塗る。`groupBy` はフックがグループの連続を前提とするため、部品側でグループ順に並べ替える。
+- 6.3 `src/app/samples/grid/page.tsx`（137 件、担当の絞り込みは SearchCombobox の複数選択、4 状態切替）。単体テスト: SearchCombobox 5 件、DataGrid 8 件（表示・操作・状態・行内操作・アクセシブルネーム）。Radix の DropdownMenu は jsdom ではクリックで開かないためテストはキーボードで開く。
+- `Table` に `containerProps`、`TableHead.onSort` にイベント引数（Shift+クリックの複数列ソート）を追加。
+
 ---
 
 ## 3. 作業量の目安と順序
@@ -358,3 +367,4 @@ Phase 5 の実施メモ（2026-09-22）:
 | 2026-09-21 | v0.1.9 | Phase 4 の実施メモを追加 |
 | 2026-09-22 | v0.1.10 | Phase 5 の実施メモ（registry の項目構成、dist の import 書き換え、pack:test、copy-in の確認、Claude Code Review の修正）を追加 |
 | 2026-09-22 | v0.1.11 | Phase 3b の実施メモ（vectorize / audit / prompts、手動耳、耳なし規約の追加）と H6 / H7 の記録 |
+| 2026-09-22 | v0.1.12 | Phase 6 の実施メモ（TanStack Table v9 の API、依存の扱い、DataGrid / SearchCombobox の設計判断） |

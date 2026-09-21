@@ -1,0 +1,32 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "data-grid",
+  "type": "registry:ui",
+  "title": "DataGrid",
+  "description": "ソート・列幅・固定・選択・ページング・検索・列の絞り込み・列の表示切替・4 状態・仮想化・行内操作を備えた表。状態は TanStack Table v9、描画は Table 部品",
+  "registryDependencies": [
+    "button",
+    "checkbox",
+    "empty-state",
+    "icon",
+    "icon-button",
+    "inline-message",
+    "input-search",
+    "menu",
+    "pagination",
+    "popover",
+    "search-combobox",
+    "select",
+    "skeleton",
+    "table"
+  ],
+  "dependencies": ["@tanstack/react-table", "@tanstack/react-virtual"],
+  "files": [
+    {
+      "path": "src/components/ui/data-grid/index.tsx",
+      "type": "registry:ui",
+      "target": "components/ui/data-grid/index.tsx"
+    }
+  ],
+  "meta": { "shadcnSource": null, "shadcnVersion": null }
+}

@@ -18,6 +18,12 @@ const PAGES: { href: string; title: string; description: string }[] = [
     description: "検索・絞り込み・Table・Pagination。4 状態を切り替えて確認",
   },
   {
+    href: "/samples/grid/",
+    title: "画面の型 A（v1.1）: DataGrid",
+    description:
+      "ソート・列幅・固定・選択・ページング・検索・列の絞り込み・列の表示切替。担当の絞り込みは SearchCombobox",
+  },
+  {
     href: "/samples/detail/",
     title: "画面の型 B: 詳細",
     description: "Breadcrumb・状態・操作 Menu・2 カラムの Card・Tabs・Drawer",

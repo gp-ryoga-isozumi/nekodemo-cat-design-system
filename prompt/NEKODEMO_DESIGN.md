@@ -858,7 +858,7 @@ v1.2: Calendar、Input Date / Time / Number / File / Chip、Filter Chip、Steppe
 
 【設計判断】MUI の `useAutocomplete`（ヘッドレスフック）で挙動を作り、見た目は nekodemo の Input / Tag / Popover で組む（D4）。
 
-- import: `import useAutocomplete from "@mui/material/useAutocomplete";`【事実: MUI ドキュメント】。`@mui/material` は peerDependency にし、`@emotion/*` は不要（optional peer【事実】）。
+- import: `import useAutocomplete from "@mui/material/useAutocomplete";`【事実: MUI ドキュメント】。`@emotion/*` は不要（optional peer。Phase 6 で pnpm の strict な環境で確認済）。【Phase 6 で変更】`@mui/material` は peerDependency ではなく通常の dependency にする（バレル import で必ず評価されるため、peer だと利用側が入れない限り `import ... from "nekodemo"` 自体が失敗する）。
 - 参考にする寸法: Sparkle 公開 Input Search の Container / Icon / Value / Clear Trigger / Condition Trigger、高さ sm 32 / md 40 / lg 48【事実】。
 
 | 機能 | 仕様 |
@@ -868,7 +868,7 @@ v1.2: Calendar、Input Date / Time / Number / File / Chip、Filter Chip、Steppe
 | 自由入力 | `freeSolo` で候補に無い値も確定可 |
 | グループ | `groupBy` で見出し付きリスト |
 | キーボード | ↑↓ で候補移動、Enter で確定、Esc で閉じる、Tab で次へ（フック標準） |
-| 表示 | 候補パネルは Popover（Radix）で入力欄の直下に固定、最大高さ 320px、スクロール。候補は `label` ＋任意の `description` の 2 行 |
+| 表示 | 候補パネルは入力欄の直下に絶対配置（最大高さ 320px、スクロール。【Phase 6 で変更】Radix Popover の Portal はフックのフォーカス管理と干渉するため使わない）。候補は `label` ＋任意の `description` の 2 行 |
 | 空 | 「候補がありません」＋ freeSolo 時は「"<入力>" を追加」 |
 | アクセシビリティ | `role="combobox"` / `aria-expanded` / `aria-controls` / `aria-activedescendant` はフックの `getInputProps` 等が付与する |
 
@@ -889,10 +889,10 @@ v1.2: Calendar、Input Date / Time / Number / File / Chip、Filter Chip、Steppe
 | 状態 | loading（Skeleton 行 × 5）、empty（EmptyState）、error（InlineMessage ＋ 再試行） | ✅ |
 | 仮想化 | `virtualize` prop で `@tanstack/react-virtual` を使う（1,000 行超の想定時） | ✅ |
 | 行内操作 | 行末に IconButton（編集・削除）または Menu | ✅ |
-| キーボード | セル間の矢印移動（roving tabindex） | v1.2 |
+| キーボード | セル間の矢印移動（roving tabindex）。行クリックでの遷移は付けず、セル内の Link と行末の操作で代替する | v1.2 |
 | 編集 | セル内編集 | 【対象外】 |
 
-【未確認】`@tanstack/react-table` は npm 最新が 9.2.4（2026-08）。v8 系のドキュメントと API 差分がある可能性があるため、実装前に v9 の公式ドキュメントで `useReactTable` / `getCoreRowModel` 等の API を確認する。
+【確認済 2026-09-22】`@tanstack/react-table` 9.2.4 を採用。v8 と API が大きく違う: `useTable({ features, columns, data }, selector?)`、`tableFeatures({ rowSortingFeature, sortedRowModel: createSortedRowModel(), ..., filterFns, sortFns })` で使う機能と row model を明示登録、`table.FlexRender`、状態は `table.state` / `table.Subscribe`。公式サイトの migrating ページは 404 だったので、パッケージ同梱の skills（`node_modules/@tanstack/react-table/skills/`）と `.d.ts` を正にした。`@tanstack/react-table` / `@tanstack/react-virtual` は通常の dependency（理由は §9.3 と同じ）。列定義は nekodemo 独自の `DataGridColumn` に絞り、TanStack の型は利用側に見せない。列の絞り込みは `constructFilterFn` で作った `inList`（`arrIncludesSome` はセル側が配列である前提）。
 
 ---
 
@@ -1341,3 +1341,4 @@ description: >
 | 2026-09-21 | v0.1.9 | Phase 4 の結果を反映: §9.1 の 36 部品を実装（Tag に StatusTag、Form に Field、Skeleton に SkeletonRows を追加）、§11.4 の check を実装（NK001〜NK010、除外コメント、Stop hook）、§9.2 に tailwind-merge と Slot の注意を追記 |
 | 2026-09-22 | v0.1.10 | Phase 5 の結果を反映: §12 の registry 項目構成（`css` / `cssVars` 配布は不採用、`styles` 項目）、`exports`（個別エントリは v1 では無し）、dist の import 書き換え、§14 に `pack:test` |
 | 2026-09-22 | v0.1.11 | Phase 3b の結果を反映: §8.4 の VTracer 設定を確定、手動耳（manual-ears.json）と耳なし規約の追加、§14 に icons:prompts / icons:inspect |
+| 2026-09-22 | v0.1.12 | Phase 6 の結果を反映: §9.3 / §9.4 の【未確認】を解消（TanStack Table v9 の API、MUI の依存の扱い、候補パネルの配置、行クリック） |

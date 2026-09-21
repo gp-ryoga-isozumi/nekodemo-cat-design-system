@@ -10,7 +10,7 @@ import { loadThemes } from "./check-contrast.mjs";
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), "..");
 const OUT = join(ROOT, "out");
 const DEST = join(ROOT, "docs", "screenshots");
-const PAGES = ["/", "/tokens/", "/themes/", "/samples/list/", "/samples/form/"];
+const PAGES = ["/", "/tokens/", "/themes/", "/samples/list/", "/samples/grid/", "/samples/form/"];
 const MIME = {
   ".html": "text/html; charset=utf-8",
   ".css": "text/css",
