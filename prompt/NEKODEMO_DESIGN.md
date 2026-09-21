@@ -73,7 +73,7 @@ Claude Code への指示: 【未確認】は実装前に必ず確認して結果
 | D10 | 「Sparkle」という語を製品名・パッケージ名・属性名に使わない | — | Sparkle 利用規約の「名称・ブランドイメージを誤認させる使用」禁止に抵触しないため（§3.3） |
 | D11 | GitHub リポジトリは **`gp-ryoga-isozumi/nekodemo-cat-design-system`（公開）**。GitHub Pages は `https://gp-ryoga-isozumi.github.io/nekodemo-cat-design-system/`、Next.js の `basePath` は `/nekodemo-cat-design-system`。npm パッケージ名は `nekodemo`（D9）のまま | `<owner>/nekodemo` | 2026-09-21 に利用者が決定。リポジトリ名と npm 名は一致させなくてよい。本文中の `<owner>/nekodemo` はこの値に読み替える |
 | D12 | **ロシアンブルーはダーク scheme**。テーマ JSON に `scheme`（`light` または `dark`）を持たせ、`semantic.map.json` は役割トークンの対応表を `light` / `dark` の 2 組持つ。プリミティブの段階（50 = 最も明るい … 900 = 最も暗い）はテーマに関わらず固定し、ダークでは対応表側で反転させる（`text-high` → neutral.50、`surface-page` → neutral.900、`surface-primary` → primary.300 等） | 全テーマ light（初版）／ダークはテーマ ID を増やして対応 | 2026-09-21 のプレビューで利用者が「ロシアンブルーは黒に近い青灰の地でダークモード風に」と決定。部品は役割トークンだけを使う規約なので、対応表の差し替えだけで全部品が追従する（Phase 0.5 で確認済） |
-| D13 | **チェックマークと数値バッジは猫の顔の塗りつぶし**。Checkbox のチェックは `cat_face` アイコン（nekodemo 独自名。丸い顔＋両耳のシルエット）、数値 Badge は丸い顔＋左右の耳の形、Avatar の画像なし時も同じシルエット。文字ラベル用の Badge は通常のピル | 耳付き `check`、丸バッジ、肉球（一度試して不採用） | 2026-09-21 のプレビューで利用者が決定。肉球は小さいサイズで判別しにくかった |
+| D13 | **チェックマークと Avatar フォールバックは猫の顔の塗りつぶし**。Checkbox のチェックは `cat_face` アイコン（nekodemo 独自名。丸い顔＋両耳のシルエット）、Avatar の画像なし時も同じシルエット。**Badge は通常の丸（ピル）** | 耳付き `check`、肉球（一度試して不採用）、猫の顔の形のバッジ（一度試して不採用） | 2026-09-21 のプレビューで利用者が決定。肉球は小さいサイズで判別しにくく、顔形のバッジは通常の丸に戻した |
 | D15 | **フォントは 3 テーマ共通**（`font-pro` = Zen Maru Gothic、`font-mono` = Noto Sans Mono）。テーマ JSON の `fonts` キーは残す（将来テーマごとに変えられる）が、v1 の 3 テーマは同じ値にする | テーマごとに Inter＋Noto Sans JP / IBM Plex Sans JP 等を使い分ける | 2026-09-21 のプレビューで利用者が「三毛のフォントを他の 2 つにも」と決定。丸ゴシックの親しみやすさが nekodemo の統一した個性になる |
 | D14 | **猫耳は本体と同じ線幅の中抜き三角**。耳は塗らず、本体と同じ 2 の線で「へ」の字（付け根 2 点＋頂点）を描く。付け根は本体の輪郭上に置き、底辺は本体の輪郭を共有する。角は round join / round cap で丸める。高さは付け根から約 4.5〜5、付け根の幅は約 3.5〜4 | 塗りの三角（初版）、塗り＋輪郭（2 回目） | 2026-09-21 に利用者が参考画像（猫耳カチューシャのアイコン）を示して決定。中抜きにすると太い線でも重くならず、本体と一体に見える |
 
@@ -806,7 +806,7 @@ flowchart LR
 | 7 | Tooltip | Tooltip | tooltip | そのまま |
 | 8 | Toast | Toast | sonner | 種別アイコンは耳付き |
 | 9 | InlineMessage | Inline Message | alert | info / success / warning / negative |
-| 10 | Badge | Badge | badge | 数値バッジは**猫の顔の形**（丸い顔＋左右の耳）。文字ラベル用は通常のピル（D13） |
+| 10 | Badge | Badge | badge | 数値バッジ（通常の丸／ピル。猫要素なし、D13） |
 | 11 | Tag | Tag | badge（variant） | 削除可能な Tag は `close` アイコン |
 | 12 | Avatar | Avatar | avatar | フォールバックは猫シルエット |
 | 13 | Divider | Divider | separator | そのまま |
@@ -1328,3 +1328,4 @@ description: >
 | 2026-09-21 | v0.1.2 | プレビューのフィードバックを反映: D12（ロシアンブルーをダーク scheme に、light/dark 対応表）、D13（肉球チェック・肉球バッジ）、D14（猫耳を太く）。§6.1 に役割トークン追加、§6.2 に `:root, [data-neko-theme]` の注記 |
 | 2026-09-21 | v0.1.3 | D15（フォントを 3 テーマ共通に）。§7.1 / §7.2 を更新 |
 | 2026-09-21 | v0.1.4 | D13 を肉球から猫の顔に、D14 を中抜きの線画の耳に改訂（参考画像に基づく）。§8.3 の耳ルールと §9.1 の Badge / Checkbox を更新 |
+| 2026-09-21 | v0.1.5 | D13: Badge は通常の丸に戻す（猫の顔は Checkbox と Avatar のみ） |

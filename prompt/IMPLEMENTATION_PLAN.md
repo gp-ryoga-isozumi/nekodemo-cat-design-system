@@ -138,7 +138,7 @@ Phase 0 の実施メモ（2026-09-21）:
 フィードバック 1 回目（2026-09-21、反映済み。設計書 D12〜D14）:
 
 - ロシアンブルーをダーク scheme に（黒に近い青灰の地、銀青の主ボタン）。テーマ JSON に `scheme`、`semantic.map.json` に `light` / `dark` の 2 組、`color-scheme` の出力 → Phase 1〜2 の要件に追加。
-- Checkbox のチェックと数値 Badge は猫の顔の塗りつぶし（`cat_face` アイコン。3 回目のフィードバックで肉球から変更）→ Phase 3a（`cat_face` を nekodemo 独自アイコンとして登録）と Phase 4（Badge / Checkbox / Avatar）の要件に追加。
+- Checkbox のチェックと Avatar フォールバックは猫の顔の塗りつぶし（`cat_face` アイコン。3 回目のフィードバックで肉球から変更）→ Phase 3a（`cat_face` を nekodemo 独自アイコンとして登録）と Phase 4（Checkbox / Avatar）の要件に追加。Badge は 4 回目のフィードバックで通常の丸に戻した（猫要素なし）。
 - 猫耳は本体と同じ線幅 2 の中抜き三角（3 回目のフィードバックで参考画像に基づき決定。設計書 D14）→ Phase 3a の `ear.svg` と `add-ears.mjs` の規約に反映。`add-ears.mjs` は Material Symbols の塗りパスに対して、輪郭上の付け根 2 点を求めて 2 辺の線（太さ 2 相当の塗り）を合成する。`docs/preview/index.html` の 19 個の耳座標を実装時の参考にする。
 - 役割トークンの追加（`text-primary` `text-info/success/warning` `surface-input` `surface-disabled` `surface-primary-subtle-hover`）とステータス色 50〜900 の全段階 → Phase 1 の `tokens/*.json` に反映。
 
@@ -294,3 +294,4 @@ Phase 0.5 のプレビューで判明した Phase 1 への要件（2026-09-21）
 | 2026-09-21 | v0.1.2 | プレビューのフィードバック 1 回目（ダーク scheme、肉球、太い耳）を Phase 1〜4 の要件に反映 |
 | 2026-09-21 | v0.1.3 | フィードバック 2 回目（フォント共通化）を Phase 2 の要件に反映 |
 | 2026-09-21 | v0.1.4 | フィードバック 3 回目（中抜きの耳、猫の顔のチェック・バッジ）を Phase 3a / 4 の要件に反映 |
+| 2026-09-21 | v0.1.5 | フィードバック 4 回目（Badge を通常の丸に戻す）を反映 |

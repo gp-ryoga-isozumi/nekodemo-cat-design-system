@@ -394,14 +394,10 @@ button { cursor: pointer; }
 .nk-msg .nk-btn { margin-left: auto; align-self: center; }
 
 /* Badge / Tag / Avatar / Divider / Card */
-/* Badge: 数値バッジは猫の顔の形（丸い顔＋左右の耳）。文字ラベル用の neutral は通常のピル */
-.nk-badge { --badge-bg: var(--nk-color-surface-primary); position: relative; display: inline-flex; align-items: center; justify-content: center; min-width: 20px; height: 20px; padding: 0 6px; margin-top: 5px; border-radius: var(--nk-radius-round); background: var(--badge-bg); color: var(--nk-color-text-on-primary); font-family: var(--nk-font-mono); font-size: 11px; font-weight: 700; line-height: 1; vertical-align: middle; }
-.nk-badge::before, .nk-badge::after { content: ""; position: absolute; top: -5px; width: 8px; height: 8px; background: var(--badge-bg); clip-path: polygon(0 100%, 28% 0, 100% 78%); pointer-events: none; }
-.nk-badge::before { left: 0; }
-.nk-badge::after { right: 0; transform: scaleX(-1); }
-.nk-badge.negative { --badge-bg: var(--nk-color-surface-negative); color: var(--nk-color-white); }
-.nk-badge.neutral { background: var(--nk-color-border-middle); color: var(--nk-color-text-middle); margin-top: 0; font-size: var(--nk-text-1); }
-.nk-badge.neutral::before, .nk-badge.neutral::after { display: none; }
+/* Badge: 数値バッジは通常の丸（ピル）。neutral は文字ラベル用 */
+.nk-badge { display: inline-flex; align-items: center; justify-content: center; min-width: 20px; height: 20px; padding: 0 6px; border-radius: var(--nk-radius-round); background: var(--nk-color-surface-primary); color: var(--nk-color-text-on-primary); font-family: var(--nk-font-mono); font-size: var(--nk-text-1); font-weight: 700; line-height: 1; vertical-align: middle; }
+.nk-badge.negative { background: var(--nk-color-surface-negative); color: var(--nk-color-white); }
+.nk-badge.neutral { background: var(--nk-color-border-middle); color: var(--nk-color-text-middle); }
 .nk-status { display: inline-flex; align-items: center; gap: 6px; height: 24px; padding: 0 8px; border-radius: var(--nk-radius-notice); font-size: var(--nk-text-1); font-weight: 700; line-height: 1; }
 .nk-status::before { content: ""; width: 6px; height: 6px; border-radius: 50%; background: currentColor; }
 .nk-status.success { background: var(--nk-color-surface-success-subtle); color: var(--nk-color-text-success); }
@@ -930,7 +926,7 @@ button { cursor: pointer; }
         <div class="nk-msg negative"><svg class="nk-icon s5"><use href="#i-error"/></svg><span>一覧を読み込めませんでした。</span><button class="nk-btn outline sm" type="button">再試行</button></div>
       </div>
 
-      <div class="demo"><div class="label"><b>10 Badge ／ 11 Tag ／ 12 Avatar</b><span>数値バッジは猫の顔の形</span></div>
+      <div class="demo"><div class="label"><b>10 Badge ／ 11 Tag ／ 12 Avatar</b><span>Avatar の画像なし時は猫の顔</span></div>
         <div class="row" style="gap:8px"><span class="nk-badge">3</span><span class="nk-badge negative">12</span><span class="nk-badge neutral">120件</span><span class="nk-badge">99+</span><span class="nk-divider v"></span><span class="nk-status success">完了</span><span class="nk-status info">進行中</span><span class="nk-status warning">確認待ち</span><span class="nk-status negative">差し戻し</span></div>
         <div class="row" style="gap:6px"><span class="nk-tag">デザイン<button type="button" aria-label="外す"><svg class="nk-icon s3"><use href="#i-close"/></svg></button></span><span class="nk-tag selected">優先<button type="button" aria-label="外す"><svg class="nk-icon s3"><use href="#i-close"/></svg></button></span><span class="nk-tag noclose">読み取り専用</span></div>
         <div class="row" style="gap:8px"><span class="nk-avatar sm"><svg class="nk-icon"><use href="#i-cat_face"/></svg></span><span class="nk-avatar">五十</span><span class="nk-avatar lg"><svg class="nk-icon"><use href="#i-cat_face"/></svg></span><span class="t2 low">画像なし時は猫シルエット</span></div>
