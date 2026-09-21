@@ -12,11 +12,7 @@
     "outDir": "dist",
     "incremental": false,
     "plugins": [],
-    "types": [
-      "node",
-      "react",
-      "react-dom"
-    ]
+    "types": ["node", "react", "react-dom"]
   },
   "include": [
     "src/index.ts",
