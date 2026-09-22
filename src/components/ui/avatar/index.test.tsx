@@ -54,10 +54,10 @@ describe("Avatar", () => {
     expect(image).toHaveAttribute("aria-label", "ゲスト");
   });
 
-  it("アクセシブルネーム: fallback の文字のときは role=img を付けず、文字をそのまま読ませる", async () => {
+  it("アクセシブルネーム: fallback の文字（イニシャル）のときも name が role=img の名前になる", async () => {
     render(<Avatar name="山田 太郎" fallback="山田" />);
     const fallback = await screen.findByText("山田");
-    expect(fallback).not.toHaveAttribute("role");
-    expect(fallback).not.toHaveAttribute("aria-label");
+    expect(fallback).toHaveAttribute("role", "img");
+    expect(fallback).toHaveAttribute("aria-label", "山田 太郎");
   });
 });

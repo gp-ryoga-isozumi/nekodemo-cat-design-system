@@ -105,7 +105,11 @@ export function InputFile({
     const accepted: File[] = [];
     const limit = multiple ? (maxFiles ?? Number.POSITIVE_INFINITY) : 1;
     let current = multiple ? [...files] : [];
+    const sameFile = (a: File, b: File) =>
+      a.name === b.name && a.size === b.size && a.lastModified === b.lastModified;
     for (const file of Array.from(incoming)) {
+      // 同じファイル（名前・サイズ・更新日時が一致）は 2 回目を無視する（一覧の key が衝突するため）
+      if ([...current, ...accepted].some((f) => sameFile(f, file))) continue;
       if (!acceptsType(file, accept)) {
         onReject?.(file, "type");
         continue;

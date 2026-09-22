@@ -203,7 +203,7 @@ export default function ListSamplePage() {
           <>
             {someSelected ? (
               <div className="flex items-center gap-3 rounded-action bg-surface-selected px-3 py-2 text-2 text-text-primary">
-                <span className="font-bold">{selected.size} 件を選択中</span>
+                <span className="font-bold">{selected.size}件を選択中</span>
                 <Button variant="ghost" size="sm" onClick={() => setSelected(new Set())}>
                   選択を解除する
                 </Button>

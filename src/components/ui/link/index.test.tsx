@@ -24,6 +24,18 @@ describe("Link", () => {
     expect(container.querySelector('[data-icon="open_in_new"]')).not.toBeNull();
   });
 
+  it("表示: external で rel を渡しても noopener noreferrer が残る", () => {
+    render(
+      <Link href="https://example.com/me" external rel="me">
+        プロフィール
+      </Link>,
+    );
+    expect(screen.getByRole("link", { name: /プロフィール/ })).toHaveAttribute(
+      "rel",
+      "me noopener noreferrer",
+    );
+  });
+
   it("操作: クリックで onClick が呼ばれる", async () => {
     const onClick = vi.fn((event: React.MouseEvent) => event.preventDefault());
     render(

@@ -4,7 +4,8 @@ import { Icon } from "../icon";
 
 export type StepperStep = {
   /** 手順名（「基本情報」「担当者」「確認」） */
-  label: ReactNode;
+  /** 手順名（読み上げ名にも使うので文字列） */
+  label: string;
   /** 補足（任意） */
   description?: ReactNode;
 };
@@ -110,7 +111,7 @@ export function Stepper({
         const content = clickable ? (
           <button
             type="button"
-            aria-label={typeof step.label === "string" ? `${step.label}（完了）に戻る` : undefined}
+            aria-label={`${step.label}（完了）に戻る`}
             onClick={() => onStepClick(i)}
             className={cn(
               "flex gap-2 rounded-action outline-none hover:text-text-high focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-border-focus",
@@ -129,7 +130,7 @@ export function Stepper({
         return (
           <li
             // biome-ignore lint/suspicious/noArrayIndexKey: 手順は並び順が意味を持ち、同名の手順もありうるので index を含める
-            key={`${typeof step.label === "string" ? step.label : "step"}-${i}`}
+            key={`${step.label}-${i}`}
             data-slot="stepper-step"
             data-status={status}
             aria-current={status === "current" ? "step" : undefined}

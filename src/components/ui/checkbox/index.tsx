@@ -37,7 +37,7 @@ export function Checkbox({ className, ...props }: CheckboxProps) {
     <CheckboxPrimitive.Root
       data-slot="checkbox"
       className={cn(
-        "peer flex size-[22px] shrink-0 items-center justify-center rounded-notice border-[1.5px] border-border-high bg-surface-input text-object-on-primary transition-colors",
+        "group/checkbox peer flex size-[22px] shrink-0 items-center justify-center rounded-notice border-[1.5px] border-border-high bg-surface-input text-object-on-primary transition-colors",
         "outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-border-focus",
         "data-[state=checked]:border-surface-primary data-[state=checked]:bg-surface-primary",
         "data-[state=indeterminate]:border-surface-primary data-[state=indeterminate]:bg-surface-primary",
@@ -51,11 +51,16 @@ export function Checkbox({ className, ...props }: CheckboxProps) {
         data-slot="checkbox-indicator"
         className="flex items-center justify-center"
       >
-        {props.checked === "indeterminate" ? (
-          <span aria-hidden="true" className="block h-0.5 w-2.5 rounded-round bg-current" />
-        ) : (
-          <Icon icon="cat_face" size={4} />
-        )}
+        {/* 非制御で indeterminate になった場合にも合うよう、props ではなく data-state で切り替える */}
+        <span
+          aria-hidden="true"
+          className="hidden h-0.5 w-2.5 rounded-round bg-current group-data-[state=indeterminate]/checkbox:block"
+        />
+        <Icon
+          icon="cat_face"
+          size={4}
+          className="group-data-[state=indeterminate]/checkbox:hidden"
+        />
       </CheckboxPrimitive.Indicator>
     </CheckboxPrimitive.Root>
   );

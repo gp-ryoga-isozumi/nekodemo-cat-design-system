@@ -71,8 +71,8 @@ export default function SettingsSamplePage() {
                   <SelectValue />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="20">20 件</SelectItem>
-                  <SelectItem value="50">50 件</SelectItem>
+                  <SelectItem value="20">20件</SelectItem>
+                  <SelectItem value="50">50件</SelectItem>
                   <SelectItem value="100">100 件</SelectItem>
                 </SelectContent>
               </Select>

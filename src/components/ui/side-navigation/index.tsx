@@ -145,6 +145,8 @@ export type SideNavItemProps = ComponentProps<"a"> & {
   icon: string;
   active?: boolean;
   badge?: number;
+  /** バッジの色。既定は negative（未対応の数）。中立の件数は neutral */
+  badgeVariant?: "primary" | "negative" | "neutral";
   asChild?: boolean;
 };
 
@@ -152,6 +154,7 @@ export function SideNavItem({
   icon,
   active,
   badge,
+  badgeVariant = "negative",
   asChild,
   className,
   children,
@@ -181,7 +184,7 @@ export function SideNavItem({
     >
       <Icon icon={icon} size={5} fill={active} />
       {child ? <Slot.Slottable>{cloneElement(child, undefined, label)}</Slot.Slottable> : label}
-      {badge !== undefined && !collapsed ? <Badge count={badge} variant="negative" /> : null}
+      {badge !== undefined && !collapsed ? <Badge count={badge} variant={badgeVariant} /> : null}
     </Comp>
   );
 }
