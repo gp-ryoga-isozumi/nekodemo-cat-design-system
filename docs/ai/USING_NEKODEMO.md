@@ -69,8 +69,8 @@ export default function RootLayout({ children }) {
 
 | 型 | 構成（上から） | 使う部品 |
 |---|---|---|
-| A. 一覧 | ページ見出し＋主アクション（右上） → 検索・絞り込み行 → Table → Pagination | `Button` `InputSearch` `Tag`（絞り込み）`Table` `Pagination` `EmptyState` `SkeletonRows`。ソート・列幅・選択・列の絞り込みまで要るなら `DataGrid` 1 つで済む（4 状態も内蔵） |
-| B. 詳細 | Breadcrumb → 見出し＋状態（`StatusTag`）＋操作 `Menu` → 2 カラム（左: 情報 `Card`、右: 関連 `Card`） | `Breadcrumb` `StatusTag` `Menu` `Card` `Tabs` `Drawer` |
+| A. 一覧 | `PageHeader`（見出し＋主アクション） → 検索・絞り込み行（`InputSearch` `FilterChipGroup`） → Table → Pagination | `Button` `InputSearch` `Tag`（絞り込み）`Table` `Pagination` `EmptyState` `SkeletonRows`。ソート・列幅・選択・列の絞り込みまで要るなら `DataGrid` 1 つで済む（4 状態も内蔵） |
+| B. 詳細 | `PageHeader`（Breadcrumb → 見出し＋状態（`StatusTag`）＋操作 `Menu`） → 2 カラム（左: 情報 `Card` の中に `DescriptionList`、右: 関連 `Card`） | `PageHeader` `Breadcrumb` `StatusTag` `Menu` `Card` `DescriptionList` `Tabs` `Drawer` `Accordion` |
 | C. 作成・編集フォーム | 見出し → `Form`（セクションごとに `Card`）→ 画面下部に固定のフッター（キャンセル／保存） | `Form` `Input` `Select` `Textarea` `Checkbox` `RadioGroup` `Switch` `Button` |
 | D. 設定 | 左に縦 `Tabs` → 右に設定項目（1 項目 = 見出し・説明・入力の 3 行） | `Tabs`（`orientation="vertical"`）`Switch` `Select` `Divider` `Field` |
 
@@ -103,12 +103,21 @@ export default function RootLayout({ children }) {
 | `InlineMessage` | `variant`: info / success / warning / negative、`title`、`action` | 画面内のエラー・注意 |
 | `Badge` | `count`、`max`、`variant`: primary / negative / neutral | 件数（数字）。文字は `Tag` |
 | `Tag` / `StatusTag` | `Tag`: `variant`: default / selected、`onRemove`、`removeLabel`。`StatusTag`: `status`: info / success / warning / negative / neutral | 絞り込み条件 ／ 状態ラベル |
+| `FilterChip` / `FilterChipGroup` | `selected` / `onSelectedChange`、`count`、`icon`、`size`。Group は `aria-label` 必須 | 押して ON / OFF する絞り込み（複数可）。一覧の検索欄の下 |
+| `Progress` | `label`（必須）、`value`（0〜100。省略で不確定）、`showValue`、`size` | アップロードや取り込みの進み具合。回転は Spinner |
 | `Avatar` | `name`（必須）、`src`、`fallback`、`size` | 画像なしは猫の顔 |
 | `Divider` | `orientation` | 意味のある区切りだけ |
 | `Card` | `CardHeader` > `CardTitle` `CardDescription` `CardAction`、`CardContent`、`CardFooter` | 情報のまとまり。入れ子にしない |
+| `DescriptionList` / `DescriptionItem` | `columns`（1〜3）、`layout`（vertical / horizontal）、`density`。`DescriptionItem label span emptyText` | 詳細画面の「項目名: 値」。空は「—」で残す |
+| `Accordion` | `Accordion type="single" collapsible` > `AccordionItem value` > `AccordionTrigger` + `AccordionContent` | 補足や高度な設定を畳む。本題は畳まない |
+| `PageHeader` | `title`、`description`、`meta`（StatusTag）、`actions`（主ボタン 1 つ）、`breadcrumb` | 4 型すべての画面最上部 |
 | `Input` | `size`: sm / md / lg、`aria-invalid`、`type` | ラベルは Form / Field で |
 | `InputPassword` | Input と同じ | 表示切替つき |
 | `InputSearch` | `value` / `onValueChange`、`onOpenConditions`、`clearLabel`、`size` | 一覧の検索欄 |
+| `InputNumber` | `value` / `onValueChange`（数値か null）、`min` `max` `step`、`unit`（「円」など）、`format`（3 桁区切り）、`hideSteppers`、`size` | 金額・数量。電話番号や ID は Input |
+| `InputDate` | `value` / `onValueChange`（`YYYY-MM-DD`）、`min` `max`、`size` | 納期・期間（2 つ並べて `min` / `max` で制限） |
+| `InputTime` | `value` / `onValueChange`（`HH:MM`）、`stepMinutes`（既定 15）、`min` `max`、`size` | 開始・終了時刻。日時は InputDate と横に並べる |
+| `InputFile` | `value` / `onValueChange`（`File[]`）、`onReject(file, "type" \| "size" \| "count")`、`accept` `maxSizeMB` `maxFiles` `multiple` | 添付。受け付ける条件は説明にも書く。アップロードはしない |
 | `Textarea` | `maxLength`（カウンタ）、`showCount`、`rows` | |
 | `Select` | `Select` > `SelectTrigger`（`size`）> `SelectValue`、`SelectContent` > `SelectItem` | 単一選択 |
 | `Checkbox` | `checked`（true / false / "indeterminate"）、`onCheckedChange` | チェックは猫の顔 |
@@ -118,6 +127,8 @@ export default function RootLayout({ children }) {
 | `Form` | `Form {...form}` > `FormField` > `FormItem` > `FormLabel required` / `FormControl` / `FormDescription` / `FormMessage`。`useForm` `zodResolver` `z` も `nekodemo` から import する（別途インストール不要） | react-hook-form + zod |
 | `Field` | `label`（必須）`htmlFor`（必須）`description` `error` `required`。中に `Input` / `Select` 等を置く | react-hook-form を使わない静的なラベル付け（設定画面、絞り込み行） |
 | `Tabs` | `Tabs`（`orientation`）> `TabsList aria-label` > `TabsTrigger value`、`TabsContent value` | |
+| `SegmentedControl` | `SegmentedControl aria-label value onValueChange size` > `SegmentedControlItem value` | 常に見えている 2〜5 択の切替（一覧 / カード、日 / 週 / 月）。必ず 1 つ選ばれる |
+| `Stepper` | `steps`（`{ label, description? }[]`）`current`（0 始まり）`orientation` `onStepClick` `aria-label` | 3〜5 手順の作成フォームの進み具合 |
 | `Breadcrumb` | `BreadcrumbList` > `BreadcrumbItem` > `BreadcrumbLink` / `BreadcrumbPage`、`BreadcrumbSeparator` | 詳細の最上部 |
 | `SideNavigation` | `logo`、`collapsed` / `defaultCollapsed`；`SideNavItem icon active badge asChild`；`SideNavGroup label` | 幅 240 / 64px |
 | `Pagination` | `page` `total` `pageSize` `onPageChange`、`showSummary`、`unit` | 件数表示つき |

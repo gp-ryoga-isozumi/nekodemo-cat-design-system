@@ -839,6 +839,22 @@ flowchart LR
 v1.1: **SearchCombobox**（§9.3）、**DataGrid**（§9.4）。
 v1.2: Calendar、Input Date / Time / Number / File / Chip、Filter Chip、Stepper、Progress Indicator（バー）、Segmented Control、Information List、Vertical Tabs。
 
+【v1.2 で追加（2026-09-22）】プロトタイプで頻出だが v1 に無かった 4 部品。
+
+| # | nekodemo 名 | Sparkle 公開名（参考） | shadcn/ui の元 | 猫化・独自ポイント |
+|---|---|---|---|---|
+| 37 | InputNumber | Input Number | — | Input の見た目に増減ボタン（耳付き `add` / `remove`）と単位。3 桁区切り、全角数字の正規化、min / max / step |
+| 38 | InputDate | Input Date | — | ブラウザ標準の `type="date"` を Input の見た目にし、耳付き `calendar_today` ボタンで開く。Calendar 部品は用途次第で後回し |
+| 39 | SegmentedControl | Segmented Control | toggle-group | Radix ToggleGroup（single）。常に 1 つ選ばれた状態を保つ。role=radio |
+| 40 | Stepper | Stepper | — | 横 / 縦。完了はチェック、現在は primary の枠、aria-current=step。onStepClick で完了手順に戻れる |
+| 41 | InputTime | Input Time | — | ブラウザ標準の `type="time"`。`stepMinutes` で刻み、耳付き `schedule` ボタン |
+| 42 | InputFile | Input File | — | ドロップ領域＋「ファイルを選ぶ」＋選択済み一覧。accept / maxSizeMB / maxFiles の検証と `onReject` |
+| 43 | FilterChip | Filter Chip | — | `aria-pressed` のトグルチップ。件数・アイコン。Group は fieldset + 隠し legend |
+| 44 | Progress | Progress Indicator（バー） | progress | 確定 / 不確定、100% で success。円形は Spinner |
+| 45 | DescriptionList | Information List（一部） | — | `dl` / `dt` / `dd` の「項目名: 値」。2〜3 列、横 / 縦、空は「—」 |
+| 46 | Accordion | —（shadcn） | accordion | Radix Accordion。設定の詳細項目や FAQ を畳む |
+| 47 | PageHeader | —（画面の型の共通部） | — | Breadcrumb → 見出し＋状態 → 説明、右端に主アクション。4 型で共通の骨組み |
+
 ### 9.2 コンポーネントの作法（全部品共通）
 
 | 項目 | 決まり |

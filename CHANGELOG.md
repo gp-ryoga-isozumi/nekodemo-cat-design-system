@@ -14,4 +14,5 @@
 - Phase 4: 中核部品 36 種、nekodemo check、4 画面型のサンプル
 - Phase 5: AI 向け提供物（USING_NEKODEMO.md / SETUP.md / GUARD_BLOCK.md / skills 5 つ / llms.txt）、shadcn registry、npm 配布物
 - Phase 3b: T1 パイプライン（`icons:prompts` / `icons:vectorize` / `icons:audit` / `icons:inspect`）、手動耳 3 個（badge / cake / cloud_download）、耳なし規約に 10 個を追加（「耳を置けず」0）
+- v1.2 部品: `InputNumber`（増減ボタン・単位・3 桁区切り）、`InputDate`（標準の type=date ＋ 猫耳カレンダーボタン）、`InputTime`、`InputFile`（ドロップ領域・検証・一覧）、`SegmentedControl`（Radix ToggleGroup single）、`Stepper`（横 / 縦、aria-current=step）、`FilterChip` / `FilterChipGroup`、`Progress`、`DescriptionList` / `DescriptionItem`、`Accordion`（Radix）、`PageHeader`
 - Phase 6（v1.1）: `DataGrid`（TanStack Table v9。ソート・列幅・固定・選択・ページング・検索・列の絞り込み・列の表示切替・密度・4 状態・仮想化・行内操作）、`SearchCombobox`（MUI useAutocomplete。単一／複数／自由入力／グループ／読み込み中）、サンプル `/samples/grid/`。`Table` に `containerProps`、`TableHead.onSort` にイベント
