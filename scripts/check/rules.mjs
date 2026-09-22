@@ -247,23 +247,33 @@ export const rules = [
   {
     id: "NK010",
     severity: "info",
-    description: "一覧を描画しているのに Skeleton / EmptyState の参照が無い（4 状態の抜けの目安）",
+    description: "一覧を描画しているのに 4 状態（読み込み中 / 0 件 / エラー）のどれかが無い",
     test: (ctx) => {
-      // 画面（page.tsx / pages/*.tsx）だけを対象にする（ナビや部品内の .map は対象外）
-      if (!/(^|\/)(page\.tsx|pages\/[^/]+\.tsx)$/.test(ctx.path)) return [];
+      // 画面（page.tsx / pages/*.tsx）と、一覧らしい名前の部品（*-list.tsx / *-table.tsx / *-grid.tsx 等）を対象にする
+      // （ナビや切替スイッチの .map は一覧ではないので対象外。nekodemo の部品実装・ストーリーも対象外）
+      const isScreen = /(^|\/)(page\.tsx|pages\/[^/]+\.tsx)$/.test(ctx.path);
+      const isListPart = /(list|table|grid|rows|results|items)[^/]*\.tsx$/i.test(ctx.path);
+      if (!(isScreen || isListPart) || /components\/ui\/|\.stories\.tsx$/.test(ctx.path)) return [];
       // generateStaticParams 内の .map（データの変換）は対象外。JSX 式の中の .map（{items.map(...)}）だけを一覧の描画とみなす
       const source = ctx.source.replace(
         /export\s+(?:async\s+)?function\s+generateStaticParams[\s\S]*?\n\}/g,
         "",
       );
       if (!/\{[^{}\n]*\.map\(/.test(source)) return [];
-      if (/Skeleton|EmptyState/.test(source)) return [];
+      // DataGrid は 4 状態を内蔵している
+      if (/<DataGrid\b/.test(source)) return [];
+      const missing = [];
+      if (!/Skeleton|SkeletonRows|Spinner|<Progress\b/.test(source))
+        missing.push("読み込み中（Skeleton / Spinner）");
+      if (!/EmptyState/.test(source)) missing.push("0 件（EmptyState）");
+      if (!/InlineMessage|variant="negative"|toast\.error/.test(source))
+        missing.push("エラー（InlineMessage negative）");
+      if (missing.length === 0) return [];
       return [
         {
           line: 1,
           col: 1,
-          message:
-            "一覧を描画していますが Skeleton / EmptyState の参照がありません。読み込み中 / 0 件 / エラー / 成功 の 4 状態を確認してください（docs/guidelines/02-states.md）",
+          message: `一覧を描画していますが ${missing.join("、")} の実装が見当たりません。4 状態を確認してください（docs/guidelines/02-states.md）`,
         },
       ];
     },
@@ -271,6 +281,99 @@ export const rules = [
 ];
 
 export const _rulesTail = [
+  {
+    id: "NK012",
+    severity: "error",
+    description:
+      "style 属性でのウェイト・文字サイズ・角丸・フォントの指定（NK003 / NK007 の抜け道）",
+    test: (ctx) => {
+      if (/components\/ui\//.test(ctx.path)) return []; // 部品の実装（Icon のフォールバック等）は除外
+      return eachSourceMatch(ctx, /style=\{\{([\s\S]*?)\}\}/g, (m, col, n) => {
+        const p = /\b(fontWeight|fontSize|borderRadius|fontFamily|lineHeight)\s*:/.exec(m[1]);
+        if (!p) return null;
+        return {
+          line: n,
+          col,
+          message: `style で "${p[1]}" を指定しています。font-bold / text-3 / rounded-action のようなクラスを使ってください`,
+        };
+      });
+    },
+  },
+  {
+    id: "NK014",
+    severity: "warn",
+    description: "1 画面に primary の Button が 2 つ以上（主アクションは 1 画面 1 つ）",
+    test: (ctx) => {
+      if (!/(^|\/)(page\.tsx|pages\/[^/]+\.tsx)$/.test(ctx.path)) return [];
+      const primaries = eachSourceMatch(ctx, /<Button\b([^>]*)>/g, (m, col, n) => {
+        const attrs = m[1];
+        // EmptyState の action / DataGrid の emptyAction のように、その状態でだけ出る主ボタンは数えない
+        const before = ctx.source.slice(Math.max(0, m.index - 80), m.index);
+        if (/[aA]ction=\{\s*$/.test(before)) return null;
+        const variant = /variant=\{?["']([a-z]+)["']/.exec(attrs)?.[1];
+        if (variant && variant !== "primary") return null;
+        if (/variant=\{[^"']/.test(attrs)) return null; // 動的な variant は判定しない
+        return { line: n, col };
+      });
+      if (primaries.length < 2) return [];
+      return [
+        {
+          line: primaries[1].line,
+          col: primaries[1].col,
+          message: `primary の Button が ${primaries.length} 個あります。主アクションは 1 画面 1 つにし、他は variant="secondary" / "outline" / "ghost" にしてください（docs/guidelines/03-actions.md）`,
+        },
+      ];
+    },
+  },
+  {
+    id: "NK018",
+    severity: "warn",
+    description: "送信ボタンを初期状態で disabled にしている（送信して検証する）",
+    test: (ctx) =>
+      eachSourceMatch(ctx, /<Button\b([^>]*)>/g, (m, col, n) => {
+        const attrs = m[1];
+        if (!/type=["']submit["']/.test(attrs)) return null;
+        if (!/\bdisabled=/.test(attrs)) return null;
+        if (/disabled=\{[^}]*(loading|isSubmitting|pending)[^}]*\}/.test(attrs)) return null;
+        return {
+          line: n,
+          col,
+          message:
+            "送信ボタンを disabled にしています。初期状態から押せるようにし、押したときに検証してエラーを出してください（docs/guidelines/03-actions.md の 3）。送信中だけ loading にします",
+        };
+      }),
+  },
+  {
+    id: "NK020",
+    severity: "info",
+    description: "画面の見出し（h1）が無い、または 2 つ以上ある",
+    test: (ctx) => {
+      if (!/(^|\/)(page\.tsx|pages\/[^/]+\.tsx)$/.test(ctx.path)) return [];
+      if (/\/(layout|loading|error|not-found)\.tsx$/.test(ctx.path)) return [];
+      const h1 = (ctx.source.match(/<h1\b/g) ?? []).length;
+      const pageHeader = /<PageHeader\b/.test(ctx.source);
+      if (h1 === 0 && !pageHeader) {
+        return [
+          {
+            line: 1,
+            col: 1,
+            message:
+              "画面の見出し（h1）がありません。PageHeader の title か <h1> を 1 つ置いてください（1 画面に 1 つ）",
+          },
+        ];
+      }
+      if (h1 + (pageHeader ? 1 : 0) >= 2) {
+        return [
+          {
+            line: 1,
+            col: 1,
+            message: "見出し（h1 / PageHeader）が 2 つ以上あります。1 画面に 1 つにしてください",
+          },
+        ];
+      }
+      return [];
+    },
+  },
   {
     id: "NK011",
     severity: "error",

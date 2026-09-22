@@ -100,9 +100,14 @@ describe("nekodemo check のルール", () => {
   it("NK010: .map で一覧を描画しているのに Skeleton / EmptyState が無いと info", () => {
     const src = `<ul>{items.map((i) => <li key={i}>{i}</li>)}</ul>`;
     expect(ids(checkSource(src, "src/app/list/page.tsx"))).toContain("NK010");
-    expect(ids(checkSource(`${src}; <EmptyState />`, "src/app/list/page.tsx"))).not.toContain(
-      "NK010",
-    );
+    expect(
+      ids(
+        checkSource(
+          `${src}; <EmptyState /><SkeletonRows /><InlineMessage variant="negative" />`,
+          "src/app/list/page.tsx",
+        ),
+      ),
+    ).not.toContain("NK010");
     // データの変換（generateStaticParams や JSX 外の .map）は一覧の描画とみなさない
     const staticParams = `export function generateStaticParams() {\n  return projects.map((p) => ({ id: p.id }));\n}\nexport default function Page() { return <Detail />; }`;
     expect(ids(checkSource(staticParams, "src/app/projects/[id]/page.tsx"))).not.toContain("NK010");
@@ -116,6 +121,71 @@ describe("nekodemo check のルール", () => {
     const f = checkSource(src, "src/app/page.tsx");
     expect(ids(f)).not.toContain("NK007");
     expect(f.filter((x) => x.rule === "NK009").map((x) => x.line)).toEqual([5]);
+  });
+});
+
+describe("追加ルール（NK012 / NK014 / NK016 / NK018 / NK020）", () => {
+  it("NK012: style のウェイト・文字サイズ・角丸を error にし、部品の実装は除外する", () => {
+    const src = `<p\n  style={{\n    fontWeight: 600,\n  }}\n/>`;
+    expect(ids(checkSource(src, "src/app/page.tsx"))).toContain("NK012");
+    expect(ids(checkSource(src, "src/components/ui/icon/index.tsx"))).not.toContain("NK012");
+  });
+
+  it("NK014: 画面に primary の Button が 2 つ以上あると警告し、EmptyState の action は数えない", () => {
+    const two = `<Button>保存する</Button>\n<Button variant="outline">戻る</Button>\n<Button>送信する</Button>`;
+    expect(ids(checkSource(two, "src/app/page.tsx"))).toContain("NK014");
+    const one = `<Button>案件を追加する</Button>\n<EmptyState title="0 件" action={<Button>案件を追加する</Button>} />`;
+    expect(ids(checkSource(one, "src/app/page.tsx"))).not.toContain("NK014");
+    expect(ids(checkSource(two, "src/app/nav.tsx"))).not.toContain("NK014");
+  });
+
+  it("NK018: 送信ボタンの初期 disabled を警告し、送信中の loading は通す", () => {
+    const bad = `<Button type="submit" disabled={!isValid}>保存する</Button>`;
+    const ok = `<Button type="submit" disabled={loading} loading={loading}>保存する</Button>`;
+    expect(ids(checkSource(bad, "a.tsx"))).toContain("NK018");
+    expect(ids(checkSource(ok, "a.tsx"))).not.toContain("NK018");
+  });
+
+  it("NK020: 画面に h1 も PageHeader も無いと info、2 つ以上でも info", () => {
+    expect(ids(checkSource(`<main><p>本文</p></main>`, "src/app/page.tsx"))).toContain("NK020");
+    expect(ids(checkSource(`<PageHeader title="案件一覧" />`, "src/app/page.tsx"))).not.toContain(
+      "NK020",
+    );
+    expect(ids(checkSource(`<h1>a</h1><h1>b</h1>`, "src/app/page.tsx"))).toContain("NK020");
+  });
+
+  it("NK010: 一覧らしい部品にも効き、不足している状態を列挙する。DataGrid は 4 状態内蔵として通す", () => {
+    const list = `export function ProjectList({ items }) { return <ul>{items.map((i) => <li key={i.id}>{i.name}</li>)}</ul>; }`;
+    const f = checkSource(list, "src/app/projects/project-list.tsx").filter(
+      (x) => x.rule === "NK010",
+    );
+    expect(f).toHaveLength(1);
+    expect(f[0].message).toContain("EmptyState");
+    expect(ids(checkSource(list, "src/app/nav.tsx"))).not.toContain("NK010");
+    expect(
+      ids(
+        checkSource(
+          `<DataGrid aria-label="a" columns={c} data={d} />{rows.map((r) => r)}`,
+          "src/app/page.tsx",
+        ),
+      ),
+    ).not.toContain("NK010");
+  });
+
+  it("NK016: toast() を使っているのに <Toaster /> が無いと警告し、2 つ以上でも警告する", () => {
+    const dir = mkdtempSync(join(tmpdir(), "nekodemo-toaster-"));
+    mkdirSync(join(dir, "src", "app"), { recursive: true });
+    writeFileSync(join(dir, "src", "app", "page.tsx"), `toast.success("保存しました")`);
+    const missing = runCheck(["src"], { cwd: dir }).findings.filter((f) => f.rule === "NK016");
+    expect(missing).toHaveLength(1);
+    expect(missing[0].message).toContain("どこにもありません");
+    writeFileSync(join(dir, "src", "app", "layout.tsx"), `<Toaster />`);
+    expect(runCheck(["src"], { cwd: dir }).findings.filter((f) => f.rule === "NK016")).toHaveLength(
+      0,
+    );
+    writeFileSync(join(dir, "src", "app", "other.tsx"), `<Toaster />`);
+    const dup = runCheck(["src"], { cwd: dir }).findings.filter((f) => f.rule === "NK016");
+    expect(dup[0].message).toContain("2 か所");
   });
 });
 
