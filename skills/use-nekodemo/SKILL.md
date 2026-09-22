@@ -3,7 +3,7 @@ name: use-nekodemo
 description: >
   nekodemo（猫デザインシステム）でプロトタイプ画面を作るスキル。
   「nekodemo で画面を作って」「プロトタイプを作って」「猫DSで一覧画面を」で発動。
-  画面の型を選び、4 状態を実装し、nekodemo check を 0 件にして完了する。
+  画面の型を選び、4 状態を実装し、nekodemo check の error を 0 件にして完了する。
 ---
 
 # use-nekodemo
@@ -31,11 +31,11 @@ description: >
 6. 操作の原則: 主ボタン（primary）は 1 画面 1 つ。削除は `Dialog` で確認し `DialogAction variant="negative"` に「削除する」（行メニューから開くときは `DialogTrigger` ではなく `<Dialog open onOpenChange>` をページに 1 つ置いて state で開く）。保存後は詳細か一覧に戻す。モーダルは 3 項目以内の短い入力だけ。
 7. 文言: 「です・ます」、ボタンは「〜する」、エラー文は「何が起きたか＋どうすればよいか」。数値は 3 桁区切り、日付は `2026/09/21`。
 8. 猫要素は耳付きアイコンだけを常用する。マスコットは `EmptyState`・初回ローディング・404・ログインの 4 か所だけ。業務データの領域に猫のイラスト・絵文字を入れない。
-9. `pnpm nekodemo check src --strict` を実行し、指摘を直して 0 件にする。NK006（猫版が無いアイコン）が出たら別の名前に替えるか、`request-cat-icon` で追加を依頼する。
+9. `pnpm nekodemo check src --strict` を実行し、error を直して 0 件にする（warn は内容を確認する）。NK006（猫版が無いアイコン）が出たら別の名前に替えるか、`request-cat-icon` で追加を依頼する。
 10. 完成チェックリストで自己確認し、結果（作った画面、状態、check の結果）を報告する。
 
 ## 完了条件
-- check が 0 件、4 状態あり、主ボタン 1 つ、`NekoThemePicker` で 3 テーマを切り替えても崩れない、キーボードだけで主要操作ができる。
+- check の error が 0 件、4 状態あり、主ボタン 1 つ、`NekoThemePicker` で 3 テーマを切り替えても崩れない、キーボードだけで主要操作ができる。
 
 ## やってはいけないこと
 - 役割トークン以外の色指定、`lucide-react`、生の HTML フォーム要素、猫要素の業務領域への追加。
