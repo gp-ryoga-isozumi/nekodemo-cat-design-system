@@ -1,7 +1,7 @@
 "use client";
 
 import { cva } from "class-variance-authority";
-import type { ComponentProps } from "react";
+import { type ComponentProps, useState } from "react";
 import { cn } from "../../../lib/utils";
 import { Icon } from "../icon";
 
@@ -26,8 +26,9 @@ const chipVariants = cva(
 );
 
 export type FilterChipProps = Omit<ComponentProps<"button">, "type"> & {
-  /** 選択中（`aria-pressed`） */
+  /** 選択中（`aria-pressed`）。省略すると非制御（`defaultSelected` から自前で切り替える） */
   selected?: boolean;
+  defaultSelected?: boolean;
   onSelectedChange?: (selected: boolean) => void;
   /** 件数（「進行中 12」のように右に薄く出す） */
   count?: number;
@@ -49,13 +50,13 @@ export type FilterChipProps = Omit<ComponentProps<"button">, "type"> & {
  * - 押しても一覧が変わらない（絞り込み以外の用途に使わない）
  *
  * 推奨例:
- * - 一覧の上に `FilterChipGroup aria-label="状態で絞り込む"` で並べ、押した瞬間に一覧を絞り込む
+ * - 一覧の上に `FilterChipGroup label="状態で絞り込む"` で並べ、押した瞬間に一覧を絞り込む
  * - よく使う条件（「自分の担当」「今週が納期」）を先頭に置く
  * - 絞り込み中は「絞り込みを解除する」の ghost Button を右端に置く
  *
  * 使用例:
  * ```tsx
- * <FilterChipGroup aria-label="状態で絞り込む">
+ * <FilterChipGroup label="状態で絞り込む">
  *   <FilterChip selected={mine} onSelectedChange={setMine} icon="person">自分の担当</FilterChip>
  *   <FilterChip selected={f.has("進行中")} onSelectedChange={(v) => toggle("進行中", v)} count={12}>進行中</FilterChip>
  * </FilterChipGroup>
@@ -63,7 +64,8 @@ export type FilterChipProps = Omit<ComponentProps<"button">, "type"> & {
  */
 export function FilterChip({
   className,
-  selected = false,
+  selected: selectedProp,
+  defaultSelected = false,
   onSelectedChange,
   count,
   icon,
@@ -72,6 +74,8 @@ export function FilterChip({
   onClick,
   ...props
 }: FilterChipProps) {
+  const [inner, setInner] = useState(defaultSelected);
+  const selected = selectedProp ?? inner;
   return (
     <button
       type="button"
@@ -80,7 +84,9 @@ export function FilterChip({
       aria-pressed={selected}
       onClick={(e) => {
         onClick?.(e);
-        if (!e.defaultPrevented) onSelectedChange?.(!selected);
+        if (e.defaultPrevented) return;
+        if (selectedProp === undefined) setInner(!selected);
+        onSelectedChange?.(!selected);
       }}
       className={cn(chipVariants({ size }), className)}
       {...props}
@@ -104,18 +110,13 @@ export function FilterChip({
   );
 }
 
-export type FilterChipGroupProps = Omit<ComponentProps<"fieldset">, "aria-label"> & {
+export type FilterChipGroupProps = ComponentProps<"fieldset"> & {
   /** 読み上げ名（必須。「状態で絞り込む」）。`<legend>` として視覚的には隠す */
-  "aria-label": string;
+  label: string;
 };
 
 /** FilterChip を横並びにする枠（`<fieldset>` ＋ 隠した `<legend>`、折り返しあり） */
-export function FilterChipGroup({
-  className,
-  "aria-label": label,
-  children,
-  ...props
-}: FilterChipGroupProps) {
+export function FilterChipGroup({ className, label, children, ...props }: FilterChipGroupProps) {
   return (
     <fieldset
       data-slot="filter-chip-group"

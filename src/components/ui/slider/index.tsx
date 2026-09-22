@@ -5,8 +5,8 @@ import { type ComponentProps, useMemo } from "react";
 import { cn } from "../../../lib/utils";
 
 export type SliderProps = ComponentProps<typeof SliderPrimitive.Root> & {
-  /** つまみの読み上げ名（つまみが 1 つのとき）。複数なら配列 */
-  label?: string | string[];
+  /** つまみの読み上げ名（必須。つまみが 1 つなら文字列、複数なら配列） */
+  label: string | string[];
 };
 
 /**

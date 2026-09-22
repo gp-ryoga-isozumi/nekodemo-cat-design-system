@@ -16,14 +16,14 @@
 
 ## 推奨例
 
-- 一覧の上に `FilterChipGroup aria-label="状態で絞り込む"` で並べ、押した瞬間に一覧を絞り込む
+- 一覧の上に `FilterChipGroup label="状態で絞り込む"` で並べ、押した瞬間に一覧を絞り込む
 - よく使う条件（「自分の担当」「今週が納期」）を先頭に置く
 - 絞り込み中は「絞り込みを解除する」の ghost Button を右端に置く
 
 ## 使用例
 
 ```tsx
-<FilterChipGroup aria-label="状態で絞り込む">
+<FilterChipGroup label="状態で絞り込む">
   <FilterChip selected={mine} onSelectedChange={setMine} icon="person">自分の担当</FilterChip>
   <FilterChip selected={f.has("進行中")} onSelectedChange={(v) => toggle("進行中", v)} count={12}>進行中</FilterChip>
 </FilterChipGroup>
