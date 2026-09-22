@@ -22,6 +22,9 @@ jobs:
           cache: pnpm
       - run: pnpm install --frozen-lockfile
       - run: pnpm exec playwright install --with-deps chromium
+      # 生成物（tokens.css / themes.css / registry.ts / NekoHead / icons.generated / status.json / README）がソースと一致していること。
+      # build:themes はコントラスト検査（check:contrast）を含む。--skip-font-check でネットワーク不要
+      - run: pnpm build:tokens && pnpm build:themes --skip-font-check && pnpm build:icons && pnpm build:readmes && pnpm build:registry --no-shadcn && git diff --exit-code
       - run: pnpm lint
       - run: pnpm check
       - run: pnpm icons:list
