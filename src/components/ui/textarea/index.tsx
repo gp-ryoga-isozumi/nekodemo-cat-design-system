@@ -39,6 +39,7 @@ export function Textarea({
   defaultValue,
   value,
   id,
+  "aria-describedby": describedBy,
   ...props
 }: TextareaProps) {
   const autoId = useId();
@@ -57,7 +58,10 @@ export function Textarea({
           setInnerLength(e.target.value.length);
           onChange?.(e);
         }}
-        aria-describedby={showCount ? `${textareaId}-count` : undefined}
+        aria-describedby={
+          [describedBy, showCount ? `${textareaId}-count` : null].filter(Boolean).join(" ") ||
+          undefined
+        }
         className={cn(
           "min-h-24 w-full min-w-0 resize-y rounded-action border border-border-high bg-surface-input px-3 py-2 text-3 text-text-high leading-6 transition-[border-color,box-shadow]",
           "placeholder:text-text-placeholder",

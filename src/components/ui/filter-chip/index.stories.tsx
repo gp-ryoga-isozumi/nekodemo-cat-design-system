@@ -36,19 +36,19 @@ export const Sizes: Story = {
   name: "サイズ",
   render: () => (
     <div className="flex flex-col gap-3">
-      <FilterChipGroup aria-label="状態で絞り込む（sm）">
+      <FilterChipGroup label="状態で絞り込む（sm）">
         <FilterChip size="sm">進行中</FilterChip>
         <FilterChip size="sm" selected>
           完了
         </FilterChip>
       </FilterChipGroup>
-      <FilterChipGroup aria-label="状態で絞り込む（md）">
+      <FilterChipGroup label="状態で絞り込む（md）">
         <FilterChip size="md">進行中</FilterChip>
         <FilterChip size="md" selected>
           完了
         </FilterChip>
       </FilterChipGroup>
-      <FilterChipGroup aria-label="状態で絞り込む（lg）">
+      <FilterChipGroup label="状態で絞り込む（lg）">
         <FilterChip size="lg">進行中</FilterChip>
         <FilterChip size="lg" selected>
           完了
@@ -61,7 +61,7 @@ export const Sizes: Story = {
 export const WithCount: Story = {
   name: "件数付き",
   render: () => (
-    <FilterChipGroup aria-label="状態で絞り込む">
+    <FilterChipGroup label="状態で絞り込む">
       <FilterChip count={12}>進行中</FilterChip>
       <FilterChip count={128} selected>
         完了
@@ -75,7 +75,7 @@ export const WithCount: Story = {
 export const WithIcon: Story = {
   name: "アイコン付き",
   render: () => (
-    <FilterChipGroup aria-label="よく使う条件で絞り込む">
+    <FilterChipGroup label="よく使う条件で絞り込む">
       <FilterChip icon="person">自分の担当</FilterChip>
       <FilterChip icon="schedule">今週が納期</FilterChip>
       <FilterChip icon="payments" selected>
@@ -89,7 +89,7 @@ export const WithIcon: Story = {
 export const Disabled: Story = {
   name: "disabled",
   render: () => (
-    <FilterChipGroup aria-label="状態で絞り込む">
+    <FilterChipGroup label="状態で絞り込む">
       <FilterChip>進行中</FilterChip>
       <FilterChip disabled>完了</FilterChip>
       <FilterChip disabled selected>
@@ -120,7 +120,7 @@ function ProjectFilters() {
   return (
     <div className="flex max-w-2xl flex-col gap-3">
       <div className="flex flex-wrap items-center justify-between gap-2">
-        <FilterChipGroup aria-label="状態で絞り込む">
+        <FilterChipGroup label="状態で絞り込む">
           <FilterChip icon="person" selected={mine} onSelectedChange={setMine}>
             自分の担当
           </FilterChip>

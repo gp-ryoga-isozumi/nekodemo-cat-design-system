@@ -133,6 +133,33 @@ describe("Form", () => {
     expect(amount).toHaveValue("");
   });
 
+  it("表示: FormMessage に固定の文言を書いたときも aria-describedby で入力と結ばれる", () => {
+    function StaticMessage() {
+      const form = useForm({ defaultValues: { code: "" } });
+      return (
+        <Form {...form}>
+          <FormField
+            control={form.control}
+            name="code"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>コード</FormLabel>
+                <FormControl>
+                  <Input {...field} />
+                </FormControl>
+                <FormMessage>半角英数字 8 文字で入力してください</FormMessage>
+              </FormItem>
+            )}
+          />
+        </Form>
+      );
+    }
+    render(<StaticMessage />);
+    const input = screen.getByLabelText("コード");
+    const message = screen.getByText("半角英数字 8 文字で入力してください");
+    expect(input.getAttribute("aria-describedby")).toContain(message.id);
+  });
+
   it("アクセシブルネーム: FormLabel が htmlFor で入力と結ばれる", () => {
     render(<ProjectForm onSubmit={vi.fn()} />);
     const label = screen.getByText("顧客名").closest("label");

@@ -1,6 +1,8 @@
 import { render, screen, within } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
+import { useForm } from "react-hook-form";
 import { describe, expect, it, vi } from "vitest";
+import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel } from "../form";
 import { SearchCombobox } from ".";
 
 const customers = [
@@ -10,6 +12,46 @@ const customers = [
 ];
 
 describe("SearchCombobox", () => {
+  it("Form: label を省略して FormControl の中に置くと、FormLabel・補足・aria-invalid が入力と結ばれる", () => {
+    function CustomerForm() {
+      const form = useForm<{ customer: (typeof customers)[number] | null }>({
+        defaultValues: { customer: null },
+      });
+      return (
+        <Form {...form}>
+          <FormField
+            control={form.control}
+            name="customer"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>顧客</FormLabel>
+                <FormControl>
+                  <SearchCombobox
+                    options={customers}
+                    value={field.value}
+                    onChange={(v) => field.onChange(v)}
+                    aria-invalid
+                  />
+                </FormControl>
+                <FormDescription>取引先マスタから選びます。</FormDescription>
+              </FormItem>
+            )}
+          />
+        </Form>
+      );
+    }
+    render(<CustomerForm />);
+    const input = screen.getByRole("combobox", { name: "顧客" });
+    expect(input.getAttribute("aria-describedby")).toContain(
+      screen.getByText("取引先マスタから選びます。").id,
+    );
+    expect(input).toHaveAttribute("aria-invalid", "true");
+    expect(input.closest("[data-slot=search-combobox-field]")).toHaveAttribute(
+      "data-invalid",
+      "true",
+    );
+  });
+
   it("表示: ラベルが combobox のアクセシブルネームになり、入力すると候補が絞り込まれる", async () => {
     render(<SearchCombobox label="顧客" options={customers} getOptionLabel={(c) => c.name} />);
     const input = screen.getByRole("combobox", { name: "顧客" });

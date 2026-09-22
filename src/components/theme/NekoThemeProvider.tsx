@@ -7,6 +7,7 @@ import {
   useContext,
   useEffect,
   useMemo,
+  useRef,
   useState,
 } from "react";
 import {
@@ -63,20 +64,23 @@ export function NekoThemeProvider({
 }) {
   const [theme, setThemeState] = useState<NekoThemeId>(defaultTheme);
 
-  // 初回: persist なら保存済みテーマを読む（NekoHead の inline script が既に属性を付けていても state を同期する）
+  // 初回: persist なら保存済みテーマを読む（NekoHead の inline script が既に属性を付けていても state を同期する）。
+  // 保存値の読み取りと属性の書き込みを同じ effect で行い、初回に defaultTheme を一瞬書いてから戻す（フリッカー）を防ぐ
+  const restored = useRef(false);
   useEffect(() => {
-    if (!persist) return;
-    try {
-      const saved = localStorage.getItem(storageKey);
-      if (isNekoThemeId(saved)) setThemeState(saved);
-    } catch {
-      // localStorage が使えない環境（プライベートモード等）では既定テーマのまま
+    let next = theme;
+    if (persist && !restored.current) {
+      try {
+        const saved = localStorage.getItem(storageKey);
+        if (isNekoThemeId(saved)) next = saved;
+      } catch {
+        // localStorage が使えない環境（プライベートモード等）では既定テーマのまま
+      }
     }
-  }, [persist, storageKey]);
-
-  useEffect(() => {
-    document.documentElement.setAttribute("data-neko-theme", theme);
-  }, [theme]);
+    restored.current = true;
+    document.documentElement.setAttribute("data-neko-theme", next);
+    if (next !== theme) setThemeState(next);
+  }, [theme, persist, storageKey]);
 
   const setTheme = useCallback(
     (id: NekoThemeId) => {
@@ -115,4 +119,9 @@ export function useNekoTheme(): NekoThemeContextValue {
   const ctx = useContext(NekoThemeContext);
   if (!ctx) throw new Error("useNekoTheme は NekoThemeProvider の中で使ってください");
   return ctx;
+}
+
+/** NekoThemeProvider の外では null を返す版（部品の中で「テーマがあれば使う」用。EmptyState のマスコットなど） */
+export function useNekoThemeOptional(): NekoThemeContextValue | null {
+  return useContext(NekoThemeContext);
 }

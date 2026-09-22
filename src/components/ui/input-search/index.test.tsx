@@ -79,6 +79,13 @@ describe("InputSearch", () => {
     expect(input).toHaveValue("");
   });
 
+  it("操作: クリアボタンを押すとフォーカスが入力欄に戻る（ボタンが消えても body に落ちない）", async () => {
+    renderField({ defaultValue: "山田商事" });
+    await userEvent.click(screen.getByRole("button", { name: "クリア" }));
+    expect(screen.getByRole("searchbox", { name: "案件を検索" })).toHaveFocus();
+    expect(screen.queryByRole("button", { name: "クリア" })).not.toBeInTheDocument();
+  });
+
   it("アクセシブルネーム: 入力は label、クリアは clearLabel、検索条件は固定の名前を持つ", () => {
     renderField({
       defaultValue: "山田商事",

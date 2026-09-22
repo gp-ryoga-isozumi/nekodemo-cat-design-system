@@ -9,6 +9,7 @@ import { IconButton } from "../icon-button";
  * Modal
  *
  * 概要: その場で完結する短い入力やコンテンツ用のモーダル（設計書 §9.1 #32、§10.3）。
+ * shadcn の **Dialog** に相当する（shadcn の AlertDialog は nekodemo では Dialog）。閉じるボタンと外側クリックで閉じられる。
  * 3 項目を超えるフォームはページにする。確認だけなら Dialog。Radix Dialog ベース（Esc・外側クリックで閉じる）。
  *
  * アンチパターン:

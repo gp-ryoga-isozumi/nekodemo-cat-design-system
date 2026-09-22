@@ -115,6 +115,21 @@ export function Table({ density = "sm", side = "right", sort }: { density?: Tabl
     expect(spinner.options.size?.default).toBe("md");
   });
 
+  it("Input の inputVariants を流用する部品は Input の寸法を引き継ぎ、内部ボタンのサイズ表を拾わない", () => {
+    expect(specFor("icon").options.size?.options).toHaveLength(12);
+    expect(specFor("input-search").options.size?.options).toEqual(["sm", "md", "lg"]);
+    expect(specFor("input-password").metrics.map((r) => r.height)).toEqual([32, 40, 48]);
+    for (const slug of ["input-number", "input-date", "input-time"]) {
+      const spec = specFor(slug);
+      expect(spec.options.size?.options, slug).toEqual(["sm", "md", "lg"]);
+      expect(spec.options.size?.from, slug).toBe("inputVariants（Input）");
+      expect(
+        spec.metrics.map((r) => r.height),
+        slug,
+      ).toEqual([32, 40, 48]);
+    }
+  });
+
   it("export type XxxProps の型リテラルから props（JSDoc・必須・型・既定値）を読む", () => {
     const pag = specFor("pagination").props;
     const page = pag.find((p) => p.name === "page");

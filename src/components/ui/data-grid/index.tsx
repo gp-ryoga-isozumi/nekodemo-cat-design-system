@@ -391,7 +391,8 @@ export function DataGrid<T extends RowData>({
           {selectedCount > 0 ? (
             <div className="flex items-center gap-2 text-2 text-text-middle">
               <span aria-live="polite">
-                {selectedCount.toLocaleString()} {unit}を選択中
+                {selectedCount.toLocaleString()}
+                {unit}を選択中
               </span>
               <Button variant="ghost" size="sm" onClick={() => table.resetRowSelection()}>
                 選択を解除する
@@ -437,8 +438,9 @@ export function DataGrid<T extends RowData>({
         containerProps={{
           ref: scrollRef,
           style: virtualize ? { height, overflowY: "auto" } : undefined,
-          tabIndex: 0,
-          "aria-label": `${ariaLabel}（スクロール領域）`,
+          // 仮想化した表はスクロールで行を出すのでキーボードから届くようにする。それ以外は余分なタブストップを作らない
+          tabIndex: virtualize ? 0 : undefined,
+          "aria-label": virtualize ? `${ariaLabel}（スクロール領域）` : undefined,
         }}
         className="min-w-full table-fixed"
         style={{ width: table.getTotalSize() }}
@@ -594,7 +596,8 @@ export function DataGrid<T extends RowData>({
               <SelectContent>
                 {[20, 50, 100].map((n) => (
                   <SelectItem key={n} value={String(n)}>
-                    {n} {unit}
+                    {n}
+                    {unit}
                   </SelectItem>
                 ))}
               </SelectContent>

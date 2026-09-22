@@ -53,7 +53,8 @@ export function Badge({
   children,
   ...props
 }: BadgeProps) {
-  const content = count !== undefined ? (count > max ? `${max}+` : String(count)) : children;
+  const n = count !== undefined ? Math.max(0, count) : undefined;
+  const content = n !== undefined ? (n > max ? `${max}+` : String(n)) : children;
   return (
     <span
       data-slot="badge"

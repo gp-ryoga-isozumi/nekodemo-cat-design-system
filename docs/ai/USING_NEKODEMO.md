@@ -14,7 +14,7 @@ skills や hooks が使えない環境でも、このファイルだけで完結
 2. テーマを決める。利用者の指定が無ければ、雰囲気語から 1 案を選んで提案する（§3）。曖昧なら 1 回だけ質問する。
 3. 依頼された画面を「画面の型」A〜F（§4）に当てはめ、型ごとの部品構成で組む。
 4. 一覧・表・カード群・詳細には 4 状態（読み込み中 / 0 件 / エラー / 成功）を必ず実装する（§5）。
-5. `pnpm nekodemo check src --strict` を実行し、指摘を 0 件にする（§8）。
+5. `pnpm nekodemo check src --strict` を実行し、error を 0 件にする（§8。warn は内容を確認する）。
 6. 完成チェックリスト（§9）で自己確認し、結果を報告する。
 
 ## 1. 守ること（要約）
@@ -104,6 +104,30 @@ E だけは外枠を置かず、1 カラムを画面の中央に置く（マス�
 
 すべて `import { … } from "nekodemo"`。props の詳細は `node_modules/nekodemo/dist/components/ui/<name>/index.d.ts` の JSDoc（概要／アンチパターン／使用例）を読む（リポジトリでは `src/components/ui/<name>/README.md`、公開サイトでは Storybook）。表に無い props は `.d.ts` を正とする。このガイド・`SETUP.md`・guidelines は `node_modules/nekodemo/dist/ai/`、skills は `node_modules/nekodemo/skills/` にも同梱されている。
 
+### shadcn からの対応（名前が違う・無いもの）
+
+shadcn の名前で探すと迷うものだけ。同名のもの（Button / Input / Select / Table / Tabs / Card / Popover / Tooltip / Checkbox / Switch / Textarea / Avatar / Skeleton / Slider / Pagination / Breadcrumb / Accordion / Progress / Form）はそのまま。
+
+| shadcn | nekodemo | 備考 |
+|---|---|---|
+| Dialog | `Modal` | 入力やコンテンツ。閉じるボタンと外側クリックで閉じる |
+| AlertDialog | `Dialog` | 確認専用。`DialogCancel` / `DialogAction` の 2 択、外側クリックでは閉じない |
+| Sheet | `Drawer` | `side`: right（既定）/ left / bottom |
+| DropdownMenu | `Menu` | |
+| Alert | `InlineMessage` | |
+| Sonner（toast） | `Toast` / `toast()` | |
+| Badge | `Badge`（件数）/ `Tag`（ラベル・条件）/ `StatusTag`（状態） | 用途で分かれる |
+| Toggle | `FilterChip` | 絞り込みの ON / OFF |
+| Toggle Group（single） | `SegmentedControl` | 単一選択の切替 |
+| Command / Combobox | `SearchCombobox` | |
+| Separator | `Divider` | |
+| Data Table | `DataGrid` | |
+| Calendar / Date Picker | `InputDate` | ブラウザ標準の `type="date"` |
+| Sidebar | `SideNavigation` | |
+| Radio Group | `RadioGroup` / `Radio` | |
+| Label | `FormLabel`（Form の中）/ `Field`（Form の外） | |
+| Hover Card / Navigation Menu / Menubar / Scroll Area / Resizable / Carousel / Chart / Input OTP | なし | Popover / Tooltip / SideNavigation / Tabs / `overflow-auto` で代用 |
+
 | 部品 | 主な props / 構成 | 用途・注意 |
 |---|---|---|
 | `Button` | `variant`: primary / secondary / outline / ghost / negative、`size`: sm / md / lg、`loading`、`asChild` | 主アクションは 1 画面 1 つ。文言は「〜する」 |
@@ -117,7 +141,7 @@ E だけは外枠を置かず、1 カラムを画面の中央に置く（マス�
 | `InlineMessage` | `variant`: info / success / warning / negative、`title`、`action` | 画面内のエラー・注意 |
 | `Badge` | `count`、`max`、`variant`: primary / negative / neutral | 件数（数字）。文字は `Tag` |
 | `Tag` / `StatusTag` | `Tag`: `variant`: default / selected、`onRemove`、`removeLabel`。`StatusTag`: `status`: info / success / warning / negative / neutral | 絞り込み条件 ／ 状態ラベル |
-| `FilterChip` / `FilterChipGroup` | `selected` / `onSelectedChange`、`count`、`icon`、`size`。Group は `aria-label` 必須 | 押して ON / OFF する絞り込み（複数可）。一覧の検索欄の下 |
+| `FilterChip` / `FilterChipGroup` | `selected` / `onSelectedChange`、`count`、`icon`、`size`。Group は `label` 必須 | 押して ON / OFF する絞り込み（複数可）。一覧の検索欄の下 |
 | `Progress` | `label`（必須）、`value`（0〜100。省略で不確定）、`showValue`、`size` | アップロードや取り込みの進み具合。回転は Spinner |
 | `Avatar` | `name`（必須）、`src`、`fallback`、`size` | 画像なしは猫の顔 |
 | `Divider` | `orientation` | 意味のある区切りだけ |
@@ -176,7 +200,7 @@ E だけは外枠を置かず、1 カラムを画面の中央に置く（マス�
 ## 8. nekodemo check
 
 ```bash
-pnpm nekodemo check src --strict        # error があれば exit 1（npm なら npx nekodemo check src --strict）
+pnpm nekodemo check src --strict        # error があれば exit 1。--max-warnings 0 で warn も失敗に（npm なら npx nekodemo check src --strict）
 pnpm nekodemo check src --format json   # { findings, counts, missingIcons, manualChecks }
 ```
 
@@ -192,15 +216,16 @@ pnpm nekodemo check src --format json   # { findings, counts, missingIcons, manu
 | NK008 | warn | ルートレイアウトに `data-neko-theme` が無い |
 | NK009 | warn | 生の `<table>` `<button>` `<input>` `<select>` `<textarea>` |
 | NK010 | info | 一覧を描画しているのに Skeleton / EmptyState が無い |
+| NK011 | error | 空の読み上げ名（`label=""` / `aria-label=""`）。名前が無いのと同じ |
 
-除外が必要なときだけ `// nekodemo-check-ignore-next-line NK009` を使う（理由をコメントに書く）。NK010 は `page.tsx` の JSX 式内の `.map(`（`{items.map(...)}`）を一覧の描画とみなす。`generateStaticParams` 内の `.map` は対象外。
+除外が必要なときだけ `// nekodemo-check-ignore-next-line NK009` を使う（理由をコメントに書く）。ディレクトリごと外すなら `--ignore src/legacy/**` か `nekodemo.config.json` の `check.ignore`。存在しない対象を渡すと exit 2。NK010 は `page.tsx` の JSX 式内の `.map(`（`{items.map(...)}`）を一覧の描画とみなす。`generateStaticParams` 内の `.map` は対象外。
 
 ## 9. 完成チェックリスト（最後に自己確認して報告する）
 
 - [ ] 4 状態（読み込み中・0 件・エラー・成功）を実装した
 - [ ] 主ボタンは 1 画面 1 つ
 - [ ] 削除に確認 Dialog があり、確定ボタンは negative で「削除する」
-- [ ] 色・角丸・文字サイズが役割トークン名だけで書かれている（`pnpm nekodemo check` が 0 件）
+- [ ] 色・角丸・文字サイズが役割トークン名だけで書かれている（`pnpm nekodemo check` の error が 0 件）
 - [ ] 猫版が無いアイコン（NK006）を使っていない
 - [ ] `NekoThemePicker` で 3 テーマを切り替えても崩れない
 - [ ] キーボードだけで主要操作（一覧 → 詳細 → 編集 → 保存）ができる

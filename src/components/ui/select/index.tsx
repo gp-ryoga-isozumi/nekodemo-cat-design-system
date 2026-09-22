@@ -65,7 +65,7 @@ export function SelectTrigger({
         "flex w-full min-w-0 items-center justify-between gap-2 whitespace-nowrap rounded-action border border-border-high bg-surface-input text-left text-text-high transition-[border-color,box-shadow]",
         "data-[placeholder]:text-text-placeholder *:data-[slot=select-value]:line-clamp-1",
         "outline-none focus-visible:border-border-focus focus-visible:ring-2 focus-visible:ring-border-focus/30",
-        "aria-invalid:border-border-negative",
+        "aria-invalid:border-border-negative aria-invalid:focus-visible:ring-border-negative/30",
         "disabled:cursor-not-allowed disabled:border-border-middle disabled:bg-surface-disabled disabled:text-text-disabled",
         TRIGGER_SIZE[size],
         className,

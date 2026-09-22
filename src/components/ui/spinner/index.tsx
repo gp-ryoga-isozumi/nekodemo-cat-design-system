@@ -49,7 +49,6 @@ export function Spinner({ size = "md", label = "読み込み中", className }: S
       className={cn("inline-block shrink-0 animate-spin motion-reduce:animate-none", className)}
       data-slot="spinner"
     >
-      <title>{label}</title>
       <circle cx="12" cy="12" r="8.5" />
       <path d="M4.6 9.5c4.5-2.2 9.5-2 15 1M4 14.2c5.5-3 10.5-3 16 0M9.2 4.2c-2.2 4.5-2 9.5 1 15" />
     </svg>

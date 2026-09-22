@@ -5,7 +5,8 @@
 ## 概要
 
 静的な表（設計書 §9.1 #34）。行の高さは density xs 40 / sm 56（既定）/ md 80。
-ヘッダーはスクロール時に固定、数値は `TableCell numeric` で等幅フォント右寄せ、縞模様と縦罫線は使わない。
+ヘッダーは縦スクロール時に固定（`containerProps={{ className: "max-h-96 overflow-y-auto" }}` のように外側に高さを与えたとき）、
+数値は `TableCell numeric` で等幅フォント右寄せ、縞模様と縦罫線は使わない。
 ソート・選択・ページングを備えた DataGrid は v1.1。
 
 ## アンチパターン

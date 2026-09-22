@@ -95,7 +95,7 @@ describe("DataGrid", () => {
     );
     await userEvent.click(screen.getByRole("checkbox", { name: "このページの行をすべて選択" }));
     expect(onSelectionChange).toHaveBeenLastCalledWith(["p-1", "p-2", "p-3"]);
-    expect(screen.getByText("3 件を選択中")).toBeInTheDocument();
+    expect(screen.getByText("3件を選択中")).toBeInTheDocument();
     await userEvent.click(screen.getByRole("checkbox", { name: "行 2 を選択" }));
     expect(onSelectionChange).toHaveBeenLastCalledWith(["p-1", "p-3"]);
     expect(screen.getByRole("checkbox", { name: "このページの行をすべて選択" })).toHaveAttribute(
@@ -179,12 +179,25 @@ describe("DataGrid", () => {
     expect(screen.getByRole("columnheader", { name: "操作" })).toBeInTheDocument();
   });
 
-  it("アクセシブルネーム: table に aria-label、スクロール領域に名前、ソート列に aria-sort", async () => {
+  it("アクセシブルネーム: table に aria-label、仮想化のときだけスクロール領域に名前とタブストップ、ソート列に aria-sort", async () => {
+    const { unmount } = renderWithTheme(
+      <DataGrid
+        aria-label="案件一覧"
+        columns={columns}
+        data={projects}
+        getRowId={(r) => r.id}
+        virtualize
+        height={240}
+      />,
+    );
+    expect(screen.getByLabelText("案件一覧（スクロール領域）")).toHaveAttribute("tabindex", "0");
+    unmount();
     renderWithTheme(
       <DataGrid aria-label="案件一覧" columns={columns} data={projects} getRowId={(r) => r.id} />,
     );
     expect(screen.getByRole("table", { name: "案件一覧" })).toBeInTheDocument();
-    expect(screen.getByLabelText("案件一覧（スクロール領域）")).toHaveAttribute("tabindex", "0");
+    // 仮想化しない表は余分なタブストップを作らない
+    expect(screen.queryByLabelText("案件一覧（スクロール領域）")).toBeNull();
     const head = screen.getByRole("columnheader", { name: /案件名/ });
     expect(head).toHaveAttribute("aria-sort", "none");
     await userEvent.click(within(head).getByRole("button"));

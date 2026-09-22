@@ -19,15 +19,27 @@ describe("Checkbox", () => {
     expect(container.querySelector('[data-icon="cat_face"]')).not.toBeNull();
   });
 
-  it("表示: checked=indeterminate は aria-checked=mixed で横棒を出す（猫の顔は出さない）", () => {
+  it("表示: checked=indeterminate は aria-checked=mixed で横棒に切り替わる（猫の顔は data-state で隠す）", () => {
     const { container } = render(
       <Checkbox aria-label="すべて選択します" checked="indeterminate" />,
     );
     const checkbox = screen.getByRole("checkbox", { name: "すべて選択します" });
     expect(checkbox).toHaveAttribute("aria-checked", "mixed");
     expect(checkbox).toHaveAttribute("data-state", "indeterminate");
-    expect(container.querySelector('[data-icon="cat_face"]')).toBeNull();
+    // 横棒と猫の顔は両方描き、CSS（group-data-[state=indeterminate]）で見せ分ける
     expect(container.querySelector('[data-slot="checkbox-indicator"] span')).not.toBeNull();
+    expect(container.querySelector('[data-icon="cat_face"]')?.getAttribute("class")).toContain(
+      "group-data-[state=indeterminate]/checkbox:hidden",
+    );
+  });
+
+  it('表示: 非制御の defaultChecked="indeterminate" でも data-state で横棒に切り替わる', () => {
+    render(<Checkbox aria-label="全選択" defaultChecked="indeterminate" />);
+    const box = screen.getByRole("checkbox", { name: "全選択" });
+    expect(box).toHaveAttribute("aria-checked", "mixed");
+    expect(box).toHaveAttribute("data-state", "indeterminate");
+    // 横棒と猫の顔は両方描き、data-state で見せ分ける（props.checked を見ない）
+    expect(box.querySelector("[data-slot=checkbox-indicator] span")).not.toBeNull();
   });
 
   it("操作: クリックで選択が切り替わり、onCheckedChange が呼ばれる", async () => {

@@ -4,6 +4,18 @@ import { describe, expect, it, vi } from "vitest";
 import { FilterChip, FilterChipGroup } from ".";
 
 describe("FilterChip", () => {
+  it("操作: selected を渡さない非制御でも押すたびに切り替わる（defaultSelected から）", async () => {
+    const onSelectedChange = vi.fn();
+    render(<FilterChip onSelectedChange={onSelectedChange}>進行中</FilterChip>);
+    const chip = screen.getByRole("button", { name: "進行中" });
+    expect(chip).toHaveAttribute("aria-pressed", "false");
+    await userEvent.click(chip);
+    expect(chip).toHaveAttribute("aria-pressed", "true");
+    expect(onSelectedChange).toHaveBeenLastCalledWith(true);
+    await userEvent.click(chip);
+    expect(chip).toHaveAttribute("aria-pressed", "false");
+  });
+
   it("表示: type=button の押しボタンで、既定は未選択（aria-pressed=false）", () => {
     render(<FilterChip>進行中</FilterChip>);
     const chip = screen.getByRole("button", { name: "進行中" });
@@ -98,7 +110,7 @@ describe("FilterChip", () => {
 
   it("アクセシブルネーム: Group は aria-label がグループ名になり、チップは文言で引ける", () => {
     render(
-      <FilterChipGroup aria-label="状態で絞り込む">
+      <FilterChipGroup label="状態で絞り込む">
         <FilterChip>進行中</FilterChip>
         <FilterChip selected>完了</FilterChip>
       </FilterChipGroup>,

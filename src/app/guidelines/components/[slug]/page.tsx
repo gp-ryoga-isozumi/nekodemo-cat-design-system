@@ -209,9 +209,10 @@ function sectionBody(
               </TableBody>
             </Table>
           ) : (
-            <p className="text-2 text-text-middle">
-              variant / size のような選択肢を持たない部品です（構成部品や props で組み立てます）。
-            </p>
+            <Todo>
+              実装の cva / ユニオン型 / size 表からは選択肢を検出できませんでした（未整備）。props
+              は README と Storybook で確認してください。
+            </Todo>
           )}
           {entries.length ? (
             <p className="text-2 text-text-low">
@@ -297,10 +298,12 @@ function sectionBody(
               </TableBody>
             </Table>
           ) : null}
-          <p className="text-2 text-text-low">
-            実装（index.tsx）のクラス接頭辞から抽出。テストは「表示・操作・disabled・アクセシブルネーム」の
-            4 観点で担保しています。
-          </p>
+          {impl.length ? (
+            <p className="text-2 text-text-low">
+              実装（index.tsx）のクラス接頭辞から抽出。テストは「表示・操作・disabled・アクセシブルネーム」の
+              4 観点で担保しています。
+            </p>
+          ) : null}
           {states.length ? (
             <details className="text-2">
               <summary className="cursor-pointer text-text-middle">
@@ -336,7 +339,9 @@ function sectionBody(
           <Table density="xs" aria-label={`${doc.title} の寸法`}>
             <TableHeader>
               <TableRow>
-                <TableHead>size</TableHead>
+                <TableHead>
+                  {doc.spec.options.size ? "size" : doc.spec.options.density ? "density" : "段階"}
+                </TableHead>
                 <TableHead numeric>高さ</TableHead>
                 <TableHead numeric>横の余白</TableHead>
                 <TableHead numeric>文字</TableHead>
@@ -367,7 +372,8 @@ function sectionBody(
         </>
       ) : (
         <Todo>
-          高さの段階（size）を持たない部品です。余白は 4px グリッド、角丸と影は{" "}
+          実装から高さの段階（size）を検出できませんでした（未整備）。余白は 4px
+          グリッド、角丸と影は{" "}
           <Link asChild>
             <NextLink href="/guidelines/themes/shape/">Shape</NextLink>
           </Link>{" "}
