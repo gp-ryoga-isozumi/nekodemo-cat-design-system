@@ -5,6 +5,7 @@
 ## 概要
 
 確認ダイアログ専用（設計書 §9.1 #31、§10.3）。削除や取り消し不可の操作の前に挟む。
+shadcn の **AlertDialog** に相当する（shadcn の Dialog は nekodemo では Modal）。外側クリックでは閉じず、DialogCancel / DialogAction の 2 択。
 Radix AlertDialog ベースで、外側クリックでは閉じず（Esc では閉じる）、原則ボタンで答える。
 破壊的操作の確定ボタンは `DialogAction variant="negative"`、文言は「削除する」のように動作を書く（「OK」「はい」は禁止）。
 フォームや長い内容は Modal を使う。

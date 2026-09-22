@@ -90,6 +90,30 @@ export default function RootLayout({ children }) {
 
 すべて `import { … } from "nekodemo"`。props の詳細は `node_modules/nekodemo/dist/components/ui/<name>/index.d.ts` の JSDoc（概要／アンチパターン／使用例）を読む（リポジトリでは `src/components/ui/<name>/README.md`、公開サイトでは Storybook）。表に無い props は `.d.ts` を正とする。このガイド・`SETUP.md`・guidelines は `node_modules/nekodemo/dist/ai/`、skills は `node_modules/nekodemo/skills/` にも同梱されている。
 
+### shadcn からの対応（名前が違う・無いもの）
+
+shadcn の名前で探すと迷うものだけ。同名のもの（Button / Input / Select / Table / Tabs / Card / Popover / Tooltip / Checkbox / Switch / Textarea / Avatar / Skeleton / Slider / Pagination / Breadcrumb / Accordion / Progress / Form）はそのまま。
+
+| shadcn | nekodemo | 備考 |
+|---|---|---|
+| Dialog | `Modal` | 入力やコンテンツ。閉じるボタンと外側クリックで閉じる |
+| AlertDialog | `Dialog` | 確認専用。`DialogCancel` / `DialogAction` の 2 択、外側クリックでは閉じない |
+| Sheet | `Drawer` | `side`: right（既定）/ left / bottom |
+| DropdownMenu | `Menu` | |
+| Alert | `InlineMessage` | |
+| Sonner（toast） | `Toast` / `toast()` | |
+| Badge | `Badge`（件数）/ `Tag`（ラベル・条件）/ `StatusTag`（状態） | 用途で分かれる |
+| Toggle | `FilterChip` | 絞り込みの ON / OFF |
+| Toggle Group（single） | `SegmentedControl` | 単一選択の切替 |
+| Command / Combobox | `SearchCombobox` | |
+| Separator | `Divider` | |
+| Data Table | `DataGrid` | |
+| Calendar / Date Picker | `InputDate` | ブラウザ標準の `type="date"` |
+| Sidebar | `SideNavigation` | |
+| Radio Group | `RadioGroup` / `Radio` | |
+| Label | `FormLabel`（Form の中）/ `Field`（Form の外） | |
+| Hover Card / Navigation Menu / Menubar / Scroll Area / Resizable / Carousel / Chart / Input OTP | なし | Popover / Tooltip / SideNavigation / Tabs / `overflow-auto` で代用 |
+
 | 部品 | 主な props / 構成 | 用途・注意 |
 |---|---|---|
 | `Button` | `variant`: primary / secondary / outline / ghost / negative、`size`: sm / md / lg、`loading`、`asChild` | 主アクションは 1 画面 1 つ。文言は「〜する」 |
@@ -103,7 +127,7 @@ export default function RootLayout({ children }) {
 | `InlineMessage` | `variant`: info / success / warning / negative、`title`、`action` | 画面内のエラー・注意 |
 | `Badge` | `count`、`max`、`variant`: primary / negative / neutral | 件数（数字）。文字は `Tag` |
 | `Tag` / `StatusTag` | `Tag`: `variant`: default / selected、`onRemove`、`removeLabel`。`StatusTag`: `status`: info / success / warning / negative / neutral | 絞り込み条件 ／ 状態ラベル |
-| `FilterChip` / `FilterChipGroup` | `selected` / `onSelectedChange`、`count`、`icon`、`size`。Group は `aria-label` 必須 | 押して ON / OFF する絞り込み（複数可）。一覧の検索欄の下 |
+| `FilterChip` / `FilterChipGroup` | `selected` / `onSelectedChange`、`count`、`icon`、`size`。Group は `label` 必須 | 押して ON / OFF する絞り込み（複数可）。一覧の検索欄の下 |
 | `Progress` | `label`（必須）、`value`（0〜100。省略で不確定）、`showValue`、`size` | アップロードや取り込みの進み具合。回転は Spinner |
 | `Avatar` | `name`（必須）、`src`、`fallback`、`size` | 画像なしは猫の顔 |
 | `Divider` | `orientation` | 意味のある区切りだけ |
