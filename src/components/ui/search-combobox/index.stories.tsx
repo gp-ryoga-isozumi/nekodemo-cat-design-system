@@ -72,7 +72,7 @@ function MultipleCustomers() {
         getOptionLabel={(customer) => customer.name}
         getOptionDescription={describeCustomer}
         value={customers}
-        onChange={(value) => setCustomers([...value])}
+        onValueChange={(value) => setCustomers([...value])}
         placeholder="取引先を追加"
       />
       <p className="text-1 text-text-low" role="status">
@@ -97,7 +97,7 @@ function FreeSoloKeyword() {
         freeSolo
         options={KEYWORDS}
         value={keyword}
-        onChange={(value) => setKeyword(value)}
+        onValueChange={(value) => setKeyword(value)}
         placeholder="キーワードを入力"
       />
       <p className="text-1 text-text-low" role="status">

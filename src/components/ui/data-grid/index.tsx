@@ -141,6 +141,10 @@ export type DataGridProps<T extends RowData> = {
   emptyAction?: ReactNode;
   /** チェックボックス列を出す */
   selectable?: boolean;
+  /** 選択中の行 id（制御）。省略すると内部で持つ */
+  selection?: string[];
+  /** 非制御の初期選択 */
+  defaultSelection?: string[];
   onSelectionChange?: (ids: string[]) => void;
   /** 上部のグローバル検索（既定 true） */
   searchable?: boolean;
@@ -226,6 +230,8 @@ export function DataGrid<T extends RowData>({
   emptyDescription,
   emptyAction,
   selectable = false,
+  selection,
+  defaultSelection,
   onSelectionChange,
   searchable = true,
   searchPlaceholder = "検索",
@@ -242,7 +248,13 @@ export function DataGrid<T extends RowData>({
   className,
 }: DataGridProps<T>) {
   const usePagination = pagination && !virtualize;
-  const [rowSelection, setRowSelection] = useState<RowSelectionState>({});
+  const [innerSelection, setInnerSelection] = useState<RowSelectionState>(() =>
+    toRowSelection(defaultSelection),
+  );
+  const rowSelection = useMemo(
+    () => (selection ? toRowSelection(selection) : innerSelection),
+    [selection, innerSelection],
+  );
 
   const tableColumns = useMemo(() => {
     const helper = createColumnHelper<Features, T>();
@@ -342,7 +354,7 @@ export function DataGrid<T extends RowData>({
     state: { rowSelection },
     onRowSelectionChange: (updater) => {
       const next = functionalUpdate(updater, rowSelection);
-      setRowSelection(next);
+      if (!selection) setInnerSelection(next);
       onSelectionChange?.(Object.keys(next));
     },
   });
@@ -625,6 +637,10 @@ function uniqueValues<T extends RowData>(data: T[], accessor: (row: T) => unknow
 
 type GridTable<T extends RowData> = ReturnType<typeof useTable<Features, T>>;
 
+function toRowSelection(ids?: string[]): RowSelectionState {
+  return Object.fromEntries((ids ?? []).map((id) => [id, true]));
+}
+
 type GridHeadProps<T extends RowData> = {
   header: Header<Features, T, unknown>;
   table: GridTable<T>;
@@ -703,7 +719,7 @@ function GridHead<T extends RowData>({ header, table, filterable, values }: Grid
                 multiple
                 options={values}
                 value={filterValue}
-                onChange={(v) => column.setFilterValue(v.length ? v : undefined)}
+                onValueChange={(v) => column.setFilterValue(v.length ? v : undefined)}
                 size="sm"
                 placeholder="値を検索"
               />

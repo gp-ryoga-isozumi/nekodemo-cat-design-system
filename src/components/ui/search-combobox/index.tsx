@@ -16,7 +16,7 @@ import { Icon } from "../icon";
 import { Spinner } from "../spinner";
 import { Tag } from "../tag";
 
-const fieldVariants = cva(
+export const searchComboboxFieldVariants = cva(
   [
     "flex w-full min-w-0 flex-wrap items-center gap-1 rounded-action border border-border-high bg-surface-input text-text-high transition-[border-color,box-shadow]",
     "focus-within:border-border-focus focus-within:outline-2 focus-within:outline-transparent focus-within:ring-2 focus-within:ring-border-focus/30",
@@ -56,7 +56,8 @@ export type SearchComboboxProps<
   freeSolo?: FreeSolo;
   value?: AutocompleteValue<Value, Multiple, false, FreeSolo>;
   defaultValue?: AutocompleteValue<Value, Multiple, false, FreeSolo>;
-  onChange?: (
+  /** 選択が変わるたびに呼ばれる（値と理由）。他の部品と同じく onValueChange */
+  onValueChange?: (
     value: AutocompleteValue<Value, Multiple, false, FreeSolo>,
     reason: AutocompleteChangeReason,
   ) => void;
@@ -132,7 +133,7 @@ function isGroup<Value>(
  *
  * 使用例:
  * ```tsx
- * <SearchCombobox label="顧客" options={customers} getOptionLabel={(c) => c.name} onChange={(c) => setCustomer(c)} />
+ * <SearchCombobox label="顧客" options={customers} getOptionLabel={(c) => c.name} onValueChange={(c) => setCustomer(c)} />
  * <SearchCombobox label="タグ" multiple freeSolo options={["急ぎ", "要確認"]} />
  * ```
  */
@@ -149,7 +150,7 @@ export function SearchCombobox<
   freeSolo,
   value,
   defaultValue,
-  onChange,
+  onValueChange,
   inputValue,
   onInputChange,
   filterOptions,
@@ -211,7 +212,7 @@ export function SearchCombobox<
       FreeSolo
     >["isOptionEqualToValue"],
     filterOptions: filterOptions ?? defaultFilter,
-    onChange: (_e, v, reason) => onChange?.(v, reason),
+    onChange: (_e, v, reason) => onValueChange?.(v, reason),
     onInputChange: (_e, v, reason) => onInputChange?.(v, reason),
     openOnFocus: true,
     autoHighlight: true,
@@ -287,7 +288,7 @@ export function SearchCombobox<
         data-size={size}
         data-disabled={disabled ? "true" : undefined}
         data-invalid={invalid === true || invalid === "true" ? "true" : undefined}
-        className={fieldVariants({ size })}
+        className={searchComboboxFieldVariants({ size })}
       >
         <Icon icon="search" size={3} className="shrink-0 text-object-middle" />
         {multiple && Array.isArray(selected)

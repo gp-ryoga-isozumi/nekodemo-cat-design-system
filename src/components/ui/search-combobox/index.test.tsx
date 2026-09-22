@@ -29,7 +29,7 @@ describe("SearchCombobox", () => {
                   <SearchCombobox
                     options={customers}
                     value={field.value}
-                    onChange={(v) => field.onChange(v)}
+                    onValueChange={(v) => field.onChange(v)}
                     aria-invalid
                   />
                 </FormControl>
@@ -69,7 +69,7 @@ describe("SearchCombobox", () => {
         label="顧客"
         options={customers}
         getOptionLabel={(c) => c.name}
-        onChange={onChange}
+        onValueChange={onChange}
       />,
     );
     const input = screen.getByRole("combobox", { name: "顧客" });
@@ -90,7 +90,7 @@ describe("SearchCombobox", () => {
         multiple
         freeSolo
         options={["急ぎ", "要確認"]}
-        onChange={onChange}
+        onValueChange={onChange}
       />,
     );
     const input = screen.getByRole("combobox", { name: "タグ" });

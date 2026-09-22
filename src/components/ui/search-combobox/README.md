@@ -27,6 +27,6 @@
 ## 使用例
 
 ```tsx
-<SearchCombobox label="顧客" options={customers} getOptionLabel={(c) => c.name} onChange={(c) => setCustomer(c)} />
+<SearchCombobox label="顧客" options={customers} getOptionLabel={(c) => c.name} onValueChange={(c) => setCustomer(c)} />
 <SearchCombobox label="タグ" multiple freeSolo options={["急ぎ", "要確認"]} />
 ```
