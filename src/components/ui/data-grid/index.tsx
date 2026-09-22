@@ -454,9 +454,9 @@ export function DataGrid<T extends RowData>({
           ref: scrollRef,
           style: virtualize ? { height, overflowY: "auto" } : undefined,
           // 仮想化した表はスクロールで行を出すのでキーボードから届くようにする。それ以外は余分なタブストップを作らない
-          tabIndex: virtualize ? 0 : undefined,
-          role: virtualize ? "region" : undefined,
-          "aria-label": virtualize ? `${ariaLabel}（スクロール領域）` : undefined,
+          ...(virtualize
+            ? { tabIndex: 0, role: "region", "aria-label": `${ariaLabel}（スクロール領域）` }
+            : {}),
         }}
         className="min-w-full table-fixed"
         style={{ width: table.getTotalSize() }}
@@ -661,6 +661,8 @@ function GridHead<T extends RowData>({ header, table, filterable, values }: Grid
   return (
     <TableHead
       numeric={numeric}
+      // 列幅ハンドル（button）の aria-label が th の名前に連結されないよう、見出し文字を th の名前にする
+      aria-label={label || undefined}
       sort={canSort ? (sorted === false ? "none" : sorted) : undefined}
       onSort={canSort ? column.getToggleSortingHandler() : undefined}
       style={{
