@@ -68,7 +68,7 @@ export function Pagination({
   const to = Math.min(total, current * pageSize);
   const items = pageItems(current, pageCount);
   const btn =
-    "inline-flex h-8 min-w-8 items-center justify-center rounded-action px-2 font-mono text-2 text-text-middle outline-none transition-colors hover:bg-surface-well focus-visible:outline-2 focus-visible:outline-border-focus disabled:cursor-not-allowed disabled:text-text-disabled disabled:hover:bg-transparent";
+    "inline-flex h-8 min-w-8 items-center justify-center rounded-action px-2 font-mono text-2 text-text-middle outline-none transition-colors hover:bg-surface-well focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-border-focus disabled:cursor-not-allowed disabled:text-text-disabled disabled:hover:bg-transparent aria-disabled:cursor-not-allowed aria-disabled:text-text-disabled aria-disabled:hover:bg-transparent";
   return (
     <nav
       aria-label="ページ送り"
@@ -77,7 +77,7 @@ export function Pagination({
       {...props}
     >
       {showSummary ? (
-        <p className="text-2 text-text-low">
+        <p className="text-2 text-text-low" aria-live="polite">
           <span className="font-mono tabular-nums">{total.toLocaleString("ja-JP")}</span>
           {unit}中{" "}
           <span className="font-mono tabular-nums">
@@ -93,8 +93,8 @@ export function Pagination({
               type="button"
               className={btn}
               aria-label="前のページ"
-              disabled={current <= 1}
-              onClick={() => onPageChange(current - 1)}
+              aria-disabled={current <= 1 || undefined}
+              onClick={() => current > 1 && onPageChange(current - 1)}
             >
               <Icon icon="chevron_left" size={5} />
             </button>
@@ -128,8 +128,8 @@ export function Pagination({
               type="button"
               className={btn}
               aria-label="次のページ"
-              disabled={current >= pageCount}
-              onClick={() => onPageChange(current + 1)}
+              aria-disabled={current >= pageCount || undefined}
+              onClick={() => current < pageCount && onPageChange(current + 1)}
             >
               <Icon icon="chevron_right" size={5} />
             </button>

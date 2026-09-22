@@ -41,7 +41,6 @@ export function InputPassword({ className, size = "md", disabled, ...props }: In
         icon={visible ? "visibility_off" : "visibility"}
         label={visible ? "パスワードを隠す" : "パスワードを表示"}
         size="sm"
-        aria-pressed={visible}
         disabled={disabled}
         onClick={() => setVisible((v) => !v)}
         className={cn("absolute", size === "sm" ? "right-0.5" : "right-1")}

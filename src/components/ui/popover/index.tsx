@@ -68,7 +68,7 @@ export function PopoverContent({
           sideOffset={sideOffset}
           aria-labelledby={hasTitle ? titleId : undefined}
           className={cn(
-            "z-50 flex w-72 flex-col gap-3 rounded-container border border-border-low bg-surface-card p-4 text-text-high shadow-popout outline-hidden",
+            "z-50 flex w-72 flex-col gap-3 rounded-container border border-border-low bg-surface-card p-4 text-text-high shadow-popout outline-hidden focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-border-focus",
             "data-[state=open]:fade-in-0 data-[state=closed]:fade-out-0 data-[state=open]:zoom-in-95 data-[state=closed]:zoom-out-95 data-[state=open]:animate-in data-[state=closed]:animate-out",
             className,
           )}

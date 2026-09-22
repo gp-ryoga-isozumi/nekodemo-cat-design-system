@@ -33,6 +33,12 @@ function rowNames() {
     .map((r) => within(r).getAllByRole("cell")[0]?.textContent);
 }
 
+/** 見出しセルの中のソートボタン（列幅を変えるハンドルも button なので aria-label で除く） */
+const sortButton = (head: HTMLElement) =>
+  within(head)
+    .getAllByRole("button")
+    .find((b) => !b.getAttribute("aria-label")?.includes("列幅")) as HTMLElement;
+
 describe("DataGrid", () => {
   it("表示: 見出し・20 件ずつのページング・件数・数値列の右寄せ", () => {
     renderWithTheme(
@@ -50,9 +56,7 @@ describe("DataGrid", () => {
       <DataGrid aria-label="案件一覧" columns={columns} data={projects} getRowId={(r) => r.id} />,
     );
     // 金額の降順
-    const amountSort = within(screen.getByRole("columnheader", { name: /金額/ })).getByRole(
-      "button",
-    );
+    const amountSort = sortButton(screen.getByRole("columnheader", { name: /金額/ }));
     await userEvent.click(amountSort);
     expect(rowNames()[0]).toBe("案件 01");
     await userEvent.click(amountSort);
@@ -95,7 +99,7 @@ describe("DataGrid", () => {
     );
     await userEvent.click(screen.getByRole("checkbox", { name: "このページの行をすべて選択" }));
     expect(onSelectionChange).toHaveBeenLastCalledWith(["p-1", "p-2", "p-3"]);
-    expect(screen.getByText("3件を選択中")).toBeInTheDocument();
+    expect(screen.getAllByText("3件を選択中").length).toBeGreaterThan(0);
     await userEvent.click(screen.getByRole("checkbox", { name: "行 2 を選択" }));
     expect(onSelectionChange).toHaveBeenLastCalledWith(["p-1", "p-3"]);
     expect(screen.getByRole("checkbox", { name: "このページの行をすべて選択" })).toHaveAttribute(
@@ -200,7 +204,7 @@ describe("DataGrid", () => {
     expect(screen.queryByLabelText("案件一覧（スクロール領域）")).toBeNull();
     const head = screen.getByRole("columnheader", { name: /案件名/ });
     expect(head).toHaveAttribute("aria-sort", "none");
-    await userEvent.click(within(head).getByRole("button"));
+    await userEvent.click(sortButton(head));
     expect(head).toHaveAttribute("aria-sort", "ascending");
   });
 });

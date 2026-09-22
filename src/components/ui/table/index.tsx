@@ -1,5 +1,7 @@
+"use client";
+
 import type React from "react";
-import type { ComponentProps, ReactNode } from "react";
+import { type ComponentProps, type ReactNode, useEffect, useRef, useState } from "react";
 import { cn } from "../../../lib/utils";
 import { Icon } from "../icon";
 
@@ -42,10 +44,37 @@ export function Table({
   /** スクロールする外側の div に渡す props（仮想化のスクロール要素など） */
   containerProps?: ComponentProps<"div">;
 }) {
+  // 列があふれて横スクロールするときだけ、コンテナをキーボードで到達できる region にする（axe: scrollable-region-focusable）。
+  // あふれない表に余分なタブストップを作らない
+  const innerRef = useRef<HTMLDivElement | null>(null);
+  const [scrollable, setScrollable] = useState(false);
+  useEffect(() => {
+    const el = innerRef.current;
+    if (!el || typeof ResizeObserver === "undefined") return;
+    const check = () => setScrollable(el.scrollWidth > el.clientWidth + 1);
+    check();
+    const ro = new ResizeObserver(check);
+    ro.observe(el);
+    return () => ro.disconnect();
+  }, []);
+  const outerRef = containerProps?.ref;
+  const tableName = props["aria-label"];
   return (
     <div
       data-slot="table-container"
+      {...(scrollable
+        ? {
+            tabIndex: 0,
+            role: "region",
+            "aria-label": `${tableName ?? "表"}（横にスクロールできます）`,
+          }
+        : {})}
       {...containerProps}
+      ref={(el) => {
+        innerRef.current = el;
+        if (typeof outerRef === "function") outerRef(el);
+        else if (outerRef) outerRef.current = el;
+      }}
       className={cn(
         "relative w-full overflow-x-auto rounded-container border border-border-low bg-surface-card",
         containerProps?.className,
@@ -96,7 +125,7 @@ export function TableRow({ className, ...props }: ComponentProps<"tr">) {
     <tr
       data-slot="table-row"
       className={cn(
-        "group/row border-border-low border-b transition-colors hover:bg-surface-well data-[state=selected]:bg-surface-selected aria-selected:bg-surface-selected",
+        "group/row border-border-low border-b border-l-2 border-l-transparent transition-colors hover:bg-surface-well data-[state=selected]:border-l-border-primary data-[state=selected]:bg-surface-selected aria-selected:border-l-border-primary aria-selected:bg-surface-selected",
         className,
       )}
       {...props}
@@ -137,6 +166,7 @@ export function TableHead({
   return (
     <th
       data-slot="table-head"
+      scope={props.scope ?? "col"}
       aria-sort={ariaSort}
       className={cn(
         "h-10 whitespace-nowrap border-border-middle border-b px-3 text-left align-middle font-bold text-text-middle",
@@ -150,7 +180,7 @@ export function TableHead({
           <button
             type="button"
             onClick={onSort}
-            className="inline-flex items-center gap-1 rounded-notice outline-none hover:text-text-high focus-visible:outline-2 focus-visible:outline-border-focus"
+            className="inline-flex items-center gap-1 rounded-notice outline-none hover:text-text-high focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-border-focus"
           >
             {children}
             <Icon

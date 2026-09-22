@@ -49,14 +49,14 @@ describe("InputDate", () => {
     // jsdom には showPicker が無いので、呼ばれることだけ確かめる
     Object.defineProperty(input, "showPicker", { value: showPicker, configurable: true });
 
-    await userEvent.click(screen.getByRole("button", { name: "カレンダーを開く" }));
+    await userEvent.click(screen.getByLabelText("カレンダーを開く"));
     expect(showPicker).toHaveBeenCalled();
 
     // showPicker が例外を投げる環境では入力欄にフォーカスして代替する
     showPicker.mockImplementation(() => {
       throw new Error("NotAllowedError");
     });
-    await userEvent.click(screen.getByRole("button", { name: "カレンダーを開く" }));
+    await userEvent.click(screen.getByLabelText("カレンダーを開く"));
     expect(input).toHaveFocus();
   });
 
@@ -72,7 +72,7 @@ describe("InputDate", () => {
     );
     const input = screen.getByLabelText("納品予定日");
     expect(input).toBeDisabled();
-    expect(screen.getByRole("button", { name: "カレンダーを開く" })).toBeDisabled();
+    expect(screen.getByLabelText("カレンダーを開く")).toBeDisabled();
     await userEvent.type(input, "2026-12-01");
     expect(input).toHaveValue("2026-10-31");
     expect(onValueChange).not.toHaveBeenCalled();
@@ -80,7 +80,7 @@ describe("InputDate", () => {
 
     render(<InputDate aria-label="受注日" readOnly defaultValue="2026-09-22" />);
     expect(screen.getByLabelText("受注日")).toHaveAttribute("readonly");
-    expect(screen.getByRole("button", { name: "カレンダーを開く" })).toBeDisabled();
+    expect(screen.getByLabelText("カレンダーを開く")).toBeDisabled();
   });
 
   it("アクセシブルネーム: label htmlFor が入力欄に結び付き、ボタンは名前付きで tabIndex=-1", () => {
@@ -101,7 +101,7 @@ describe("InputDate", () => {
     expect(input).toHaveAttribute("aria-invalid", "true");
     expect(input).toHaveAccessibleDescription("納品予定日を入力してください");
 
-    const picker = screen.getByRole("button", { name: "カレンダーを開く" });
+    const picker = screen.getByLabelText("カレンダーを開く");
     expect(picker).toHaveAttribute("aria-controls", "due");
     expect(picker).toHaveAttribute("tabindex", "-1");
   });

@@ -47,11 +47,11 @@ describe("InputNumber", () => {
     );
     const input = screen.getByRole("spinbutton", { name: "受注金額" });
 
-    await userEvent.click(screen.getByRole("button", { name: "増やす" }));
+    await userEvent.click(screen.getByLabelText("増やす"));
     expect(onValueChange).toHaveBeenLastCalledWith(1201000);
     expect(input).toHaveValue("1,201,000");
 
-    await userEvent.click(screen.getByRole("button", { name: "減らす" }));
+    await userEvent.click(screen.getByLabelText("減らす"));
     expect(onValueChange).toHaveBeenLastCalledWith(1200000);
     expect(input).toHaveValue("1,200,000");
 
@@ -109,14 +109,14 @@ describe("InputNumber", () => {
     const { rerender } = render(
       <InputNumber aria-label="納品数" min={1} max={99} value={99} onValueChange={() => {}} />,
     );
-    expect(screen.getByRole("button", { name: "増やす" })).toBeDisabled();
-    expect(screen.getByRole("button", { name: "減らす" })).toBeEnabled();
+    expect(screen.getByLabelText("増やす")).toBeDisabled();
+    expect(screen.getByLabelText("減らす")).toBeEnabled();
 
     rerender(
       <InputNumber aria-label="納品数" min={1} max={99} value={1} onValueChange={() => {}} />,
     );
-    expect(screen.getByRole("button", { name: "減らす" })).toBeDisabled();
-    expect(screen.getByRole("button", { name: "増やす" })).toBeEnabled();
+    expect(screen.getByLabelText("減らす")).toBeDisabled();
+    expect(screen.getByLabelText("増やす")).toBeEnabled();
   });
 
   it("disabled: 入力も増減もできず、値が変わらない", async () => {
@@ -132,11 +132,11 @@ describe("InputNumber", () => {
     );
     const input = screen.getByRole("spinbutton", { name: "受注金額" });
     expect(input).toBeDisabled();
-    expect(screen.getByRole("button", { name: "増やす" })).toBeDisabled();
-    expect(screen.getByRole("button", { name: "減らす" })).toBeDisabled();
+    expect(screen.getByLabelText("増やす")).toBeDisabled();
+    expect(screen.getByLabelText("減らす")).toBeDisabled();
 
     await userEvent.type(input, "5000");
-    await userEvent.click(screen.getByRole("button", { name: "増やす" }));
+    await userEvent.click(screen.getByLabelText("増やす"));
     expect(onValueChange).not.toHaveBeenCalled();
     expect(input).toHaveValue("1,200,000");
   });
@@ -153,12 +153,9 @@ describe("InputNumber", () => {
     expect(input).toHaveAttribute("aria-invalid", "true");
     expect(input).toHaveAccessibleDescription("受注金額を入力してください");
 
-    const decrement = screen.getByRole("button", { name: "減らす" });
+    const decrement = screen.getByLabelText("減らす");
     expect(decrement).toHaveAttribute("aria-controls", "amount");
     expect(decrement).toHaveAttribute("tabindex", "-1");
-    expect(screen.getByRole("button", { name: "増やす" })).toHaveAttribute(
-      "aria-controls",
-      "amount",
-    );
+    expect(screen.getByLabelText("増やす")).toHaveAttribute("aria-controls", "amount");
   });
 });

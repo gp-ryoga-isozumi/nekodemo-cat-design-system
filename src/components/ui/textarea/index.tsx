@@ -74,6 +74,7 @@ export function Textarea({
       />
       {showCount ? (
         <output
+          aria-live="off"
           id={`${textareaId}-count`}
           data-slot="textarea-count"
           htmlFor={textareaId}

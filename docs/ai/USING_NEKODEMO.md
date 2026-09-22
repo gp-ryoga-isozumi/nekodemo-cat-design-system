@@ -80,7 +80,7 @@ export default function RootLayout({ children }) {
 
 共通: 左に `SideNavigation`（幅 240px、折りたたみ 64px）、上にアプリ名＋`NekoThemePicker`＋`Avatar`。コンテンツ幅の最大は 1200px、ページ余白 24px。画面の最上部は `PageHeader`（`breadcrumb` / `title` / `meta` / `actions`）でそろえる。
 E だけは外枠を置かず、1 カラムを画面の中央に置く（マスコットを出してよい 4 か所の 1 つ）。F にグラフの部品は無いので、推移や内訳はグラフを自作せず数値と表で代替する。
-実例: リポジトリの `src/app/samples/{list,detail,form,settings}/page.tsx`。DataGrid ＋ SearchCombobox 版の一覧は `src/app/samples/grid/page.tsx`。E と F のサンプル画面はまだ無い。
+実例: リポジトリの `src/app/samples/{list,detail,form,settings}/page.tsx`。DataGrid ＋ SearchCombobox 版の一覧は `src/app/samples/grid/page.tsx`、ログイン（型 E）は `src/app/samples/login/page.tsx`、ダッシュボード（型 F）は `src/app/samples/dashboard/page.tsx`。
 
 詳しいルール（リポジトリの `docs/guidelines/`、npm 配布物では `node_modules/nekodemo/dist/ai/guidelines/`）:
 
@@ -217,6 +217,11 @@ pnpm nekodemo check src --format json   # { findings, counts, missingIcons, manu
 | NK009 | warn | 生の `<table>` `<button>` `<input>` `<select>` `<textarea>` |
 | NK010 | info | 一覧を描画しているのに Skeleton / EmptyState が無い |
 | NK011 | error | 空の読み上げ名（`label=""` / `aria-label=""`）。名前が無いのと同じ |
+| NK012 | error | `style` でのウェイト・文字サイズ・角丸・フォントの指定（NK003 / NK007 の抜け道） |
+| NK014 | warn | 1 画面に primary の Button が 2 つ以上（EmptyState の action は数えない） |
+| NK016 | warn | `toast()` を使っているのに `<Toaster />` が無い、または 2 つ以上ある（プロジェクト全体） |
+| NK018 | warn | 送信ボタンを初期状態で disabled にしている（送信中の `loading` は可） |
+| NK020 | info | 画面に見出し（h1 / PageHeader）が無い、または 2 つ以上ある |
 
 除外が必要なときだけ `// nekodemo-check-ignore-next-line NK009` を使う（理由をコメントに書く）。ディレクトリごと外すなら `--ignore src/legacy/**` か `nekodemo.config.json` の `check.ignore`。存在しない対象を渡すと exit 2。NK010 は `page.tsx` の JSX 式内の `.map(`（`{items.map(...)}`）を一覧の描画とみなす。`generateStaticParams` 内の `.map` は対象外。
 

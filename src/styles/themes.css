@@ -201,7 +201,7 @@
   /* 役割層（scheme: dark）。実値で書く */
   --nk-color-text-high: oklch(0.95 0.008 250);
   --nk-color-text-middle: oklch(0.84 0.014 250);
-  --nk-color-text-low: oklch(0.68 0.022 250);
+  --nk-color-text-low: oklch(0.75 0.018 250);
   --nk-color-text-placeholder: oklch(0.68 0.022 250);
   --nk-color-text-disabled: oklch(0.43 0.026 250);
   --nk-color-text-on-primary: oklch(0.25 0.040 250);
@@ -233,7 +233,7 @@
   --nk-color-surface-selected: oklch(0.32 0.050 250);
   --nk-color-border-low: oklch(0.34 0.028 250);
   --nk-color-border-middle: oklch(0.43 0.026 250);
-  --nk-color-border-high: oklch(0.55 0.024 250);
+  --nk-color-border-high: oklch(0.68 0.022 250);
   --nk-color-border-primary: oklch(0.78 0.052 250);
   --nk-color-border-negative: oklch(0.62 0.200 25);
   --nk-color-border-focus: oklch(0.78 0.052 250);

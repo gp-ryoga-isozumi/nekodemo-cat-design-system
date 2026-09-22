@@ -105,6 +105,7 @@ describe("Popover", () => {
     await openPopover();
     await userEvent.keyboard("{Escape}");
     expect(screen.queryByRole("dialog")).not.toBeInTheDocument();
+    expect(screen.getByRole("button", { name: "列の表示" })).toHaveFocus();
   });
 
   it("disabled: 無効なトリガーは開かない", async () => {

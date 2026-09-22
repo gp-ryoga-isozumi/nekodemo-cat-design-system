@@ -9,6 +9,7 @@ export const buttonVariants = cva(
     "inline-flex shrink-0 items-center justify-center gap-2 whitespace-nowrap rounded-action font-bold transition-colors",
     "outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-border-focus",
     "disabled:cursor-not-allowed disabled:border-transparent disabled:bg-surface-disabled disabled:text-text-disabled",
+    "aria-disabled:cursor-not-allowed aria-disabled:border-transparent aria-disabled:bg-surface-disabled aria-disabled:text-text-disabled",
     "[&_svg]:pointer-events-none [&_svg]:shrink-0",
   ],
   {
@@ -74,6 +75,7 @@ export function Button({
   asChild = false,
   loading = false,
   disabled,
+  onClick,
   children,
   type,
   ...props
@@ -86,9 +88,18 @@ export function Button({
       data-size={size}
       type={asChild ? undefined : (type ?? "button")}
       className={cn(buttonVariants({ variant, size }), className)}
-      disabled={disabled || loading}
+      disabled={disabled}
+      aria-disabled={loading || undefined}
       aria-busy={loading || undefined}
       {...props}
+      onClick={(e) => {
+        // loading 中は押せない（disabled にするとフォーカスが body に落ちるので aria-disabled で止める）
+        if (loading) {
+          e.preventDefault();
+          return;
+        }
+        onClick?.(e);
+      }}
     >
       {loading ? <Spinner size={size === "lg" ? "md" : "sm"} /> : null}
       <Slot.Slottable>{children}</Slot.Slottable>

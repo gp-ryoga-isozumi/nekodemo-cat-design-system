@@ -13,18 +13,18 @@ function renderField(props: InputPasswordProps = {}) {
 }
 
 describe("InputPassword", () => {
-  it("表示: 既定は type=password で、表示切替ボタンは aria-pressed=false", () => {
+  it("表示: 既定は type=password で、表示切替ボタンは「パスワードを表示」（aria-pressed は使わない）", () => {
     const { container } = renderField();
     const input = screen.getByLabelText("パスワード");
     expect(input).toHaveAttribute("type", "password");
     expect(container.querySelector('[data-slot="input-password"]')).not.toBeNull();
-    expect(screen.getByRole("button", { name: "パスワードを表示" })).toHaveAttribute(
+    // 状態はラベルの変化だけで伝える（aria-pressed と両方だと二重に読まれる）
+    expect(screen.getByRole("button", { name: "パスワードを表示" })).not.toHaveAttribute(
       "aria-pressed",
-      "false",
     );
   });
 
-  it("操作: 表示切替ボタンで type と aria-pressed が切り替わり、入力は onChange を呼ぶ", async () => {
+  it("操作: 表示切替ボタンで type とラベルが切り替わり、入力は onChange を呼ぶ", async () => {
     const onChange = vi.fn();
     renderField({ onChange });
     const input = screen.getByLabelText("パスワード");
@@ -36,14 +36,10 @@ describe("InputPassword", () => {
     await userEvent.click(screen.getByRole("button", { name: "パスワードを表示" }));
     expect(screen.getByLabelText("パスワード")).toHaveAttribute("type", "text");
     const hide = screen.getByRole("button", { name: "パスワードを隠す" });
-    expect(hide).toHaveAttribute("aria-pressed", "true");
+    expect(hide).toBeInTheDocument();
 
     await userEvent.click(hide);
     expect(screen.getByLabelText("パスワード")).toHaveAttribute("type", "password");
-    expect(screen.getByRole("button", { name: "パスワードを表示" })).toHaveAttribute(
-      "aria-pressed",
-      "false",
-    );
   });
 
   it("disabled: 入力できず、値も変わらない", async () => {

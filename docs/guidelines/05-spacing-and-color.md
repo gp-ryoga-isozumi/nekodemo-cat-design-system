@@ -81,4 +81,4 @@ primary 色は 1 画面で「主ボタン」「選択状態」「リンク」以
 - ステータス色（success / warning / negative / info）は状態表現だけに使い、装飾に使わない。
 - 文字サイズは `text-1`〜`text-12` から選ぶ（本文 `text-3`、補足 `text-2`、見出し `text-5` / `text-6`）。`text-[13px]` のような任意値と `font-medium` 等は禁止。
 - 角丸は `rounded-action`（ボタン・入力）/ `rounded-container`（カード）/ `rounded-modal` / `rounded-notice`（バッジ）/ `rounded-round`（円）を使う。
-- 作業の最後に `pnpm check` を実行し、error（NK001〜NK005、NK007、NK011）を 0 件にしてから完了報告する（warn は内容を確認する）。
+- 作業の最後に `pnpm check` を実行し、error（NK001〜NK005、NK007、NK011、NK012）を 0 件にしてから完了報告する（warn は内容を確認する）。

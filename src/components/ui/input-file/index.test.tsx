@@ -80,6 +80,17 @@ describe("InputFile", () => {
     expect(screen.getAllByRole("listitem")).toHaveLength(3);
   });
 
+  it("操作: 同じファイル（名前・サイズ・更新日時が同じ）を 2 回入れても 1 件のまま", async () => {
+    const onValueChange = vi.fn();
+    render(<InputFile id="dup" multiple aria-label="添付ファイル" onValueChange={onValueChange} />);
+    const input = screen.getByLabelText("添付ファイル");
+    const same = pdf("見積書.pdf");
+    await userEvent.upload(input, same);
+    await userEvent.upload(input, same);
+    expect(screen.getAllByText("見積書.pdf")).toHaveLength(1);
+    expect(onValueChange).toHaveBeenCalledTimes(1);
+  });
+
   it("操作: 受け付けない種類・サイズ・件数は onReject に理由付きで渡る", async () => {
     const onReject = vi.fn();
     const onValueChange = vi.fn();

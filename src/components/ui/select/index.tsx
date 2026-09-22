@@ -64,7 +64,7 @@ export function SelectTrigger({
       className={cn(
         "flex w-full min-w-0 items-center justify-between gap-2 whitespace-nowrap rounded-action border border-border-high bg-surface-input text-left text-text-high transition-[border-color,box-shadow]",
         "data-[placeholder]:text-text-placeholder *:data-[slot=select-value]:line-clamp-1",
-        "outline-none focus-visible:border-border-focus focus-visible:ring-2 focus-visible:ring-border-focus/30",
+        "outline-none focus-visible:border-border-focus focus-visible:outline-2 focus-visible:outline-transparent focus-visible:ring-2 focus-visible:ring-border-focus/30",
         "aria-invalid:border-border-negative aria-invalid:focus-visible:ring-border-negative/30",
         "disabled:cursor-not-allowed disabled:border-border-middle disabled:bg-surface-disabled disabled:text-text-disabled",
         TRIGGER_SIZE[size],
@@ -138,7 +138,7 @@ export function SelectItem({
     <SelectPrimitive.Item
       data-slot="select-item"
       className={cn(
-        "relative flex w-full cursor-default select-none items-center gap-2 rounded-action py-2 pr-8 pl-2 text-2 outline-hidden",
+        "relative flex w-full cursor-default select-none items-center gap-2 rounded-action py-2 pr-8 pl-2 text-2 outline-hidden focus:outline-2 focus:-outline-offset-2 focus:outline-border-focus",
         "focus:bg-surface-well data-[state=checked]:bg-surface-selected data-[state=checked]:text-text-primary data-[disabled]:pointer-events-none data-[disabled]:text-text-disabled",
         className,
       )}

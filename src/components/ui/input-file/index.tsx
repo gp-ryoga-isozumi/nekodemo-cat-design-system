@@ -129,7 +129,11 @@ export function InputFile({
     update(current);
   };
 
-  const remove = (index: number) => update(files.filter((_, i) => i !== index));
+  const remove = (index: number) => {
+    update(files.filter((_, i) => i !== index));
+    // 外したボタンごと一覧が消えるので、フォーカスを入力（ドロップ領域）に戻す
+    if (files.length === 1) inputRef.current?.focus();
+  };
 
   const onDrop = (e: DragEvent<HTMLDivElement>) => {
     e.preventDefault();

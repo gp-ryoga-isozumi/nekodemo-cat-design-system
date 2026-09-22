@@ -73,7 +73,7 @@ export default function SettingsSamplePage() {
                 <SelectContent>
                   <SelectItem value="20">20件</SelectItem>
                   <SelectItem value="50">50件</SelectItem>
-                  <SelectItem value="100">100 件</SelectItem>
+                  <SelectItem value="100">100件</SelectItem>
                 </SelectContent>
               </Select>
             </SettingRow>

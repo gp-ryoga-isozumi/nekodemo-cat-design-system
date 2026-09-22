@@ -97,7 +97,7 @@ export const WithBadge: Story = {
       <SideNavItem icon="folder" href="#projects" active badge={3}>
         案件
       </SideNavItem>
-      <SideNavItem icon="notifications" href="#notifications" badge={128}>
+      <SideNavItem icon="notifications" href="#notifications" badge={128} badgeVariant="neutral">
         通知
       </SideNavItem>
     </SideNavigation>

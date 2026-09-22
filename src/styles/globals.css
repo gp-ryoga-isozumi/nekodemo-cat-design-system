@@ -1,4 +1,18 @@
+/* biome-ignore-all lint/complexity/noImportantStyles: prefers-reduced-motion の全体停止は !important で上書きする */
 @import "tailwindcss";
 @import "tw-animate-css";
 @import "./tokens.css";
 @import "./themes.css";
+
+/* 動きを減らす設定（prefers-reduced-motion）を全体で尊重する。tw-animate-css の配布物には分岐が無いのでここで止める。
+   全要素のアニメーションを上書きするため !important が要る（定石） */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}

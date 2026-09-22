@@ -1,7 +1,15 @@
 "use client";
 
 import { Label as LabelPrimitive, Slot } from "radix-ui";
-import { type ComponentProps, createContext, useContext, useEffect, useId, useState } from "react";
+import {
+  type ComponentProps,
+  createContext,
+  isValidElement,
+  useContext,
+  useEffect,
+  useId,
+  useState,
+} from "react";
 import {
   Controller,
   type ControllerProps,
@@ -80,6 +88,9 @@ type FormItemContextValue = {
   /** FormMessage が（エラーでなく）固定の文言を出しているか */
   hasMessage: boolean;
   setHasMessage: (v: boolean) => void;
+  /** FormLabel required が付いているか（FormControl が aria-required にする） */
+  required: boolean;
+  setRequired: (v: boolean) => void;
 };
 const FormItemContext = createContext<FormItemContextValue | null>(null);
 
@@ -91,11 +102,12 @@ export function useFormField() {
   if (!fieldContext) throw new Error("useFormField は FormField の中で使ってください");
   if (!itemContext) throw new Error("useFormField は FormItem の中で使ってください");
   const fieldState = getFieldState(fieldContext.name, formState);
-  const { id, hasDescription, hasMessage } = itemContext;
+  const { id, hasDescription, hasMessage, required } = itemContext;
   return {
     id,
     hasDescription,
     hasMessage,
+    required,
     name: fieldContext.name,
     formItemId: `${id}-form-item`,
     formDescriptionId: `${id}-form-item-description`,
@@ -108,9 +120,18 @@ export function FormItem({ className, ...props }: ComponentProps<"div">) {
   const id = useId();
   const [hasDescription, setHasDescription] = useState(false);
   const [hasMessage, setHasMessage] = useState(false);
+  const [required, setRequired] = useState(false);
   return (
     <FormItemContext.Provider
-      value={{ id, hasDescription, setHasDescription, hasMessage, setHasMessage }}
+      value={{
+        id,
+        hasDescription,
+        setHasDescription,
+        hasMessage,
+        setHasMessage,
+        required,
+        setRequired,
+      }}
     >
       <div data-slot="form-item" className={cn("flex flex-col gap-1.5", className)} {...props} />
     </FormItemContext.Provider>
@@ -125,6 +146,11 @@ export function FormLabel({
   ...props
 }: ComponentProps<typeof LabelPrimitive.Root> & { required?: boolean }) {
   const { error, formItemId } = useFormField();
+  const item = useContext(FormItemContext);
+  useEffect(() => {
+    item?.setRequired(!!required);
+    return () => item?.setRequired(false);
+  }, [item, required]);
   return (
     <LabelPrimitive.Root
       data-slot="form-label"
@@ -140,8 +166,15 @@ export function FormLabel({
 }
 
 export function FormControl(props: ComponentProps<typeof Slot.Root>) {
-  const { error, formItemId, formDescriptionId, formMessageId, hasDescription, hasMessage } =
-    useFormField();
+  const {
+    error,
+    formItemId,
+    formDescriptionId,
+    formMessageId,
+    hasDescription,
+    hasMessage,
+    required,
+  } = useFormField();
   const describedBy = [
     hasDescription ? formDescriptionId : null,
     error || hasMessage ? formMessageId : null,
@@ -154,6 +187,7 @@ export function FormControl(props: ComponentProps<typeof Slot.Root>) {
       id={formItemId}
       aria-describedby={describedBy || undefined}
       aria-invalid={!!error}
+      aria-required={required || undefined}
       {...props}
     />
   );
@@ -176,7 +210,7 @@ export function FormDescription({ className, ...props }: ComponentProps<"p">) {
   );
 }
 
-/** エラー文。children が無ければ react-hook-form のエラーメッセージを出す */
+/** エラー文。children が無ければ react-hook-form のエラーメッセージを出す。children を書いた場合も「固定のエラー文」として扱う（注意書きは FormDescription） */
 export function FormMessage({ className, children, ...props }: ComponentProps<"p">) {
   const { error, formMessageId } = useFormField();
   const item = useContext(FormItemContext);
@@ -222,6 +256,10 @@ export function Field({
   className?: string;
   children: React.ReactNode;
 }) {
+  const describedBy =
+    [description ? `${htmlFor}-description` : null, error ? `${htmlFor}-error` : null]
+      .filter(Boolean)
+      .join(" ") || undefined;
   return (
     <div data-slot="field" className={cn("flex flex-col gap-1.5", className)}>
       <label
@@ -231,7 +269,19 @@ export function Field({
         {label}
         {required ? <span className="font-normal text-1 text-text-negative">必須</span> : null}
       </label>
-      {children}
+      {/* 子が 1 つの要素なら id・aria-describedby・aria-invalid・aria-required を注入する（FormControl と同じ規則）。文字列や複数の子はそのまま */}
+      {isValidElement(children) ? (
+        <Slot.Root
+          id={htmlFor}
+          aria-describedby={describedBy}
+          aria-invalid={error ? true : undefined}
+          aria-required={required || undefined}
+        >
+          {children}
+        </Slot.Root>
+      ) : (
+        children
+      )}
       {description ? (
         <p id={`${htmlFor}-description`} className="text-1 text-text-low">
           {description}

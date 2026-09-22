@@ -76,7 +76,7 @@ export function Progress({
           className={cn(
             "h-full rounded-round transition-[width] duration-300",
             complete ? "bg-success-600" : "bg-surface-primary",
-            !determinate && "w-full animate-pulse bg-surface-primary/50",
+            !determinate && "w-full animate-pulse bg-surface-primary/50 motion-reduce:animate-none",
           )}
           style={determinate ? { width: `${pct}%` } : undefined}
         />
