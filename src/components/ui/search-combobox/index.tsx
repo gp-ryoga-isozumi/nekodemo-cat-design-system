@@ -21,6 +21,7 @@ const fieldVariants = cva(
     "flex w-full min-w-0 flex-wrap items-center gap-1 rounded-action border border-border-high bg-surface-input text-text-high transition-[border-color,box-shadow]",
     "focus-within:border-border-focus focus-within:ring-2 focus-within:ring-border-focus/30",
     "data-[disabled=true]:cursor-not-allowed data-[disabled=true]:border-border-middle data-[disabled=true]:bg-surface-disabled data-[disabled=true]:text-text-disabled",
+    "data-[invalid=true]:border-border-negative data-[invalid=true]:focus-within:ring-border-negative/30",
   ],
   {
     variants: {
@@ -70,9 +71,14 @@ export type SearchComboboxProps<
   loading?: boolean;
   /** 候補が無いときの文言。既定「候補がありません」 */
   emptyText?: ReactNode;
-  /** 入力欄のラベル（アクセシブルネーム）。`hideLabel` で見た目だけ隠す */
-  label: string;
+  /** 入力欄のラベル（アクセシブルネーム）。`hideLabel` で見た目だけ隠す。Form の FormLabel を使うときは省略する（FormControl が id で結ぶ） */
+  label?: string;
   hideLabel?: boolean;
+  /** Form の FormControl が渡す（補足・エラー文と結ぶ） */
+  "aria-describedby"?: string;
+  /** Form の FormControl が渡す（枠を negative にする） */
+  "aria-invalid"?: boolean | "true" | "false";
+  "aria-labelledby"?: string;
   placeholder?: string;
   size?: SearchComboboxSize;
   disabled?: boolean;
@@ -161,6 +167,9 @@ export function SearchCombobox<
   id,
   name,
   className,
+  "aria-describedby": describedBy,
+  "aria-invalid": invalid,
+  "aria-labelledby": labelledBy,
 }: SearchComboboxProps<Value, Multiple, FreeSolo>) {
   const labelOf = useMemo(
     () =>
@@ -259,19 +268,22 @@ export function SearchCombobox<
 
   return (
     <div data-slot="search-combobox" className={cn("relative", className)}>
-      {/* biome-ignore lint/a11y/noLabelWithoutControl: htmlFor は useAutocomplete の getInputLabelProps() が付ける */}
-      <label
-        {...labelProps}
-        className={cn("mb-1 block text-2 text-text-middle", hideLabel && "sr-only")}
-      >
-        {label}
-      </label>
+      {label ? (
+        // biome-ignore lint/a11y/noLabelWithoutControl: htmlFor は useAutocomplete の getInputLabelProps() が付ける
+        <label
+          {...labelProps}
+          className={cn("mb-1 block text-2 text-text-middle", hideLabel && "sr-only")}
+        >
+          {label}
+        </label>
+      ) : null}
       <div
         {...getRootProps()}
         ref={setAnchorEl}
         data-slot="search-combobox-field"
         data-size={size}
         data-disabled={disabled ? "true" : undefined}
+        data-invalid={invalid === true || invalid === "true" ? "true" : undefined}
         className={fieldVariants({ size })}
       >
         <Icon icon="search" size={3} className="shrink-0 text-object-middle" />
@@ -299,6 +311,9 @@ export function SearchCombobox<
           {...inputProps}
           name={name}
           placeholder={placeholder}
+          aria-describedby={describedBy}
+          aria-invalid={invalid}
+          aria-labelledby={labelledBy}
           className="min-w-16 flex-1 bg-transparent py-1 outline-none placeholder:text-text-placeholder disabled:cursor-not-allowed"
         />
         {dirty && !disabled && !readOnly ? (
