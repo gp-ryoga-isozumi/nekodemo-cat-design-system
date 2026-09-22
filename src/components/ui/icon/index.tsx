@@ -1,4 +1,5 @@
 // nekodemo-check-ignore-file NK005 — T3 フォールバック（material-symbols クラス）はこの部品だけが使う
+import type { ComponentProps } from "react";
 import { cn } from "../../../lib/utils";
 import { icons } from "./icons.generated";
 
@@ -6,7 +7,7 @@ import { icons } from "./icons.generated";
 export const ICON_SIZES = [12, 14, 16, 18, 20, 24, 28, 32, 36, 42, 48, 54] as const;
 export type IconSize = 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11 | 12;
 
-export type IconProps = {
+export type IconProps = Omit<ComponentProps<"svg">, "fill" | "children"> & {
   /** Material Symbols の名前（snake_case）。例: "search", "delete", "settings" */
   icon: string;
   /** 1〜12（12 / 14 / 16 / 18 / 20 / 24 / 28 / 32 / 36 / 42 / 48 / 54px）。既定 3 = 16px */
@@ -45,7 +46,7 @@ const warned = new Set<string>();
  * <Icon icon="favorite" fill />
  * ```
  */
-export function Icon({ icon, size = 3, fill = false, label, className }: IconProps) {
+export function Icon({ icon, size = 3, fill = false, label, className, ...props }: IconProps) {
   const px = ICON_SIZES[size - 1] ?? 16;
   const def = icons[icon];
   const a11y = label
@@ -71,8 +72,10 @@ export function Icon({ icon, size = 3, fill = false, label, className }: IconPro
           height: px,
           fontVariationSettings: `'FILL' ${fill ? 1 : 0}, 'wght' 500, 'GRAD' 0, 'opsz' ${Math.min(48, Math.max(20, px))}`,
         }}
+        data-slot="icon"
         data-icon={icon}
         data-icon-tier="fallback"
+        {...(props as unknown as ComponentProps<"span">)}
         {...a11y}
       >
         {icon}
@@ -89,8 +92,10 @@ export function Icon({ icon, size = 3, fill = false, label, className }: IconPro
       width={px}
       height={px}
       className={cn("inline-block shrink-0 fill-current align-middle", className)}
+      data-slot="icon"
       data-icon={icon}
       data-icon-tier={def.tier}
+      {...props}
       {...a11y}
     >
       {label ? <title>{label}</title> : null}

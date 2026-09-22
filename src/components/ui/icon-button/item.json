@@ -4,8 +4,13 @@
   "type": "registry:ui",
   "title": "IconButton",
   "description": "アイコンだけのボタン。ghost / outline / primary / negative、sm / md / lg、label は必須",
-  "registryDependencies": ["icon"],
-  "dependencies": ["class-variance-authority"],
+  "registryDependencies": [
+    "icon"
+  ],
+  "dependencies": [
+    "class-variance-authority",
+    "radix-ui"
+  ],
   "files": [
     {
       "path": "src/components/ui/icon-button/index.tsx",
@@ -13,5 +18,8 @@
       "target": "components/ui/icon-button/index.tsx"
     }
   ],
-  "meta": { "shadcnSource": null, "shadcnVersion": null }
+  "meta": {
+    "shadcnSource": null,
+    "shadcnVersion": null
+  }
 }

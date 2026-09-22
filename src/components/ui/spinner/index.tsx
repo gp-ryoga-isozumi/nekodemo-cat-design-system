@@ -1,8 +1,9 @@
+import type { ComponentProps } from "react";
 import { cn } from "../../../lib/utils";
 
 const SIZES = { sm: 16, md: 20, lg: 40 } as const;
 
-export type SpinnerProps = {
+export type SpinnerProps = Omit<ComponentProps<"svg">, "children"> & {
   /** sm 16 / md 20 / lg 40px */
   size?: keyof typeof SIZES;
   /** 読み上げ用の説明。既定「読み込み中」 */
@@ -33,7 +34,7 @@ export type SpinnerProps = {
  * <Spinner size="lg" label="案件を読み込み中" className="text-object-primary" />
  * ```
  */
-export function Spinner({ size = "md", label = "読み込み中", className }: SpinnerProps) {
+export function Spinner({ size = "md", label = "読み込み中", className, ...props }: SpinnerProps) {
   const px = SIZES[size];
   return (
     <svg
@@ -48,6 +49,8 @@ export function Spinner({ size = "md", label = "読み込み中", className }: S
       strokeLinecap="round"
       className={cn("inline-block shrink-0 animate-spin motion-reduce:animate-none", className)}
       data-slot="spinner"
+      data-size={size}
+      {...props}
     >
       <circle cx="12" cy="12" r="8.5" />
       <path d="M4.6 9.5c4.5-2.2 9.5-2 15 1M4 14.2c5.5-3 10.5-3 16 0M9.2 4.2c-2.2 4.5-2 9.5 1 15" />
