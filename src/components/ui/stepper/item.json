@@ -1,0 +1,17 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "stepper",
+  "type": "registry:ui",
+  "title": "Stepper",
+  "description": "複数手順の進み具合（横 / 縦）。完了はチェック、現在は primary の枠、aria-current=step",
+  "registryDependencies": ["icon"],
+  "dependencies": [],
+  "files": [
+    {
+      "path": "src/components/ui/stepper/index.tsx",
+      "type": "registry:ui",
+      "target": "components/ui/stepper/index.tsx"
+    }
+  ],
+  "meta": { "shadcnSource": null, "shadcnVersion": null }
+}

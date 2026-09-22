@@ -15,10 +15,10 @@ description: >
 
 ## 手順
 1. 依頼内容を画面の型に当てはめる。
-   - A 一覧: 見出し＋主アクション → `InputSearch`＋`Tag`（絞り込み） → `Table` → `Pagination`。ソート・列幅・選択・列の絞り込みが要るなら `DataGrid`（4 状態内蔵、`aria-label` 必須）。サジェスト付きの入力は `SearchCombobox`
-   - B 詳細: `Breadcrumb` → 見出し＋`StatusTag`＋操作 `Menu` → 2 カラムの `Card`（左: 情報、右: 関連）＋`Tabs`
-   - C 作成・編集フォーム: 見出し → `Form`（セクションごとに `Card`）→ 画面下部に固定のフッター（キャンセル／保存）
-   - D 設定: 左に縦 `Tabs` → 右に設定項目（見出し・説明・入力の 3 行、`Field` / `Switch` / `Select`）
+   - A 一覧: `PageHeader`（見出し＋主アクション） → `InputSearch`＋`FilterChipGroup`（絞り込み） → `Table` → `Pagination`。ソート・列幅・選択・列の絞り込みが要るなら `DataGrid`（4 状態内蔵、`aria-label` 必須）。サジェスト付きの入力は `SearchCombobox`
+   - B 詳細: `PageHeader`（`breadcrumb` + `meta` に `StatusTag` + `actions` に操作 `Menu`） → 2 カラムの `Card`（左: 情報は `DescriptionList`、右: 関連）＋`Tabs`。補足は `Accordion` で畳む
+   - C 作成・編集フォーム: 見出し → `Form`（セクションごとに `Card`）→ 画面下部に固定のフッター（キャンセル／保存）。金額は `InputNumber`、日付は `InputDate`、3〜5 手順に分けるなら上に `Stepper`
+   - D 設定: 左に縦 `Tabs` → 右に設定項目（見出し・説明・入力の 3 行、`Field` / `Switch` / `Select`）。表示の切替（一覧 / カード、日 / 週 / 月）は `SegmentedControl`
    - 共通枠: 左に `SideNavigation`（240 / 64px）、上にアプリ名＋`NekoThemePicker`＋`Avatar`。最大幅 1200px、余白 24px。
 2. 部品は `nekodemo` から import する。生の `<button>` `<input>` `<select>` `<textarea>` `<table>` は書かない。`Form` で使う `useForm` / `zodResolver` / `z` も `nekodemo` から import する（`react-hook-form` / `zod` を入れない）。props に迷ったら `node_modules/nekodemo/dist/components/ui/<name>/index.d.ts` の JSDoc を読む。
 3. 色・角丸・文字サイズは役割トークン名だけ（`bg-surface-card` `text-text-low` `border-border-middle` `rounded-action` `text-3`）。`#hex` / `rgb()` / Tailwind 既定パレット / 任意値 / `font-medium` は使わない。

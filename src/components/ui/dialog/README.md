@@ -15,6 +15,12 @@ Radix AlertDialog ベースで、外側クリックでは閉じず（Esc では�
 - 確定ボタンを primary にする（破壊的操作は negative）
 - 入力フォームを入れる（Modal）
 
+## 推奨例
+
+- 削除・公開停止など取り消せない操作の直前に挟み、`DialogTitle` に「この案件を削除しますか？」と問いを書く
+- `DialogDescription` に影響する範囲（一緒に消えるもの、取り消せないこと）を書く
+- 確定は `DialogAction variant="negative"` で「削除する」、取り消しは `DialogCancel` で「キャンセル」にする
+
 ## 使用例
 
 ```tsx

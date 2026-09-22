@@ -33,6 +33,11 @@ export type BadgeProps = ComponentProps<"span"> &
  * - 文章や長い語を入れる（Tag を使う）
  * - 装飾として色を変える（primary / negative / neutral の 3 種だけ）
  *
+ * 推奨例:
+ * - 未読・通知など気付いてほしい数は `variant="negative"`、通常の件数は primary か neutral にする
+ * - SideNavigation の項目や Tabs の見出しの右に添えて、その画面に何件あるかを示す
+ * - 桁が増える数は `max` で上限を決める（`max={99}` で「99+」）
+ *
  * 使用例:
  * ```tsx
  * <Badge count={3} variant="negative" />

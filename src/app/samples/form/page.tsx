@@ -27,6 +27,8 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
+import { InputDate } from "@/components/ui/input-date";
+import { InputNumber } from "@/components/ui/input-number";
 import { RadioGroup, RadioItem } from "@/components/ui/radio";
 import {
   Select,
@@ -42,8 +44,8 @@ import { AppShell } from "../app-shell";
 const schema = z.object({
   name: z.string().min(1, "案件名を入力してください"),
   customer: z.string().min(1, "顧客を選択してください"),
-  amount: z.string().regex(/^\d+$/, "金額は半角数字で入力してください（例: 1200000）"),
-  due: z.string().regex(/^\d{4}\/\d{2}\/\d{2}$/, "納期は 2026/10/31 の形式で入力してください"),
+  amount: z.number({ error: "金額を入力してください" }).min(0, "金額は 0 以上で入力してください"),
+  due: z.string().regex(/^\d{4}-\d{2}-\d{2}$/, "納期を選択してください"),
   scope: z.enum(["internal", "customer"]),
   notify: z.boolean(),
   memo: z.string().max(200, "メモは 200 文字以内で入力してください"),
@@ -57,8 +59,8 @@ export default function FormSamplePage() {
     defaultValues: {
       name: "社内備品貸出アプリ 改修",
       customer: "yamada-shoji",
-      amount: "1200000",
-      due: "2026/10/31",
+      amount: 1200000,
+      due: "2026-10-31",
       scope: "internal",
       notify: true,
       memo: "ユーザーインタビューは 9/25 に 3 名。",
@@ -152,9 +154,17 @@ export default function FormSamplePage() {
                       <FormItem>
                         <FormLabel required>金額</FormLabel>
                         <FormControl>
-                          <Input inputMode="numeric" className="font-mono" {...field} />
+                          <InputNumber
+                            unit="円"
+                            min={0}
+                            step={10000}
+                            name={field.name}
+                            value={field.value}
+                            onValueChange={(v) => field.onChange(v)}
+                            onBlur={field.onBlur}
+                          />
                         </FormControl>
-                        <FormDescription>円。カンマなしの半角数字</FormDescription>
+                        <FormDescription>税抜。1 万円単位で増減できます</FormDescription>
                         <FormMessage />
                       </FormItem>
                     )}
@@ -166,7 +176,13 @@ export default function FormSamplePage() {
                       <FormItem>
                         <FormLabel>納期</FormLabel>
                         <FormControl>
-                          <Input placeholder="2026/10/31" className="font-mono" {...field} />
+                          <InputDate
+                            min="2026-01-01"
+                            name={field.name}
+                            value={field.value}
+                            onValueChange={field.onChange}
+                            onBlur={field.onBlur}
+                          />
                         </FormControl>
                         <FormMessage />
                       </FormItem>

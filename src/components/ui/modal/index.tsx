@@ -16,6 +16,12 @@ import { IconButton } from "../icon-button";
  * - ModalTitle を省略する（読み上げに必要。視覚的に隠すなら className="sr-only"）
  * - モーダルの中からモーダルを開く
  *
+ * 推奨例:
+ * - 一覧や詳細から離れずに終わる 3 項目までの入力（担当者の変更、期限の延長）に使う
+ * - `ModalTitle` にその場でする操作を書き、`ModalFooter` はキャンセル（`ModalClose`）と主ボタンの 2 つだけにする
+ * - 保存できたら閉じて、呼び出し元の画面で Toast（success）を出す
+ * - 入力が 3 項目を超えたら Modal をやめて作成・編集フォームのページにする
+ *
  * 使用例:
  * ```tsx
  * <Modal>

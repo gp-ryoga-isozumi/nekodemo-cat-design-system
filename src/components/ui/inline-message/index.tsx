@@ -44,6 +44,11 @@ export type InlineMessageProps = Omit<ComponentProps<"div">, "title"> &
  * - 一時的な成功通知に使う（Toast）
  * - 装飾やお知らせバナーに success / warning の色を使う（ステータス色は状態表現だけ。§10.5）
  *
+ * 推奨例:
+ * - 読み込みや保存に失敗した領域のすぐ上に `variant="negative"` で置き、`action` に「再試行する」を添える
+ * - あらかじめ知らせておく制約や予定は `variant="info"` にし、`title` に要点、本文に詳細を書く
+ * - 本文には「何が起きたか」と「どうすればよいか」の両方を書く
+ *
  * 使用例:
  * ```tsx
  * <InlineMessage variant="negative" action={<Button variant="outline" size="sm" onClick={retry}>再試行</Button>}>

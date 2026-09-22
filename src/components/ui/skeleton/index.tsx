@@ -11,6 +11,11 @@ import { cn } from "../../../lib/utils";
  * - ボタンの処理中に使う（Spinner）
  * - 読み込みが終わっても残す
  *
+ * 推奨例:
+ * - 一覧は `SkeletonRows rows={5}`、カード群は Skeleton を 3 枚置いて、読み込み中の状態を埋める
+ * - `className` で実際の内容と同じ高さ・幅にそろえ、表示が切り替わったときに位置が動かないようにする
+ * - 詳細画面は見出しと本文の形に分けて置き、読み込みが終わったら中身と差し替える
+ *
  * 使用例:
  * ```tsx
  * <div className="flex items-center gap-3">

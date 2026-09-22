@@ -17,6 +17,12 @@ export type TableDensity = "xs" | "sm" | "md";
  * - 縞模様や縦罫線を足す
  * - 数値を左寄せ・可変幅フォントにする
  *
+ * 推奨例:
+ * - 一覧（画面の型 A）の本体に使い、行数を見せたい画面は `density="xs"`、1 行の情報が多い画面は `density="md"` にする
+ * - 金額・数量・日時の列は `TableHead numeric` と `TableCell numeric` を対で付けて右寄せの等幅にそろえる
+ * - 並び替えができる列は `sort` と `onSort` を渡し、今の並び順をヘッダーに示す
+ * - 行クリックは詳細へ遷移させ、行内の操作は行末のセルに Menu でまとめる
+ *
  * 使用例:
  * ```tsx
  * <Table density="sm">
