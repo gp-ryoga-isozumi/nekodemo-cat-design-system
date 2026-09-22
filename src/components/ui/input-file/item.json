@@ -1,0 +1,20 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "input-file",
+  "type": "registry:ui",
+  "title": "InputFile",
+  "description": "ファイルの添付。ドロップ領域・ファイルを選ぶボタン・選択済み一覧。accept / maxSizeMB / maxFiles の検証",
+  "registryDependencies": ["icon", "icon-button"],
+  "dependencies": [],
+  "files": [
+    {
+      "path": "src/components/ui/input-file/index.tsx",
+      "type": "registry:ui",
+      "target": "components/ui/input-file/index.tsx"
+    }
+  ],
+  "meta": {
+    "shadcnSource": null,
+    "shadcnVersion": null
+  }
+}

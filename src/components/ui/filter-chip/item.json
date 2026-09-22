@@ -1,0 +1,20 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "filter-chip",
+  "type": "registry:ui",
+  "title": "FilterChip",
+  "description": "一覧を絞り込む押して ON / OFF するチップ（aria-pressed）。件数とアイコン付き",
+  "registryDependencies": ["icon"],
+  "dependencies": ["class-variance-authority"],
+  "files": [
+    {
+      "path": "src/components/ui/filter-chip/index.tsx",
+      "type": "registry:ui",
+      "target": "components/ui/filter-chip/index.tsx"
+    }
+  ],
+  "meta": {
+    "shadcnSource": null,
+    "shadcnVersion": null
+  }
+}

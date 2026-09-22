@@ -1,0 +1,20 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "accordion",
+  "type": "registry:ui",
+  "title": "Accordion",
+  "description": "見出しを押して本文を開閉する一覧（Radix Accordion）。設定の詳細項目や FAQ",
+  "registryDependencies": ["icon"],
+  "dependencies": ["radix-ui"],
+  "files": [
+    {
+      "path": "src/components/ui/accordion/index.tsx",
+      "type": "registry:ui",
+      "target": "components/ui/accordion/index.tsx"
+    }
+  ],
+  "meta": {
+    "shadcnSource": "accordion",
+    "shadcnVersion": "4.21.0"
+  }
+}

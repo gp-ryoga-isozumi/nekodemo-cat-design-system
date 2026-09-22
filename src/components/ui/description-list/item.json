@@ -1,0 +1,20 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "description-list",
+  "type": "registry:ui",
+  "title": "DescriptionList",
+  "description": "「項目名: 値」の一覧（dl / dt / dd）。詳細画面の基本情報や確認画面。2〜3 列、横 / 縦、空は「—」",
+  "registryDependencies": [],
+  "dependencies": [],
+  "files": [
+    {
+      "path": "src/components/ui/description-list/index.tsx",
+      "type": "registry:ui",
+      "target": "components/ui/description-list/index.tsx"
+    }
+  ],
+  "meta": {
+    "shadcnSource": null,
+    "shadcnVersion": null
+  }
+}
