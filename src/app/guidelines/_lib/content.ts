@@ -2,6 +2,8 @@
 // 正は docs/guidelines/*.md、部品の README.md（JSDoc から生成）、item.json、stories。ここでは変換だけを行う。
 import { existsSync, readdirSync, readFileSync } from "node:fs";
 import { join } from "node:path";
+import { type ComponentSpec, specFor } from "../../../../scripts/component-spec.mjs";
+import { ANATOMY_SLUGS } from "../_components/anatomy";
 
 const ROOT = process.cwd();
 export const REPO_URL = "https://github.com/gp-ryoga-isozumi/nekodemo-cat-design-system";
@@ -91,6 +93,13 @@ export const PATTERNS: DocPage[] = [
       "主アクションは 1 つ、取り消し不可は Dialog、送信ボタンの初期状態、モーダルとモードレス",
     file: "docs/guidelines/03-actions.md",
   },
+  {
+    slug: "side-panel",
+    title: "サイドパネル",
+    description:
+      "一覧を見たまま 1 件を確認・短く編集する Drawer。詳細ページへ遷移する場合との使い分け",
+    file: "docs/guidelines/08-side-panel.md",
+  },
 ];
 
 export function readDoc(page: DocPage): string {
@@ -118,6 +127,12 @@ export type ComponentDoc = {
   overview: string;
   /** README の「アンチパターン」（箇条書き。Don't） */
   antiPatterns: string[];
+  /** README の「推奨例」（箇条書き。Do） */
+  recommended: string[];
+  /** 実装（index.tsx）から機械的に読んだ選択肢・寸法・状態 */
+  spec: ComponentSpec;
+  /** docs/guidelines/components/<slug>.md の手書きの節（振る舞い / 内容 / 参考文献 など） */
+  notes: Record<string, string>;
   /** README の「使用例」（コード） */
   example: string;
   /** ストーリー名（Storybook で確認できる選択肢と状態） */
@@ -133,6 +148,17 @@ export type ComponentDoc = {
 };
 
 const UI_DIR = join(ROOT, "src", "components", "ui");
+const NOTES_DIR = join(ROOT, "docs", "guidelines", "components");
+const EMPTY_SPEC: ComponentSpec = { options: {}, metrics: [], states: [] };
+
+/** 箇条書き（- で始まる行）だけを取り出す */
+function bullets(markdown: string): string[] {
+  return markdown
+    .split("\n")
+    .map((l) => l.trim())
+    .filter((l) => l.startsWith("- "))
+    .map((l) => l.slice(2));
+}
 
 /** 節（## 見出し）ごとに本文を分ける */
 function sections(markdown: string): Record<string, string> {
@@ -209,11 +235,10 @@ export function listComponents(): ComponentDoc[] {
       const readmePath = join(UI_DIR, slug, "README.md");
       const readme = existsSync(readmePath) ? readFileSync(readmePath, "utf8") : "";
       const sec = sections(readme);
-      const anti = (sec.アンチパターン ?? "")
-        .split("\n")
-        .map((l) => l.trim())
-        .filter((l) => l.startsWith("- "))
-        .map((l) => l.slice(2));
+      const anti = bullets(sec.アンチパターン ?? "");
+      const recommended = bullets(sec.推奨例 ?? "");
+      const notesPath = join(NOTES_DIR, `${slug}.md`);
+      const notes = existsSync(notesPath) ? sections(readFileSync(notesPath, "utf8")) : {};
       const exampleMatch = /```tsx\n([\s\S]*?)```/.exec(sec.使用例 ?? "");
       const storiesPath = join(UI_DIR, slug, "index.stories.tsx");
       const stories = existsSync(storiesPath) ? storyNames(readFileSync(storiesPath, "utf8")) : [];
@@ -230,6 +255,9 @@ export function listComponents(): ComponentDoc[] {
         description: item.description,
         overview: (sec.概要 ?? "").trim(),
         antiPatterns: anti,
+        recommended,
+        spec: specFor(slug, ROOT) ?? EMPTY_SPEC,
+        notes,
         example: exampleMatch?.[1]?.trimEnd() ?? "",
         stories,
         // 関連部品はページがある UI 部品だけ（lib / mascot / theme は registry の項目だがページは無い）
@@ -283,19 +311,32 @@ export function stateStories(doc: ComponentDoc): { id: string; name: string }[] 
   return doc.stories.filter((s) => STATE_WORDS.test(`${s.id} ${s.name}`));
 }
 
+/** 手書きの節（docs/guidelines/components/<slug>.md）があれば本文を返す */
+export function note(doc: ComponentDoc, heading: string): string {
+  return (doc.notes[heading] ?? "").trim();
+}
+
 export function sectionStatus(doc: ComponentDoc): Record<SectionKey, SectionStatus> {
+  const hasOptions = Object.keys(doc.spec.options).length > 0;
+  const hasMetrics = doc.spec.metrics.some((m) => m.height !== null);
   return {
     overview: doc.overview ? "done" : "todo",
-    anatomy: "todo",
-    // 選択肢: 文章の定義は無いが、ストーリーがあれば Storybook で確認できる（本文もストーリー一覧を出す）
-    options: doc.stories.length > 0 ? "partial" : "todo",
-    states: stateStories(doc).length > 0 ? "partial" : "todo",
-    behaviors: "todo",
-    metrics: /px|サイズ|size/.test(doc.overview) ? "partial" : "todo",
-    usage: doc.antiPatterns.length > 0 ? "partial" : "todo",
-    contents: "partial",
+    anatomy: ANATOMY_SLUGS.includes(doc.slug) ? "done" : "todo",
+    // 選択肢: 実装の variant / size を表にできれば整備済み。無くてもストーリーがあれば Storybook で確認できる
+    options: hasOptions ? "done" : doc.stories.length > 0 ? "partial" : "todo",
+    // 状態: 実装がスタイルを持つ状態の表。ストーリーだけなら一部
+    states: doc.spec.states.length > 0 ? "done" : stateStories(doc).length > 0 ? "partial" : "todo",
+    behaviors: note(doc, "振る舞い") ? "done" : "todo",
+    metrics: hasMetrics ? "done" : /px|サイズ|size/.test(doc.overview) ? "partial" : "todo",
+    usage:
+      doc.recommended.length > 0 && doc.antiPatterns.length > 0
+        ? "done"
+        : doc.recommended.length + doc.antiPatterns.length > 0
+          ? "partial"
+          : "todo",
+    contents: note(doc, "内容") ? "done" : "partial",
     related: doc.dependsOn.length + doc.usedBy.length > 0 ? "done" : "partial",
-    references: "todo",
+    references: note(doc, "参考文献") ? "done" : "todo",
     changelog: "partial",
   };
 }

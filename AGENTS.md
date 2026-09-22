@@ -56,6 +56,7 @@ shadcn（copy-in）/ radix-ui / Storybook 10（`@storybook/nextjs-vite`）/ Vite
 - `src/app/` … デモサイト。`src/app/guidelines/` … ガイドラインサイト（`docs/guidelines/*.md`・部品の README・item.json・stories をビルド時に読んで描画する。内容の正はそれらのファイル）。`src/index.ts` … 公開 API。
 - `scripts/` … ビルド・検査スクリプト（Node ESM、`.mjs`）。`scripts/hooks/` … Claude Code hooks。
 - `docs/ai/` `docs/guidelines/` `skills/` … AI 向け提供物（`.claude/skills` 等は `skills/` へのシンボリックリンク）。`docs/preview/` … 実装前のビジュアルプレビュー（参考）。
+- `docs/guidelines/components/<slug>.md` … ガイドラインサイトの部品ページに載せる手書きの節（振る舞い・内容・参考文献）。選択肢・状態・寸法は `scripts/component-spec.mjs` が `index.tsx` から抽出し、概要・使い方は README（JSDoc）から出す。部品を足したらこの md も書く。
 - `bin/nekodemo.mjs` `scripts/check/` `icons/status.json` … npm 配布物にも同梱される（`package.json` の `files`）。`scripts/build-package.mjs` が `dist/styles.css` と `dist/ai/` を作る。
 
 ## 5. コーディング規約

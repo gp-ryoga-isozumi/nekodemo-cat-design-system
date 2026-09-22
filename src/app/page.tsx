@@ -39,6 +39,18 @@ const PAGES: { href: string; title: string; description: string }[] = [
     description: "縦 Tabs と設定項目（見出し・説明・入力）",
   },
   {
+    href: "/samples/login/",
+    title: "画面の型 E: ログイン",
+    description:
+      "SideNavigation の無い 1 カラム。マスコット・アプリ名・Form、失敗は InlineMessage（negative）",
+  },
+  {
+    href: "/samples/dashboard/",
+    title: "画面の型 F: ダッシュボード",
+    description:
+      "期間切替の SegmentedControl、指標カード 4 枚、直近の案件の DataGrid。4 状態を切り替えて確認",
+  },
+  {
     href: "/guidelines/",
     title: "ガイドライン",
     description: "Foundations / Themes / Components / Patterns。部品ごとの使い方と整備状況",

@@ -869,6 +869,7 @@ v1.2: Calendar、Input Date / Time / Number / File / Chip、Filter Chip、Steppe
 | tailwind-merge | `cn()` は `extendTailwindMerge` で nekodemo の文字サイズ段階（`text-1〜12` と別名）・角丸（`rounded-action` 等）・影を登録する。登録しないと `text-2` が色と誤判定され、`text-text-on-primary text-2` の並びで色が落ちる（Phase 4 で検出） |
 | asChild | Radix の `Slot` は子が 1 つでないと落ちるため、アイコンや Spinner と子要素を並べる部品（Button / Link / SideNavItem）は `<Slot.Slottable>` で子要素を包む（Phase 4 で検出） |
 | Server / Client | `"use client"` が必要な部品は個別 import パス（`nekodemo/button`）を用意する |
+| ガイドラインページ | `/guidelines/components/<slug>/` の 11 節は、概要・使い方（Do = 推奨例 / Don't = アンチパターン）・使用例を README（JSDoc）から、選択肢・状態・寸法を `scripts/component-spec.mjs`（cva の variants / ユニオン型の props と分割代入の既定値 / `as const` の size 表 / Table の density）から、解剖図を `src/app/guidelines/_components/anatomy.tsx`（主要 10 部品）から、振る舞い・内容・参考文献を `docs/guidelines/components/<slug>.md`（手書き）から出す。整備状況のバッジは各データの有無で自動判定する（2026-09-22、ガイドラインサイト v2） |
 | props の命名（2026-09-22、API レビュー） | 値は `value` / `defaultValue` / `onValueChange`（Radix の checked 系は `checked` / `onCheckedChange`）。読み上げ名は「部品が label 要素を描くなら `label`、ルートの aria-label を埋めるだけなら `"aria-label"`」。既定で出るものを消す prop は `hide*`（`hideMascot` / `hideLabel` / `hideSteppers`）、既定で出ないものを出す prop は `show*`（`showCount` / `showValue`。`showCloseButton` は shadcn 互換で例外）。見出しはオーバーレイ・カードなど複合部品ではサブ部品（`XxxTitle`）、単体部品では `title` prop。`className` は必ずルート要素に付け、内側に付けたいときは `inputClassName`。`...props` はルートに展開し、内部で必ず勝たせたいもの（`type="button"`、`onChange` の内部処理）だけ後置する |
 
 ### 9.3 SearchCombobox（v1.1）— サジェスト＋複数選択
@@ -994,6 +995,10 @@ C3（コンポーネントだけでは品質が出ない）への対策。`docs/
 - [ ] `NekoThemePicker` で 3 テーマを切り替えても崩れない
 - [ ] キーボードだけで主要操作ができる
 - [ ] 文言が「です・ます」＋「〜する」ボタンになっている
+
+### 10.9 サイドパネル（08-side-panel.md）
+
+一覧を見たまま 1 件を確認・短く編集する Drawer（`side="right"`、幅 400〜480px）の使いどころ。「一覧との往復が 3 回以上になりそう」ならサイドパネル、「1 件に 1 分以上とどまる」なら詳細ページへ遷移。構成は DrawerHeader（項目名）→ DrawerBody（DescriptionList）→ DrawerFooter（閉じる＋主ボタン 1 つ）。未保存で閉じようとしたら Dialog で確認、パネルの中にモーダルを重ねない。一覧全体の操作（一括削除・エクスポート）はツールバーに置く（2026-09-22 追加）。
 
 ---
 

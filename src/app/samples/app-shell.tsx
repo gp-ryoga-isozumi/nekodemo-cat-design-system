@@ -8,7 +8,7 @@ import { useNekoTheme } from "@/components/theme/NekoThemeProvider";
 import { SideNavGroup, SideNavItem, SideNavigation } from "@/components/ui/side-navigation";
 
 const NAV = [
-  { id: "dashboard", icon: "home", label: "ダッシュボード", href: "/samples/list/" },
+  { id: "dashboard", icon: "home", label: "ダッシュボード", href: "/samples/dashboard/" },
   { id: "projects", icon: "folder", label: "案件", href: "/samples/list/", badge: 3 },
   { id: "customers", icon: "person", label: "顧客", href: "/samples/detail/" },
   { id: "notifications", icon: "notifications", label: "通知", href: "/samples/list/" },
