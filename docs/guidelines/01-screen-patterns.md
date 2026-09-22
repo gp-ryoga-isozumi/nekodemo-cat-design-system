@@ -83,7 +83,7 @@
 
 SideNavigation とヘッダーは置かず、1 カラムを画面の中央に置きます（幅は最大 400px 程度）。フォームの組み方は [10-forms.md](./10-forms.md) に従い、認証の失敗は InlineMessage（negative）でフォームの上に出します（Toast にしません）。
 
-実例: まだサンプル画面はありません。
+実例: `src/app/samples/login/page.tsx`
 
 ## F. ダッシュボード
 
@@ -97,7 +97,7 @@ SideNavigation とヘッダーは置かず、1 カラムを画面の中央に置
 
 nekodemo にグラフの部品はありません。推移や内訳はグラフを自作せず、数値（大きめの `text-6` 以上）と表で代替します。指標カードの数値は 3 桁区切りにし、増減は文字で書きます（[04-writing.md](./04-writing.md) の 5）。読み込み中・0 件・エラーの 4 状態は指標カードにも必要です。
 
-実例: まだサンプル画面はありません。
+実例: `src/app/samples/dashboard/page.tsx`
 
 ## 6 型の早見表
 
@@ -119,4 +119,4 @@ nekodemo にグラフの部品はありません。推移や内訳はグラフ�
 - C は Form（FormLabel required / FormMessage 等）＋各種 Input と画面下部固定のフッターで組み、手順に分けるときだけ Stepper を使う。
 - D は Tabs（`orientation="vertical"`）＋ Field / Switch / Select / Divider で組み、1 項目を見出し・説明・入力の 3 行にそろえる。
 - E は 1 カラム中央でマスコットを出してよい。F は指標カード＋SegmentedControl の期間切替で組み、グラフ部品は無いので数値と表で代替する。
-- 迷ったら `src/app/samples/{list,grid,detail,form,settings}/page.tsx` の実例をそのまま骨組みに使う（E と F のサンプルはまだ無い）。
+- 迷ったら `src/app/samples/{list,grid,detail,form,settings,login,dashboard}/page.tsx` の実例をそのまま骨組みに使う。
