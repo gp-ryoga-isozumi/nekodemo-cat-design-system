@@ -60,7 +60,7 @@ shadcn（copy-in）/ radix-ui / Storybook 10（`@storybook/nextjs-vite`）/ Vite
 
 ## 5. コーディング規約
 
-- ライブラリ配下（`src/components` `src/lib` `src/themes` `src/index.ts`）は **相対 import のみ**。`@/` は `src/app` とストーリー・テストでのみ使う（`scripts/lint-imports.mjs` が検査）。
+- ライブラリ配下（`src/components` `src/lib` `src/themes` `src/index.ts`）は **相対 import のみ**（部品のストーリー・テストも含む）。`@/` は `src/app` でのみ使う（`scripts/lint-imports.mjs` が検査）。
 - 色・角丸・文字サイズは **役割トークン名だけ**（`bg-surface-card` `text-text-low` `rounded-action` `text-3`）。`#hex` / `rgb()` / Tailwind 既定パレット名（`bg-blue-500` 等）/ 任意値（`text-[13px]`）は禁止。
 - アイコンは `Icon` 部品（Material Symbols の名前）。`lucide-react` は使わない。
 - フォントウェイトは 400（`font-normal`）/ 700（`font-bold`）のみ。
