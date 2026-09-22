@@ -1363,3 +1363,4 @@ description: >
 | 2026-09-22 | v0.1.10 | Phase 5 の結果を反映: §12 の registry 項目構成（`css` / `cssVars` 配布は不採用、`styles` 項目）、`exports`（個別エントリは v1 では無し）、dist の import 書き換え、§14 に `pack:test` |
 | 2026-09-22 | v0.1.11 | Phase 3b の結果を反映: §8.4 の VTracer 設定を確定、手動耳（manual-ears.json）と耳なし規約の追加、§14 に icons:prompts / icons:inspect |
 | 2026-09-22 | v0.1.12 | Phase 6 の結果を反映: §9.3 / §9.4 の【未確認】を解消（TanStack Table v9 の API、MUI の依存の扱い、候補パネルの配置、行クリック） |
+| 2026-09-22 | v0.1.13 | 全体レビューの反映: §9.1 に v1.2 の 11 部品（#37〜47）、§9.2 にガイドラインページの出どころと props の命名規約、§7.6 に dark の対応表の変更（border-high / text-low）と検査ペア 31 組、§10.9 サイドパネル、§12 に `./components/*` の subpath export |
