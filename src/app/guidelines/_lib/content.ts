@@ -150,9 +150,10 @@ function sections(markdown: string): Record<string, string> {
 
 function storyNames(source: string): { id: string; name: string }[] {
   const out: { id: string; name: string }[] = [];
-  const re = /export const (\w+): Story = \{([\s\S]*?)\n\};?|export const (\w+): Story = \{\};/g;
+  // 空のストーリー（`Story = {}`）を先に試す。後ろの分岐は「行頭の `}` まで」なので、空のストーリーに当てると次のストーリーを飲み込む
+  const re = /export const (\w+): Story = (\{\}|\{[\s\S]*?\n\});?/g;
   for (const m of source.matchAll(re)) {
-    const id = m[1] ?? m[3];
+    const id = m[1];
     const body = m[2] ?? "";
     const name = /\n\s*name: "([^"]+)"/.exec(body)?.[1] ?? id;
     if (id) out.push({ id, name });
@@ -173,6 +174,7 @@ export function listComponents(): ComponentDoc[] {
       slug: d,
       item: JSON.parse(readFileSync(join(UI_DIR, d, "item.json"), "utf8")) as ComponentItem,
     }));
+  const uiSlugs = new Set(items.map((i) => i.slug));
   const usedBy = new Map<string, string[]>();
   for (const { slug, item } of items) {
     for (const dep of item.registryDependencies ?? []) {
@@ -207,7 +209,8 @@ export function listComponents(): ComponentDoc[] {
         antiPatterns: anti,
         example: exampleMatch?.[1]?.trimEnd() ?? "",
         stories,
-        dependsOn: (item.registryDependencies ?? []).filter((d) => d !== "lib"),
+        // 関連部品はページがある UI 部品だけ（lib / mascot / theme は registry の項目だがページは無い）
+        dependsOn: (item.registryDependencies ?? []).filter((d) => uiSlugs.has(d)),
         usedBy: usedBy.get(slug) ?? [],
         phase: PHASE_BY_COMPONENT[slug] ?? "v1（Phase 4、2026-09-21）",
         storybookUrl: `/storybook/?path=/docs/${storybookId}--docs`,

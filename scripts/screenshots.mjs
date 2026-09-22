@@ -12,7 +12,9 @@ const OUT = join(ROOT, "out");
 // 環境変数で撮影対象と出力先を差し替えられる（例: NEKODEMO_SCREENSHOT_PAGES=/guidelines/,/guidelines/components/ NEKODEMO_SCREENSHOT_DIR=/tmp/shots）
 const DEST = process.env.NEKODEMO_SCREENSHOT_DIR ?? join(ROOT, "docs", "screenshots");
 const PAGES = process.env.NEKODEMO_SCREENSHOT_PAGES
-  ? process.env.NEKODEMO_SCREENSHOT_PAGES.split(",").map((p) => p.trim()).filter(Boolean)
+  ? process.env.NEKODEMO_SCREENSHOT_PAGES.split(",")
+      .map((p) => p.trim())
+      .filter(Boolean)
   : ["/", "/tokens/", "/themes/", "/samples/list/", "/samples/grid/", "/samples/form/"];
 const MIME = {
   ".html": "text/html; charset=utf-8",
