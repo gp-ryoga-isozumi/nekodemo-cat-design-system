@@ -328,7 +328,9 @@ export function SearchCombobox<
             </li>
           ) : items.length === 0 ? (
             <li role="presentation" className="px-3 py-2 text-2 text-text-low">
-              {freeSolo && inputText ? `「${inputText}」を追加するには Enter を押す` : emptyText}
+              {freeSolo && inputText
+                ? `「${inputText}」を追加するには Enter を押します`
+                : emptyText}
             </li>
           ) : (
             items.map((item, i) =>
