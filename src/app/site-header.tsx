@@ -9,6 +9,7 @@ const NAV: { href: string; label: string }[] = [
   { href: "/tokens/", label: "トークン" },
   { href: "/themes/", label: "テーマ" },
   { href: "/samples/list/", label: "サンプル" },
+  { href: "/guidelines/", label: "ガイドライン" },
 ];
 
 export function SiteHeader() {

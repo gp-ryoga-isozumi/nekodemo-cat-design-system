@@ -6,7 +6,7 @@ skills や hooks が使えない環境でも、このファイルだけで完結
 
 - リポジトリ: https://github.com/gp-ryoga-isozumi/nekodemo-cat-design-system
 - npm: `nekodemo`（公開前）／ shadcn registry: `https://gp-ryoga-isozumi.github.io/nekodemo-cat-design-system/r/{name}.json`
-- デモ: https://gp-ryoga-isozumi.github.io/nekodemo-cat-design-system/ ／ Storybook: 同 `/storybook/`
+- デモ: https://gp-ryoga-isozumi.github.io/nekodemo-cat-design-system/ ／ ガイドライン: 同 `/guidelines/` ／ Storybook: 同 `/storybook/`
 
 ## 0. 手順（この順で）
 
