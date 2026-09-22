@@ -1,5 +1,5 @@
 "use client";
-
+// nekodemo-check-ignore-file NK009 — theme 項目（copy-in）単体で動くよう ui 部品に依存せず、素の <select> / <button> で描く
 import { useId } from "react";
 import { cn } from "../../lib/utils";
 import { isNekoThemeId } from "../../themes/registry";

@@ -82,7 +82,7 @@
     "test": "vitest run",
     "test:watch": "vitest",
     "typecheck": "tsc --noEmit",
-    "lint": "biome check . && node scripts/lint-imports.mjs",
+    "lint": "biome check --error-on-warnings . && node scripts/lint-imports.mjs",
     "format": "biome format --write .",
     "new-component": "bash scripts/new-component.sh",
     "pack:test": "node scripts/pack-test.mjs",
@@ -152,7 +152,7 @@
     "svgpath": "^2.6.0",
     "tailwindcss": "^4.3.3",
     "typescript": "^7.0.2",
-    "vite": "latest",
+    "vite": "^8.3.0",
     "vitest": "^4.1.11"
   }
 }

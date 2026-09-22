@@ -1,7 +1,10 @@
 #!/usr/bin/env node
-// nekodemo check（設計書 §11.4）。使い方: node scripts/check/index.mjs <dir|file>... [--strict] [--format text|json] [--rules NK001,NK002]
+// nekodemo check（設計書 §11.4）。
+// 使い方: node scripts/check/index.mjs <dir|file>... [--strict] [--max-warnings N] [--format text|json] [--rules NK001,NK002] [--ignore <glob>,<glob>]
 // 役割トークン以外の色、既定パレット、任意値、lucide-react、猫版が無いアイコン、400/700 以外のウェイト等を検出する。
-// --strict: error が 1 件でもあれば exit 1。AI の応答終了時（Claude Code の Stop hook）に自動実行する想定。
+// --strict: error が 1 件でもあれば exit 1（--max-warnings N を付けると warn が N 件を超えても exit 1）。
+//   AI の応答終了時（Claude Code の Stop hook）に自動実行する想定。存在しない対象を渡したときは exit 2。
+// --ignore: 検査から外す glob（`src/legacy/**` など）。nekodemo.config.json の `check.ignore` でも指定できる。
 //
 // 除外コメント:
 //   // nekodemo-check-ignore-file NK001,NK005   … ファイル全体でそのルールを無視（先頭 20 行以内）
@@ -21,11 +24,16 @@ const EXCLUDE_DIRS = new Set([
   ".git",
   "coverage",
   "storybook-static",
+  "build",
+  ".turbo",
+  ".vercel",
+  ".output",
+  ".svelte-kit",
 ]);
 const EXCLUDE_FILE = [
   /\.generated\.[a-z]+$/,
-  /(^|\/)tokens\.css$/,
-  /(^|\/)themes\.css$/,
+  // リポジトリ内の tokens.css / themes.css と、shadcn registry で copy-in したときの名前（styles/nekodemo-tokens.css）
+  /(^|\/)(nekodemo-)?(tokens|themes)\.css$/,
   /(^|\/)NekoHead\.tsx$/,
   /(^|\/)registry\.ts$/,
   /\.test\.[jt]sx?$/,
@@ -58,8 +66,49 @@ export function loadIconNames(cwd = process.cwd()) {
   return null;
 }
 
-export function collectFiles(targets, cwd = process.cwd()) {
+/** glob（`**` / `*` / `?`）を正規表現にする。cwd からの相対パスに当てる */
+export function globToRegExp(glob) {
+  const g = glob.replace(/\\/g, "/").replace(/^\.\//, "");
+  let re = "";
+  for (let i = 0; i < g.length; i++) {
+    const ch = g[i];
+    if (ch === "*" && g[i + 1] === "*") {
+      if (g[i + 2] === "/") {
+        re += "(?:.*/)?"; // `**/` … 0 階層以上
+        i += 2;
+      } else if (i > 0 && g[i - 1] === "/" && i + 2 >= g.length) {
+        re = `${re.slice(0, -1)}(?:/.*)?`; // 末尾の `/**` … そのディレクトリ自身も含む
+        i += 1;
+      } else {
+        re += ".*";
+        i += 1;
+      }
+    } else if (ch === "*") re += "[^/]*";
+    else if (ch === "?") re += "[^/]";
+    else re += ch.replace(/[.+^${}()|[\]\\]/g, "\\$&");
+  }
+  return new RegExp(`^${re}(/|$)`);
+}
+
+/** nekodemo.config.json の check 設定（無ければ空） */
+export function loadConfig(cwd = process.cwd()) {
+  const p = join(cwd, "nekodemo.config.json");
+  if (!existsSync(p)) return {};
+  try {
+    return JSON.parse(readFileSync(p, "utf8")).check ?? {};
+  } catch {
+    return {};
+  }
+}
+
+/** 渡された対象のうち存在しないもの */
+export function missingTargets(targets, cwd = process.cwd()) {
+  return targets.filter((t) => !existsSync(resolve(cwd, t)));
+}
+
+export function collectFiles(targets, cwd = process.cwd(), { ignore = [] } = {}) {
   const files = [];
+  const ignoreRes = ignore.map(globToRegExp);
   const walk = (p) => {
     const st = statSync(p);
     if (st.isDirectory()) {
@@ -72,6 +121,7 @@ export function collectFiles(targets, cwd = process.cwd()) {
     if (!EXTENSIONS.has(extname(p))) return;
     const rel = relative(cwd, p).split("\\").join("/");
     if (EXCLUDE_FILE.some((re) => re.test(rel))) return;
+    if (ignoreRes.some((re) => re.test(rel))) return;
     files.push(p);
   };
   for (const t of targets) {
@@ -128,9 +178,12 @@ export function checkSource(source, path, { iconNames = null, enabledRules = nul
   return findings;
 }
 
-export function runCheck(targets, { cwd = process.cwd(), enabledRules = null } = {}) {
+export function runCheck(targets, { cwd = process.cwd(), enabledRules = null, ignore = [] } = {}) {
   const iconNames = loadIconNames(cwd);
-  const files = collectFiles(targets, cwd);
+  const config = loadConfig(cwd);
+  const allIgnore = [...(config.ignore ?? []), ...ignore];
+  const missing = missingTargets(targets, cwd);
+  const files = collectFiles(targets, cwd, { ignore: allIgnore });
   const findings = [];
   for (const file of files) {
     const rel = relative(cwd, file).split("\\").join("/");
@@ -152,6 +205,7 @@ export function runCheck(targets, { cwd = process.cwd(), enabledRules = null } =
     counts,
     missingIcons,
     iconNamesLoaded: iconNames !== null,
+    missing,
   };
 }
 
@@ -184,15 +238,25 @@ if (isMainModule()) {
   const format = fmtIdx >= 0 ? args[fmtIdx + 1] : "text";
   const rulesIdx = args.indexOf("--rules");
   const enabledRules = rulesIdx >= 0 ? new Set(args[rulesIdx + 1].split(",")) : null;
-  const targets = args.filter(
-    (a, i) => !a.startsWith("--") && args[i - 1] !== "--format" && args[i - 1] !== "--rules",
-  );
+  const ignore = args.flatMap((a, i) => (a === "--ignore" ? args[i + 1].split(",") : []));
+  const mwIdx = args.indexOf("--max-warnings");
+  const maxWarnings = mwIdx >= 0 ? Number(args[mwIdx + 1]) : Number.POSITIVE_INFINITY;
+  const VALUE_FLAGS = new Set(["--format", "--rules", "--ignore", "--max-warnings"]);
+  const targets = args.filter((a, i) => !a.startsWith("--") && !VALUE_FLAGS.has(args[i - 1]));
   if (targets.length === 0) targets.push("src");
-  const result = runCheck(targets, { enabledRules });
+  const result = runCheck(targets, { enabledRules, ignore });
+  if (result.missing.length) {
+    console.error(
+      `[nekodemo check] 対象が見つかりません: ${result.missing.join(", ")}（ディレクトリ名を確認してください）`,
+    );
+    process.exit(2);
+  }
   if (format === "json") {
     console.log(
       JSON.stringify(
         {
+          files: result.files,
+          iconNamesLoaded: result.iconNamesLoaded,
           findings: result.findings,
           counts: result.counts,
           missingIcons: result.missingIcons,
@@ -210,5 +274,5 @@ if (isMainModule()) {
           manualChecks.map((m) => `  - [ ] ${m}`).join("\n"),
       );
   }
-  if (strict && result.counts.error > 0) process.exit(1);
+  if (strict && (result.counts.error > 0 || result.counts.warn > maxWarnings)) process.exit(1);
 }

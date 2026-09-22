@@ -22,7 +22,7 @@
 - テーマは `<html data-neko-theme="…">` と `NekoThemeProvider` の `defaultTheme` でだけ指定する。
 - 一覧・表・詳細には「読み込み中 / 0 件 / エラー / 成功」の 4 状態を必ず実装する。
 - 主ボタン（primary）は 1 画面 1 つ。削除は Dialog で確認し、ボタンは「削除する」。
-- 作業の最後に `pnpm nekodemo check src --strict` を実行し、0 件にしてから完了報告する。
+- 作業の最後に `pnpm nekodemo check src --strict` を実行し、error を 0 件にしてから完了報告する（warn は内容を確認する）。
 - 詳細: https://github.com/gp-ryoga-isozumi/nekodemo-cat-design-system/blob/main/docs/ai/USING_NEKODEMO.md
 <!-- nekodemo:guard:end -->
 ```
@@ -39,5 +39,5 @@
 - すでにある場合は、開始と終了のコメントに挟まれた範囲だけを差し替える。コメント行は消さない。
 - ブロックの文面を勝手に書き換えたり、項目を減らしたりしない。
 - 貼ったあとは、そこに書かれたルール（役割トークン・Icon・ウェイト 400 / 700・4 状態・主ボタン 1 つ・削除の確認 Dialog）に従って実装する。
-- 作業の最後に `pnpm nekodemo check src --strict` を実行し、0 件にしてから完了報告する。
+- 作業の最後に `pnpm nekodemo check src --strict` を実行し、error を 0 件にしてから完了報告する（warn は内容を確認する）。
 - 詳しいルールは https://github.com/gp-ryoga-isozumi/nekodemo-cat-design-system/blob/main/docs/ai/USING_NEKODEMO.md を参照する。
