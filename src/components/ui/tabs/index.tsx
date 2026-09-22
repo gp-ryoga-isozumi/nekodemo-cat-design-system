@@ -2,6 +2,7 @@
 
 import { Tabs as TabsPrimitive } from "radix-ui";
 import type { ComponentProps } from "react";
+import { warnMissingName } from "../../../lib/a11y";
 import { cn } from "../../../lib/utils";
 
 /**
@@ -51,6 +52,8 @@ export function Tabs({
 }
 
 export function TabsList({ className, ...props }: ComponentProps<typeof TabsPrimitive.List>) {
+  // APG の Tabs は tablist に名前を求める。無ければ開発時に警告
+  warnMissingName("TabsList", props);
   return (
     <TabsPrimitive.List
       data-slot="tabs-list"

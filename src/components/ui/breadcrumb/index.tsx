@@ -68,7 +68,7 @@ export function BreadcrumbLink({
     <Comp
       data-slot="breadcrumb-link"
       className={cn(
-        "rounded-notice transition-colors hover:text-text-link hover:underline focus-visible:outline-2 focus-visible:outline-border-focus",
+        "rounded-notice transition-colors hover:text-text-link hover:underline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-border-focus",
         className,
       )}
       {...props}
@@ -105,13 +105,11 @@ export function BreadcrumbEllipsis({ className, ...props }: ComponentProps<"span
   return (
     <span
       data-slot="breadcrumb-ellipsis"
-      role="presentation"
-      aria-hidden="true"
       className={cn("flex size-6 items-center justify-center", className)}
       {...props}
     >
       <Icon icon="more_horiz" size={4} />
-      <span className="sr-only">省略</span>
+      <span className="sr-only">途中の階層を省略</span>
     </span>
   );
 }

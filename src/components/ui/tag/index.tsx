@@ -84,7 +84,7 @@ export function Tag({
           type="button"
           onClick={onRemove}
           aria-label={removeLabel}
-          className="-my-1 inline-flex size-6 shrink-0 items-center justify-center rounded-notice text-object-low outline-none hover:bg-surface-well hover:text-object-high focus-visible:outline-2 focus-visible:outline-border-focus"
+          className="-my-1 inline-flex size-6 shrink-0 items-center justify-center rounded-notice text-object-low outline-none hover:bg-surface-well hover:text-object-high focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-border-focus"
         >
           <Icon icon="close" size={3} />
         </button>

@@ -72,7 +72,7 @@ export function Slider({
           // biome-ignore lint/suspicious/noArrayIndexKey: つまみの数は固定で並び替えが無い
           key={i}
           aria-label={labels[i] ?? labels[0]}
-          className="block size-5 shrink-0 rounded-round border-2 border-surface-primary bg-surface-input shadow-raise transition-shadow hover:ring-4 hover:ring-border-focus/30 focus-visible:outline-hidden focus-visible:ring-4 focus-visible:ring-border-focus/30 data-[disabled]:border-border-high"
+          className="block size-5 shrink-0 rounded-round border-2 border-surface-primary bg-surface-input shadow-raise transition-shadow hover:ring-4 hover:ring-border-focus/30 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-border-focus data-[disabled]:border-border-high"
         />
       ))}
     </SliderPrimitive.Root>

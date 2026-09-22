@@ -28,6 +28,11 @@ describe("Badge", () => {
     expect(screen.getByText("0")).toBeInTheDocument();
   });
 
+  it("表示: 負の count は 0 として出す（未読の数が負になるバグを見せない）", () => {
+    render(<Badge count={-3} />);
+    expect(screen.getByText("0")).toBeInTheDocument();
+  });
+
   it("表示: count が無ければ children を出し、既定は primary", () => {
     const { container } = render(<Badge variant="neutral">120件</Badge>);
     const badge = container.querySelector('[data-slot="badge"]');

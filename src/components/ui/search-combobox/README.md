@@ -15,7 +15,7 @@
 
 - 5 件程度の固定の選択肢に使う（Select）
 - 検索欄として使う（InputSearch。候補を出さない検索は InputSearch）
-- `label` を省略する（`hideLabel` で見た目だけ隠す）
+- Form の外で `label` を省略する（見た目だけ隠すなら `hideLabel`。Form の中では FormLabel が名前になるので省略してよい）
 
 ## 推奨例
 

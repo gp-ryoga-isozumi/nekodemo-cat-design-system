@@ -129,6 +129,7 @@ describe("Menu", () => {
     await userEvent.keyboard("{Escape}");
     expect(onEdit).not.toHaveBeenCalled();
     expect(screen.queryByRole("menu")).not.toBeInTheDocument();
+    expect(screen.getByRole("button", { expanded: false })).toHaveFocus();
   });
 
   it("disabled: 無効なトリガーは開かず、無効な項目は選べない", async () => {

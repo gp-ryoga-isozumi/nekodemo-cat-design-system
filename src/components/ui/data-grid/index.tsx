@@ -388,9 +388,12 @@ export function DataGrid<T extends RowData>({
               className="w-64"
             />
           ) : null}
+          <span aria-live="polite" className="sr-only">
+            {selectedCount > 0 ? `${selectedCount.toLocaleString()}${unit}を選択中` : ""}
+          </span>
           {selectedCount > 0 ? (
             <div className="flex items-center gap-2 text-2 text-text-middle">
-              <span aria-live="polite">
+              <span aria-hidden="true">
                 {selectedCount.toLocaleString()}
                 {unit}を選択中
               </span>
@@ -439,8 +442,9 @@ export function DataGrid<T extends RowData>({
           ref: scrollRef,
           style: virtualize ? { height, overflowY: "auto" } : undefined,
           // 仮想化した表はスクロールで行を出すのでキーボードから届くようにする。それ以外は余分なタブストップを作らない
-          tabIndex: virtualize ? 0 : undefined,
-          "aria-label": virtualize ? `${ariaLabel}（スクロール領域）` : undefined,
+          ...(virtualize
+            ? { tabIndex: 0, role: "region", "aria-label": `${ariaLabel}（スクロール領域）` }
+            : {}),
         }}
         className="min-w-full table-fixed"
         style={{ width: table.getTotalSize() }}
@@ -641,6 +645,8 @@ function GridHead<T extends RowData>({ header, table, filterable, values }: Grid
   return (
     <TableHead
       numeric={numeric}
+      // 列幅ハンドル（button）の aria-label が th の名前に連結されないよう、見出し文字を th の名前にする
+      aria-label={label || undefined}
       sort={canSort ? (sorted === false ? "none" : sorted) : undefined}
       onSort={canSort ? column.getToggleSortingHandler() : undefined}
       style={{
@@ -648,17 +654,32 @@ function GridHead<T extends RowData>({ header, table, filterable, values }: Grid
         left: pinned === "start" ? column.getStart("start") : undefined,
       }}
       className={cn("relative", pinned === "start" && "sticky z-20 bg-surface-well")}
-      aria-colindex={header.index + 1}
       trailing={
         column.getCanResize() ? (
-          // biome-ignore lint/a11y/noStaticElementInteractions: 列幅のドラッグハンドル（ポインタ専用。列幅はダブルクリックで既定に戻せる）
-          <div
+          // 列幅のハンドル。ドラッグのほか、キーボード（← → で 16px ずつ、Home で既定幅）でも変えられる
+          <button
+            type="button"
             data-slot="data-grid-resizer"
+            aria-label={`${label || column.id} の列幅を変更`}
             onMouseDown={header.getResizeHandler()}
             onTouchStart={header.getResizeHandler()}
             onDoubleClick={() => column.resetSize()}
+            onKeyDown={(e) => {
+              const delta = e.key === "ArrowRight" ? 16 : e.key === "ArrowLeft" ? -16 : 0;
+              if (delta) {
+                e.preventDefault();
+                const min = column.columnDef.minSize ?? 40;
+                table.setColumnSizing((old) => ({
+                  ...old,
+                  [column.id]: Math.max(min, column.getSize() + delta),
+                }));
+              } else if (e.key === "Home") {
+                e.preventDefault();
+                column.resetSize();
+              }
+            }}
             className={cn(
-              "absolute top-0 right-0 h-full w-1.5 cursor-col-resize select-none touch-none hover:bg-border-primary",
+              "absolute top-0 right-0 h-full w-1.5 cursor-col-resize select-none touch-none rounded-none border-0 bg-transparent p-0 outline-none hover:bg-border-primary focus-visible:bg-border-primary focus-visible:outline-2 focus-visible:outline-offset-0 focus-visible:outline-border-focus",
               column.getIsResizing() && "bg-border-primary",
             )}
           />

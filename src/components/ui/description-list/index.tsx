@@ -107,7 +107,7 @@ export function DescriptionItem({
         data-empty={empty ? "true" : undefined}
         className={cn(
           "min-w-0 break-words text-3 text-text-high leading-6",
-          empty && "text-text-placeholder",
+          empty && "text-text-low",
         )}
       >
         {empty ? emptyText : children}

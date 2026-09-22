@@ -49,7 +49,7 @@
   "dark": {
     "text-high": "neutral.50",
     "text-middle": "neutral.200",
-    "text-low": "neutral.400",
+    "text-low": "neutral.300",
     "text-placeholder": "neutral.400",
     "text-disabled": "neutral.600",
     "text-on-primary": "primary.900",
@@ -81,7 +81,7 @@
     "surface-selected": "primary.800",
     "border-low": "neutral.700",
     "border-middle": "neutral.600",
-    "border-high": "neutral.500",
+    "border-high": "neutral.400",
     "border-primary": "primary.300",
     "border-negative": "negative.500",
     "border-focus": "primary.300",

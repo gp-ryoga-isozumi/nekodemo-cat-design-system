@@ -146,6 +146,7 @@ export function InputNumber({
     <button
       type="button"
       tabIndex={-1}
+      aria-hidden="true"
       aria-label={dir > 0 ? incrementLabel : decrementLabel}
       aria-controls={inputId}
       disabled={disabled || readOnly || (dir > 0 ? atMax : atMin)}

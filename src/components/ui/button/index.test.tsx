@@ -23,7 +23,7 @@ describe("Button", () => {
     expect(onClick).toHaveBeenCalledTimes(1);
   });
 
-  it("disabled / loading: 押せず、loading は aria-busy と Spinner を出す", async () => {
+  it("disabled / loading: 押せず、loading は aria-disabled と aria-busy と Spinner を出す（フォーカスは残る）", async () => {
     const onClick = vi.fn();
     const { rerender } = render(
       <Button disabled onClick={onClick}>
@@ -39,8 +39,12 @@ describe("Button", () => {
       </Button>,
     );
     const button = screen.getByRole("button", { name: /保存中/ });
-    expect(button).toBeDisabled();
+    // loading は disabled ではなく aria-disabled（押した瞬間にフォーカスが body に落ちないように）
+    expect(button).not.toBeDisabled();
+    expect(button).toHaveAttribute("aria-disabled", "true");
     expect(button).toHaveAttribute("aria-busy", "true");
+    await userEvent.click(button);
+    expect(onClick).not.toHaveBeenCalled();
     expect(screen.getByRole("status", { name: "読み込み中" })).toBeInTheDocument();
   });
 

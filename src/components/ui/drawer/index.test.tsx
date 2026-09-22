@@ -110,6 +110,8 @@ describe("Drawer", () => {
     await openDrawer();
     await userEvent.keyboard("{Escape}");
     expect(screen.queryByRole("dialog")).not.toBeInTheDocument();
+    // 閉じたらフォーカスは開いたボタンに戻る
+    expect(screen.getByRole("button", { name: "詳細を見る" })).toHaveFocus();
   });
 
   it("disabled: 無効なトリガーは開かず、無効なフッターボタンは押しても呼ばれない", async () => {

@@ -62,7 +62,7 @@ describe("DescriptionList", () => {
     for (const dd of details.slice(0, 3)) {
       expect(dd).toHaveAttribute("data-empty", "true");
       expect(dd).toHaveTextContent("—");
-      expect(dd).toHaveClass("text-text-placeholder");
+      expect(dd).toHaveClass("text-text-low");
     }
     expect(details[3]).toHaveAttribute("data-empty", "true");
     expect(details[3]).toHaveTextContent("未定");

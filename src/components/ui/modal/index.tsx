@@ -71,12 +71,13 @@ export function ModalContent({
         )}
         {...props}
       >
-        {children}
+        {/* 見た目は右上（先頭）なので、読み上げ順・タブ順でも本文より先に置く */}
         {showCloseButton ? (
           <DialogPrimitive.Close asChild>
             <IconButton icon="close" label="閉じる" size="sm" className="absolute top-3 right-3" />
           </DialogPrimitive.Close>
         ) : null}
+        {children}
       </DialogPrimitive.Content>
     </DialogPrimitive.Portal>
   );

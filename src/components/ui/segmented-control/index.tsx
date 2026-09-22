@@ -3,6 +3,7 @@
 import { cva } from "class-variance-authority";
 import { ToggleGroup as ToggleGroupPrimitive } from "radix-ui";
 import { type ComponentProps, type KeyboardEvent, useRef, useState } from "react";
+import { warnMissingName } from "../../../lib/a11y";
 import { cn } from "../../../lib/utils";
 
 const rootVariants = cva(
@@ -39,12 +40,14 @@ export type SegmentedControlProps = Omit<
   ComponentProps<typeof ToggleGroupPrimitive.Root>,
   "type" | "value" | "defaultValue" | "onValueChange"
 > & {
+  /** 読み上げ名（`aria-label` か `aria-labelledby` のどちらかを必ず付ける。無いと開発時に警告） */
+  "aria-label"?: string;
+  "aria-labelledby"?: string;
   size?: "sm" | "md" | "lg";
   value?: string;
   defaultValue?: string;
   onValueChange?: (value: string) => void;
   /** 読み上げ名（必須。見出しが別にあるときは `aria-labelledby` でもよい） */
-  "aria-label"?: string;
 };
 
 export type SegmentedControlItemProps = ComponentProps<typeof ToggleGroupPrimitive.Item>;
@@ -85,6 +88,7 @@ export function SegmentedControl({
   children,
   ...props
 }: SegmentedControlProps) {
+  warnMissingName("SegmentedControl", props);
   // Radix の single は選択中の項目を押すと空にするので、こちらで値を持って常に制御にする（非制御でも外れない）
   const [inner, setInner] = useState(defaultValue ?? "");
   const current = value ?? inner;
