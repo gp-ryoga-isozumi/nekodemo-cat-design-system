@@ -505,7 +505,8 @@ export function AnatomyFigure({ slug }: { slug: string }) {
             </span>
             <span>
               <span className="font-bold text-text-high">
-                {p.n}. {p.name}
+                <span className="sr-only">{p.n}. </span>
+                {p.name}
               </span>
               <span className="block text-2 text-text-middle">{p.description}</span>
             </span>

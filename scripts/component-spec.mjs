@@ -220,8 +220,8 @@ export function constMapKeys(source) {
 /** 文字列リテラルのユニオン型で宣言された props（`size?: "sm" | "md"`、`density?: TableDensity`、`side?: keyof typeof SIDE`）と、分割代入の既定値を読む */
 export function unionProps(source) {
   const aliases = {};
-  for (const m of source.matchAll(/type\s+(\w+)\s*=\s*((?:\|?\s*"[\w-]+"\s*)+);/g)) {
-    aliases[m[1]] = [...m[2].matchAll(/"([\w-]+)"/g)].map((x) => x[1]);
+  for (const m of source.matchAll(/type\s+(\w+)\s*=\s*((?:\|?\s*(?:"[\w-]+"|\d+)\s*)+);/g)) {
+    aliases[m[1]] = [...m[2].matchAll(/"([\w-]+)"|(\d+)/g)].map((x) => x[1] ?? x[2]);
   }
   const maps = constMapKeys(source);
   const defaults = defaultValues(source);
@@ -291,7 +291,14 @@ export function specFor(slug, root = ROOT) {
   const spec = extractSpec(source);
   // cva を持たず Input の inputVariants を流用する部品（InputNumber / InputDate / InputTime 等）は Input の size と寸法を引き継ぐ
   const noHeight = spec.metrics.every((m) => m.height === null);
-  if (noHeight && /inputVariants\(/.test(source) && slug !== "input") {
+  // Input を包む部品（InputSearch / InputPassword / InputNumber 等）は Input の size と寸法を引き継ぐ
+  const wrapsInput = /inputVariants\(/.test(source) || /from "\.\.\/input"/.test(source);
+  if (
+    noHeight &&
+    wrapsInput &&
+    slug !== "input" &&
+    (!spec.options.size || /\bsize = "/.test(source))
+  ) {
     const input = specFor("input", root);
     if (input?.options.size) {
       spec.options.size = {
