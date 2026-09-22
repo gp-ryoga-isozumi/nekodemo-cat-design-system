@@ -190,6 +190,31 @@ describe("Field", () => {
     expect(screen.getByRole("alert")).toHaveTextContent("顧客名を入力してください");
   });
 
+  it("表示: Field は子の入力に id・aria-describedby・aria-invalid・aria-required を注入する", () => {
+    render(
+      <Field
+        label="部署"
+        htmlFor="dept"
+        required
+        description="所属する部署"
+        error="部署を選んでください"
+      >
+        <Input />
+      </Field>,
+    );
+    const input = screen.getByLabelText(/部署/);
+    expect(input).toHaveAttribute("id", "dept");
+    expect(input).toHaveAttribute("aria-required", "true");
+    expect(input).toHaveAttribute("aria-invalid", "true");
+    expect(input.getAttribute("aria-describedby")).toBe("dept-description dept-error");
+  });
+
+  it("表示: FormLabel required は入力に aria-required を付ける", () => {
+    render(<ProjectForm onSubmit={() => {}} />);
+    expect(customerField()).toHaveAttribute("aria-required", "true");
+    expect(screen.getByLabelText("金額")).not.toHaveAttribute("aria-required");
+  });
+
   it("アクセシブルネーム: htmlFor で子の入力と結ばれる", () => {
     render(
       <Field label="顧客名" htmlFor="customer">

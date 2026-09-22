@@ -205,6 +205,7 @@ export default function FormSamplePage() {
                       <FormLabel>公開範囲</FormLabel>
                       <FormControl>
                         <RadioGroup
+                          aria-label="公開範囲"
                           value={field.value}
                           onValueChange={field.onChange}
                           className="flex gap-6"

@@ -2,6 +2,7 @@
 
 import { RadioGroup as RadioGroupPrimitive } from "radix-ui";
 import type { ComponentProps } from "react";
+import { warnMissingName } from "../../../lib/a11y";
 import { cn } from "../../../lib/utils";
 
 /**
@@ -35,6 +36,8 @@ export function RadioGroup({
   className,
   ...props
 }: ComponentProps<typeof RadioGroupPrimitive.Root>) {
+  // 何を選ぶ設問かを伝える名前が要る（aria-label か aria-labelledby）。無ければ開発時に警告
+  warnMissingName("RadioGroup", props);
   return (
     <RadioGroupPrimitive.Root
       data-slot="radio-group"
