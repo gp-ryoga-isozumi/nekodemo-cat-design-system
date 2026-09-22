@@ -150,15 +150,36 @@ function sections(markdown: string): Record<string, string> {
   return out;
 }
 
+/** `export const X: Story = { ... }` を波括弧の対応で切り出す（正規表現だと 1 行のオブジェクトや空オブジェクトで次のストーリーを飲み込む） */
 function storyNames(source: string): { id: string; name: string }[] {
   const out: { id: string; name: string }[] = [];
-  // 空のストーリー（`Story = {}`）を先に試す。後ろの分岐は「行頭の `}` まで」なので、空のストーリーに当てると次のストーリーを飲み込む
-  const re = /export const (\w+): Story = (\{\}|\{[\s\S]*?\n\});?/g;
-  for (const m of source.matchAll(re)) {
+  const head = /export const (\w+): Story = \{/g;
+  for (const m of source.matchAll(head)) {
     const id = m[1];
-    const body = m[2] ?? "";
-    const name = /\n\s*name: "([^"]+)"/.exec(body)?.[1] ?? id;
-    if (id) out.push({ id, name });
+    const start = m.index + m[0].length - 1; // "{" の位置
+    let depth = 0;
+    let quote: string | null = null;
+    let end = -1;
+    for (let i = start; i < source.length; i++) {
+      const ch = source[i];
+      if (quote) {
+        if (ch === "\\") i++;
+        else if (ch === quote) quote = null;
+        continue;
+      }
+      if (ch === '"' || ch === "'" || ch === "`") quote = ch;
+      else if (ch === "{") depth++;
+      else if (ch === "}") {
+        depth--;
+        if (depth === 0) {
+          end = i;
+          break;
+        }
+      }
+    }
+    const body = end === -1 ? "" : source.slice(start, end + 1);
+    const name = /\bname:\s*"([^"]+)"/.exec(body)?.[1] ?? id;
+    out.push({ id, name });
   }
   return out;
 }
