@@ -46,10 +46,11 @@ const STATE_HOW: Record<string, string> = {
   hover: "マウスオーバー。面か枠の色が 1 段変わる",
   focus: "キーボードフォーカス（focus-visible）。border-focus のリング。マウスのクリックでは出ない",
   active: "押下中。面の色がさらに 1 段変わる",
-  disabled: "disabled 属性。薄くなり（opacity）、操作もフォーカスもできない",
+  disabled:
+    "disabled 属性。面が surface-disabled、文字が text-disabled になり、操作もフォーカスもできない（opacity では薄くしない）",
   invalid: "aria-invalid。枠が negative になり、エラー文を aria-describedby で結ぶ",
   selected: "選択中（aria-pressed / aria-selected / data-state=on）。primary の面か枠",
-  checked: "チェック済み（data-state=checked）。primary の面に肉球のチェック",
+  checked: "チェック済み（data-state=checked）。primary の面に猫の顔（cat_face）",
   indeterminate: "一部チェック（data-state=indeterminate）。全選択の一部だけが選ばれている",
   open: "開いている（data-state=open）。矢印が回転し、内容が出る",
   closed: "閉じている（data-state=closed）",
@@ -212,6 +213,12 @@ function sectionBody(
               variant / size のような選択肢を持たない部品です（構成部品や props で組み立てます）。
             </p>
           )}
+          {entries.length ? (
+            <p className="text-2 text-text-low">
+              実装（index.tsx）の cva / 型 / size 表から機械的に抽出。既定は defaultVariants
+              と分割代入の既定値
+            </p>
+          ) : null}
           {doc.stories.length ? (
             <details className="text-2">
               <summary className="cursor-pointer text-text-middle">
@@ -268,9 +275,10 @@ function sectionBody(
           ) : null}
         </>
       ) : (
-        <p className="text-2 text-text-middle">
-          この部品は操作による状態を持ちません（表示専用）。
-        </p>
+        <Todo>
+          実装のクラス接頭辞からは状態を検出できませんでした（未整備）。JS で状態を持つ部品は
+          Storybook のストーリーで確認してください。
+        </Todo>
       );
     }
     case "behaviors": {
@@ -308,7 +316,9 @@ function sectionBody(
             </TableBody>
           </Table>
           <p className="text-2 text-text-low">
-            余白は 4px グリッド。角丸と影は{" "}
+            実装（index.tsx）の h- / px- / text-
+            クラスから機械的に抽出した値（仕様値ではなく実装が書いている高さ）。余白は 4px
+            グリッド。角丸と影は{" "}
             <Link asChild>
               <NextLink href="/guidelines/themes/shape/">Shape</NextLink>
             </Link>{" "}
