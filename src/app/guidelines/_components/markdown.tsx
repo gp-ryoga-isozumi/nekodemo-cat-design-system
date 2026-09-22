@@ -12,25 +12,18 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { BASE_PATH, REPO_URL } from "../_lib/content";
+import { BASE_PATH, guidelineUrlByFile, REPO_URL } from "../_lib/content";
 
 /** docs 内の相対リンクをサイト内のルートか GitHub の URL に直す */
 function resolveHref(href: string, base: string): string {
   // Storybook は Next のルートではないので basePath を付けた素のリンクにする
   if (href.startsWith("/storybook/")) return `${BASE_PATH}${href}`;
   if (/^https?:/.test(href) || href.startsWith("#") || href.startsWith("/")) return href;
-  const guideline = /^\.\/(0\d)-([a-z-]+)\.md(#.*)?$/.exec(href);
+  // docs/guidelines 内の相対リンク（./09-layout.md、./themes/motion.md、../04-writing.md 等）はサイトのページに変換する
+  const guideline = /^(?:\.\.?\/)+(?:themes\/)?([a-z0-9-]+\.md)(#.*)?$/.exec(href);
   if (guideline) {
-    const map: Record<string, string> = {
-      "01": "/guidelines/patterns/screen-patterns/",
-      "02": "/guidelines/patterns/states/",
-      "03": "/guidelines/patterns/actions/",
-      "04": "/guidelines/foundations/writing/",
-      "05": "/guidelines/foundations/spacing-and-color/",
-      "06": "/guidelines/foundations/cat-flavor/",
-      "07": "/guidelines/foundations/accessibility/",
-    };
-    return `${map[guideline[1]] ?? "/guidelines/"}${guideline[3] ?? ""}`;
+    const url = guidelineUrlByFile(guideline[1]);
+    if (url) return `${url}${guideline[2] ?? ""}`;
   }
   if (href === "./README.md" || href === "README.md") return "/guidelines/";
   const path = href.startsWith("./") ? `${base}/${href.slice(2)}` : `${base}/${href}`;

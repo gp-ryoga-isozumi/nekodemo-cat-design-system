@@ -1,6 +1,6 @@
 "use client";
 
-// 画面の型 B「詳細」のサンプル（設計書 §10.1）。Breadcrumb → 見出し＋状態 Badge＋操作 Menu → 2 カラム（左: 情報 Card、右: 関連 Card）
+// 画面の型 B「詳細」のサンプル（設計書 §10.1）。Breadcrumb → 見出し＋状態 StatusTag＋操作 Menu → 2 カラム（左: 情報 Card、右: 関連 Card）
 import NextLink from "next/link";
 import { useState } from "react";
 import { Avatar } from "@/components/ui/avatar";

@@ -8,10 +8,19 @@ export type SpecMetric = {
   classes: string;
 };
 export type SpecState = { key: string; label: string };
+export type SpecProp = {
+  owner: string;
+  name: string;
+  required: boolean;
+  type: string;
+  default: string | null;
+  description: string;
+};
 export type ComponentSpec = {
   options: Record<string, SpecOption>;
   metrics: SpecMetric[];
   states: SpecState[];
+  props: SpecProp[];
 };
 
 export function stringLiterals(source: string): string[];
@@ -29,5 +38,6 @@ export function densityMetrics(source: string): Record<string, number>;
 export function defaultValues(source: string): Record<string, string>;
 export function constMapKeys(source: string): Record<string, string[]>;
 export function unionProps(source: string): Record<string, SpecOption>;
+export function propsFrom(source: string): SpecProp[];
 export function extractSpec(source: string): ComponentSpec;
 export function specFor(slug: string, root?: string): ComponentSpec | null;

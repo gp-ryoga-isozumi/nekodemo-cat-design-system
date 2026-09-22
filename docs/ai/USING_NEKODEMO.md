@@ -10,9 +10,9 @@ skills や hooks が使えない環境でも、このファイルだけで完結
 
 ## 0. 手順（この順で）
 
-1. セットアップが済んでいるか確認する（`package.json` に `nekodemo`、エントリ CSS に `@import "nekodemo/styles.css"`、ルートの `<html>` に `data-neko-theme`）。無ければ `SETUP.md` の手順を実行する。
+1. セットアップが済んでいるか確認する（`package.json` に `nekodemo`、エントリ CSS に `@import "nekodemo/styles.css"`、ルートの `<html>` に `data-neko-theme`）。無ければ `SETUP.md`（https://github.com/gp-ryoga-isozumi/nekodemo-cat-design-system/blob/main/docs/ai/SETUP.md）の手順を実行する。
 2. テーマを決める。利用者の指定が無ければ、雰囲気語から 1 案を選んで提案する（§3）。曖昧なら 1 回だけ質問する。
-3. 依頼された画面を「画面の型」A〜D（§4）に当てはめ、型ごとの部品構成で組む。
+3. 依頼された画面を「画面の型」A〜F（§4）に当てはめ、型ごとの部品構成で組む。
 4. 一覧・表・カード群・詳細には 4 状態（読み込み中 / 0 件 / エラー / 成功）を必ず実装する（§5）。
 5. `pnpm nekodemo check src --strict` を実行し、error を 0 件にする（§8。warn は内容を確認する）。
 6. 完成チェックリスト（§9）で自己確認し、結果を報告する。
@@ -28,6 +28,8 @@ skills や hooks が使えない環境でも、このファイルだけで完結
 - 文言は「です・ます」、ボタンは「〜する」。猫の言葉遊びは空状態とローディングだけ。
 
 ## 2. セットアップ（最小）
+
+npm には未公開なので、インストールは `pnpm add https://gp-ryoga-isozumi.github.io/nekodemo-cat-design-system/nekodemo.tgz`（tarball）で行う。`pnpm add nekodemo` は公開後に使う。
 
 Next.js（App Router）の例。Vite は `SETUP.md` を参照。
 
@@ -65,17 +67,29 @@ export default function RootLayout({ children }) {
 - 切替 UI は `<NekoThemePicker />` をヘッダー右上に 1 つ置く。テーマは即時に切り替わり、リロード不要。
 - どのテーマでも同じクラス名（役割トークン）で書く。テーマ固有の書き分けはしない。
 
-## 4. 画面の型（4 つ）
+## 4. 画面の型（6 つ）
 
 | 型 | 構成（上から） | 使う部品 |
 |---|---|---|
-| A. 一覧 | `PageHeader`（見出し＋主アクション） → 検索・絞り込み行（`InputSearch` `FilterChipGroup`） → Table → Pagination | `Button` `InputSearch` `Tag`（絞り込み）`Table` `Pagination` `EmptyState` `SkeletonRows`。ソート・列幅・選択・列の絞り込みまで要るなら `DataGrid` 1 つで済む（4 状態も内蔵） |
+| A. 一覧 | `PageHeader`（`actions` に主アクション） → 検索・絞り込み行（`InputSearch` → `FilterChipGroup` → 並び替え → `SegmentedControl`） → Table → Pagination | `PageHeader` `Button` `InputSearch` `FilterChipGroup` `SegmentedControl` `Tag`（効いている条件）`Table` `Pagination` `EmptyState` `SkeletonRows`。ソート・列幅・選択・列の絞り込みまで要るなら `DataGrid` 1 つで済む（4 状態も内蔵） |
 | B. 詳細 | `PageHeader`（Breadcrumb → 見出し＋状態（`StatusTag`）＋操作 `Menu`） → 2 カラム（左: 情報 `Card` の中に `DescriptionList`、右: 関連 `Card`） | `PageHeader` `Breadcrumb` `StatusTag` `Menu` `Card` `DescriptionList` `Tabs` `Drawer` `Accordion` |
-| C. 作成・編集フォーム | 見出し → `Form`（セクションごとに `Card`）→ 画面下部に固定のフッター（キャンセル／保存） | `Form` `Input` `Select` `Textarea` `Checkbox` `RadioGroup` `Switch` `Button` |
-| D. 設定 | 左に縦 `Tabs` → 右に設定項目（1 項目 = 見出し・説明・入力の 3 行） | `Tabs`（`orientation="vertical"`）`Switch` `Select` `Divider` `Field` |
+| C. 作成・編集フォーム | `PageHeader` → `Form`（セクションごとに `Card`。手順に分けるなら `Stepper`）→ 画面下部に固定のフッター（キャンセル／保存） | `PageHeader` `Stepper` `Form` `Field` `Input` `InputNumber` `InputDate` `InputTime` `Select` `SearchCombobox` `Textarea` `Checkbox` `RadioGroup` `Switch` `Button` |
+| D. 設定 | 左に縦 `Tabs` → 右に設定項目（1 項目 = 見出し・説明・入力の 3 行） | `Tabs`（`orientation="vertical"`）`Switch` `Select` `Divider` `Field` `Accordion` |
+| E. ログイン | `Mascot` → アプリ名 → `Form`（メール・パスワード）→ 「ログインする」 | `Mascot` `Card` `Form` `Input` `InputPassword` `Button` `Link` `InlineMessage` |
+| F. ダッシュボード | 見出し＋期間切替（`SegmentedControl`）→ 指標カード 3〜4 枚 → 直近の一覧 5〜10 行 | `PageHeader` `SegmentedControl` `Card` `DescriptionList` `Table` `DataGrid` `StatusTag` `EmptyState` |
 
-共通: 左に `SideNavigation`（幅 240px、折りたたみ 64px）、上にアプリ名＋`NekoThemePicker`＋`Avatar`。コンテンツ幅の最大は 1200px、ページ余白 24px。
+共通: 左に `SideNavigation`（幅 240px、折りたたみ 64px）、上にアプリ名＋`NekoThemePicker`＋`Avatar`。コンテンツ幅の最大は 1200px、ページ余白 24px。画面の最上部は `PageHeader`（`breadcrumb` / `title` / `meta` / `actions`）でそろえる。
+E だけは外枠を置かず、1 カラムを画面の中央に置く（マスコットを出してよい 4 か所の 1 つ）。F にグラフの部品は無いので、推移や内訳はグラフを自作せず数値と表で代替する。
 実例: リポジトリの `src/app/samples/{list,detail,form,settings}/page.tsx`。DataGrid ＋ SearchCombobox 版の一覧は `src/app/samples/grid/page.tsx`、ログイン（型 E）は `src/app/samples/login/page.tsx`、ダッシュボード（型 F）は `src/app/samples/dashboard/page.tsx`。
+
+詳しいルール（リポジトリの `docs/guidelines/`、npm 配布物では `node_modules/nekodemo/dist/ai/guidelines/`）:
+
+- `09-layout.md` — 外枠の寸法、カラムの分け方、`md` 未満のナビ（`Drawer side="left"`）、固定フッター、表の横スクロール
+- `10-forms.md` — ラベルの位置と順序、入力の幅、必須は `FormLabel required` だけ、検証は送信時、`Stepper`
+- `11-notifications.md` — Toast / `InlineMessage` / `FormMessage` / `Dialog` の使い分け
+- `12-list-and-filters.md` — 絞り込み行の並び、効いている条件の見せ方、選択と一括操作の確認・結果
+- `13-navigation.md` — 階層は 2 段まで、現在地、`Breadcrumb` を出す条件、戻り先
+- `14-choosing-components.md` — 似た部品（Dialog / Modal / Drawer など 8 組）の決定表
 
 ## 5. 状態の必須セット（省略不可）
 
@@ -83,7 +97,7 @@ export default function RootLayout({ children }) {
 |---|---|
 | 読み込み中 | `<SkeletonRows rows={5} />`（一覧）／ `Skeleton` を 3 枚（カード）。初回だけマスコット付きでもよい |
 | 0 件 | `<EmptyState title="まだ案件がありません" description="…" action={<Button>案件を追加する</Button>} />`。検索結果 0 件は `title="条件に合う案件がありません"` ＋「条件をクリアする」 |
-| エラー | `<InlineMessage variant="negative" action={<Button variant="outline" size="sm">再試行</Button>}>…</InlineMessage>`。全画面エラーにしない |
+| エラー | `<InlineMessage variant="negative" action={<Button variant="outline" size="sm">再試行する</Button>}>…</InlineMessage>`。全画面エラーにしない |
 | 成功 | `toast.success("案件を保存しました")`（3 秒）。画面遷移を伴うときは遷移先で出す |
 
 ## 6. 部品一覧と props の要約

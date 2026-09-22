@@ -12,6 +12,7 @@ description: >
 1. `package.json` に `nekodemo` があるか。無ければ `setup-nekodemo` に引き継いで中断する。
 2. `nekodemo.config.json` の `defaultTheme` を読む。無ければ利用者に 1 回だけ聞く（既定は `calico`）。
 3. ルールの全文は `docs/ai/USING_NEKODEMO.md`（https://github.com/gp-ryoga-isozumi/nekodemo-cat-design-system/blob/main/docs/ai/USING_NEKODEMO.md）。部品の props に迷ったらそこを読む。
+4. 画面の中身の詳しいルールは guidelines（リポジトリの `docs/guidelines/`、利用側は `node_modules/nekodemo/dist/ai/guidelines/`）を読む: `09-layout.md`（外枠と幅・狭い幅・固定フッター）/ `10-forms.md`（ラベル・必須・検証タイミング）/ `11-notifications.md`（Toast / InlineMessage / FormMessage / Dialog の使い分け）/ `12-list-and-filters.md`（絞り込みと一括操作）/ `13-navigation.md`（階層・現在地・Breadcrumb）/ `14-choosing-components.md`（似た部品の決定表）。
 
 ## 手順
 1. 依頼内容を画面の型に当てはめる。
@@ -26,7 +27,7 @@ description: >
 5. 一覧・表・カード群・詳細に 4 状態を実装する:
    - 読み込み中: `SkeletonRows`（5 行）／ `Skeleton` 3 枚
    - 0 件: `EmptyState`（「まだ〜がありません」＋主アクション。検索 0 件は「条件に合う〜がありません」＋条件クリア）
-   - エラー: `InlineMessage variant="negative"` ＋「再試行」
+   - エラー: `InlineMessage variant="negative"` ＋「再試行する」
    - 成功: `toast.success`（3 秒。遷移を伴うなら遷移先で）
 6. 操作の原則: 主ボタン（primary）は 1 画面 1 つ。削除は `Dialog` で確認し `DialogAction variant="negative"` に「削除する」（行メニューから開くときは `DialogTrigger` ではなく `<Dialog open onOpenChange>` をページに 1 つ置いて state で開く）。保存後は詳細か一覧に戻す。モーダルは 3 項目以内の短い入力だけ。
 7. 文言: 「です・ます」、ボタンは「〜する」、エラー文は「何が起きたか＋どうすればよいか」。数値は 3 桁区切り、日付は `2026/09/21`。

@@ -38,6 +38,18 @@ export const FOUNDATIONS: DocPage[] = [
     file: "docs/guidelines/05-spacing-and-color.md",
   },
   {
+    slug: "layout",
+    title: "レイアウトと画面幅",
+    description: "外枠 3 領域、1 / 2 / 3 カラム、md・sm の境目、固定フッター、表だけ横スクロール",
+    file: "docs/guidelines/09-layout.md",
+  },
+  {
+    slug: "navigation",
+    title: "ナビゲーションの構造",
+    description: "階層は 2 段まで、現在地の示し方、Breadcrumb は 3 階層目から、戻り先を用意する",
+    file: "docs/guidelines/13-navigation.md",
+  },
+  {
     slug: "cat-flavor",
     title: "猫要素の使いどころ",
     description: "常に出るのは耳付きアイコンだけ。マスコットは 4 か所、業務データに猫を入れない",
@@ -71,6 +83,12 @@ export const THEMES: DocPage[] = [
       "Material Symbols の名前で指定する猫耳アイコン。耳を付けない規約と猫版が無いときの挙動",
     file: "docs/guidelines/themes/icons.md",
   },
+  {
+    slug: "motion",
+    title: "Motion",
+    description: "出入りの時間、動かすもの、hover は色だけ、prefers-reduced-motion",
+    file: "docs/guidelines/themes/motion.md",
+  },
 ];
 
 export const PATTERNS: DocPage[] = [
@@ -100,7 +118,45 @@ export const PATTERNS: DocPage[] = [
       "一覧を見たまま 1 件を確認・短く編集する Drawer。詳細ページへ遷移する場合との使い分け",
     file: "docs/guidelines/08-side-panel.md",
   },
+  {
+    slug: "forms",
+    title: "フォームの組み方",
+    description:
+      "ラベルは上、入力幅は値の長さ、必須は FormLabel required、検証は送信時、エラーは項目の下",
+    file: "docs/guidelines/10-forms.md",
+  },
+  {
+    slug: "notifications",
+    title: "知らせ方の選び方",
+    description:
+      "Toast / InlineMessage / FormMessage / Dialog の使い分け。エラーを Toast だけにしない",
+    file: "docs/guidelines/11-notifications.md",
+  },
+  {
+    slug: "list-and-filters",
+    title: "一覧の絞り込みと一括操作",
+    description: "絞り込み行の並び、効いている条件の見せ方、選択ツールバー、一括削除の確認と結果",
+    file: "docs/guidelines/12-list-and-filters.md",
+  },
+  {
+    slug: "choosing-components",
+    title: "部品の選び方",
+    description:
+      "Dialog / Modal / Drawer、Table / DataGrid、Tag / Badge / StatusTag など迷いやすい部品の決定表",
+    file: "docs/guidelines/14-choosing-components.md",
+  },
 ];
+
+/** docs/guidelines のファイル名 → サイトの URL（Markdown 内の相対リンクの変換に使う） */
+export function guidelineUrlByFile(fileName: string): string | undefined {
+  const all = [
+    ...FOUNDATIONS.map((p) => ({ p, section: "foundations" })),
+    ...THEMES.map((p) => ({ p, section: "themes" })),
+    ...PATTERNS.map((p) => ({ p, section: "patterns" })),
+  ];
+  const hit = all.find(({ p }) => p.file.endsWith(`/${fileName}`));
+  return hit ? `/guidelines/${hit.section}/${hit.p.slug}/` : undefined;
+}
 
 export function readDoc(page: DocPage): string {
   return readFileSync(join(ROOT, page.file), "utf8");
@@ -149,7 +205,7 @@ export type ComponentDoc = {
 
 const UI_DIR = join(ROOT, "src", "components", "ui");
 const NOTES_DIR = join(ROOT, "docs", "guidelines", "components");
-const EMPTY_SPEC: ComponentSpec = { options: {}, metrics: [], states: [] };
+const EMPTY_SPEC: ComponentSpec = { options: {}, metrics: [], states: [], props: [] };
 
 /** 箇条書き（- で始まる行）だけを取り出す */
 function bullets(markdown: string): string[] {
@@ -210,10 +266,22 @@ function storyNames(source: string): { id: string; name: string }[] {
   return out;
 }
 
+const V12 = "v1.2（2026-09-22）";
 const PHASE_BY_COMPONENT: Record<string, string> = {
   "data-grid": "v1.1（Phase 6、2026-09-22）",
   "search-combobox": "v1.1（Phase 6、2026-09-22）",
   icon: "v1（Phase 3a、2026-09-21）",
+  accordion: V12,
+  "description-list": V12,
+  "filter-chip": V12,
+  "input-date": V12,
+  "input-file": V12,
+  "input-number": V12,
+  "input-time": V12,
+  "page-header": V12,
+  progress: V12,
+  "segmented-control": V12,
+  stepper: V12,
 };
 
 export function listComponents(): ComponentDoc[] {
@@ -327,7 +395,8 @@ export function sectionStatus(doc: ComponentDoc): Record<SectionKey, SectionStat
     // 状態: 実装がスタイルを持つ状態の表。ストーリーだけなら一部
     states: doc.spec.states.length > 0 ? "done" : stateStories(doc).length > 0 ? "partial" : "todo",
     behaviors: note(doc, "振る舞い") ? "done" : "todo",
-    metrics: hasMetrics ? "done" : /px|サイズ|size/.test(doc.overview) ? "partial" : "todo",
+    // 寸法: 実装から高さの段階が取れたときだけ整備済み（本文の語句で「一部」にしない）
+    metrics: hasMetrics ? "done" : "todo",
     usage:
       doc.recommended.length > 0 && doc.antiPatterns.length > 0
         ? "done"
@@ -337,6 +406,7 @@ export function sectionStatus(doc: ComponentDoc): Record<SectionKey, SectionStat
     contents: note(doc, "内容") ? "done" : "partial",
     related: doc.dependsOn.length + doc.usedBy.length > 0 ? "done" : "partial",
     references: note(doc, "参考文献") ? "done" : "todo",
-    changelog: "partial",
+    // 変更履歴: 追加された版は全部品で分かる（CHANGELOG と対応）
+    changelog: "done",
   };
 }
