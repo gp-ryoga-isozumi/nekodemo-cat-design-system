@@ -53,7 +53,7 @@ shadcn（copy-in）/ radix-ui / Storybook 10（`@storybook/nextjs-vite`）/ Vite
 - `src/styles/tokens.css` `src/styles/themes.css` `src/**/*.generated.ts` `src/themes/registry.ts` … **生成物。手で編集しない。**
 - `src/components/ui/<kebab-name>/` … 部品。`index.tsx` / `index.stories.tsx` / `index.test.tsx` / `README.md` / `item.json` の 5 点セット。
 - `src/components/theme/` … NekoThemeProvider / NekoThemePicker / NekoHead / useNekoTheme。
-- `src/app/` … デモサイト。`src/index.ts` … 公開 API。
+- `src/app/` … デモサイト。`src/app/guidelines/` … ガイドラインサイト（`docs/guidelines/*.md`・部品の README・item.json・stories をビルド時に読んで描画する。内容の正はそれらのファイル）。`src/index.ts` … 公開 API。
 - `scripts/` … ビルド・検査スクリプト（Node ESM、`.mjs`）。`scripts/hooks/` … Claude Code hooks。
 - `docs/ai/` `docs/guidelines/` `skills/` … AI 向け提供物（`.claude/skills` 等は `skills/` へのシンボリックリンク）。`docs/preview/` … 実装前のビジュアルプレビュー（参考）。
 - `bin/nekodemo.mjs` `scripts/check/` `icons/status.json` … npm 配布物にも同梱される（`package.json` の `files`）。`scripts/build-package.mjs` が `dist/styles.css` と `dist/ai/` を作る。
