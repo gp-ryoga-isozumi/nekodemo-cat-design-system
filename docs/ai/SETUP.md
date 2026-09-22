@@ -126,7 +126,7 @@ createRoot(document.getElementById("root")!).render(
 { "defaultTheme": "calico", "themes": ["calico", "american-shorthair", "russian-blue"], "switcher": true }
 ```
 
-人と AI が読む設定の正（v1 ではツールは読まない。`nekodemo check` も検査しない）。`defaultTheme` はレイアウトの `data-neko-theme` / `defaultTheme` と一致させる。
+人と AI が読む設定の正。ツールが読むのは `check.ignore`（`nekodemo check` が検査から外す glob の配列。例: `{ "check": { "ignore": ["src/legacy/**"] } }`）だけで、`defaultTheme` などは検査しない。`defaultTheme` はレイアウトの `data-neko-theme` / `defaultTheme` と一致させる。
 
 ## 6. AI 向けガード
 

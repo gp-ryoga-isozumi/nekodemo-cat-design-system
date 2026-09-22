@@ -1,6 +1,10 @@
 // @vitest-environment node
+
+import { mkdirSync, mkdtempSync, writeFileSync } from "node:fs";
+import { tmpdir } from "node:os";
+import { join } from "node:path";
 import { describe, expect, it } from "vitest";
-import { checkSource, runCheck } from "./index.mjs";
+import { checkSource, globToRegExp, loadConfig, missingTargets, runCheck } from "./index.mjs";
 
 const icons = new Set(["search", "delete", "expand_more"]);
 const ids = (findings) => findings.map((f) => f.rule);
@@ -29,6 +33,24 @@ describe("nekodemo check のルール", () => {
     const ok = `<div style={{ width: 12, fontSize: 14 }} />`;
     expect(ids(checkSource(bad, "a.tsx"))).toContain("NK004");
     expect(ids(checkSource(ok, "a.tsx"))).not.toContain("NK004");
+  });
+
+  it("NK004: Biome が整形した複数行の style={{ … }} も検出し、行番号は style= の行", () => {
+    const src = `<div\n  style={{\n    width: 12,\n    color: "red",\n  }}\n/>`;
+    const f = checkSource(src, "a.tsx").filter((x) => x.rule === "NK004");
+    expect(f.map((x) => x.line)).toEqual([2]);
+  });
+
+  it('NK001: href="#abc" のようなアンカーや url(#id) は色ではない', () => {
+    const src = `<a href="#abc">先頭へ</a>\n<rect fill="url(#grad)" />\nconst c = "#abc";`;
+    const f = checkSource(src, "a.tsx").filter((x) => x.rule === "NK001");
+    expect(f.map((x) => x.line)).toEqual([3]);
+  });
+
+  it('NK011: 空の読み上げ名（label="" / aria-label=""）を error にする', () => {
+    const src = `<IconButton icon="close" label="" />\n<nav aria-label={""} />\n<Icon icon="search" label="検索" />`;
+    const f = checkSource(src, "a.tsx").filter((x) => x.rule === "NK011");
+    expect(f.map((x) => x.line)).toEqual([1, 2]);
   });
 
   it("NK005: lucide-react の import と material-symbols クラスを検出する", () => {
@@ -61,6 +83,12 @@ describe("nekodemo check のルール", () => {
     expect(ids(checkSource(`<html lang="ja" />`, "src/app/foo/layout.tsx"))).not.toContain("NK008");
   });
 
+  it("NK009: Biome が整形した複数行の <button> / <input> も検出する", () => {
+    const src = `<button\n  type="button"\n  onClick={save}\n>\n  保存\n</button>\n<input\n  value={v}\n/>`;
+    const f = checkSource(src, "src/app/page.tsx").filter((x) => x.rule === "NK009");
+    expect(f.map((x) => x.line)).toEqual([1, 7]);
+  });
+
   it("NK009: 生の HTML フォーム要素を警告し、部品の実装（components/ui）は除外する", () => {
     const src = `<button type="button">x</button><input /><table />`;
     expect(checkSource(src, "src/app/page.tsx").filter((x) => x.rule === "NK009")).toHaveLength(3);
@@ -88,6 +116,40 @@ describe("nekodemo check のルール", () => {
     const f = checkSource(src, "src/app/page.tsx");
     expect(ids(f)).not.toContain("NK007");
     expect(f.filter((x) => x.rule === "NK009").map((x) => x.line)).toEqual([5]);
+  });
+});
+
+describe("対象の指定", () => {
+  it("glob（**, *, ?）を相対パスに当てる", () => {
+    expect(globToRegExp("src/legacy/**").test("src/legacy/a/b.tsx")).toBe(true);
+    expect(globToRegExp("src/legacy/**").test("src/legacy")).toBe(true);
+    expect(globToRegExp("**/*.stories.tsx").test("src/x/y.stories.tsx")).toBe(true);
+    expect(globToRegExp("src/*.tsx").test("src/a/b.tsx")).toBe(false);
+  });
+
+  it("存在しない対象を報告し、--ignore と nekodemo.config.json の check.ignore で除外できる", () => {
+    const dir = mkdtempSync(join(tmpdir(), "nekodemo-check-"));
+    mkdirSync(join(dir, "src", "legacy"), { recursive: true });
+    writeFileSync(join(dir, "src", "a.tsx"), `<p className="font-medium" />`);
+    writeFileSync(join(dir, "src", "legacy", "b.tsx"), `<p className="font-medium" />`);
+    writeFileSync(join(dir, "src", "c.tsx"), `<p className="font-semibold" />`);
+    writeFileSync(
+      join(dir, "nekodemo.config.json"),
+      JSON.stringify({ check: { ignore: ["src/legacy/**"] } }),
+    );
+    expect(missingTargets(["src", "srcc"], dir)).toEqual(["srcc"]);
+    expect(loadConfig(dir)).toEqual({ ignore: ["src/legacy/**"] });
+    const all = runCheck(["src"], { cwd: dir });
+    expect(all.files).toBe(2);
+    expect(all.missing).toEqual([]);
+    const fewer = runCheck(["src"], { cwd: dir, ignore: ["src/c.tsx"] });
+    expect(fewer.files).toBe(1);
+    // copy-in（shadcn registry）で置かれる styles/nekodemo-tokens.css は検査対象に入らない（#hex だらけなので）
+    mkdirSync(join(dir, "src", "styles"), { recursive: true });
+    writeFileSync(join(dir, "src", "styles", "nekodemo-tokens.css"), `:root { --x: #ff0000; }`);
+    const withCss = runCheck(["src"], { cwd: dir });
+    expect(withCss.files).toBe(2);
+    expect(withCss.findings.filter((f) => f.rule === "NK001")).toEqual([]);
   });
 });
 
