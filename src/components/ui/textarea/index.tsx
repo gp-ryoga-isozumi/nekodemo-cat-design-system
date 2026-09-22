@@ -20,6 +20,11 @@ export type TextareaProps = ComponentProps<"textarea"> & {
  * - 1 行で足りる入力に使う（Input）
  * - 高さを固定して中身をスクロールさせる（resize-y で伸ばせるようにしておく）
  *
+ * 推奨例:
+ * - 備考・問い合わせ内容など、改行を含む自由記述に使い、ラベルと補足は Form の Field で付ける
+ * - 文字数の上限が決まっているものは `maxLength` を渡し、カウンタで残りを見せる
+ * - 初期の高さは `rows` を想定の行数に合わせ、足りないときは利用者が縦に伸ばせるようにしておく
+ *
  * 使用例:
  * ```tsx
  * <Textarea id="memo" maxLength={200} placeholder="メモ" />
@@ -34,6 +39,7 @@ export function Textarea({
   defaultValue,
   value,
   id,
+  "aria-describedby": describedBy,
   ...props
 }: TextareaProps) {
   const autoId = useId();
@@ -52,7 +58,10 @@ export function Textarea({
           setInnerLength(e.target.value.length);
           onChange?.(e);
         }}
-        aria-describedby={showCount ? `${textareaId}-count` : undefined}
+        aria-describedby={
+          [describedBy, showCount ? `${textareaId}-count` : null].filter(Boolean).join(" ") ||
+          undefined
+        }
         className={cn(
           "min-h-24 w-full min-w-0 resize-y rounded-action border border-border-high bg-surface-input px-3 py-2 text-3 text-text-high leading-6 transition-[border-color,box-shadow]",
           "placeholder:text-text-placeholder",

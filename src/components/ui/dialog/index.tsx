@@ -9,6 +9,7 @@ import { Button, type ButtonProps } from "../button";
  * Dialog
  *
  * 概要: 確認ダイアログ専用（設計書 §9.1 #31、§10.3）。削除や取り消し不可の操作の前に挟む。
+ * shadcn の **AlertDialog** に相当する（shadcn の Dialog は nekodemo では Modal）。外側クリックでは閉じず、DialogCancel / DialogAction の 2 択。
  * Radix AlertDialog ベースで、外側クリックでは閉じず（Esc では閉じる）、原則ボタンで答える。
  * 破壊的操作の確定ボタンは `DialogAction variant="negative"`、文言は「削除する」のように動作を書く（「OK」「はい」は禁止）。
  * フォームや長い内容は Modal を使う。
@@ -17,6 +18,11 @@ import { Button, type ButtonProps } from "../button";
  * - 確定ボタンを「OK」「はい」にする
  * - 確定ボタンを primary にする（破壊的操作は negative）
  * - 入力フォームを入れる（Modal）
+ *
+ * 推奨例:
+ * - 削除・公開停止など取り消せない操作の直前に挟み、`DialogTitle` に「この案件を削除しますか？」と問いを書く
+ * - `DialogDescription` に影響する範囲（一緒に消えるもの、取り消せないこと）を書く
+ * - 確定は `DialogAction variant="negative"` で「削除する」、取り消しは `DialogCancel` で「キャンセル」にする
  *
  * 使用例:
  * ```tsx
@@ -56,7 +62,7 @@ export function DialogContent({
       <AlertDialogPrimitive.Content
         data-slot="dialog-content"
         className={cn(
-          "fixed top-1/2 left-1/2 z-50 flex w-full max-w-[calc(100%-2rem)] -translate-x-1/2 -translate-y-1/2 flex-col gap-3 rounded-modal bg-surface-card p-6 text-text-high shadow-popout outline-none sm:max-w-md",
+          "fixed top-1/2 left-1/2 z-50 flex max-h-[calc(100%-2rem)] w-full max-w-[calc(100%-2rem)] -translate-x-1/2 -translate-y-1/2 flex-col gap-3 overflow-y-auto rounded-modal bg-surface-card p-6 text-text-high shadow-popout outline-none sm:max-w-md",
           "data-[state=open]:fade-in-0 data-[state=closed]:fade-out-0 data-[state=open]:zoom-in-95 data-[state=closed]:zoom-out-95 data-[state=open]:animate-in data-[state=closed]:animate-out",
           className,
         )}

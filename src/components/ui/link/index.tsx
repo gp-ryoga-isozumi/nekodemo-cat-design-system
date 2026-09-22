@@ -20,6 +20,12 @@ export type LinkProps = ComponentProps<"a"> & {
  * - 操作（保存・削除）に使う（Button）
  * - 「こちら」だけをリンクにする（リンク先が分かる語をリンクにする）
  *
+ * 推奨例:
+ * - 画面が変わるもの（詳細・一覧・ヘルプ）への移動に使い、文中では前後の文とつなげて書く
+ * - 一覧の行では項目名をリンクにし、行のクリックと同じ詳細へ遷移させる
+ * - 別サイトや外部の資料を開くときは `external` を付けて新しいタブで開く
+ * - アプリ内の遷移は `asChild` で Next.js の `<Link>` を包む
+ *
  * 使用例:
  * ```tsx
  * <Link href="/projects/1">案件の詳細</Link>
@@ -32,10 +38,18 @@ export function Link({
   asChild = false,
   external = false,
   children,
+  rel,
+  target,
   ...props
 }: LinkProps) {
   const Comp = asChild ? Slot.Root : "a";
-  const externalProps = external ? { target: "_blank", rel: "noopener noreferrer" } : {};
+  // external のときは呼び出し側の rel を消さずに noopener noreferrer を足す
+  const externalProps = external
+    ? {
+        target: target ?? "_blank",
+        rel: [rel, "noopener", "noreferrer"].filter(Boolean).join(" ").replace(/\s+/g, " "),
+      }
+    : { target, rel };
   return (
     <Comp
       data-slot="link"

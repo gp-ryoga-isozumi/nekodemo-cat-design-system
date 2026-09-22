@@ -28,6 +28,12 @@ import { Icon } from "../icon";
  * - placeholder に必須情報を書く
  * - フォームの保存後に編集画面に留まる（詳細か一覧に戻して Toast。§10.3）
  *
+ * 推奨例:
+ * - 作成・編集フォームは項目ごとに `FormField` を並べ、必須は `FormLabel required` で語で示す
+ * - 入力のしかたの補足は `FormDescription`、エラーは `FormMessage` に置き、placeholder は入力例だけにする
+ * - 送信ボタンは初めから押せるようにし、送信時に検証してエラーを項目のそばに出す
+ * - react-hook-form を使わない設定画面の 1 項目には `Field` に `htmlFor` を渡して使う
+ *
  * 使用例:
  * ```tsx
  * // useForm / zodResolver / z は nekodemo から import できる（別途インストール不要）
@@ -71,6 +77,9 @@ type FormItemContextValue = {
   id: string;
   hasDescription: boolean;
   setHasDescription: (v: boolean) => void;
+  /** FormMessage が（エラーでなく）固定の文言を出しているか */
+  hasMessage: boolean;
+  setHasMessage: (v: boolean) => void;
 };
 const FormItemContext = createContext<FormItemContextValue | null>(null);
 
@@ -82,10 +91,11 @@ export function useFormField() {
   if (!fieldContext) throw new Error("useFormField は FormField の中で使ってください");
   if (!itemContext) throw new Error("useFormField は FormItem の中で使ってください");
   const fieldState = getFieldState(fieldContext.name, formState);
-  const { id, hasDescription } = itemContext;
+  const { id, hasDescription, hasMessage } = itemContext;
   return {
     id,
     hasDescription,
+    hasMessage,
     name: fieldContext.name,
     formItemId: `${id}-form-item`,
     formDescriptionId: `${id}-form-item-description`,
@@ -97,8 +107,11 @@ export function useFormField() {
 export function FormItem({ className, ...props }: ComponentProps<"div">) {
   const id = useId();
   const [hasDescription, setHasDescription] = useState(false);
+  const [hasMessage, setHasMessage] = useState(false);
   return (
-    <FormItemContext.Provider value={{ id, hasDescription, setHasDescription }}>
+    <FormItemContext.Provider
+      value={{ id, hasDescription, setHasDescription, hasMessage, setHasMessage }}
+    >
       <div data-slot="form-item" className={cn("flex flex-col gap-1.5", className)} {...props} />
     </FormItemContext.Provider>
   );
@@ -127,8 +140,12 @@ export function FormLabel({
 }
 
 export function FormControl(props: ComponentProps<typeof Slot.Root>) {
-  const { error, formItemId, formDescriptionId, formMessageId, hasDescription } = useFormField();
-  const describedBy = [hasDescription ? formDescriptionId : null, error ? formMessageId : null]
+  const { error, formItemId, formDescriptionId, formMessageId, hasDescription, hasMessage } =
+    useFormField();
+  const describedBy = [
+    hasDescription ? formDescriptionId : null,
+    error || hasMessage ? formMessageId : null,
+  ]
     .filter(Boolean)
     .join(" ");
   return (
@@ -162,7 +179,13 @@ export function FormDescription({ className, ...props }: ComponentProps<"p">) {
 /** エラー文。children が無ければ react-hook-form のエラーメッセージを出す */
 export function FormMessage({ className, children, ...props }: ComponentProps<"p">) {
   const { error, formMessageId } = useFormField();
+  const item = useContext(FormItemContext);
   const body = error ? String(error?.message ?? "") : children;
+  const staticMessage = !error && !!body;
+  useEffect(() => {
+    item?.setHasMessage(staticMessage);
+    return () => item?.setHasMessage(false);
+  }, [item, staticMessage]);
   if (!body) return null;
   return (
     <p

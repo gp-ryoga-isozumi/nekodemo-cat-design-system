@@ -1,6 +1,6 @@
 "use client";
 
-import { type ChangeEvent, useState } from "react";
+import { type ChangeEvent, useRef, useState } from "react";
 import { cn } from "../../../lib/utils";
 import { Icon } from "../icon";
 import { IconButton } from "../icon-button";
@@ -29,6 +29,11 @@ export type InputSearchProps = Omit<InputProps, "type" | "onChange" | "value" | 
  * - 一覧の絞り込みに複数の InputSearch を並べる（1 つにして条件は Tag で見せる）
  * - 検索の実行を Enter だけにして、入力中の検索も無しにする（プロトタイプでは入力のたびに絞り込む方が試しやすい）
  *
+ * 推奨例:
+ * - 一覧の上に 1 つだけ置き、`placeholder` に何で探せるかを書く（「案件名・顧客名で検索」）
+ * - `onValueChange` で入力のたびに絞り込み、クリア（×）で元の一覧に戻せるようにする
+ * - 条件が増える画面は `onOpenConditions` で絞り込みを開き、選んだ条件は Tag で見せる
+ *
  * 使用例:
  * ```tsx
  * <InputSearch placeholder="案件名・顧客名で検索" value={q} onValueChange={setQ} onOpenConditions={() => setOpen(true)} />
@@ -44,8 +49,10 @@ export function InputSearch({
   onOpenConditions,
   clearLabel = "クリア",
   disabled,
+  ref: outerRef,
   ...props
 }: InputSearchProps) {
+  const inputRef = useRef<HTMLInputElement | null>(null);
   const [inner, setInner] = useState(defaultValue);
   const current = value ?? inner;
   const update = (next: string) => {
@@ -64,6 +71,11 @@ export function InputSearch({
         )}
       />
       <Input
+        ref={(el) => {
+          inputRef.current = el;
+          if (typeof outerRef === "function") outerRef(el);
+          else if (outerRef) outerRef.current = el;
+        }}
         type="search"
         size={size}
         disabled={disabled}
@@ -93,7 +105,11 @@ export function InputSearch({
             label={clearLabel}
             size="sm"
             disabled={disabled}
-            onClick={() => update("")}
+            onClick={() => {
+              // クリアボタンは消えるので、フォーカスを入力欄に戻す（body に落とさない）
+              update("");
+              inputRef.current?.focus();
+            }}
           />
         ) : null}
         {onOpenConditions ? (

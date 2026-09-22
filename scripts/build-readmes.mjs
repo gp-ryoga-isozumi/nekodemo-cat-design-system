@@ -1,4 +1,4 @@
-// 各部品の index.tsx 先頭の JSDoc（概要／アンチパターン／使用例）から README.md を生成する（設計書 §9.2、実装計画 A7）。
+// 各部品の index.tsx 先頭の JSDoc（概要／アンチパターン／推奨例／使用例）から README.md を生成する（設計書 §9.2、実装計画 A7）。
 // `pnpm build:readmes`。JSDoc が正で、README は生成物。
 import { existsSync, readdirSync, readFileSync, writeFileSync } from "node:fs";
 import { dirname, join } from "node:path";
@@ -18,7 +18,7 @@ export function extractDoc(source) {
     .trim();
 }
 
-/** JSDoc → README の Markdown。1 行目を見出し、「概要:」「アンチパターン:」「使用例:」を節にする */
+/** JSDoc → README の Markdown。1 行目を見出し、「概要:」「アンチパターン:」「推奨例:」「使用例:」を節にする */
 export function docToMarkdown(doc, name) {
   const lines = doc.split("\n");
   const title = lines[0].trim() || name;
@@ -27,6 +27,7 @@ export function docToMarkdown(doc, name) {
     .replace(/^概要:\s*/m, "## 概要\n\n")
     .replace(/^構成:\s*/m, "## 構成\n\n")
     .replace(/^アンチパターン:\s*$/m, "## アンチパターン\n")
+    .replace(/^推奨例:\s*$/m, "## 推奨例\n")
     .replace(/^使用例:\s*$/m, "## 使用例\n");
   return `# ${title}\n\n> このファイルは \`pnpm build:readmes\` が \`index.tsx\` の JSDoc から生成する。手で編集せず JSDoc を直す。\n\n${md}\n`;
 }

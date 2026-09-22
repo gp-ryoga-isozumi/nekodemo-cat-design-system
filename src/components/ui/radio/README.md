@@ -13,6 +13,13 @@
 - 単一の ON/OFF（Switch）
 - RadioGroup に `aria-label` も `aria-labelledby` も付けない
 
+## 推奨例
+
+- 公開範囲・支払い方法のように、2〜5 個の選択肢を全部見せて 1 つ選ばせる場面に使う
+- `RadioGroup` に `aria-label`（見出しがあるなら `aria-labelledby`）を付けて、何を選ぶ設問かを示す
+- よく使う値がある項目は `defaultValue` を渡し、未選択のまま送信させない
+- 各 `RadioItem` に `id` を振り、`<label htmlFor>` でラベル文字からも選べるようにする
+
 ## 使用例
 
 ```tsx

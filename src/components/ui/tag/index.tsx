@@ -50,6 +50,12 @@ export type TagProps = ComponentProps<"span"> &
  * - ボタン代わりに使う（クリックで何かをするなら Button）
  * - 件数を入れる（Badge）
  *
+ * 推奨例:
+ * - 一覧の絞り込み行に、今かかっている条件を `variant="selected"` で並べ、`onRemove` で 1 つずつ外せるようにする
+ * - 進行中・完了・差し戻しなどの状態は StatusTag の `status` で表し、意味どおりの色を割り当てる（完了は success、差し戻しは negative）
+ * - 「読み取り専用」「下書き」のような状態でないラベルは `variant="default"` の Tag にする
+ * - 条件が複数あるときは Tag の並びの末尾に「条件をクリアする」の ghost ボタンを添える
+ *
  * 使用例:
  * ```tsx
  * <Tag variant="selected" onRemove={() => clear("status")}>状態: 進行中</Tag>
@@ -78,7 +84,7 @@ export function Tag({
           type="button"
           onClick={onRemove}
           aria-label={removeLabel}
-          className="inline-flex size-5 shrink-0 items-center justify-center rounded-notice text-object-low outline-none hover:bg-surface-well hover:text-object-high focus-visible:outline-2 focus-visible:outline-border-focus"
+          className="-my-1 inline-flex size-6 shrink-0 items-center justify-center rounded-notice text-object-low outline-none hover:bg-surface-well hover:text-object-high focus-visible:outline-2 focus-visible:outline-border-focus"
         >
           <Icon icon="close" size={3} />
         </button>

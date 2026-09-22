@@ -18,6 +18,13 @@ Form（FormProvider）> FormField（Controller）> FormItem > FormLabel / FormCo
 - placeholder に必須情報を書く
 - フォームの保存後に編集画面に留まる（詳細か一覧に戻して Toast。§10.3）
 
+## 推奨例
+
+- 作成・編集フォームは項目ごとに `FormField` を並べ、必須は `FormLabel required` で語で示す
+- 入力のしかたの補足は `FormDescription`、エラーは `FormMessage` に置き、placeholder は入力例だけにする
+- 送信ボタンは初めから押せるようにし、送信時に検証してエラーを項目のそばに出す
+- react-hook-form を使わない設定画面の 1 項目には `Field` に `htmlFor` を渡して使う
+
 ## 使用例
 
 ```tsx

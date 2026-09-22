@@ -16,6 +16,12 @@ import { Icon } from "../icon";
  * - 選択肢が 20 を超える場合に使う（SearchCombobox）
  * - `<label>` を付けない（SelectTrigger に `id` を付け `<label htmlFor>` で結ぶ）
  *
+ * 推奨例:
+ * - 状態・担当部署のように、候補が 4〜20 個で変わらない単一選択に使う
+ * - `SelectTrigger` に `id` を付けて `<label htmlFor>` で結び、未選択は `SelectValue` の `placeholder`（「選択してください」）で示す
+ * - 候補が多いときは `SelectGroup` と `SelectLabel` で見出しを付けて分ける
+ * - 一覧の絞り込みでは `onValueChange` で再検索し、選んだ値を Tag にも出す
+ *
  * 使用例:
  * ```tsx
  * <Select defaultValue="isozumi">
@@ -59,7 +65,7 @@ export function SelectTrigger({
         "flex w-full min-w-0 items-center justify-between gap-2 whitespace-nowrap rounded-action border border-border-high bg-surface-input text-left text-text-high transition-[border-color,box-shadow]",
         "data-[placeholder]:text-text-placeholder *:data-[slot=select-value]:line-clamp-1",
         "outline-none focus-visible:border-border-focus focus-visible:ring-2 focus-visible:ring-border-focus/30",
-        "aria-invalid:border-border-negative",
+        "aria-invalid:border-border-negative aria-invalid:focus-visible:ring-border-negative/30",
         "disabled:cursor-not-allowed disabled:border-border-middle disabled:bg-surface-disabled disabled:text-text-disabled",
         TRIGGER_SIZE[size],
         className,

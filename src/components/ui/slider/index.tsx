@@ -5,8 +5,8 @@ import { type ComponentProps, useMemo } from "react";
 import { cn } from "../../../lib/utils";
 
 export type SliderProps = ComponentProps<typeof SliderPrimitive.Root> & {
-  /** つまみの読み上げ名（つまみが 1 つのとき）。複数なら配列 */
-  label?: string | string[];
+  /** つまみの読み上げ名（必須。つまみが 1 つなら文字列、複数なら配列） */
+  label: string | string[];
 };
 
 /**
@@ -18,6 +18,12 @@ export type SliderProps = ComponentProps<typeof SliderPrimitive.Root> & {
  * アンチパターン:
  * - 正確な数値入力に使う（Input type=number）
  * - 値を表示しない
+ *
+ * 推奨例:
+ * - 通知する日数・表示件数のように、だいたいの値を素早く決める設定に使う
+ * - `label` に何を決めるつまみかを書き、現在の値は `<output>` で数値としても見せる
+ * - `min` / `max` を業務の上下限に合わせ、`step` を業務の刻みにする
+ * - 範囲で絞り込むときは値を 2 つの配列で渡し、`label` もつまみごとの配列にする
  *
  * 使用例:
  * ```tsx

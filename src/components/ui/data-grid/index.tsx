@@ -189,6 +189,12 @@ function accessorOf<T extends RowData>(col: DataGridColumn<T>): (row: T) => unkn
  * - セル内編集をさせる（v1 では対象外）
  * - 縞模様や縦罫線を足す
  *
+ * 推奨例:
+ * - 数十行以上の業務一覧（案件・請求・利用者）に使い、`aria-label` に何の一覧かを書く
+ * - 読み込み中とエラーは `status` と `errorMessage` / `onRetry`、0 件は `emptyTitle` / `emptyAction` に渡して 4 状態をそろえる
+ * - 金額・数量の列は `numeric`、値の種類が決まっている列は `filter: "select"` にする
+ * - 1,000 行を超える想定では `virtualize` と `height` を使い、行末の操作は `rowActions` にまとめる
+ *
  * 使用例:
  * ```tsx
  * <DataGrid
@@ -385,7 +391,8 @@ export function DataGrid<T extends RowData>({
           {selectedCount > 0 ? (
             <div className="flex items-center gap-2 text-2 text-text-middle">
               <span aria-live="polite">
-                {selectedCount.toLocaleString()} {unit}を選択中
+                {selectedCount.toLocaleString()}
+                {unit}を選択中
               </span>
               <Button variant="ghost" size="sm" onClick={() => table.resetRowSelection()}>
                 選択を解除する
@@ -431,8 +438,9 @@ export function DataGrid<T extends RowData>({
         containerProps={{
           ref: scrollRef,
           style: virtualize ? { height, overflowY: "auto" } : undefined,
-          tabIndex: 0,
-          "aria-label": `${ariaLabel}（スクロール領域）`,
+          // 仮想化した表はスクロールで行を出すのでキーボードから届くようにする。それ以外は余分なタブストップを作らない
+          tabIndex: virtualize ? 0 : undefined,
+          "aria-label": virtualize ? `${ariaLabel}（スクロール領域）` : undefined,
         }}
         className="min-w-full table-fixed"
         style={{ width: table.getTotalSize() }}
@@ -588,7 +596,8 @@ export function DataGrid<T extends RowData>({
               <SelectContent>
                 {[20, 50, 100].map((n) => (
                   <SelectItem key={n} value={String(n)}>
-                    {n} {unit}
+                    {n}
+                    {unit}
                   </SelectItem>
                 ))}
               </SelectContent>

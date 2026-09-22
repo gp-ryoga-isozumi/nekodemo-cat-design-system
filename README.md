@@ -107,6 +107,7 @@ pnpm pack:test        # npm pack → 一時プロジェクトで import / CSS / 
 | 4 | 中核部品 36 種、`nekodemo check`、4 画面型のサンプル | 完了 |
 | 5 | AI 向け提供物（ガイド・skills・lint）、配布（registry / npm / デモサイト） | 完了（npm 公開は人の承認待ち） |
 | 6 | v1.1（SearchCombobox、DataGrid） | 完了 |
+| 7 | v1.2（InputNumber、InputDate、InputTime、InputFile、SegmentedControl、Stepper、FilterChip、Progress、DescriptionList、Accordion、PageHeader。ガイドラインの解剖図・状態・寸法・推奨例） | 進行中 |
 
 ## 参考にしたもの・ライセンス
 

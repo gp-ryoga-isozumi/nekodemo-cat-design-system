@@ -27,6 +27,11 @@ export type AvatarProps = ComponentProps<typeof AvatarPrimitive.Root> & {
  * - `name` を省略する（読み上げに必要）
  * - 会社や物に使う（人・アカウント用）
  *
+ * 推奨例:
+ * - 一覧や詳細の担当者欄に `size="sm"` で置き、氏名の文字と並べて誰の担当か分かるようにする
+ * - ヘッダー右上のログイン中のアカウントは既定の `md`、プロフィール画面の見出しは `size="lg"` にする
+ * - `name` に表示名をそのまま渡し、画像が無い人は `fallback` に姓の 1〜2 文字を入れる
+ *
  * 使用例:
  * ```tsx
  * <Avatar name="五十棲" src="/me.png" />
@@ -56,8 +61,8 @@ export function Avatar({ className, src, name, fallback, size = "md", ...props }
       <AvatarPrimitive.Fallback
         delayMs={src ? 300 : 0}
         className="flex size-full items-center justify-center"
-        aria-label={fallback ? undefined : name}
-        role={fallback ? undefined : "img"}
+        aria-label={name}
+        role="img"
       >
         {fallback ?? <Icon icon="cat_face" size={size === "sm" ? 5 : size === "lg" ? 8 : 6} />}
       </AvatarPrimitive.Fallback>

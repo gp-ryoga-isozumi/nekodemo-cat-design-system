@@ -14,6 +14,13 @@ size は sm 32 / md 40 / lg 48px。`loading` で毛糸玉 Spinner を出す（�
 - アイコンだけのボタンに使う（IconButton を使い label を付ける）
 - 削除確認の確定ボタンを primary にする（negative）
 
+## 推奨例
+
+- 1 画面の主アクション（「保存する」「案件を追加する」）に primary を 1 つ置き、その他は secondary / outline / ghost にする
+- 送信中は `loading` を付けて二重送信を防ぐ（押せなくなり Spinner が出る）
+- 削除の確定は `variant="negative"` にし、文言は「削除する」のように動作で書く
+- フォームのフッターや画面の主アクションは既定の md、Card の中の補助操作は `size="sm"` にする
+
 ## 使用例
 
 ```tsx

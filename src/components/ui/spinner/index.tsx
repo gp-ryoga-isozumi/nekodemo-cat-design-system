@@ -21,6 +21,12 @@ export type SpinnerProps = {
  * - 一覧やカード群の読み込みに使う（そこは Skeleton。Spinner はボタン内や小さな領域向け）
  * - 装飾として常時回す
  *
+ * 推奨例:
+ * - ボタンの処理中（Button の `loading`）と、パネルなど小さな領域の待ち時間に使う
+ * - `label` に何を待っているかを書く（「案件を読み込み中」）
+ * - 画面の中ほどに単独で置くときは `size="lg"`、文字やアイコンに添えるときは `size="sm"` にする
+ * - 色は `className` に `text-object-*` の役割トークンで渡す
+ *
  * 使用例:
  * ```tsx
  * <Spinner />
@@ -43,7 +49,6 @@ export function Spinner({ size = "md", label = "読み込み中", className }: S
       className={cn("inline-block shrink-0 animate-spin motion-reduce:animate-none", className)}
       data-slot="spinner"
     >
-      <title>{label}</title>
       <circle cx="12" cy="12" r="8.5" />
       <path d="M4.6 9.5c4.5-2.2 9.5-2 15 1M4 14.2c5.5-3 10.5-3 16 0M9.2 4.2c-2.2 4.5-2 9.5 1 15" />
     </svg>

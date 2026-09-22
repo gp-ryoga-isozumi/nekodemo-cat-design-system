@@ -3,7 +3,7 @@
   "name": "drawer",
   "type": "registry:ui",
   "title": "Drawer",
-  "description": "画面端から出るサイドパネル。side は right（既定）／ left ／ bottom、幅は最大 480px",
+  "description": "画面端から出るサイドパネル。side は right（既定）／ left ／ bottom、右・左は幅 480px まで",
   "registryDependencies": ["icon-button"],
   "dependencies": ["radix-ui"],
   "files": [
