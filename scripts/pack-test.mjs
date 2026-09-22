@@ -36,6 +36,10 @@ const tarball = join(packDir, packInfo.filename);
 log(
   `tarball: ${packInfo.filename}（${(packInfo.size / 1024).toFixed(0)} KB、展開後 ${(packInfo.unpackedSize / 1024).toFixed(0)} KB、${packInfo.entryCount} ファイル）`,
 );
+// tarball のサイズ上限（現状 約 260 KB。依存の取り込み事故に気づけるよう余裕を持って 800 KB）
+if (packInfo.size > 800 * 1024) {
+  throw new Error(`tarball が大きすぎます: ${(packInfo.size / 1024).toFixed(0)} KB（上限 800 KB）`);
+}
 const shipped = new Set(packInfo.files.map((f) => f.path));
 for (const must of [
   "dist/index.js",
@@ -94,6 +98,8 @@ writeFileSync(
 import React from "react";
 import * as nk from "nekodemo";
 import * as reg from "nekodemo/themes/registry";
+import { Button as SubButton } from "nekodemo/components/button";
+if (SubButton !== nk.Button) throw new Error("nekodemo/components/button が barrel の Button と一致しません");
 const names = Object.keys(nk);
 if (names.length < 100) throw new Error("export が少なすぎます: " + names.length);
 const themeList = Object.values(reg).find((v) => Array.isArray(v));
@@ -111,9 +117,43 @@ for (const must of ["data-slot=\\"button\\"", "bg-surface-primary", "data-icon=\
   if (!html.includes(must)) throw new Error("SSR 出力に " + must + " が含まれません: " + html.slice(0, 400));
 }
 console.log("[pack:test] SSR OK: exports " + names.length + " 個、HTML " + html.length + " 文字");
+
 `,
 );
 run("node", ["ssr.mjs"], app);
+// 3b. 型定義が利用側で解決できる（barrel と部品ごとの subpath）
+writeFileSync(
+  join(app, "types.ts"),
+  `import { Button, type ButtonProps, InputNumber } from "nekodemo";
+import { Tag } from "nekodemo/components/tag";
+import type { NekoThemeId } from "nekodemo/themes/registry";
+const p: ButtonProps = { variant: "primary", children: "保存する" };
+const t: NekoThemeId = "calico";
+export const x = [Button, InputNumber, Tag, p, t];
+`,
+);
+writeFileSync(
+  join(app, "tsconfig.json"),
+  JSON.stringify(
+    {
+      compilerOptions: {
+        strict: true,
+        noEmit: true,
+        jsx: "react-jsx",
+        module: "esnext",
+        moduleResolution: "bundler",
+        target: "es2022",
+        skipLibCheck: true,
+        types: [],
+      },
+      files: ["types.ts"],
+    },
+    null,
+    2,
+  ),
+);
+run("pnpm", ["exec", "tsc", "-p", join(app, "tsconfig.json")], ROOT);
+log("型定義 OK（barrel / components/* / themes/registry）");
 
 // 3b. styles.css を Tailwind でコンパイル（@source で dist を走査）
 writeFileSync(

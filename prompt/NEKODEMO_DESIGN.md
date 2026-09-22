@@ -1113,7 +1113,7 @@ flowchart LR
 | デモサイト | テーマ切替、全部品のギャラリー、アイコンカタログ（T1 / T2 / T3 の状態表示）、4 画面型のサンプル | ブラウザで見る。インタビュー時の「見せ方」の見本にもなる |
 | Storybook | 各部品のストーリー、a11y 結果、テーマ切替ツールバー | `/storybook/` |
 
-- パッケージの `exports`: `"."`（全部品）、`"./styles.css"`、`"./themes/registry"`、`"./ai/*"`、`"./package.json"`。`"./<component>"` の個別エントリは v1 では提供しない（ESM で各ファイルに `"use client"` を保持しており、ツリーシェイクで足りる。必要になれば v1.1 で追加）。`tsc` は相対 import に拡張子を付けないため、`build:package` が `dist/` の相対 import を `.js` / `/index.js` に書き換える（Node ESM でディレクトリ import は不可）。`react` / `react-dom` は peerDependencies。
+- パッケージの `exports`: `"."`（全部品）、`"./styles.css"`、`"./themes/registry"`、`"./ai/*"`、`"./package.json"`。`"./components/*"`（`nekodemo/components/button` のように部品ごとに import。dev サーバの初期ロードで barrel 全体（MUI / TanStack を含む）を読まずに済む。2026-09-22 追加）。`tsc` は相対 import に拡張子を付けないため、`build:package` が `dist/` の相対 import を `.js` / `/index.js` に書き換える（Node ESM でディレクトリ import は不可）。`react` / `react-dom` は peerDependencies。
 - バージョニングは semver。`CHANGELOG.md` を必須にし、リリース PR で更新する。`npm publish` などの不可逆操作は AI の hook（PreToolUse）でブロックし、人が明示したときだけ実行する（§17.4）。
 - registry の `registryDependencies` で部品間の依存（Button → Icon, Spinner）を宣言し、1 部品の追加で必要な部品が揃うようにする。
 
