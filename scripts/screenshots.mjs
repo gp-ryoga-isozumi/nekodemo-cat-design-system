@@ -9,8 +9,13 @@ import { loadThemes } from "./check-contrast.mjs";
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), "..");
 const OUT = join(ROOT, "out");
-const DEST = join(ROOT, "docs", "screenshots");
-const PAGES = ["/", "/tokens/", "/themes/", "/samples/list/", "/samples/grid/", "/samples/form/"];
+// 環境変数で撮影対象と出力先を差し替えられる（例: NEKODEMO_SCREENSHOT_PAGES=/guidelines/,/guidelines/components/ NEKODEMO_SCREENSHOT_DIR=/tmp/shots）
+const DEST = process.env.NEKODEMO_SCREENSHOT_DIR ?? join(ROOT, "docs", "screenshots");
+const PAGES = process.env.NEKODEMO_SCREENSHOT_PAGES
+  ? process.env.NEKODEMO_SCREENSHOT_PAGES.split(",")
+      .map((p) => p.trim())
+      .filter(Boolean)
+  : ["/", "/tokens/", "/themes/", "/samples/list/", "/samples/grid/", "/samples/form/"];
 const MIME = {
   ".html": "text/html; charset=utf-8",
   ".css": "text/css",
@@ -66,7 +71,7 @@ async function main() {
         await page.waitForTimeout(300);
         const name = `${path === "/" ? "home" : path.replace(/^\/|\/$/g, "").replaceAll("/", "-")}-${theme.id}.png`;
         await page.screenshot({ path: join(DEST, name), fullPage: true });
-        console.log(`[screenshots] docs/screenshots/${name}`);
+        console.log(`[screenshots] ${DEST}/${name}`);
       }
       await context.close();
     }
