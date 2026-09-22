@@ -185,9 +185,37 @@ export function runCheck(targets, { cwd = process.cwd(), enabledRules = null, ig
   const missing = missingTargets(targets, cwd);
   const files = collectFiles(targets, cwd, { ignore: allIgnore });
   const findings = [];
+  const toastUsers = [];
+  const toasterHosts = [];
   for (const file of files) {
     const rel = relative(cwd, file).split("\\").join("/");
-    findings.push(...checkSource(readFileSync(file, "utf8"), rel, { iconNames, enabledRules }));
+    const source = readFileSync(file, "utf8");
+    findings.push(...checkSource(source, rel, { iconNames, enabledRules }));
+    if (/\btoast[.(]/.test(source) && !/components\/ui\/toast\//.test(rel)) toastUsers.push(rel);
+    if (/<Toaster\b/.test(source) && !/components\/ui\/toast\/|\.stories\.tsx$/.test(rel))
+      toasterHosts.push(rel);
+  }
+  // NK016: toast() を使っているのに <Toaster> が無い / 2 つ以上ある（プロジェクト全体の判定）
+  if (!enabledRules || enabledRules.has("NK016")) {
+    if (toastUsers.length > 0 && toasterHosts.length === 0) {
+      findings.push({
+        rule: "NK016",
+        severity: "warn",
+        file: toastUsers[0],
+        line: 1,
+        col: 1,
+        message: `toast() を使っていますが <Toaster /> がどこにもありません。ルートレイアウトに 1 つ置いてください（${toastUsers.length} ファイルで使用）`,
+      });
+    } else if (toasterHosts.length > 1) {
+      findings.push({
+        rule: "NK016",
+        severity: "warn",
+        file: toasterHosts[1],
+        line: 1,
+        col: 1,
+        message: `<Toaster /> が ${toasterHosts.length} か所にあります（${toasterHosts.join(", ")}）。ルートレイアウトの 1 つだけにしてください`,
+      });
+    }
   }
   const order = { error: 0, warn: 1, info: 2 };
   findings.sort(
