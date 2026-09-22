@@ -66,8 +66,6 @@ Next.js `src/app/layout.tsx`:
 import { NekoHead, NekoThemeProvider, Toaster, TooltipProvider } from "nekodemo";
 import "./globals.css";
 
-部品ごとの import もできる（`import { Button } from "nekodemo/components/button"`）。dev サーバの初期ロードを軽くしたいときに使う（barrel の `nekodemo` は SearchCombobox / DataGrid の依存（@mui/material の一部と TanStack Table）まで読み込む）。Next.js なら `next.config.ts` の `experimental.optimizePackageImports: ["nekodemo"]` でも同じ効果がある。
-
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="ja" data-neko-theme="calico" suppressHydrationWarning>
@@ -86,6 +84,8 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   );
 }
 ```
+
+部品ごとの import もできる（`import { Button } from "nekodemo/components/button"`）。dev サーバの初期ロードを軽くしたいときに使う（barrel の `nekodemo` は SearchCombobox / DataGrid の依存（@mui/material の一部と TanStack Table）まで読み込む）。Next.js なら `next.config.ts` の `experimental.optimizePackageImports: ["nekodemo"]` でも同じ効果がある。
 
 Vite `index.html` と `src/main.tsx`:
 
