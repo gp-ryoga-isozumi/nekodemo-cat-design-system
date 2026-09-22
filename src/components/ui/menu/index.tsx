@@ -69,7 +69,7 @@ export function MenuContent({
 }
 
 const itemClass = [
-  "relative flex cursor-default select-none items-center gap-2.5 rounded-action px-2.5 py-2 text-2 outline-hidden",
+  "relative flex cursor-default select-none items-center gap-2.5 rounded-action px-2.5 py-2 text-2 outline-hidden focus:outline-2 focus:-outline-offset-2 focus:outline-border-focus",
   "focus:bg-surface-well data-[disabled]:pointer-events-none data-[disabled]:text-text-disabled",
   "[&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg]:text-object-middle",
 ];
