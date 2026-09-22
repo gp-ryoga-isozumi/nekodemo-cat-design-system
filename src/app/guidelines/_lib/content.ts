@@ -205,7 +205,7 @@ export type ComponentDoc = {
 
 const UI_DIR = join(ROOT, "src", "components", "ui");
 const NOTES_DIR = join(ROOT, "docs", "guidelines", "components");
-const EMPTY_SPEC: ComponentSpec = { options: {}, metrics: [], states: [] };
+const EMPTY_SPEC: ComponentSpec = { options: {}, metrics: [], states: [], props: [] };
 
 /** 箇条書き（- で始まる行）だけを取り出す */
 function bullets(markdown: string): string[] {

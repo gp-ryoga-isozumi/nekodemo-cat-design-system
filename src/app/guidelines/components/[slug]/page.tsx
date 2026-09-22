@@ -219,6 +219,46 @@ function sectionBody(
               と分割代入の既定値
             </p>
           ) : null}
+          {doc.spec.props.length ? (
+            <div className="flex flex-col gap-2">
+              <h3 className="font-bold text-3 text-text-high">props</h3>
+              <Table density="xs" aria-label={`${doc.title} の props`}>
+                <TableHeader>
+                  <TableRow>
+                    <TableHead>prop</TableHead>
+                    <TableHead>型</TableHead>
+                    <TableHead>既定</TableHead>
+                    <TableHead>説明</TableHead>
+                  </TableRow>
+                </TableHeader>
+                <TableBody>
+                  {doc.spec.props.map((p) => (
+                    <TableRow key={`${p.owner}-${p.name}`}>
+                      <TableCell className="whitespace-nowrap font-mono">
+                        {p.name}
+                        {p.required ? (
+                          <span className="ml-1 font-sans text-1 text-text-negative">必須</span>
+                        ) : null}
+                      </TableCell>
+                      <TableCell>
+                        <code className="break-all font-mono text-1 text-text-middle">
+                          {p.type}
+                        </code>
+                      </TableCell>
+                      <TableCell className="whitespace-nowrap font-mono">
+                        {p.default ?? "—"}
+                      </TableCell>
+                      <TableCell className="text-text-middle">{p.description}</TableCell>
+                    </TableRow>
+                  ))}
+                </TableBody>
+              </Table>
+              <p className="text-2 text-text-low">
+                export type XxxProps の型リテラルと JSDoc から機械的に抽出（HTML 属性や Radix
+                から継承する props は含まない）。既定は分割代入の既定値
+              </p>
+            </div>
+          ) : null}
           {doc.stories.length ? (
             <details className="text-2">
               <summary className="cursor-pointer text-text-middle">

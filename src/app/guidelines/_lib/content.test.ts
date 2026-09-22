@@ -33,6 +33,9 @@ describe("guidelines content", () => {
       expect.arrayContaining(["hover", "focus", "disabled", "loading"]),
     );
     expect(button.antiPatterns.length).toBeGreaterThan(0);
+    expect(button.spec.props.map((p) => p.name)).toEqual(
+      expect.arrayContaining(["loading", "asChild"]),
+    );
     expect(note(button, "振る舞い")).not.toBe("");
     expect(note(button, "参考文献")).toMatch(/https:\/\//);
     const status = sectionStatus(button);

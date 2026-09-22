@@ -199,7 +199,7 @@ export function densityMetrics(source) {
 /** 分割代入の既定値（`size = "md"`）を読む */
 export function defaultValues(source) {
   const defaults = {};
-  for (const m of source.matchAll(/\b(\w+) = "([\w-]+)"/g)) defaults[m[1]] = m[2];
+  for (const m of source.matchAll(/\b(\w+) = "([^"\n]*)"/g)) defaults[m[1]] = m[2];
   return defaults;
 }
 
@@ -243,6 +243,59 @@ export function unionProps(source) {
   return props;
 }
 
+/** `export type XxxProps = … & { /** 説明 *\/ name?: type; … }` の型リテラルから props を読む（JSDoc・必須・型・分割代入の既定値） */
+export function propsFrom(source) {
+  const out = [];
+  const defaults = defaultValues(source);
+  const seen = new Set();
+  for (const m of source.matchAll(/export type (\w+Props)\b[^=]*=/g)) {
+    // 型の定義（`… = A & { … } & B;`）の終わり = 波括弧・山括弧の外にある最初の `;`
+    const start = m.index + m[0].length;
+    let depth = 0;
+    let angle = 0;
+    let quote = null;
+    let end = source.length;
+    for (let k = start; k < source.length; k++) {
+      const ch = source[k];
+      if (quote) {
+        if (ch === "\\") k++;
+        else if (ch === quote) quote = null;
+        continue;
+      }
+      if (ch === '"' || ch === "'" || ch === "`") quote = ch;
+      else if (ch === "{") depth++;
+      else if (ch === "}") depth--;
+      else if (ch === "<") angle++;
+      else if (ch === ">" && source[k - 1] !== "=") angle = Math.max(0, angle - 1);
+      else if (ch === ";" && depth === 0 && angle === 0) {
+        end = k;
+        break;
+      }
+    }
+    const block = source.slice(start, end);
+    // 型リテラル直下のメンバー（2〜4 スペース字下げ）。入れ子の型のメンバー（6 スペース以上）は拾わない
+    const re = /(?:\/\*\*\s*([\s\S]*?)\s*\*\/\s*)?(?:^|\n) {2,4}("[\w-]+"|\w+)(\?)?:\s*([^;]+);/g;
+    for (const p of block.matchAll(re)) {
+      const name = p[2].replace(/"/g, "");
+      if (seen.has(name)) continue;
+      seen.add(name);
+      const type = p[4].replace(/\s+/g, " ").trim();
+      out.push({
+        owner: m[1],
+        name,
+        required: !p[3],
+        type,
+        default: defaults[name] ?? null,
+        description: (p[1] ?? "")
+          .replace(/\n\s*\*\s?/g, " ")
+          .replace(/\s+/g, " ")
+          .trim(),
+      });
+    }
+  }
+  return out;
+}
+
 export function extractSpec(source) {
   const cva = cvaVariants(source);
   const tokens = classTokens(source);
@@ -279,7 +332,7 @@ export function extractSpec(source) {
     if (!options[name]) options[name] = p;
     else if (options[name].default === null && p.default) options[name].default = p.default;
   }
-  return { options, metrics, states: statesFromTokens(tokens, source) };
+  return { options, metrics, states: statesFromTokens(tokens, source), props: propsFrom(source) };
 }
 
 export function specFor(slug, root = ROOT) {

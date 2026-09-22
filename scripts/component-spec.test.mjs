@@ -115,6 +115,19 @@ export function Table({ density = "sm", side = "right", sort }: { density?: Tabl
     expect(spinner.options.size?.default).toBe("md");
   });
 
+  it("export type XxxProps の型リテラルから props（JSDoc・必須・型・既定値）を読む", () => {
+    const pag = specFor("pagination").props;
+    const page = pag.find((p) => p.name === "page");
+    expect(page).toMatchObject({ owner: "PaginationProps", required: true, type: "number" });
+    expect(page.description).toContain("現在のページ");
+    const unit = pag.find((p) => p.name === "unit");
+    expect(unit).toMatchObject({ required: false, type: "string", default: "件" });
+    const button = specFor("button").props.map((p) => p.name);
+    expect(button).toEqual(expect.arrayContaining(["loading", "asChild"]));
+    const file = specFor("input-file").props.find((p) => p.name === "onReject");
+    expect(file?.type).toContain('"type" | "size" | "count"');
+  });
+
   it("cva を使わない部品でも空の仕様を返す", () => {
     const spec = extractSpec(
       `export function Divider() { return <hr className="border-border-low" />; }`,
