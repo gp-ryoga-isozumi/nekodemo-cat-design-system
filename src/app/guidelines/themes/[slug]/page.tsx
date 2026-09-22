@@ -237,18 +237,21 @@ export default async function ThemePage({ params }: { params: Promise<{ slug: st
         description={page.description}
       />
       <MarkdownContent source={readDoc(page)} base="docs/guidelines/themes" />
-      <section className="mt-8 flex flex-col gap-3">
-        <h2 className="border-border-low border-b pb-2 font-bold text-5 text-text-high">
-          {slug === "color" && "役割トークンの一覧（tokens/semantic.map.json から生成）"}
-          {slug === "typography" && "文字サイズの段階（tokens/primitives.json から生成）"}
-          {slug === "shape" && "値（themes/*.json と tokens/primitives.json から生成）"}
-          {slug === "icons" && "整備状況（icons/status.json から生成）"}
-        </h2>
-        {slug === "color" ? <RolesTable /> : null}
-        {slug === "typography" ? <TypographyTable /> : null}
-        {slug === "shape" ? <ShapeTables /> : null}
-        {slug === "icons" ? <IconStats /> : null}
-      </section>
+      {/* データから生成する表があるページだけ末尾の節を出す（Motion のような本文だけのページでは空の見出しを出さない） */}
+      {["color", "typography", "shape", "icons"].includes(slug) ? (
+        <section className="mt-8 flex flex-col gap-3">
+          <h2 className="border-border-low border-b pb-2 font-bold text-5 text-text-high">
+            {slug === "color" && "役割トークンの一覧（tokens/semantic.map.json から生成）"}
+            {slug === "typography" && "文字サイズの段階（tokens/primitives.json から生成）"}
+            {slug === "shape" && "値（themes/*.json と tokens/primitives.json から生成）"}
+            {slug === "icons" && "整備状況（icons/status.json から生成）"}
+          </h2>
+          {slug === "color" ? <RolesTable /> : null}
+          {slug === "typography" ? <TypographyTable /> : null}
+          {slug === "shape" ? <ShapeTables /> : null}
+          {slug === "icons" ? <IconStats /> : null}
+        </section>
+      ) : null}
     </>
   );
 }
