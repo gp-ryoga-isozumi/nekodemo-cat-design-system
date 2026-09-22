@@ -229,7 +229,7 @@ export function FormMessage({ className, children, ...props }: ComponentProps<"p
 
 /**
  * Field — react-hook-form を使わない静的なラベル・補足・エラーの組（設定画面の 1 項目など）。
- * 子の入力部品には `id={fieldId}` と `aria-describedby` を自分で付ける。
+ * 子の入力部品には `htmlFor` の値が `id` として、補足・エラーの id が `aria-describedby` として自動で付く（`aria-invalid` / `aria-required` も）。
  */
 export function Field({
   label,

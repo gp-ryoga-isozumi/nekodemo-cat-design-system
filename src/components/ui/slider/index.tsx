@@ -16,7 +16,7 @@ export type SliderProps = ComponentProps<typeof SliderPrimitive.Root> & {
  * `label` は各つまみの `aria-label` になる。
  *
  * アンチパターン:
- * - 正確な数値入力に使う（Input type=number）
+ * - 正確な数値入力に使う（InputNumber）
  * - 値を表示しない
  *
  * 推奨例:

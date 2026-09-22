@@ -869,6 +869,7 @@ v1.2: Calendar、Input Date / Time / Number / File / Chip、Filter Chip、Steppe
 | tailwind-merge | `cn()` は `extendTailwindMerge` で nekodemo の文字サイズ段階（`text-1〜12` と別名）・角丸（`rounded-action` 等）・影を登録する。登録しないと `text-2` が色と誤判定され、`text-text-on-primary text-2` の並びで色が落ちる（Phase 4 で検出） |
 | asChild | Radix の `Slot` は子が 1 つでないと落ちるため、アイコンや Spinner と子要素を並べる部品（Button / Link / SideNavItem）は `<Slot.Slottable>` で子要素を包む（Phase 4 で検出） |
 | Server / Client | `"use client"` が必要な部品は個別 import パス（`nekodemo/button`）を用意する |
+| props の命名（2026-09-22、API レビュー） | 値は `value` / `defaultValue` / `onValueChange`（Radix の checked 系は `checked` / `onCheckedChange`）。読み上げ名は「部品が label 要素を描くなら `label`、ルートの aria-label を埋めるだけなら `"aria-label"`」。既定で出るものを消す prop は `hide*`（`hideMascot` / `hideLabel` / `hideSteppers`）、既定で出ないものを出す prop は `show*`（`showCount` / `showValue`。`showCloseButton` は shadcn 互換で例外）。見出しはオーバーレイ・カードなど複合部品ではサブ部品（`XxxTitle`）、単体部品では `title` prop。`className` は必ずルート要素に付け、内側に付けたいときは `inputClassName`。`...props` はルートに展開し、内部で必ず勝たせたいもの（`type="button"`、`onChange` の内部処理）だけ後置する |
 
 ### 9.3 SearchCombobox（v1.1）— サジェスト＋複数選択
 
