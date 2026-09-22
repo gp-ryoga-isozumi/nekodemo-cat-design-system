@@ -94,6 +94,7 @@ export function InputNumber({
   id,
   onBlur,
   onFocus,
+  onKeyDown: onKeyDownProp,
   ...props
 }: InputNumberProps) {
   const autoId = useId();
@@ -128,6 +129,9 @@ export function InputNumber({
   const atMax = max !== undefined && current !== null && current >= max;
 
   const onKeyDown = (e: KeyboardEvent<HTMLInputElement>) => {
+    onKeyDownProp?.(e);
+    // readOnly / disabled のときは増減ボタンと同じく ↑↓ でも変えない
+    if (e.defaultPrevented || disabled || readOnly) return;
     if (e.key === "ArrowUp") {
       e.preventDefault();
       if (!atMax) stepBy(1);
