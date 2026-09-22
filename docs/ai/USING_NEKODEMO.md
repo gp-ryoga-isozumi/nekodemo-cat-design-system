@@ -75,7 +75,7 @@ export default function RootLayout({ children }) {
 | D. 設定 | 左に縦 `Tabs` → 右に設定項目（1 項目 = 見出し・説明・入力の 3 行） | `Tabs`（`orientation="vertical"`）`Switch` `Select` `Divider` `Field` |
 
 共通: 左に `SideNavigation`（幅 240px、折りたたみ 64px）、上にアプリ名＋`NekoThemePicker`＋`Avatar`。コンテンツ幅の最大は 1200px、ページ余白 24px。
-実例: リポジトリの `src/app/samples/{list,detail,form,settings}/page.tsx`。DataGrid ＋ SearchCombobox 版の一覧は `src/app/samples/grid/page.tsx`。
+実例: リポジトリの `src/app/samples/{list,detail,form,settings}/page.tsx`。DataGrid ＋ SearchCombobox 版の一覧は `src/app/samples/grid/page.tsx`、ログイン（型 E）は `src/app/samples/login/page.tsx`、ダッシュボード（型 F）は `src/app/samples/dashboard/page.tsx`。
 
 ## 5. 状態の必須セット（省略不可）
 

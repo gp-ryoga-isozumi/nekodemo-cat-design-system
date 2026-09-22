@@ -15,7 +15,16 @@ const PAGES = process.env.NEKODEMO_SCREENSHOT_PAGES
   ? process.env.NEKODEMO_SCREENSHOT_PAGES.split(",")
       .map((p) => p.trim())
       .filter(Boolean)
-  : ["/", "/tokens/", "/themes/", "/samples/list/", "/samples/grid/", "/samples/form/"];
+  : [
+      "/",
+      "/tokens/",
+      "/themes/",
+      "/samples/list/",
+      "/samples/grid/",
+      "/samples/form/",
+      "/samples/login/",
+      "/samples/dashboard/",
+    ];
 const MIME = {
   ".html": "text/html; charset=utf-8",
   ".css": "text/css",
