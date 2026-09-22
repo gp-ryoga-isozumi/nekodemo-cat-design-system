@@ -14,6 +14,12 @@ import { cn } from "../../../lib/utils";
  * - 画面遷移の代わりに使う（URL が変わる移動は SideNavigation / Link）
  * - タブが 6 個を超える（分割か Select を検討）
  *
+ * 推奨例:
+ * - 詳細画面（画面の型 B）で情報が多いときに、同じ対象の面（概要・タスク・履歴）を 2〜6 個に分ける
+ * - 設定画面（画面の型 D）の左ナビは `orientation="vertical"` にする
+ * - `TabsList` に `aria-label` を付けて何の切替かを示し、タブ名は名詞にする
+ * - 件数を見せたいタブは `TabsTrigger` の中に Badge を置く
+ *
  * 使用例:
  * ```tsx
  * <Tabs defaultValue="overview">

@@ -17,6 +17,13 @@
 - 検索欄として使う（InputSearch。候補を出さない検索は InputSearch）
 - `label` を省略する（`hideLabel` で見た目だけ隠す）
 
+## 推奨例
+
+- 顧客・担当者・品目のように候補が 20 件を超える参照入力に使い、`label` に何を選ぶかを書く
+- サーバー検索は `onInputChange` を呼び出し側でデバウンスし、取得中は `loading` で待ちを見せる
+- 同名の候補があるときは `getOptionDescription` に会社名やコードを出して見分けられるようにする
+- 絞り込み条件のタグ付けは `multiple`、候補に無い語も許すなら `freeSolo` を足す
+
 ## 使用例
 
 ```tsx

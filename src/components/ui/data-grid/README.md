@@ -19,6 +19,13 @@
 - セル内編集をさせる（v1 では対象外）
 - 縞模様や縦罫線を足す
 
+## 推奨例
+
+- 数十行以上の業務一覧（案件・請求・利用者）に使い、`aria-label` に何の一覧かを書く
+- 読み込み中とエラーは `status` と `errorMessage` / `onRetry`、0 件は `emptyTitle` / `emptyAction` に渡して 4 状態をそろえる
+- 金額・数量の列は `numeric`、値の種類が決まっている列は `filter: "select"` にする
+- 1,000 行を超える想定では `virtualize` と `height` を使い、行末の操作は `rowActions` にまとめる
+
 ## 使用例
 
 ```tsx
