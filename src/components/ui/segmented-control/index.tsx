@@ -6,7 +6,7 @@ import { type ComponentProps, type KeyboardEvent, useRef, useState } from "react
 import { warnMissingName } from "../../../lib/a11y";
 import { cn } from "../../../lib/utils";
 
-const rootVariants = cva(
+export const segmentedControlVariants = cva(
   "inline-flex max-w-full items-stretch gap-0.5 overflow-x-auto rounded-action border border-border-middle bg-surface-well p-0.5",
   {
     variants: {
@@ -16,7 +16,7 @@ const rootVariants = cva(
   },
 );
 
-const itemVariants = cva(
+export const segmentedControlItemVariants = cva(
   [
     "inline-flex shrink-0 items-center justify-center gap-1.5 whitespace-nowrap rounded-action text-text-middle transition-colors",
     "hover:text-text-high",
@@ -132,7 +132,7 @@ export function SegmentedControl({
       value={current}
       onValueChange={select}
       onKeyDown={handleKeyDown}
-      className={cn(rootVariants({ size }), className)}
+      className={cn(segmentedControlVariants({ size }), className)}
       {...props}
     >
       {children}
@@ -146,7 +146,7 @@ export function SegmentedControlItem({ className, ...props }: SegmentedControlIt
       data-slot="segmented-control-item"
       data-value={props.value}
       className={cn(
-        itemVariants(),
+        segmentedControlItemVariants(),
         "[[data-size=lg]_&]:px-4 [[data-size=lg]_&]:text-3 [[data-size=sm]_&]:px-2.5",
         className,
       )}

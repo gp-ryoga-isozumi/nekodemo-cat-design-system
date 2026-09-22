@@ -5,7 +5,7 @@ import { type ComponentProps, useState } from "react";
 import { cn } from "../../../lib/utils";
 import { Icon } from "../icon";
 
-const chipVariants = cva(
+export const filterChipVariants = cva(
   [
     "inline-flex shrink-0 items-center gap-1 whitespace-nowrap rounded-round border font-normal transition-colors",
     "border-border-high bg-surface-card text-text-middle hover:text-text-high",
@@ -88,7 +88,7 @@ export function FilterChip({
         if (selectedProp === undefined) setInner(!selected);
         onSelectedChange?.(!selected);
       }}
-      className={cn(chipVariants({ size }), className)}
+      className={cn(filterChipVariants({ size }), className)}
       {...props}
     >
       {selected ? (

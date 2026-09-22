@@ -49,6 +49,17 @@ function ControlledViewSwitch({ onValueChange }: { onValueChange?: (value: strin
 }
 
 describe("SegmentedControl", () => {
+  it("アクセシブルネーム: aria-label も aria-labelledby も無いと開発時に警告する", () => {
+    const warn = vi.spyOn(console, "warn").mockImplementation(() => {});
+    render(
+      <SegmentedControl defaultValue="a">
+        <SegmentedControlItem value="a">A</SegmentedControlItem>
+      </SegmentedControl>,
+    );
+    expect(warn).toHaveBeenCalledWith(expect.stringContaining("読み上げ名がありません"));
+    warn.mockRestore();
+  });
+
   it("表示: radiogroup と radio で描画され、選択中だけ aria-checked=true になる", () => {
     const { rerender } = render(<ViewSwitch />);
     const group = screen.getByRole("radiogroup", { name: "案件の表示" });
