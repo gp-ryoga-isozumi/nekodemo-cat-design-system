@@ -74,6 +74,7 @@ export function Button({
   asChild = false,
   loading = false,
   disabled,
+  onClick,
   children,
   type,
   ...props
@@ -86,9 +87,18 @@ export function Button({
       data-size={size}
       type={asChild ? undefined : (type ?? "button")}
       className={cn(buttonVariants({ variant, size }), className)}
-      disabled={disabled || loading}
+      disabled={disabled}
+      aria-disabled={loading || undefined}
       aria-busy={loading || undefined}
       {...props}
+      onClick={(e) => {
+        // loading 中は押せない（disabled にするとフォーカスが body に落ちるので aria-disabled で止める）
+        if (loading) {
+          e.preventDefault();
+          return;
+        }
+        onClick?.(e);
+      }}
     >
       {loading ? <Spinner size={size === "lg" ? "md" : "sm"} /> : null}
       <Slot.Slottable>{children}</Slot.Slottable>

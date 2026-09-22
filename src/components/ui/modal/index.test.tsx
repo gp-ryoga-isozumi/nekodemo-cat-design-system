@@ -102,6 +102,7 @@ describe("Modal", () => {
     await openModal();
     await userEvent.keyboard("{Escape}");
     expect(screen.queryByRole("dialog")).not.toBeInTheDocument();
+    expect(screen.getByRole("button", { name: "担当者を変更する" })).toHaveFocus();
   });
 
   it("disabled: 無効なトリガーは開かず、無効なフッターボタンは押しても呼ばれない", async () => {

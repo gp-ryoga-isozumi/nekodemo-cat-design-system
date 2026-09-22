@@ -65,19 +65,20 @@ describe("Pagination", () => {
     expect(onPageChange).toHaveBeenCalledTimes(3);
   });
 
-  it("disabled: 先頭では前へ、最終ページでは次へが押せない", async () => {
+  it("disabled: 先頭では前へ、最終ページでは次へが押せない（aria-disabled でタブ順には残る）", async () => {
     const onPageChange = vi.fn();
     const { rerender } = render(
       <Pagination page={1} total={120} pageSize={20} onPageChange={onPageChange} />,
     );
     const previous = screen.getByRole("button", { name: "前のページ" });
-    expect(previous).toBeDisabled();
+    expect(previous).toHaveAttribute("aria-disabled", "true");
+    expect(previous).not.toBeDisabled();
     await userEvent.click(previous);
     expect(onPageChange).not.toHaveBeenCalled();
 
     rerender(<Pagination page={6} total={120} pageSize={20} onPageChange={onPageChange} />);
     const next = screen.getByRole("button", { name: "次のページ" });
-    expect(next).toBeDisabled();
+    expect(next).toHaveAttribute("aria-disabled", "true");
     await userEvent.click(next);
     expect(onPageChange).not.toHaveBeenCalled();
   });
