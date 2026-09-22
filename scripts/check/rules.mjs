@@ -305,16 +305,20 @@ export const _rulesTail = [
     description: "1 画面に primary の Button が 2 つ以上（主アクションは 1 画面 1 つ）",
     test: (ctx) => {
       if (!/(^|\/)(page\.tsx|pages\/[^/]+\.tsx)$/.test(ctx.path)) return [];
-      const primaries = eachSourceMatch(ctx, /<Button\b([^>]*)>/g, (m, col, n) => {
-        const attrs = m[1];
-        // EmptyState の action / DataGrid の emptyAction のように、その状態でだけ出る主ボタンは数えない
-        const before = ctx.source.slice(Math.max(0, m.index - 80), m.index);
-        if (/[aA]ction=\{\s*$/.test(before)) return null;
-        const variant = /variant=\{?["']([a-z]+)["']/.exec(attrs)?.[1];
-        if (variant && variant !== "primary") return null;
-        if (/variant=\{[^"']/.test(attrs)) return null; // 動的な variant は判定しない
-        return { line: n, col };
-      });
+      const primaries = eachSourceMatch(
+        ctx,
+        /<Button\b((?:[^>{]|\{(?:[^{}]|\{[^{}]*\})*\})*)>/g,
+        (m, col, n) => {
+          const attrs = m[1];
+          // EmptyState の action / DataGrid の emptyAction のように、その状態でだけ出る主ボタンは数えない
+          const before = ctx.source.slice(Math.max(0, m.index - 80), m.index);
+          if (/[aA]ction=\{\s*$/.test(before)) return null;
+          const variant = /variant=\{?["']([a-z]+)["']/.exec(attrs)?.[1];
+          if (variant && variant !== "primary") return null;
+          if (/variant=\{[^"']/.test(attrs)) return null; // 動的な variant は判定しない
+          return { line: n, col };
+        },
+      );
       if (primaries.length < 2) return [];
       return [
         {
@@ -330,11 +334,12 @@ export const _rulesTail = [
     severity: "warn",
     description: "送信ボタンを初期状態で disabled にしている（送信して検証する）",
     test: (ctx) =>
-      eachSourceMatch(ctx, /<Button\b([^>]*)>/g, (m, col, n) => {
+      eachSourceMatch(ctx, /<Button\b((?:[^>{]|\{(?:[^{}]|\{[^{}]*\})*\})*)>/g, (m, col, n) => {
         const attrs = m[1];
         if (!/type=["']submit["']/.test(attrs)) return null;
-        if (!/\bdisabled=/.test(attrs)) return null;
-        if (/disabled=\{[^}]*(loading|isSubmitting|pending)[^}]*\}/.test(attrs)) return null;
+        // 真偽値の省略形（<Button type="submit" disabled>）も拾う。送信中の loading / isSubmitting / isPending 等は可（大文字小文字を問わない）
+        if (!/\bdisabled\b/.test(attrs)) return null;
+        if (/disabled=\{[^}]*(loading|submitting|pending)[^}]*\}/i.test(attrs)) return null;
         return {
           line: n,
           col,

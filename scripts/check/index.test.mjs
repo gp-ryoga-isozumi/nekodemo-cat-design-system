@@ -139,11 +139,20 @@ describe("追加ルール（NK012 / NK014 / NK016 / NK018 / NK020）", () => {
     expect(ids(checkSource(two, "src/app/nav.tsx"))).not.toContain("NK014");
   });
 
-  it("NK018: 送信ボタンの初期 disabled を警告し、送信中の loading は通す", () => {
+  it("NK018: 送信ボタンの初期 disabled を警告し、送信中の loading / isPending は通す", () => {
     const bad = `<Button type="submit" disabled={!isValid}>保存する</Button>`;
+    const bare = `<Button onClick={() => save()} type="submit" disabled>送信する</Button>`;
     const ok = `<Button type="submit" disabled={loading} loading={loading}>保存する</Button>`;
+    const pending = `<Button onClick={() => act()} type="submit" disabled={isPending}>保存する</Button>`;
     expect(ids(checkSource(bad, "a.tsx"))).toContain("NK018");
+    expect(ids(checkSource(bare, "a.tsx"))).toContain("NK018");
     expect(ids(checkSource(ok, "a.tsx"))).not.toContain("NK018");
+    expect(ids(checkSource(pending, "a.tsx"))).not.toContain("NK018");
+  });
+
+  it("NK014: 属性の中のアロー関数（=>）で属性の読み取りが途切れない", () => {
+    const src = `<Button onClick={() => close()} variant="ghost">戻る</Button>\n<Button onClick={() => save({ a: 1 })} variant="outline">下書き</Button>\n<Button>保存する</Button>`;
+    expect(ids(checkSource(src, "src/app/page.tsx"))).not.toContain("NK014");
   });
 
   it("NK020: 画面に h1 も PageHeader も無いと info、2 つ以上でも info", () => {
