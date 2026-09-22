@@ -12,6 +12,13 @@ TooltipProvider をアプリのルート（NekoThemeProvider の内側）に 1 �
 - 操作に必要な情報を Tooltip にだけ書く（本文かラベルに書く）
 - タップ端末で前提にする（表示されないことがある）
 
+## 推奨例
+
+- アイコンだけのボタン（IconButton）に、押すと何が起きるかを 1 行で添える
+- 表の見出しの略称や省略した語に、正式名称を補う
+- `TooltipTrigger` は `asChild` でボタンやリンクを包み、キーボードのフォーカスでも出るようにする
+- `TooltipProvider` はアプリのルート（NekoThemeProvider の内側）に 1 つだけ置く
+
 ## 使用例
 
 ```tsx

@@ -1,0 +1,20 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "input-time",
+  "type": "registry:ui",
+  "title": "InputTime",
+  "description": "時刻の入力。ブラウザ標準の type=time を Input と同じ見た目にし、猫耳の schedule ボタンで開く",
+  "registryDependencies": ["icon", "input"],
+  "dependencies": [],
+  "files": [
+    {
+      "path": "src/components/ui/input-time/index.tsx",
+      "type": "registry:ui",
+      "target": "components/ui/input-time/index.tsx"
+    }
+  ],
+  "meta": {
+    "shadcnSource": null,
+    "shadcnVersion": null
+  }
+}

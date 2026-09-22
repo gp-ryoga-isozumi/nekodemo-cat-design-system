@@ -15,6 +15,12 @@ import { cn } from "../../../lib/utils";
  * - 長いフォームを入れる（Modal / Drawer）
  * - PopoverTitle を省略する（読み上げに必要。視覚的に隠すなら className="sr-only"）
  *
+ * 推奨例:
+ * - 一覧のツールバーの「列の表示」「並び順」のように、その場で見て閉じる短い設定に使う
+ * - `PopoverTitle` に何のパネルかを名詞で書く（読み上げ名になる）
+ * - 選ぶとすぐ反映する設定は開いたまま続けて操作できるようにし、確定が要るときだけ `PopoverClose` を置く
+ * - トリガーとは別の位置に出したいときは `PopoverAnchor` を基準にする
+ *
  * 使用例:
  * ```tsx
  * <Popover>

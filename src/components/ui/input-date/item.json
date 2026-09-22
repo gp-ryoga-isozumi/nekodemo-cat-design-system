@@ -1,0 +1,17 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "input-date",
+  "type": "registry:ui",
+  "title": "InputDate",
+  "description": "日付の入力。ブラウザ標準の type=date を Input と同じ見た目にし、猫耳のカレンダーボタンで開く",
+  "registryDependencies": ["icon", "input"],
+  "dependencies": [],
+  "files": [
+    {
+      "path": "src/components/ui/input-date/index.tsx",
+      "type": "registry:ui",
+      "target": "components/ui/input-date/index.tsx"
+    }
+  ],
+  "meta": { "shadcnSource": null, "shadcnVersion": null }
+}

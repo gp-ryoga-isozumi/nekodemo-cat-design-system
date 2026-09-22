@@ -1,0 +1,17 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "input-number",
+  "type": "registry:ui",
+  "title": "InputNumber",
+  "description": "数値の入力。増減ボタン・単位・min / max / step、3 桁区切り表示、全角数字の正規化",
+  "registryDependencies": ["icon", "input"],
+  "dependencies": [],
+  "files": [
+    {
+      "path": "src/components/ui/input-number/index.tsx",
+      "type": "registry:ui",
+      "target": "components/ui/input-number/index.tsx"
+    }
+  ],
+  "meta": { "shadcnSource": null, "shadcnVersion": null }
+}

@@ -16,6 +16,11 @@ export type InputPasswordProps = Omit<InputProps, "type">;
  * - 表示切替を付けない（入力ミスの確認ができない）
  * - `autoComplete` を省略する（`current-password` / `new-password` を付ける）
  *
+ * 推奨例:
+ * - ログインのパスワードは `autoComplete="current-password"`、新規登録・変更は `new-password` を渡す
+ * - 文字数や使える記号の条件は補足（FormDescription）に書き、入力しながら確認できるようにする
+ * - Form の中では `FormControl` に包み、ラベルとエラーの出方を Input とそろえる
+ *
  * 使用例:
  * ```tsx
  * <InputPassword id="password" autoComplete="current-password" />

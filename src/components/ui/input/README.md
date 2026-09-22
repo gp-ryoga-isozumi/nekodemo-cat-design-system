@@ -13,6 +13,12 @@
 - `<label>` を付けない（§10.7）
 - 検索欄に使う（InputSearch）、パスワードに使う（InputPassword）
 
+## 推奨例
+
+- Form の `FormControl` の中に置き、ラベル・補足・エラーは Form 側に任せる
+- `placeholder` には入力例だけを書く（「例: 山田商事」）
+- 通常は既定の md、ツールバーや表の中に収めるときは `size="sm"` にする
+
 ## 使用例
 
 ```tsx
