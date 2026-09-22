@@ -178,6 +178,8 @@ export function sizeMaps(source) {
   const out = {};
   const re = /const\s+([A-Z_][A-Z0-9_]*)\s*=\s*\{([^}]*)\}\s*as const/g;
   for (const m of source.matchAll(re)) {
+    // 内部のボタンやアイコンのサイズ表（BUTTON_SIZE / ICON_BUTTON 等）は部品自体の寸法ではない
+    if (/BUTTON|ICON|CHEVRON|MARKER|DOT/.test(m[1])) continue;
     const entries = [...m[2].matchAll(/(xs|sm|md|lg|xl)\s*:\s*("[^"]*"|'[^']*'|\d+)/g)];
     if (entries.length < 2) continue;
     out[m[1]] = Object.fromEntries(
@@ -285,7 +287,21 @@ export function extractSpec(source) {
 export function specFor(slug, root = ROOT) {
   const p = join(root, "src", "components", "ui", slug, "index.tsx");
   if (!existsSync(p)) return null;
-  return extractSpec(readFileSync(p, "utf8"));
+  const source = readFileSync(p, "utf8");
+  const spec = extractSpec(source);
+  // cva を持たず Input の inputVariants を流用する部品（InputNumber / InputDate / InputTime 等）は Input の size と寸法を引き継ぐ
+  const noHeight = spec.metrics.every((m) => m.height === null);
+  if (noHeight && /inputVariants\(/.test(source) && slug !== "input") {
+    const input = specFor("input", root);
+    if (input?.options.size) {
+      spec.options.size = {
+        ...(spec.options.size ?? input.options.size),
+        from: "inputVariants（Input）",
+      };
+      spec.metrics = input.metrics;
+    }
+  }
+  return spec;
 }
 
 if (process.argv[1] && fileURLToPath(import.meta.url) === process.argv[1]) {
