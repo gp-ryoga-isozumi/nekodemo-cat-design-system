@@ -12,10 +12,12 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { REPO_URL } from "../_lib/content";
+import { BASE_PATH, REPO_URL } from "../_lib/content";
 
 /** docs 内の相対リンクをサイト内のルートか GitHub の URL に直す */
 function resolveHref(href: string, base: string): string {
+  // Storybook は Next のルートではないので basePath を付けた素のリンクにする
+  if (href.startsWith("/storybook/")) return `${BASE_PATH}${href}`;
   if (/^https?:/.test(href) || href.startsWith("#") || href.startsWith("/")) return href;
   const guideline = /^\.\/(0\d)-([a-z-]+)\.md(#.*)?$/.exec(href);
   if (guideline) {
@@ -87,7 +89,7 @@ export function MarkdownContent({
           hr: () => <hr className="border-border-low" />,
           a: ({ href, children }) => {
             const resolved = resolveHref(href ?? "", base);
-            const external = /^https?:/.test(resolved);
+            const external = /^https?:/.test(resolved) || resolved.includes("/storybook/");
             return external ? (
               <Link href={resolved} external>
                 {children}
@@ -98,7 +100,12 @@ export function MarkdownContent({
               </Link>
             );
           },
-          code: ({ className, children, ...props }: ComponentProps<"code">) => {
+          code: ({
+            node: _node,
+            className,
+            children,
+            ...props
+          }: ComponentProps<"code"> & { node?: unknown }) => {
             const block = typeof className === "string" && className.startsWith("language-");
             return block ? (
               <code className={className} {...props}>

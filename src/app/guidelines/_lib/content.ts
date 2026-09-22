@@ -5,6 +5,8 @@ import { join } from "node:path";
 
 const ROOT = process.cwd();
 export const REPO_URL = "https://github.com/gp-ryoga-isozumi/nekodemo-cat-design-system";
+/** GitHub Pages の basePath。next/link は自動で付けるが、Storybook など Next の外へのリンク（素の <a>）には手で付ける */
+export const BASE_PATH = process.env.NEXT_BASE_PATH ?? "";
 
 export type DocPage = {
   slug: string;
@@ -213,7 +215,7 @@ export function listComponents(): ComponentDoc[] {
         dependsOn: (item.registryDependencies ?? []).filter((d) => uiSlugs.has(d)),
         usedBy: usedBy.get(slug) ?? [],
         phase: PHASE_BY_COMPONENT[slug] ?? "v1（Phase 4、2026-09-21）",
-        storybookUrl: `/storybook/?path=/docs/${storybookId}--docs`,
+        storybookUrl: `${BASE_PATH}/storybook/?path=/docs/${storybookId}--docs`,
       };
     })
     .sort((a, b) => a.title.localeCompare(b.title, "en"));

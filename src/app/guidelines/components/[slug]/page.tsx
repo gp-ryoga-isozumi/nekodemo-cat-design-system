@@ -7,6 +7,7 @@ import { Tag } from "@/components/ui/tag";
 import { MarkdownContent } from "../../_components/markdown";
 import { PageHeader } from "../../_components/page-header";
 import {
+  BASE_PATH,
   type ComponentDoc,
   findComponent,
   listComponents,
@@ -90,7 +91,7 @@ function ComponentLinks({ slugs }: { slugs: string[] }) {
 function sectionBody(key: SectionKey, doc: ComponentDoc): ReactNode {
   const storyTitleId = doc.storybookUrl.replace(/^.*\/docs\/(.+)--docs$/, "$1");
   const storyLink = (s: { id: string; name: string }) => (
-    <Link href={`/storybook/?path=/story/${storyTitleId}--${kebab(s.id)}`} external>
+    <Link href={`${BASE_PATH}/storybook/?path=/story/${storyTitleId}--${kebab(s.id)}`} external>
       {s.name}
     </Link>
   );
