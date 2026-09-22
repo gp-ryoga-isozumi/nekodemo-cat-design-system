@@ -349,6 +349,17 @@ Phase 6 の実施メモ（2026-09-22）:
 | §11.4 | Cursor / Codex の hook 形式 | 5.3（SETUP.md §6 に記載。Claude Code は Stop hook、他は AGENTS.md のガードブロックの「作業の最後に check を実行する」で代替） |
 | §14 | ESLint か Biome か | 0.6（H2） |
 
+### ガイドラインサイト v2 の実施メモ（2026-09-22）
+
+比較（PR #15 の Artifact）で「未整備」だった部品ページの節を埋めた。
+
+- 選択肢・状態・寸法: `scripts/component-spec.mjs` が `index.tsx` を読む。cva の `variants` / `defaultVariants`、文字列リテラルのユニオン型 props（`density?: TableDensity`）と分割代入の既定値、`as const` の size 表（クラス文字列か px の数値）、Table の `data-density` ごとの行高、クラス接頭辞（`hover:` `focus-visible:` `disabled:` `aria-invalid:` `data-[state=…]`）から状態。テストは `scripts/component-spec.test.mjs`。
+- 使い方: README の「推奨例」（Do）と「アンチパターン」（Don't）。両方あれば整備済み。
+- 解剖図: `src/app/guidelines/_components/anatomy.tsx` に主要 10 部品（Button / Input / Select / Table / Dialog / Drawer / Card / Tabs / SideNavigation / DataGrid）の線画＋番号付き構成要素。役割トークンだけで描く。
+- 振る舞い・内容・参考文献: `docs/guidelines/components/<slug>.md` の手書き（`## 振る舞い` `## 内容` `## 参考文献`）。全部品分。参考文献は WAI-ARIA APG / shadcn / Radix / Material 3 / MDN に限る。
+- Patterns: 「サイドパネル」（`docs/guidelines/08-side-panel.md`、§10.9）。
+- 整備状況の判定は `sectionStatus()`（`src/app/guidelines/_lib/content.ts`）に集約し、`content.test.ts` で Button が全節そろうことを確認する。
+
 ---
 
 ## 変更履歴
@@ -368,3 +379,4 @@ Phase 6 の実施メモ（2026-09-22）:
 | 2026-09-22 | v0.1.10 | Phase 5 の実施メモ（registry の項目構成、dist の import 書き換え、pack:test、copy-in の確認、Claude Code Review の修正）を追加 |
 | 2026-09-22 | v0.1.11 | Phase 3b の実施メモ（vectorize / audit / prompts、手動耳、耳なし規約の追加）と H6 / H7 の記録 |
 | 2026-09-22 | v0.1.12 | Phase 6 の実施メモ（TanStack Table v9 の API、依存の扱い、DataGrid / SearchCombobox の設計判断） |
+| 2026-09-22 | v0.1.13 | ガイドラインサイト v2 の実施メモ（選択肢・状態・寸法の自動生成、解剖図、手書き節、サイドパネル） |

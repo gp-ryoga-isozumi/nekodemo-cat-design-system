@@ -72,7 +72,7 @@ Next.js 16（デモサイト、静的書き出し）/ React 19 / TypeScript / Ta
 tokens/  themes/  icons/     … 見た目の唯一の正（JSON / SVG）。ビルドで CSS・TS を生成する
 src/components/ui/<name>/   … 部品（index / stories / test / README / item.json の 5 点セット）
 src/components/theme/       … NekoThemeProvider / NekoThemePicker / NekoHead
-docs/ai/  docs/guidelines/  skills/  … AI が読む「使い方のルール」と skills
+docs/ai/  docs/guidelines/  skills/  … AI が読む「使い方のルール」と skills（docs/guidelines/components/ は部品ページの手書き節）
 scripts/                    … ビルド・検査スクリプト、Claude Code hooks
 ```
 
