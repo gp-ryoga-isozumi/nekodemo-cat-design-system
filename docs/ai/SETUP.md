@@ -10,15 +10,17 @@ AI が実行する前提で、コマンドとファイル内容を省略せず�
 
 ## 1. インストール
 
-```bash
-pnpm add nekodemo
-pnpm add -D tailwindcss @tailwindcss/postcss
-```
-
-公開前（npm に無い間）は、デモサイトに置いてある tarball から入れる（GitHub リポジトリからの直接インストールは `dist/` が git 管理外なので動かない）:
+npm には未公開なので、デモサイトに置いてある tarball から入れる（GitHub リポジトリからの直接インストールは `dist/` が git 管理外なので動かない）:
 
 ```bash
 pnpm add https://gp-ryoga-isozumi.github.io/nekodemo-cat-design-system/nekodemo.tgz
+pnpm add -D tailwindcss @tailwindcss/postcss
+```
+
+npm に公開後はこちら:
+
+```bash
+pnpm add nekodemo
 ```
 
 `Form` で使う `useForm` / `zodResolver` / `z` は `nekodemo` から import できるので、`react-hook-form` / `zod` を別途入れる必要はない。

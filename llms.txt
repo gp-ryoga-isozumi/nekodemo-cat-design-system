@@ -7,6 +7,7 @@
 - https://github.com/gp-ryoga-isozumi/nekodemo-cat-design-system/blob/main/docs/ai/GUARD_BLOCK.md
 
 ## UX ガイドライン
+- https://gp-ryoga-isozumi.github.io/nekodemo-cat-design-system/guidelines/ — 画面の型・状態・操作・文言・レイアウト・部品の選び方と、48 部品のページ（公開サイト）
 - https://github.com/gp-ryoga-isozumi/nekodemo-cat-design-system/blob/main/docs/guidelines/README.md
 
 ## skills
