@@ -7,6 +7,14 @@
 ## 0.1.0（公開準備中。npm 公開は H7 の承認後）
 
 ### Added
+- 2026-09-22 全体レビュー（API の一貫性 / アクセシビリティ / ルールとガイドライン / 構造と DX の 4 本、185 件）の反映:
+  - 部品の品質: `EmptyState` / `DataGrid` が `NekoThemeProvider` の外でも落ちない（`useNekoThemeOptional`）、`SearchCombobox` を `FormControl` から結べる、`FilterChip` の非制御対応、`Link external` の rel 結合、`Dialog` のスクロール、`SideNavItem badgeVariant`、shadcn からの対応表（USING §6）
+  - アクセシビリティ: ダークテーマの `border-high` / `text-low` のコントラスト（検査ペア 31 組）、Menu / Select 項目のフォーカス表示、強制カラーモードでも見える透明アウトライン、読み上げ名が無い radiogroup / tablist の開発時警告、`Field` の id / aria 注入と `FormLabel required` → `aria-required`、`Button loading` と `Pagination` の端は `aria-disabled`、DataGrid の列幅をキーボードで変更、選択件数・候補件数のライブリージョン、`Table` の横スクロール領域、`prefers-reduced-motion`
+  - API の一貫性: `SearchCombobox onChange` → `onValueChange`、`className` はルート要素（`InputPassword` / `InputSearch` / `Textarea` は `inputClassName`）、`Icon` / `Spinner` の props 透過、`IconButton asChild`、`DataGrid selection` / `defaultSelection`、`InputFile defaultValue`、cva の公開、命名規約（設計書 §9.2）
+  - ガイドライン v3: レイアウト / フォーム / 知らせ方 / 一覧の絞り込みと一括操作 / ナビゲーション / 部品の選び方 / Motion の 7 本、01〜07 の矛盾修正（状態表示は StatusTag、画面の型 A〜F、読み込みのしきい値、データ書式、a11y の 4 項目）、部品ページの props 表、SETUP は tarball を主手順に
+  - サンプル画面: 型 E ログイン（`/samples/login/`）と型 F ダッシュボード（`/samples/dashboard/`）
+  - `nekodemo check`: 複数行 JSX の検出（NK004 / NK009）、copy-in の CSS 除外、`--ignore` / `nekodemo.config.json` の `check.ignore` / `--max-warnings`、NK011（空の読み上げ名）、NK012（style のウェイト等）、NK014（primary が 2 つ）、NK016（Toaster の欠落・重複）、NK018（送信ボタンの初期 disabled）、NK020（見出し h1）、NK010 は不足している状態を列挙
+  - 品質ゲート: lint は warning でも失敗、CI に生成物の鮮度検査（コントラスト検査を含む）、barrel の網羅性テスト、registry の `styles` 依存と `tw-animate-css`、skill の部品名一覧を生成、`build-package` の書き換えのテスト、`pack:test` に利用側の型検査とサイズ上限、部品ごとの subpath export（`nekodemo/components/*`）
 - Phase 0: 開発土台（Next.js 16 / React 19 / Tailwind v4 / Storybook 10 / Vitest 4 / Biome / CI / Claude Code hooks）
 - Phase 1: トークン（3 層構造、Tailwind 既定パレットの無効化、shadcn 変数ブリッジ）
 - Phase 2: テーマ 3 種（三毛 / アメショ / ロシアンブルー（ダーク））、JSON Schema、コントラスト検査、ランタイム切替
