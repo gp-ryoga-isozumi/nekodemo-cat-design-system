@@ -3,7 +3,7 @@ import { existsSync, readFileSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 import { describe, expect, it } from "vitest";
-import { collectItems, generateRegistry } from "./build-registry.mjs";
+import { ANIMATE_CLASS, collectItems, generateRegistry } from "./build-registry.mjs";
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), "..");
 // 使い方の都合で宣言している依存（部品自身は import しない）
@@ -81,7 +81,7 @@ describe("registry", () => {
       for (const need of items)
         expect(declared, `${item.name}: registryDependencies に ${need} が無い`).toContain(need);
       for (const d of declared) {
-        if (d === "lib") continue; // 全部品に付ける
+        if (d === "lib" || d === "styles") continue; // 全部品に付ける（styles は CSS なので import には現れない）
         expect(
           items,
           `${item.name}: registryDependencies の ${d} は import されていない`,
@@ -92,8 +92,20 @@ describe("registry", () => {
         expect(declaredPkgs, `${item.name}: dependencies に ${need} が無い`).toContain(need);
       for (const d of declaredPkgs) {
         if ((INTENTIONAL_EXTRA_DEPS[item.name] ?? []).includes(d)) continue;
+        // tw-animate-css は import ではなくクラス名で使う依存
+        if (d === "tw-animate-css") continue;
         expect(pkgs, `${item.name}: dependencies の ${d} は import されていない`).toContain(d);
       }
+    }
+  });
+
+  it("全部品が styles（役割トークンの CSS）に依存し、アニメーションを使う部品は tw-animate-css を宣言する", () => {
+    for (const item of collectItems(ROOT)) {
+      expect(item.registryDependencies, item.name).toContain("styles");
+      const src = readFileSync(join(ROOT, `src/components/ui/${item.name}/index.tsx`), "utf8");
+      if (ANIMATE_CLASS.test(src))
+        expect(item.dependencies, `${item.name}: tw-animate-css`).toContain("tw-animate-css");
+      else expect(item.dependencies ?? [], item.name).not.toContain("tw-animate-css");
     }
   });
 
