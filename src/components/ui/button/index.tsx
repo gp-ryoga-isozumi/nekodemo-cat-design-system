@@ -9,6 +9,7 @@ export const buttonVariants = cva(
     "inline-flex shrink-0 items-center justify-center gap-2 whitespace-nowrap rounded-action font-bold transition-colors",
     "outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-border-focus",
     "disabled:cursor-not-allowed disabled:border-transparent disabled:bg-surface-disabled disabled:text-text-disabled",
+    "aria-disabled:cursor-not-allowed aria-disabled:border-transparent aria-disabled:bg-surface-disabled aria-disabled:text-text-disabled",
     "[&_svg]:pointer-events-none [&_svg]:shrink-0",
   ],
   {

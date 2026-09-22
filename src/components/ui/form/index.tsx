@@ -1,7 +1,15 @@
 "use client";
 
 import { Label as LabelPrimitive, Slot } from "radix-ui";
-import { type ComponentProps, createContext, useContext, useEffect, useId, useState } from "react";
+import {
+  type ComponentProps,
+  createContext,
+  isValidElement,
+  useContext,
+  useEffect,
+  useId,
+  useState,
+} from "react";
 import {
   Controller,
   type ControllerProps,
@@ -261,15 +269,19 @@ export function Field({
         {label}
         {required ? <span className="font-normal text-1 text-text-negative">必須</span> : null}
       </label>
-      {/* 子の入力に id・aria-describedby・aria-invalid・aria-required を注入する（FormControl と同じ規則） */}
-      <Slot.Root
-        id={htmlFor}
-        aria-describedby={describedBy}
-        aria-invalid={error ? true : undefined}
-        aria-required={required || undefined}
-      >
-        {children}
-      </Slot.Root>
+      {/* 子が 1 つの要素なら id・aria-describedby・aria-invalid・aria-required を注入する（FormControl と同じ規則）。文字列や複数の子はそのまま */}
+      {isValidElement(children) ? (
+        <Slot.Root
+          id={htmlFor}
+          aria-describedby={describedBy}
+          aria-invalid={error ? true : undefined}
+          aria-required={required || undefined}
+        >
+          {children}
+        </Slot.Root>
+      ) : (
+        children
+      )}
       {description ? (
         <p id={`${htmlFor}-description`} className="text-1 text-text-low">
           {description}
