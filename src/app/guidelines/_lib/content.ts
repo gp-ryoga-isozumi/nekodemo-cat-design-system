@@ -275,15 +275,21 @@ export const SECTION_LABELS: { key: SectionKey; label: string; en: string }[] = 
   { key: "changelog", label: "変更履歴", en: "Change log" },
 ];
 
-const STATE_WORDS = /状態|disabled|loading|error|読み込み|無効|エラー|0 件|選択|checked|open/i;
-const OPTION_WORDS = /variant|size|サイズ|種類|バリエーション|色|向き|orientation|密度|density/i;
+export const STATE_WORDS =
+  /状態|disabled|loading|error|読み込み|無効|エラー|0 件|選択|checked|open/i;
+
+/** 「状態」節に載せるストーリー（disabled / loading / エラーなど状態を扱うもの）。バッジと本文は同じ判定を使う */
+export function stateStories(doc: ComponentDoc): { id: string; name: string }[] {
+  return doc.stories.filter((s) => STATE_WORDS.test(`${s.id} ${s.name}`));
+}
 
 export function sectionStatus(doc: ComponentDoc): Record<SectionKey, SectionStatus> {
   return {
     overview: doc.overview ? "done" : "todo",
     anatomy: "todo",
-    options: doc.stories.some((s) => OPTION_WORDS.test(`${s.id} ${s.name}`)) ? "partial" : "todo",
-    states: doc.stories.some((s) => STATE_WORDS.test(`${s.id} ${s.name}`)) ? "partial" : "todo",
+    // 選択肢: 文章の定義は無いが、ストーリーがあれば Storybook で確認できる（本文もストーリー一覧を出す）
+    options: doc.stories.length > 0 ? "partial" : "todo",
+    states: stateStories(doc).length > 0 ? "partial" : "todo",
     behaviors: "todo",
     metrics: /px|サイズ|size/.test(doc.overview) ? "partial" : "todo",
     usage: doc.antiPatterns.length > 0 ? "partial" : "todo",

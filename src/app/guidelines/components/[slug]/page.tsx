@@ -16,6 +16,7 @@ import {
   type SectionKey,
   type SectionStatus,
   sectionStatus,
+  stateStories,
 } from "../../_lib/content";
 
 export const dynamicParams = false;
@@ -132,13 +133,26 @@ function sectionBody(key: SectionKey, doc: ComponentDoc): ReactNode {
       ) : (
         <Todo>選択肢の定義は未整備です。</Todo>
       );
-    case "states":
-      return (
+    case "states": {
+      const states = stateStories(doc);
+      return states.length ? (
+        <>
+          <p className="text-2 text-text-middle">
+            状態の一覧表は未整備です。状態を扱うストーリーで確認できます（実装はテストの「表示・操作・disabled・アクセシブルネーム」で担保）。
+          </p>
+          <ul className="list-disc space-y-1 pl-6 text-3">
+            {states.map((s) => (
+              <li key={s.id}>{storyLink(s)}</li>
+            ))}
+          </ul>
+        </>
+      ) : (
         <Todo>
           状態（hover / focus / disabled / loading など）の一覧は未整備です。実装は Storybook
           の各ストーリーとテスト（表示・操作・disabled・アクセシブルネーム）で担保しています。
         </Todo>
       );
+    }
     case "behaviors":
       return <Todo>振る舞い（幅の固定、最小幅、遅延処理など）の定義は未整備です。</Todo>;
     case "metrics":
