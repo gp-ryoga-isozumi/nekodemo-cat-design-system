@@ -116,3 +116,8 @@ export function useNekoTheme(): NekoThemeContextValue {
   if (!ctx) throw new Error("useNekoTheme は NekoThemeProvider の中で使ってください");
   return ctx;
 }
+
+/** NekoThemeProvider の外では null を返す版（部品の中で「テーマがあれば使う」用。EmptyState のマスコットなど） */
+export function useNekoThemeOptional(): NekoThemeContextValue | null {
+  return useContext(NekoThemeContext);
+}

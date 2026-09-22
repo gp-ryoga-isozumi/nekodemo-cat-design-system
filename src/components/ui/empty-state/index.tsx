@@ -3,7 +3,7 @@
 import type { ComponentProps, ReactNode } from "react";
 import { cn } from "../../../lib/utils";
 import { Mascot } from "../../mascot";
-import { useNekoTheme } from "../../theme/NekoThemeProvider";
+import { useNekoThemeOptional } from "../../theme/NekoThemeProvider";
 
 export type EmptyStateProps = Omit<ComponentProps<"div">, "title"> & {
   /** 見出し。例: 「まだ案件がありません」「条件に合う案件がありません」 */
@@ -50,7 +50,8 @@ export function EmptyState({
   headingLevel = 3,
   ...props
 }: EmptyStateProps) {
-  const { theme } = useNekoTheme();
+  // NekoThemeProvider の外（テーマ無し）でも落ちない。そのときはマスコットを出さない
+  const theme = useNekoThemeOptional()?.theme;
   const Heading = `h${headingLevel}` as const;
   return (
     <div
@@ -58,7 +59,7 @@ export function EmptyState({
       className={cn("flex flex-col items-center gap-2 px-4 py-8 text-center", className)}
       {...props}
     >
-      {hideMascot ? null : <Mascot theme={theme} size={96} className="mb-2" />}
+      {hideMascot || !theme ? null : <Mascot theme={theme} size={96} className="mb-2" />}
       <Heading className="text-4 font-bold leading-7 text-text-high">{title}</Heading>
       {description ? <p className="max-w-[36ch] text-2 text-text-low">{description}</p> : null}
       {action ? <div className="mt-2">{action}</div> : null}
