@@ -91,7 +91,7 @@ export function SegmentedControl({
   const rootRef = useRef<HTMLDivElement>(null);
   const select = (v: string) => {
     if (!v || v === current) return;
-    setInner(v);
+    if (value === undefined) setInner(v);
     onValueChange?.(v);
   };
   // radio group の作法に合わせ、←→（↑↓）で選択も移す（Radix はフォーカスだけ動かす）
@@ -109,7 +109,11 @@ export function SegmentedControl({
       ...rootRef.current.querySelectorAll<HTMLButtonElement>('[role="radio"]:not(:disabled)'),
     ];
     const idx = items.findIndex((el) => el.dataset.state === "on");
-    const next = items[(idx + dir + items.length) % items.length];
+    // 選択中の項目が disabled で一覧に無いときは、端から始める
+    const next =
+      idx === -1
+        ? items[dir > 0 ? 0 : items.length - 1]
+        : items[(idx + dir + items.length) % items.length];
     if (next?.value) select(next.value);
   };
   return (

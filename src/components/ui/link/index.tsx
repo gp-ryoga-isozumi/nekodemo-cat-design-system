@@ -38,10 +38,18 @@ export function Link({
   asChild = false,
   external = false,
   children,
+  rel,
+  target,
   ...props
 }: LinkProps) {
   const Comp = asChild ? Slot.Root : "a";
-  const externalProps = external ? { target: "_blank", rel: "noopener noreferrer" } : {};
+  // external のときは呼び出し側の rel を消さずに noopener noreferrer を足す
+  const externalProps = external
+    ? {
+        target: target ?? "_blank",
+        rel: [rel, "noopener", "noreferrer"].filter(Boolean).join(" ").replace(/\s+/g, " "),
+      }
+    : { target, rel };
   return (
     <Comp
       data-slot="link"
