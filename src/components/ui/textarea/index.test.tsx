@@ -14,6 +14,20 @@ describe("Textarea", () => {
     expect(count).toHaveTextContent("3 / 200");
   });
 
+  it("表示: 呼び出し側の aria-describedby を保ったままカウンタの id を足す", () => {
+    render(
+      <>
+        <label htmlFor="memo">メモ</label>
+        <Textarea id="memo" maxLength={100} aria-describedby="memo-help" />
+        <p id="memo-help">補足</p>
+      </>,
+    );
+    expect(screen.getByLabelText("メモ")).toHaveAttribute(
+      "aria-describedby",
+      "memo-help memo-count",
+    );
+  });
+
   it("表示: showCount={false} ならカウンタを出さず、aria-describedby も付けない", () => {
     render(<Textarea aria-label="案件メモ" maxLength={200} showCount={false} />);
     expect(screen.queryByRole("status")).not.toBeInTheDocument();

@@ -1,6 +1,6 @@
 "use client";
 
-import { type ChangeEvent, useState } from "react";
+import { type ChangeEvent, useRef, useState } from "react";
 import { cn } from "../../../lib/utils";
 import { Icon } from "../icon";
 import { IconButton } from "../icon-button";
@@ -49,8 +49,10 @@ export function InputSearch({
   onOpenConditions,
   clearLabel = "クリア",
   disabled,
+  ref: outerRef,
   ...props
 }: InputSearchProps) {
+  const inputRef = useRef<HTMLInputElement | null>(null);
   const [inner, setInner] = useState(defaultValue);
   const current = value ?? inner;
   const update = (next: string) => {
@@ -69,6 +71,11 @@ export function InputSearch({
         )}
       />
       <Input
+        ref={(el) => {
+          inputRef.current = el;
+          if (typeof outerRef === "function") outerRef(el);
+          else if (outerRef) outerRef.current = el;
+        }}
         type="search"
         size={size}
         disabled={disabled}
@@ -98,7 +105,11 @@ export function InputSearch({
             label={clearLabel}
             size="sm"
             disabled={disabled}
-            onClick={() => update("")}
+            onClick={() => {
+              // クリアボタンは消えるので、フォーカスを入力欄に戻す（body に落とさない）
+              update("");
+              inputRef.current?.focus();
+            }}
           />
         ) : null}
         {onOpenConditions ? (

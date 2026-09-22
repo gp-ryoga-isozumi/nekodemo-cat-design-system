@@ -61,8 +61,8 @@ export function Avatar({ className, src, name, fallback, size = "md", ...props }
       <AvatarPrimitive.Fallback
         delayMs={src ? 300 : 0}
         className="flex size-full items-center justify-center"
-        aria-label={fallback ? undefined : name}
-        role={fallback ? undefined : "img"}
+        aria-label={name}
+        role="img"
       >
         {fallback ?? <Icon icon="cat_face" size={size === "sm" ? 5 : size === "lg" ? 8 : 6} />}
       </AvatarPrimitive.Fallback>

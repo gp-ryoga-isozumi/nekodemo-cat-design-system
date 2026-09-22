@@ -8,6 +8,8 @@ export type ProgressProps = Omit<ComponentProps<"div">, "children"> & {
   label: string;
   /** 右に「42%」を出す */
   showValue?: boolean;
+  /** 不確定（value 省略）のときの読み上げ文言。既定「処理中」 */
+  indeterminateText?: string;
   size?: "sm" | "md";
   /** 100% になったら success 色にする（既定 true） */
   completeVariant?: boolean;
@@ -41,6 +43,7 @@ export function Progress({
   value,
   label,
   showValue = false,
+  indeterminateText = "処理中",
   size = "md",
   completeVariant = true,
   ...props
@@ -62,7 +65,7 @@ export function Progress({
         aria-valuemin={0}
         aria-valuemax={100}
         aria-valuenow={pct}
-        aria-valuetext={pct === undefined ? "処理中" : `${Math.round(pct)}%`}
+        aria-valuetext={pct === undefined ? indeterminateText : `${Math.round(pct)}%`}
         className={cn(
           "relative w-full overflow-hidden rounded-round bg-surface-well",
           size === "sm" ? "h-1.5" : "h-2.5",
