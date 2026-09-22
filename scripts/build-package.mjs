@@ -14,6 +14,7 @@ import {
 } from "node:fs";
 import { dirname, join, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
+import { rewriteSpecifiers } from "./lib/specifiers.mjs";
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), "..");
 const DIST = join(ROOT, "dist");
@@ -25,21 +26,16 @@ if (!existsSync(join(DIST, "index.js"))) {
   process.exit(1);
 }
 
-/** `./x` → `./x.js` / `./x/index.js` に書き換える（存在するものだけ） */
+/** `./x` → `./x.js` / `./x/index.js` に書き換える（存在するものだけ。本体は scripts/lib/specifiers.mjs） */
 function fixSpecifiers(file) {
   const dir = dirname(file);
-  const isDts = file.endsWith(".d.ts");
   const src = readFileSync(file, "utf8");
-  const out = src.replace(
-    /((?:from|import)\s*\(?\s*["'])(\.{1,2}\/[^"']+)(["'])/g,
-    (m, pre, spec, post) => {
-      if (/\.(js|css|json)$/.test(spec)) return m;
-      const abs = resolve(dir, spec);
-      if (existsSync(`${abs}${isDts ? ".d.ts" : ".js"}`)) return `${pre}${spec}.js${post}`;
-      if (existsSync(abs) && statSync(abs).isDirectory()) return `${pre}${spec}/index.js${post}`;
-      return m;
-    },
-  );
+  const out = rewriteSpecifiers(src, {
+    isDts: file.endsWith(".d.ts"),
+    resolve: (spec) => resolve(dir, spec),
+    fileExists: (p) => existsSync(p),
+    isDirectory: (p) => existsSync(p) && statSync(p).isDirectory(),
+  });
   if (out !== src) writeFileSync(file, out);
   return out !== src;
 }
