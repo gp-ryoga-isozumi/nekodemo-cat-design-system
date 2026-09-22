@@ -19,7 +19,7 @@ import { Tag } from "../tag";
 const fieldVariants = cva(
   [
     "flex w-full min-w-0 flex-wrap items-center gap-1 rounded-action border border-border-high bg-surface-input text-text-high transition-[border-color,box-shadow]",
-    "focus-within:border-border-focus focus-within:ring-2 focus-within:ring-border-focus/30",
+    "focus-within:border-border-focus focus-within:outline-2 focus-within:outline-transparent focus-within:ring-2 focus-within:ring-border-focus/30",
     "data-[disabled=true]:cursor-not-allowed data-[disabled=true]:border-border-middle data-[disabled=true]:bg-surface-disabled data-[disabled=true]:text-text-disabled",
     "data-[invalid=true]:border-border-negative data-[invalid=true]:focus-within:ring-border-negative/30",
   ],
@@ -122,7 +122,7 @@ function isGroup<Value>(
  * アンチパターン:
  * - 5 件程度の固定の選択肢に使う（Select）
  * - 検索欄として使う（InputSearch。候補を出さない検索は InputSearch）
- * - `label` を省略する（`hideLabel` で見た目だけ隠す）
+ * - Form の外で `label` を省略する（見た目だけ隠すなら `hideLabel`。Form の中では FormLabel が名前になるので省略してよい）
  *
  * 推奨例:
  * - 顧客・担当者・品目のように候補が 20 件を超える参照入力に使い、`label` に何を選ぶかを書く
@@ -241,6 +241,9 @@ export function SearchCombobox<
   const selected = ac.value as unknown;
   const inputText = ac.inputValue;
   const items = groupedOptions as Array<Value | AutocompleteGroupedOption<Value>>;
+  const optionCount = groupBy
+    ? (items as AutocompleteGroupedOption<Value>[]).reduce((n, g) => n + g.options.length, 0)
+    : items.length;
 
   const renderOption = (option: Value, index: number) => {
     const { key, ...optionProps } = getOptionProps({ option, index });
@@ -320,16 +323,23 @@ export function SearchCombobox<
           <button
             type="button"
             {...getClearProps()}
+            tabIndex={0}
             aria-label={clearLabel}
-            className="inline-flex size-6 shrink-0 items-center justify-center rounded-round text-object-middle outline-none hover:bg-surface-well hover:text-object-high focus-visible:outline-2 focus-visible:outline-border-focus"
+            className="inline-flex size-6 shrink-0 items-center justify-center rounded-round text-object-middle outline-none hover:bg-surface-well hover:text-object-high focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-border-focus"
           >
             <Icon icon="close" size={2} />
           </button>
         ) : null}
       </div>
+      {/* 候補の件数を読み上げる（APG の Combobox。MUI の Autocomplete 部品が持つ live region の代わり） */}
+      <div role="status" aria-live="polite" className="sr-only">
+        {popupOpen ? (loading ? "候補を読み込み中" : `候補 ${optionCount}件`) : ""}
+      </div>
       {popupOpen ? (
         <ul
           {...getListboxProps()}
+          // label を省略したとき（Form の中）はフックが指す <label> が無いので、FormLabel の id に付け替える
+          {...(label ? {} : { "aria-labelledby": labelledBy })}
           data-slot="search-combobox-listbox"
           className="absolute z-20 mt-1 max-h-80 w-full overflow-auto rounded-container border border-border-low bg-surface-card p-1 shadow-popout"
         >

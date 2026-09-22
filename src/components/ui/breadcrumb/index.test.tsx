@@ -51,17 +51,16 @@ describe("Breadcrumb", () => {
     expect(screen.getByText("社内備品貸出アプリ 改修")).toBeInTheDocument();
   });
 
-  it("表示: 区切りと省略記号は読み上げから隠す", () => {
+  it("表示: 区切りは読み上げから隠し、省略記号は「途中の階層を省略」と読ませる", () => {
     const { container } = render(<ProjectBreadcrumb />);
     const separators = container.querySelectorAll('[data-slot="breadcrumb-separator"]');
     expect(separators).toHaveLength(3);
     for (const separator of separators) {
       expect(separator).toHaveAttribute("aria-hidden", "true");
     }
-    expect(container.querySelector('[data-slot="breadcrumb-ellipsis"]')).toHaveAttribute(
-      "aria-hidden",
-      "true",
-    );
+    const ellipsis = container.querySelector('[data-slot="breadcrumb-ellipsis"]');
+    expect(ellipsis).not.toHaveAttribute("aria-hidden");
+    expect(ellipsis).toHaveTextContent("途中の階層を省略");
   });
 
   it("操作: リンクを押すと onClick が呼ばれ、asChild でも同じように動く", async () => {

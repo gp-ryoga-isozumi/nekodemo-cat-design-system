@@ -50,14 +50,14 @@ describe("InputTime", () => {
     // jsdom には showPicker が無いので、呼ばれることだけ確かめる
     Object.defineProperty(input, "showPicker", { value: showPicker, configurable: true });
 
-    await userEvent.click(screen.getByRole("button", { name: "時刻の一覧を開く" }));
+    await userEvent.click(screen.getByLabelText("時刻の一覧を開く"));
     expect(showPicker).toHaveBeenCalled();
 
     // showPicker が例外を投げる環境では入力欄にフォーカスして代替する
     showPicker.mockImplementation(() => {
       throw new Error("NotAllowedError");
     });
-    await userEvent.click(screen.getByRole("button", { name: "時刻の一覧を開く" }));
+    await userEvent.click(screen.getByLabelText("時刻の一覧を開く"));
     expect(input).toHaveFocus();
   });
 
@@ -73,7 +73,7 @@ describe("InputTime", () => {
     );
     const input = screen.getByLabelText("開始時刻");
     expect(input).toBeDisabled();
-    expect(screen.getByRole("button", { name: "時刻の一覧を開く" })).toBeDisabled();
+    expect(screen.getByLabelText("時刻の一覧を開く")).toBeDisabled();
     await userEvent.type(input, "10:00");
     expect(input).toHaveValue("09:00");
     expect(onValueChange).not.toHaveBeenCalled();
@@ -81,7 +81,7 @@ describe("InputTime", () => {
 
     render(<InputTime aria-label="受付時刻" readOnly defaultValue="09:07" />);
     expect(screen.getByLabelText("受付時刻")).toHaveAttribute("readonly");
-    expect(screen.getByRole("button", { name: "時刻の一覧を開く" })).toBeDisabled();
+    expect(screen.getByLabelText("時刻の一覧を開く")).toBeDisabled();
   });
 
   it("アクセシブルネーム: label htmlFor が結び付き、一覧ボタンは名前付きでタブ順に入らない", () => {
@@ -97,14 +97,16 @@ describe("InputTime", () => {
     expect(input).toHaveAttribute("aria-invalid", "true");
     expect(input).toHaveAccessibleDescription("開始時刻を入力してください");
 
-    const picker = screen.getByRole("button", { name: "時刻の一覧を開く" });
+    const picker = screen.getByLabelText("時刻の一覧を開く");
     expect(picker).toHaveAttribute("aria-controls", "start");
     expect(picker).toHaveAttribute("tabindex", "-1");
   });
 
   it("アクセシブルネーム: pickerLabel で一覧ボタンの読み上げ名を変えられる", () => {
     render(<InputTime aria-label="開始時刻" pickerLabel="開始時刻の候補を開く" />);
-    expect(screen.getByRole("button", { name: "開始時刻の候補を開く" })).toBeInTheDocument();
-    expect(screen.queryByRole("button", { name: "時刻の一覧を開く" })).not.toBeInTheDocument();
+    expect(screen.getByLabelText("開始時刻の候補を開く")).toBeInTheDocument();
+    expect(
+      screen.queryByRole("button", { name: "時刻の一覧を開く", hidden: true }),
+    ).not.toBeInTheDocument();
   });
 });

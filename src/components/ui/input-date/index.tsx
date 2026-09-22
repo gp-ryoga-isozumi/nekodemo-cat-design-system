@@ -108,6 +108,7 @@ export function InputDate({
       <button
         type="button"
         tabIndex={-1}
+        aria-hidden="true"
         aria-label={pickerLabel}
         aria-controls={inputId}
         disabled={disabled || readOnly}

@@ -42,7 +42,10 @@ describe("SideNavigation", () => {
     expect(screen.getByText("管理")).toBeInTheDocument();
 
     // 件数バッジ（3）も読み上げ名に含まれる
-    expect(screen.getByRole("link", { name: "案件3" })).toHaveAttribute("aria-current", "page");
+    expect(screen.getByRole("link", { name: "案件（3件）" })).toHaveAttribute(
+      "aria-current",
+      "page",
+    );
     expect(screen.getByRole("link", { name: "ダッシュボード" })).not.toHaveAttribute(
       "aria-current",
     );

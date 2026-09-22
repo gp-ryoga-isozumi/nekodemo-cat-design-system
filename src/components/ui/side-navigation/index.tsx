@@ -9,6 +9,7 @@ import {
   type ReactElement,
   type ReactNode,
   useContext,
+  useId,
   useState,
 } from "react";
 import { cn } from "../../../lib/utils";
@@ -81,9 +82,11 @@ export function SideNavigation({
     if (collapsed === undefined) setInner(v);
     onCollapsedChange?.(v);
   };
+  const navId = useId();
   return (
     <Ctx.Provider value={{ collapsed: isCollapsed, setCollapsed }}>
       <nav
+        id={navId}
         aria-label="メイン"
         data-slot="side-navigation"
         data-collapsed={isCollapsed}
@@ -111,6 +114,7 @@ export function SideNavigation({
             icon={isCollapsed ? "keyboard_arrow_right" : "keyboard_arrow_left"}
             label={isCollapsed ? "ナビゲーションを開く" : "ナビゲーションを折りたたむ"}
             aria-expanded={!isCollapsed}
+            aria-controls={navId}
             onClick={() => setCollapsed(!isCollapsed)}
             className="mt-2 self-end"
           />
@@ -175,7 +179,7 @@ export function SideNavItem({
       aria-current={active ? "page" : undefined}
       title={collapsed && typeof labelText === "string" ? labelText : undefined}
       className={cn(
-        "flex h-10 items-center gap-2.5 rounded-action px-2.5 text-2 text-text-middle outline-none transition-colors hover:bg-surface-well hover:text-text-high focus-visible:outline-2 focus-visible:outline-border-focus",
+        "flex h-10 items-center gap-2.5 rounded-action px-2.5 text-2 text-text-middle outline-none transition-colors hover:bg-surface-well hover:text-text-high focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-border-focus",
         active && "bg-surface-selected font-bold text-text-primary hover:bg-surface-selected",
         collapsed && "w-10 justify-center px-0",
         className,
@@ -184,7 +188,12 @@ export function SideNavItem({
     >
       <Icon icon={icon} size={5} fill={active} />
       {child ? <Slot.Slottable>{cloneElement(child, undefined, label)}</Slot.Slottable> : label}
-      {badge !== undefined && !collapsed ? <Badge count={badge} variant={badgeVariant} /> : null}
+      {badge !== undefined && !collapsed ? (
+        <>
+          <Badge count={badge} variant={badgeVariant} aria-hidden="true" />
+          <span className="sr-only">（{badge}件）</span>
+        </>
+      ) : null}
     </Comp>
   );
 }
