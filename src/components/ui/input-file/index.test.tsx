@@ -23,6 +23,13 @@ function AttachmentField(props: Omit<ComponentProps<typeof InputFile>, "id">) {
 }
 
 describe("InputFile", () => {
+  it("表示: defaultValue で既存の添付を出し、非制御のまま外せる", async () => {
+    render(<InputFile id="files" aria-label="添付ファイル" defaultValue={[pdf("契約書.pdf")]} />);
+    expect(screen.getByText("契約書.pdf")).toBeInTheDocument();
+    await userEvent.click(screen.getByRole("button", { name: "契約書.pdf を外す" }));
+    expect(screen.queryByText("契約書.pdf")).not.toBeInTheDocument();
+  });
+
   it("表示: ドロップ領域と「ファイルを選ぶ」、受け付ける条件が出る", () => {
     const { container } = render(<AttachmentField accept=".pdf,image/*" maxSizeMB={10} />);
     expect(container.querySelector('[data-slot="input-file"]')).toBeInTheDocument();

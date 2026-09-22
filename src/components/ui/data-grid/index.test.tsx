@@ -40,6 +40,37 @@ const sortButton = (head: HTMLElement) =>
     .find((b) => !b.getAttribute("aria-label")?.includes("列幅")) as HTMLElement;
 
 describe("DataGrid", () => {
+  it("操作: selection を渡した制御では親の値だけが選択になり、defaultSelection は初期選択になる", async () => {
+    const onSelectionChange = vi.fn();
+    const { rerender, container } = renderWithTheme(
+      <DataGrid
+        aria-label="案件一覧"
+        columns={columns}
+        data={projects}
+        getRowId={(r) => r.id}
+        selectable
+        selection={[projects[0].id]}
+        onSelectionChange={onSelectionChange}
+      />,
+    );
+    expect(container.querySelectorAll('tr[data-state="selected"]')).toHaveLength(1);
+    await userEvent.click(screen.getAllByRole("checkbox")[2]);
+    expect(onSelectionChange).toHaveBeenCalled();
+    // 親が selection を変えない限り選択は増えない
+    expect(container.querySelectorAll('tr[data-state="selected"]')).toHaveLength(1);
+    rerender(
+      <DataGrid
+        aria-label="案件一覧"
+        columns={columns}
+        data={projects}
+        getRowId={(r) => r.id}
+        selectable
+        defaultSelection={[projects[1].id, projects[2].id]}
+      />,
+    );
+    expect(container.querySelectorAll('tr[data-state="selected"]')).toHaveLength(2);
+  });
+
   it("表示: 見出し・20 件ずつのページング・件数・数値列の右寄せ", () => {
     renderWithTheme(
       <DataGrid aria-label="案件一覧" columns={columns} data={projects} getRowId={(r) => r.id} />,
