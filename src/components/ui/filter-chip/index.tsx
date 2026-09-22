@@ -8,7 +8,7 @@ import { Icon } from "../icon";
 const chipVariants = cva(
   [
     "inline-flex shrink-0 items-center gap-1 whitespace-nowrap rounded-round border font-normal transition-colors",
-    "border-border-middle bg-surface-card text-text-middle hover:border-border-high hover:text-text-high",
+    "border-border-high bg-surface-card text-text-middle hover:text-text-high",
     "aria-pressed:border-border-primary aria-pressed:bg-surface-primary-subtle aria-pressed:font-bold aria-pressed:text-text-primary",
     "outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-border-focus",
     "disabled:cursor-not-allowed disabled:border-border-low disabled:bg-surface-disabled disabled:text-text-disabled",
