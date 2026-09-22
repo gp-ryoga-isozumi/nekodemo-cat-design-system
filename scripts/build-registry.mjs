@@ -18,6 +18,30 @@ import { fileURLToPath } from "node:url";
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), "..");
 const HOMEPAGE = "https://gp-ryoga-isozumi.github.io/nekodemo-cat-design-system";
 
+/** tw-animate-css のクラス（これを使う部品は dependencies に tw-animate-css を持つ） */
+export const ANIMATE_CLASS =
+  /\b(?:animate-(?:in|out)|fade-(?:in|out)|zoom-(?:in|out)|slide-(?:in|out)-|animate-accordion)/;
+
+/** skills/add-nekodemo-component/SKILL.md の「部品名」一覧を registry から生成して書き戻す（手書きだと更新漏れするため） */
+export function updateSkillList(items, root = ROOT) {
+  const p = join(root, "skills", "add-nekodemo-component", "SKILL.md");
+  if (!existsSync(p)) return false;
+  const src = readFileSync(p, "utf8");
+  const names = items
+    .filter((i) => i.type === "registry:ui" && i.files?.[0]?.path?.startsWith("src/components/ui/"))
+    .map((i) => i.name)
+    .sort();
+  const heading = "## 部品名（registry の name）";
+  const idx = src.indexOf(heading);
+  if (idx === -1) return false;
+  // 見出し行の次の段落（空行まで）が一覧。そこだけを差し替える
+  const listStart = src.indexOf("\n", idx) + 1;
+  const listEnd = src.indexOf("\n\n", listStart);
+  const next = `${src.slice(0, listStart)}${names.join(", ")}${src.slice(listEnd === -1 ? src.length : listEnd)}`;
+  if (next !== src) writeFileSync(p, next);
+  return true;
+}
+
 export function collectItems(root = ROOT) {
   const uiDir = join(root, "src", "components", "ui");
   const items = [];
@@ -25,8 +49,15 @@ export function collectItems(root = ROOT) {
     const p = join(uiDir, name, "item.json");
     if (!existsSync(p)) continue;
     const item = JSON.parse(readFileSync(p, "utf8"));
-    // 部品は lib（cn）に依存する。icon は icons.generated.ts を同梱
-    item.registryDependencies = [...new Set([...(item.registryDependencies ?? []), "lib"])];
+    // 部品は lib（cn）と styles（役割トークンの CSS）に依存する。icon は icons.generated.ts を同梱
+    item.registryDependencies = [
+      ...new Set([...(item.registryDependencies ?? []), "lib", "styles"]),
+    ];
+    // animate-in / fade-in / slide-in 等のクラスを使う部品は tw-animate-css が要る（import には現れない依存）
+    const src = readFileSync(join(uiDir, name, "index.tsx"), "utf8");
+    if (ANIMATE_CLASS.test(src)) {
+      item.dependencies = [...new Set([...(item.dependencies ?? []), "tw-animate-css"])];
+    }
     items.push(item);
   }
   return items;
@@ -133,6 +164,8 @@ export function buildRegistry({ root = ROOT, log = console.log, runShadcn = true
   const registry = generateRegistry(root);
   writeFileSync(join(root, "registry.json"), `${JSON.stringify(registry, null, 2)}\n`);
   log(`[build:registry] registry.json を生成しました（${registry.items.length} 項目）`);
+  if (updateSkillList(registry.items, root))
+    log("[build:registry] skills/add-nekodemo-component の部品名一覧を更新しました");
   if (!runShadcn) return registry;
   mkdirSync(join(root, "public", "r"), { recursive: true });
   copyFileSync(join(root, "llms.txt"), join(root, "public", "llms.txt"));

@@ -21,10 +21,10 @@ description: >
 2. トークンとテーマを入れる: `npx shadcn@latest add @nekodemo/styles @nekodemo/theme`。`styles/nekodemo-tokens.css` と `styles/nekodemo-themes.css` が入るので、エントリ CSS の `@import "tailwindcss";` の後に `@import "tw-animate-css";` と 2 ファイルの `@import` を足す（`tw-animate-css` は `pnpm add tw-animate-css`）。ルートには `NekoThemeProvider` と `data-neko-theme` を置く（`docs/ai/SETUP.md` §4）。
 3. 依頼された部品を入れる: `npx shadcn@latest add @nekodemo/<name>`（例: `@nekodemo/avatar`）。`registryDependencies`（`icon`、`button` 等）も同時に入る。
 4. 入った部品の import パスを確認する（`@/components/ui/<name>`）。部品内の `../icon` 等の相対 import が解決できていること。`shadcn init` が入れた既定の `components/ui/button.tsx` などの同名ファイルや `lucide-react` が残っていれば削除する（`button.tsx` が残ると `@/components/ui/button` がそちらに解決される）。
-5. `pnpm nekodemo check src` を実行して 0 件を確認する。
+5. `pnpm nekodemo check src` を実行して error が 0 件であることを確認する（warn は内容を確認する）。
 
 ## 部品名（registry の name）
-avatar, badge, breadcrumb, button, card, checkbox, dialog, divider, drawer, empty-state, form, icon, icon-button, inline-message, input, input-password, input-search, link, menu, modal, pagination, popover, radio, select, side-navigation, skeleton, slider, spinner, switch, table, tabs, tag, textarea, toast, tooltip
+accordion, avatar, badge, breadcrumb, button, card, checkbox, data-grid, description-list, dialog, divider, drawer, empty-state, filter-chip, form, icon, icon-button, inline-message, input, input-date, input-file, input-number, input-password, input-search, input-time, link, menu, modal, page-header, pagination, popover, progress, radio, search-combobox, segmented-control, select, side-navigation, skeleton, slider, spinner, stepper, switch, table, tabs, tag, textarea, toast, tooltip
 
 部品以外: styles（トークンとテーマの CSS）, theme（Provider / Picker / NekoHead）, mascot, themes（テーマ一覧）, lib（cn）
 

@@ -24,11 +24,11 @@ description: >
 5. `nekodemo.config.json` を作る。
 6. `AGENTS.md`（無ければ作成）に `docs/ai/GUARD_BLOCK.md` のブロックを貼る。`CLAUDE.md` が独自の内容を持つなら同内容を追記し、中身が `@AGENTS.md` の 1 行だけなら追記しない。既に `<!-- nekodemo:guard:start -->` があれば貼らない。
 7. `package.json` に `"lint:nekodemo": "nekodemo check src --strict"` を追加する。応答終了時の hook を登録する（既存の hooks を壊さない）: Claude Code は `.claude/settings.json` の `Stop`、Codex CLI は `.codex/hooks.json` の `Stop`、Cursor は `.cursor/hooks.json` の `stop`（SETUP.md §6 に設定例）。Gemini CLI など hook が無い環境は登録しない。
-8. テンプレート既定の画面（`src/app/page.tsx` / `src/App.tsx`）を nekodemo 部品の最小画面に置き換える（SETUP.md §7 の例。既定の画面は Tailwind 既定パレットと `font-medium` を使っていて error になる）。そのうえで `pnpm nekodemo check src` を実行し、0 件であることを確認する。
+8. テンプレート既定の画面（`src/app/page.tsx` / `src/App.tsx`）を nekodemo 部品の最小画面に置き換える（SETUP.md §7 の例。既定の画面は Tailwind 既定パレットと `font-medium` を使っていて error になる）。そのうえで `pnpm nekodemo check src` を実行し、error 0 件であることを確認する。
 
 ## 完了条件
 - 開発サーバーを起動して、ヘッダーに置いた `NekoThemePicker`（または `data-neko-theme` の書き換え）で 3 テーマが切り替わる。
-- `pnpm nekodemo check src` が 0 件。
+- `pnpm nekodemo check src` の error が 0 件。
 - 変更したファイルの一覧と、聞いたテーマを報告する。
 
 ## やってはいけないこと

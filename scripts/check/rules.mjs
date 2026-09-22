@@ -21,9 +21,46 @@ function eachLine(ctx, fn) {
 
 function matchAll(line, re, lineNo, make) {
   const out = [];
-  for (const m of line.matchAll(re)) out.push(make(m, m.index + 1, lineNo));
+  for (const m of line.matchAll(re)) {
+    const r = make(m, m.index + 1, lineNo);
+    if (r) out.push(r);
+  }
   return out;
 }
+
+/** ソース全体に正規表現を当て、行番号と列を復元する（Biome が整形した複数行の JSX を拾うため）。除外行・コメント行は飛ばす */
+function eachSourceMatch(ctx, re, make) {
+  const out = [];
+  const starts = [];
+  let pos = 0;
+  for (const l of ctx.lines) {
+    starts.push(pos);
+    pos += l.length + 1;
+  }
+  const lineOf = (idx) => {
+    let lo = 0;
+    let hi = starts.length - 1;
+    while (lo < hi) {
+      const mid = (lo + hi + 1) >> 1;
+      if (starts[mid] <= idx) lo = mid;
+      else hi = mid - 1;
+    }
+    return lo;
+  };
+  for (const m of ctx.source.matchAll(re)) {
+    const li = lineOf(m.index);
+    if (ctx.ignoredLines.has(li) || isCommentLine(ctx.lines[li])) continue;
+    const r = make(m, m.index - starts[li] + 1, li + 1);
+    if (r) out.push(r);
+  }
+  return out;
+}
+
+/** `href="#abc"` や `url(#grad)` のような URL・参照の文脈（色ではない） */
+const isReferenceContext = (before) =>
+  // fill / stroke などの塗りは含めない（`fill="#ff0000"` は色の直書き。`fill="url(#grad)"` は url( 側で除外する）
+  /(?:href|to|src|id|name|for|htmlFor|hash)\s*[=:]\s*["'`{]*$/.test(before) ||
+  /url\(\s*["']?$/.test(before);
 
 export const rules = [
   {
@@ -38,12 +75,16 @@ export const rules = [
           line,
           /(#(?:[0-9a-fA-F]{3}|[0-9a-fA-F]{4}|[0-9a-fA-F]{6}|[0-9a-fA-F]{8})\b|\b(?:rgba?|hsla?|oklch|oklab)\()/g,
           n,
-          (m, col) => ({
-            line: n,
-            col,
-            message: `色の直書き "${m[1]}"。役割トークン名（bg-surface-card / text-text-low 等）を使ってください`,
-            fix: "themes/*.json の変更が必要なら PR を出す",
-          }),
+          (m, col) => {
+            // `href="#abc"` のようなアンカーや `url(#id)` は色ではない
+            if (m[1].startsWith("#") && isReferenceContext(line.slice(0, m.index))) return null;
+            return {
+              line: n,
+              col,
+              message: `色の直書き "${m[1]}"。役割トークン名（bg-surface-card / text-text-low 等）を使ってください`,
+              fix: "themes/*.json の変更が必要なら PR を出す",
+            };
+          },
         );
       }),
   },
@@ -90,19 +131,20 @@ export const rules = [
     id: "NK004",
     severity: "error",
     description: "style 属性での色指定（style={{ color / background / borderColor }}）",
+    // 複数行に整形された style={{ … }} も拾うため、ソース全体に当てる
     test: (ctx) =>
-      eachLine(ctx, (line, n) =>
-        matchAll(
-          line,
-          /style=\{\{[^}]*?\b(color|background|backgroundColor|borderColor|fill|stroke|outlineColor)\s*:/g,
-          n,
-          (m, col) => ({
-            line: n,
-            col,
-            message: `style で "${m[1]}" を指定しています。className の役割トークンを使ってください`,
-          }),
-        ),
-      ),
+      eachSourceMatch(ctx, /style=\{\{([\s\S]*?)\}\}/g, (m, col, n) => {
+        const p =
+          /\b(color|background|backgroundColor|borderColor|fill|stroke|outlineColor)\s*:/.exec(
+            m[1],
+          );
+        if (!p) return null;
+        return {
+          line: n,
+          col,
+          message: `style で "${p[1]}" を指定しています。className の役割トークンを使ってください`,
+        };
+      }),
   },
   {
     id: "NK005",
@@ -190,12 +232,15 @@ export const rules = [
     test: (ctx) => {
       if (!/\.(tsx|jsx)$/.test(ctx.path)) return [];
       if (/components\/ui\//.test(ctx.path)) return []; // 部品の実装自体は除外
-      return eachLine(ctx, (line, n) =>
-        matchAll(line, /<(table|button|input|select|textarea)(?=[\s>/])/g, n, (m, col) => ({
+      // `<button\n  type="button"\n>` のように整形された複数行のタグも拾う（行末でも一致させる）
+      return eachSourceMatch(
+        ctx,
+        /<(table|button|input|select|textarea)(?=[\s>/]|$)/gm,
+        (m, col, n) => ({
           line: n,
           col,
           message: `生の <${m[1]}> の代わりに nekodemo の ${{ table: "Table", button: "Button / IconButton", input: "Input", select: "Select", textarea: "Textarea" }[m[1]]} を使ってください`,
-        })),
+        }),
       );
     },
   },
@@ -224,6 +269,28 @@ export const rules = [
     },
   },
 ];
+
+export const _rulesTail = [
+  {
+    id: "NK011",
+    severity: "error",
+    description: '空の読み上げ名（label="" / aria-label=""）。名前が無いのと同じ',
+    test: (ctx) =>
+      eachLine(ctx, (line, n) =>
+        matchAll(
+          line,
+          /\b(label|aria-label|title)=(?:""|''|\{\s*(?:""|''|``)\s*\})/g,
+          n,
+          (m, col) => ({
+            line: n,
+            col,
+            message: `${m[1]} が空です。読み上げ名（「削除する」「案件を検索」のような語）を入れてください`,
+          }),
+        ),
+      ),
+  },
+];
+rules.push(..._rulesTail);
 
 /** AI が最後に自己確認する項目（自動化できないもの。--format json の manualChecks） */
 export const manualChecks = [

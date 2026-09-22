@@ -29,7 +29,7 @@ description: >
 5. 開発サーバーで見た目が変わることを確認し、報告する。
 
 ## 完了条件
-- 3 か所の ID が一致し、`pnpm nekodemo check src` が 0 件のまま。
+- 3 か所の ID が一致し、`pnpm nekodemo check src` の error が 0 件のまま。
 - 提案したテーマと理由を 1〜2 行で報告している。
 
 ## やってはいけないこと
