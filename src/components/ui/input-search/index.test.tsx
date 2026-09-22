@@ -25,6 +25,14 @@ function ControlledField() {
 }
 
 describe("InputSearch", () => {
+  it("表示: className はルートに、inputClassName は入力欄に付く", () => {
+    const { container } = render(
+      <InputSearch aria-label="検索" className="w-64" inputClassName="font-bold" />,
+    );
+    expect(container.querySelector('[data-slot="input-search"]')).toHaveClass("w-64");
+    expect(screen.getByRole("searchbox", { name: "検索" })).toHaveClass("font-bold");
+  });
+
   it("表示: 値が空のときはクリアボタンが無く、入力があると出る。検索条件ボタンは onOpenConditions のときだけ出る", async () => {
     const { container } = renderField();
     expect(container.querySelector('[data-slot="input-search"]')).not.toBeNull();

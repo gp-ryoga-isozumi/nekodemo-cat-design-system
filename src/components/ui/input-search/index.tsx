@@ -7,6 +7,8 @@ import { IconButton } from "../icon-button";
 import { Input, type InputProps } from "../input";
 
 export type InputSearchProps = Omit<InputProps, "type" | "onChange" | "value" | "defaultValue"> & {
+  /** 内側の <input> に付けるクラス（className はルートの div に付く） */
+  inputClassName?: string;
   value?: string;
   defaultValue?: string;
   /** 入力が変わるたびに呼ばれる（クリア時は ""） */
@@ -41,6 +43,7 @@ export type InputSearchProps = Omit<InputProps, "type" | "onChange" | "value" | 
  */
 export function InputSearch({
   className,
+  inputClassName,
   size = "md",
   value,
   defaultValue = "",
@@ -61,7 +64,7 @@ export function InputSearch({
   };
   const trailing = (current ? 1 : 0) + (onOpenConditions ? 1 : 0);
   return (
-    <div data-slot="input-search" className="relative flex items-center">
+    <div data-slot="input-search" className={cn("relative flex items-center", className)}>
       <Icon
         icon="search"
         size={size === "lg" ? 6 : 5}
@@ -89,7 +92,7 @@ export function InputSearch({
           trailing === 1 && (size === "sm" ? "pr-9" : "pr-11"),
           trailing === 2 && (size === "sm" ? "pr-16" : "pr-20"),
           "[&::-webkit-search-cancel-button]:hidden",
-          className,
+          inputClassName,
         )}
         {...props}
       />

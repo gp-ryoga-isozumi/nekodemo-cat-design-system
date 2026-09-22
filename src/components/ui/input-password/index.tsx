@@ -5,7 +5,10 @@ import { cn } from "../../../lib/utils";
 import { IconButton } from "../icon-button";
 import { Input, type InputProps } from "../input";
 
-export type InputPasswordProps = Omit<InputProps, "type">;
+export type InputPasswordProps = Omit<InputProps, "type"> & {
+  /** 内側の <input> に付けるクラス（className はルートの div に付く） */
+  inputClassName?: string;
+};
 
 /**
  * InputPassword
@@ -26,15 +29,21 @@ export type InputPasswordProps = Omit<InputProps, "type">;
  * <InputPassword id="password" autoComplete="current-password" />
  * ```
  */
-export function InputPassword({ className, size = "md", disabled, ...props }: InputPasswordProps) {
+export function InputPassword({
+  className,
+  inputClassName,
+  size = "md",
+  disabled,
+  ...props
+}: InputPasswordProps) {
   const [visible, setVisible] = useState(false);
   return (
-    <div data-slot="input-password" className="relative flex items-center">
+    <div data-slot="input-password" className={cn("relative flex items-center", className)}>
       <Input
         type={visible ? "text" : "password"}
         size={size}
         disabled={disabled}
-        className={cn(size === "sm" ? "pr-9" : "pr-11", className)}
+        className={cn(size === "sm" ? "pr-9" : "pr-11", inputClassName)}
         {...props}
       />
       <IconButton
