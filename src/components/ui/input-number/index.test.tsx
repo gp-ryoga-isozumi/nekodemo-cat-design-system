@@ -85,6 +85,26 @@ describe("InputNumber", () => {
     expect(amount).toHaveValue("1,200");
   });
 
+  it("操作: readOnly では ↑↓ でも変わらず、呼び出し側の onKeyDown は呼ばれる", async () => {
+    const onValueChange = vi.fn();
+    const onKeyDown = vi.fn();
+    render(
+      <InputNumber
+        aria-label="数量"
+        defaultValue={3}
+        readOnly
+        onValueChange={onValueChange}
+        onKeyDown={onKeyDown}
+      />,
+    );
+    const input = screen.getByRole("spinbutton", { name: "数量" });
+    input.focus();
+    await userEvent.keyboard("{ArrowUp}");
+    expect(onKeyDown).toHaveBeenCalled();
+    expect(onValueChange).not.toHaveBeenCalled();
+    expect(input).toHaveValue("3");
+  });
+
   it("操作: min / max に達すると対応する増減ボタンが無効になる", () => {
     const { rerender } = render(
       <InputNumber aria-label="納品数" min={1} max={99} value={99} onValueChange={() => {}} />,

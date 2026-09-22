@@ -77,9 +77,11 @@ describe("SegmentedControl", () => {
     expect(grid).toHaveAttribute("aria-checked", "true");
     expect(screen.getByRole("radio", { name: "一覧" })).toHaveAttribute("aria-checked", "false");
 
-    // ← → は Radix の roving focus で移動する（無効な項目は飛ばす）
+    // ← → はフォーカスだけでなく選択も移す（radio group の作法。無効な項目は飛ばす）
     await userEvent.keyboard("{ArrowLeft}");
     expect(screen.getByRole("radio", { name: "一覧" })).toHaveFocus();
+    expect(screen.getByRole("radio", { name: "一覧" })).toHaveAttribute("aria-checked", "true");
+    expect(onValueChange).toHaveBeenLastCalledWith("list");
   });
 
   it("操作: 選択中の項目を押しても onValueChange が空文字で呼ばれない", async () => {

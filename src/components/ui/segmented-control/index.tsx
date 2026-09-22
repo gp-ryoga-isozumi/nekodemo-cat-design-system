@@ -96,8 +96,10 @@ export function SegmentedControl({
   };
   // radio group の作法に合わせ、←→（↑↓）で選択も移す（Radix はフォーカスだけ動かす）
   const handleKeyDown = (e: KeyboardEvent<HTMLDivElement>) => {
+    // Radix の roving focus は項目側で preventDefault 済みなので、呼び出し側の onKeyDown が止めたときだけ抜ける
+    const preventedByRadix = e.defaultPrevented;
     onKeyDown?.(e);
-    if (e.defaultPrevented) return;
+    if (e.defaultPrevented && !preventedByRadix) return;
     const dir =
       e.key === "ArrowRight" || e.key === "ArrowDown"
         ? 1
@@ -114,7 +116,8 @@ export function SegmentedControl({
       idx === -1
         ? items[dir > 0 ? 0 : items.length - 1]
         : items[(idx + dir + items.length) % items.length];
-    if (next?.value) select(next.value);
+    // Radix は value を DOM に出さないので、Item が付ける data-value から読む
+    if (next?.dataset.value) select(next.dataset.value);
   };
   return (
     <ToggleGroupPrimitive.Root
@@ -137,6 +140,7 @@ export function SegmentedControlItem({ className, ...props }: SegmentedControlIt
   return (
     <ToggleGroupPrimitive.Item
       data-slot="segmented-control-item"
+      data-value={props.value}
       className={cn(
         itemVariants(),
         "[[data-size=lg]_&]:px-4 [[data-size=lg]_&]:text-3 [[data-size=sm]_&]:px-2.5",
