@@ -67,6 +67,15 @@ export const Sizes: Story = {
   ),
 };
 
+export const AsChild: Story = {
+  name: "asChild（リンクをアイコンボタンに）",
+  render: () => (
+    <IconButton icon="open_in_new" label="案件を新しいタブで開く" variant="outline" asChild>
+      <a href="#top" />
+    </IconButton>
+  ),
+};
+
 export const Disabled: Story = {
   name: "disabled",
   render: () => (

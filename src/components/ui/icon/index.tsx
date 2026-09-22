@@ -46,11 +46,22 @@ const warned = new Set<string>();
  * <Icon icon="favorite" fill />
  * ```
  */
-export function Icon({ icon, size = 3, fill = false, label, className, ...props }: IconProps) {
+export function Icon({
+  icon,
+  size = 3,
+  fill = false,
+  label,
+  className,
+  style,
+  "aria-label": ariaLabelProp,
+  ...props
+}: IconProps) {
   const px = ICON_SIZES[size - 1] ?? 16;
   const def = icons[icon];
-  const a11y = label
-    ? { role: "img" as const, "aria-label": label }
+  // label か aria-label があれば読み上げる（role=img）。無ければ装飾（aria-hidden）。props より後ろに置いて必ず勝たせる
+  const name = label ?? ariaLabelProp;
+  const a11y = name
+    ? { role: "img" as const, "aria-label": name }
     : { "aria-hidden": true as const };
 
   if (!def) {
@@ -71,6 +82,7 @@ export function Icon({ icon, size = 3, fill = false, label, className, ...props 
           width: px,
           height: px,
           fontVariationSettings: `'FILL' ${fill ? 1 : 0}, 'wght' 500, 'GRAD' 0, 'opsz' ${Math.min(48, Math.max(20, px))}`,
+          ...style,
         }}
         data-slot="icon"
         data-icon={icon}
@@ -95,10 +107,11 @@ export function Icon({ icon, size = 3, fill = false, label, className, ...props 
       data-slot="icon"
       data-icon={icon}
       data-icon-tier={def.tier}
+      style={style}
       {...props}
       {...a11y}
     >
-      {label ? <title>{label}</title> : null}
+      {name ? <title>{name}</title> : null}
       <path d={d} />
       {ears ? (
         <path

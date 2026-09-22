@@ -38,10 +38,14 @@ export type IconButtonProps = Omit<ComponentProps<"button">, "children"> &
     /** 必須。読み上げ名と title になる */
     label: string;
     fill?: boolean;
-    /** 子の要素（NextLink など）にボタンの見た目と名前を付ける（Button と同じ） */
-    asChild?: boolean;
-    children?: ReactNode;
-  };
+  } & (
+    | {
+        /** 子の要素（NextLink など）にボタンの見た目と名前を付ける（Button と同じ）。children はこのときだけ渡せる */
+        asChild: true;
+        children: ReactNode;
+      }
+    | { asChild?: false; children?: never }
+  );
 
 /**
  * IconButton
