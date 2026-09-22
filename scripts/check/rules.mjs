@@ -58,9 +58,9 @@ function eachSourceMatch(ctx, re, make) {
 
 /** `href="#abc"` や `url(#grad)` のような URL・参照の文脈（色ではない） */
 const isReferenceContext = (before) =>
-  /(?:href|to|src|id|name|for|htmlFor|hash|fill|stroke|filter|mask|clipPath)\s*[=:]\s*["'`{]*$/.test(
-    before,
-  ) || /url\(\s*["']?$/.test(before);
+  // fill / stroke などの塗りは含めない（`fill="#ff0000"` は色の直書き。`fill="url(#grad)"` は url( 側で除外する）
+  /(?:href|to|src|id|name|for|htmlFor|hash)\s*[=:]\s*["'`{]*$/.test(before) ||
+  /url\(\s*["']?$/.test(before);
 
 export const rules = [
   {

@@ -42,9 +42,9 @@ describe("nekodemo check のルール", () => {
   });
 
   it('NK001: href="#abc" のようなアンカーや url(#id) は色ではない', () => {
-    const src = `<a href="#abc">先頭へ</a>\n<rect fill="url(#grad)" />\nconst c = "#abc";`;
+    const src = `<a href="#abc">先頭へ</a>\n<rect fill="url(#grad)" />\nconst c = "#abc";\n<rect fill="#ff0000" />`;
     const f = checkSource(src, "a.tsx").filter((x) => x.rule === "NK001");
-    expect(f.map((x) => x.line)).toEqual([3]);
+    expect(f.map((x) => x.line)).toEqual([3, 4]);
   });
 
   it('NK011: 空の読み上げ名（label="" / aria-label=""）を error にする', () => {
