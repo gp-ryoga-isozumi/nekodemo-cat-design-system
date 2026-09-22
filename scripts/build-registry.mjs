@@ -34,9 +34,10 @@ export function updateSkillList(items, root = ROOT) {
   const heading = "## 部品名（registry の name）";
   const idx = src.indexOf(heading);
   if (idx === -1) return false;
-  const after = src.indexOf("\n\n", idx + heading.length);
-  const end = src.indexOf("\n\n", after + 2);
-  const next = `${src.slice(0, after + 2)}${names.join(", ")}${src.slice(end)}`;
+  // 見出し行の次の段落（空行まで）が一覧。そこだけを差し替える
+  const listStart = src.indexOf("\n", idx) + 1;
+  const listEnd = src.indexOf("\n\n", listStart);
+  const next = `${src.slice(0, listStart)}${names.join(", ")}${src.slice(listEnd === -1 ? src.length : listEnd)}`;
   if (next !== src) writeFileSync(p, next);
   return true;
 }

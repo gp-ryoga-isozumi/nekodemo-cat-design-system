@@ -24,9 +24,9 @@ description: >
 5. `pnpm nekodemo check src` を実行して error が 0 件であることを確認する（warn は内容を確認する）。
 
 ## 部品名（registry の name）
-avatar, badge, breadcrumb, button, card, checkbox, dialog, divider, drawer, empty-state, form, icon, icon-button, inline-message, input, input-password, input-search, link, menu, modal, pagination, popover, radio, select, side-navigation, skeleton, slider, spinner, switch, table, tabs, tag, textarea, toast, tooltip
-
 avatar, badge, breadcrumb, button, card, checkbox, data-grid, dialog, divider, drawer, empty-state, form, icon, icon-button, inline-message, input, input-password, input-search, link, menu, modal, pagination, popover, radio, search-combobox, select, side-navigation, skeleton, slider, spinner, switch, table, tabs, tag, textarea, toast, tooltip
+
+部品以外: styles（トークンとテーマの CSS）, theme（Provider / Picker / NekoHead）, mascot, themes（テーマ一覧）, lib（cn）
 
 ## 完了条件
 - 部品が `components/ui/<name>/index.tsx` として入り、型エラーが無い。
