@@ -6,6 +6,13 @@ import { Spinner } from ".";
 // disabled: 同じく無効状態を持たないため省略する。
 
 describe("Spinner", () => {
+  it("表示: data-size を持ち、id などの props をそのまま渡せる", () => {
+    render(<Spinner size="lg" id="loading" />);
+    const el = screen.getByRole("status");
+    expect(el).toHaveAttribute("id", "loading");
+    expect(el).toHaveAttribute("data-size", "lg");
+  });
+
   it("表示: data-slot と size ごとの寸法（sm 16 / md 20 / lg 40px）を持つ", () => {
     const { container, rerender } = render(<Spinner />);
     const svg = container.querySelector("svg");

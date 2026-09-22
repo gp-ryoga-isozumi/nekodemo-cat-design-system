@@ -138,7 +138,7 @@ export default function GridSamplePage() {
               getOptionDescription={(o) => o.team}
               groupBy={(o) => o.team}
               value={owners}
-              onChange={(v) => setOwners(v)}
+              onValueChange={(v) => setOwners(v)}
               placeholder="担当で絞り込む"
               size="sm"
               className="w-72"

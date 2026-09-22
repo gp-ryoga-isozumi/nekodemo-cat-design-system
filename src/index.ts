@@ -88,6 +88,7 @@ export {
   FilterChipGroup,
   type FilterChipGroupProps,
   type FilterChipProps,
+  filterChipVariants,
 } from "./components/ui/filter-chip";
 export {
   Field,
@@ -163,12 +164,15 @@ export {
   SearchCombobox,
   type SearchComboboxProps,
   type SearchComboboxSize,
+  searchComboboxFieldVariants,
 } from "./components/ui/search-combobox";
 export {
   SegmentedControl,
   SegmentedControlItem,
   type SegmentedControlItemProps,
   type SegmentedControlProps,
+  segmentedControlItemVariants,
+  segmentedControlVariants,
 } from "./components/ui/segmented-control";
 export {
   Select,

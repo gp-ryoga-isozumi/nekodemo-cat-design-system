@@ -4,6 +4,18 @@ import { describe, expect, it, vi } from "vitest";
 import { IconButton } from ".";
 
 describe("IconButton", () => {
+  it("表示: asChild で子の <a> にボタンの見た目・名前・アイコンが付く", () => {
+    render(
+      <IconButton icon="edit" label="案件を編集" asChild>
+        <a href="/projects/1/edit">編集</a>
+      </IconButton>,
+    );
+    const link = screen.getByRole("link", { name: "案件を編集" });
+    expect(link).toHaveAttribute("href", "/projects/1/edit");
+    expect(link).toHaveAttribute("data-slot", "icon-button");
+    expect(link.querySelector('[data-icon="edit"]')).not.toBeNull();
+  });
+
   it("表示: アイコンを描画し、data 属性と既定の type=button を持つ", () => {
     const { container } = render(
       <IconButton icon="delete" label="削除する" variant="negative" size="sm" />,

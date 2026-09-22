@@ -27,6 +27,20 @@ function ProjectTabs({
 }
 
 describe("Tabs", () => {
+  it("アクセシブルネーム: TabsList に aria-label も aria-labelledby も無いと開発時に警告する", () => {
+    const warn = vi.spyOn(console, "warn").mockImplementation(() => {});
+    render(
+      <Tabs defaultValue="a">
+        <TabsList>
+          <TabsTrigger value="a">基本</TabsTrigger>
+        </TabsList>
+        <TabsContent value="a">本文</TabsContent>
+      </Tabs>,
+    );
+    expect(warn).toHaveBeenCalledWith(expect.stringContaining("読み上げ名がありません"));
+    warn.mockRestore();
+  });
+
   it("表示: 既定のタブの内容だけが表示され、orientation が data 属性に出る", () => {
     const { container, rerender } = render(<ProjectTabs />);
     expect(screen.getByText("案件「社内備品貸出アプリ 改修」の概要です。")).toBeInTheDocument();

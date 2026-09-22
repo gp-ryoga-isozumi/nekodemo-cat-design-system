@@ -67,6 +67,16 @@ export const Sizes: Story = {
   ),
 };
 
+export const AsChild: Story = {
+  name: "asChild（リンクをアイコンボタンに）",
+  render: () => (
+    <IconButton icon="open_in_new" label="案件を新しいタブで開く" variant="outline" asChild>
+      {/* biome-ignore lint/a11y/useAnchorContent: IconButton（Slot）が aria-label と中のアイコンを足す */}
+      <a href="#top" />
+    </IconButton>
+  ),
+};
+
 export const Disabled: Story = {
   name: "disabled",
   render: () => (

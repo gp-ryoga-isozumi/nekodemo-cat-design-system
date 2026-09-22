@@ -8,6 +8,13 @@ afterEach(() => {
 });
 
 describe("Icon", () => {
+  it("表示: data-slot=icon を持ち、id や data-* などの props をそのまま渡せる", () => {
+    const { container } = render(<Icon icon="search" id="q-icon" data-testid="icon" />);
+    const el = container.querySelector("#q-icon");
+    expect(el).toHaveAttribute("data-slot", "icon");
+    expect(el).toHaveAttribute("data-testid", "icon");
+  });
+
   it("表示: 猫版がある名前は inline SVG（本体 path ＋ 耳 path）を描く", () => {
     const { container } = render(<Icon icon="folder" />);
     const svg = container.querySelector("svg");

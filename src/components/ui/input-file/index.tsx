@@ -11,6 +11,8 @@ export type InputFileProps = Omit<
 > & {
   /** 選択中のファイル（制御） */
   value?: File[];
+  /** 非制御の初期ファイル（編集フォームで既存の添付を出す） */
+  defaultValue?: File[];
   /** 選択・削除のたびに呼ばれる */
   onValueChange?: (files: File[]) => void;
   /** 受け付けない理由（種類・サイズ・件数）。拒否したファイルごとに呼ばれる */
@@ -76,6 +78,7 @@ function acceptsType(file: File, accept?: string): boolean {
 export function InputFile({
   className,
   value,
+  defaultValue,
   onValueChange,
   onReject,
   maxSizeMB,
@@ -92,7 +95,7 @@ export function InputFile({
   const autoId = useId();
   const inputId = id ?? autoId;
   const inputRef = useRef<HTMLInputElement>(null);
-  const [inner, setInner] = useState<File[]>([]);
+  const [inner, setInner] = useState<File[]>(defaultValue ?? []);
   const [dragging, setDragging] = useState(false);
   const files = value ?? inner;
 

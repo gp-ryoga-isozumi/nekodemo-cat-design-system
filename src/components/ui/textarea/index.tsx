@@ -4,6 +4,8 @@ import { type ComponentProps, useId, useState } from "react";
 import { cn } from "../../../lib/utils";
 
 export type TextareaProps = ComponentProps<"textarea"> & {
+  /** 内側の <textarea> に付けるクラス（className はルートの div に付く） */
+  inputClassName?: string;
   /** 文字数カウンタを出す上限。maxLength も付く */
   maxLength?: number;
   /** カウンタを出すか（maxLength があるときは既定 true） */
@@ -33,6 +35,7 @@ export type TextareaProps = ComponentProps<"textarea"> & {
  */
 export function Textarea({
   className,
+  inputClassName,
   maxLength,
   showCount = maxLength !== undefined,
   onChange,
@@ -47,10 +50,10 @@ export function Textarea({
   const [innerLength, setInnerLength] = useState(String(defaultValue ?? "").length);
   const length = value !== undefined ? String(value).length : innerLength;
   return (
-    <div data-slot="textarea-wrap" className="flex flex-col gap-1">
+    <div data-slot="textarea" className={cn("flex flex-col gap-1", className)}>
       <textarea
         id={textareaId}
-        data-slot="textarea"
+        data-slot="textarea-control"
         maxLength={maxLength}
         value={value}
         defaultValue={defaultValue}
@@ -68,7 +71,7 @@ export function Textarea({
           "outline-none focus-visible:border-border-focus focus-visible:ring-2 focus-visible:ring-border-focus/30",
           "aria-invalid:border-border-negative aria-invalid:focus-visible:ring-border-negative/30",
           "disabled:cursor-not-allowed disabled:border-border-middle disabled:bg-surface-disabled disabled:text-text-disabled",
-          className,
+          inputClassName,
         )}
         {...props}
       />

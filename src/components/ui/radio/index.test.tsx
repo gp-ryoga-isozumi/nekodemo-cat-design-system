@@ -32,6 +32,17 @@ function renderRadio(props?: {
 }
 
 describe("Radio", () => {
+  it("アクセシブルネーム: RadioGroup に aria-label も aria-labelledby も無いと開発時に警告する", () => {
+    const warn = vi.spyOn(console, "warn").mockImplementation(() => {});
+    render(
+      <RadioGroup defaultValue="a">
+        <RadioItem value="a" aria-label="A" />
+      </RadioGroup>,
+    );
+    expect(warn).toHaveBeenCalledWith(expect.stringContaining("読み上げ名がありません"));
+    warn.mockRestore();
+  });
+
   it("表示: radiogroup の中に radio が並び、defaultValue の 1 つだけが選択済みになる", () => {
     renderRadio({ defaultValue: "internal" });
     const group = screen.getByRole("radiogroup", { name: "公開範囲" });

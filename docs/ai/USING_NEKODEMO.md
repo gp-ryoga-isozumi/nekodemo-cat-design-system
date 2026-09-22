@@ -150,13 +150,13 @@ shadcn の名前で探すと迷うものだけ。同名のもの（Button / Inpu
 | `Accordion` | `Accordion type="single" collapsible` > `AccordionItem value` > `AccordionTrigger` + `AccordionContent` | 補足や高度な設定を畳む。本題は畳まない |
 | `PageHeader` | `title`、`description`、`meta`（StatusTag）、`actions`（主ボタン 1 つ）、`breadcrumb` | 4 型すべての画面最上部 |
 | `Input` | `size`: sm / md / lg、`aria-invalid`、`type` | ラベルは Form / Field で |
-| `InputPassword` | Input と同じ | 表示切替つき |
-| `InputSearch` | `value` / `onValueChange`、`onOpenConditions`、`clearLabel`、`size` | 一覧の検索欄 |
+| `InputPassword` | Input と同じ。`className` はルート、内側の入力は `inputClassName` | 表示切替つき |
+| `InputSearch` | `value` / `onValueChange`、`onOpenConditions`、`clearLabel`、`size`。`className` はルート、内側の入力は `inputClassName` | 一覧の検索欄 |
 | `InputNumber` | `value` / `onValueChange`（数値か null）、`min` `max` `step`、`unit`（「円」など）、`format`（3 桁区切り）、`hideSteppers`、`size` | 金額・数量。電話番号や ID は Input |
 | `InputDate` | `value` / `onValueChange`（`YYYY-MM-DD`）、`min` `max`、`size` | 納期・期間（2 つ並べて `min` / `max` で制限） |
 | `InputTime` | `value` / `onValueChange`（`HH:MM`）、`stepMinutes`（既定 15）、`min` `max`、`size` | 開始・終了時刻。日時は InputDate と横に並べる |
-| `InputFile` | `value` / `onValueChange`（`File[]`）、`onReject(file, "type" \| "size" \| "count")`、`accept` `maxSizeMB` `maxFiles` `multiple` | 添付。受け付ける条件は説明にも書く。アップロードはしない |
-| `Textarea` | `maxLength`（カウンタ）、`showCount`、`rows` | |
+| `InputFile` | `value` / `defaultValue` / `onValueChange`（`File[]`）、`onReject(file, "type" \| "size" \| "count")`、`accept` `maxSizeMB` `maxFiles` `multiple` | 添付。受け付ける条件は説明にも書く。アップロードはしない |
+| `Textarea` | `maxLength`（カウンタ）、`showCount`、`rows`。`className` はルート、内側は `inputClassName` | |
 | `Select` | `Select` > `SelectTrigger`（`size`）> `SelectValue`、`SelectContent` > `SelectItem` | 単一選択 |
 | `Checkbox` | `checked`（true / false / "indeterminate"）、`onCheckedChange` | チェックは猫の顔 |
 | `RadioGroup` / `RadioItem` | `value` / `onValueChange`、`RadioItem value id` | 2〜5 択 |
@@ -169,15 +169,15 @@ shadcn の名前で探すと迷うものだけ。同名のもの（Button / Inpu
 | `Stepper` | `steps`（`{ label, description? }[]`）`current`（0 始まり）`orientation` `onStepClick` `aria-label` | 3〜5 手順の作成フォームの進み具合 |
 | `Breadcrumb` | `BreadcrumbList` > `BreadcrumbItem` > `BreadcrumbLink` / `BreadcrumbPage`、`BreadcrumbSeparator` | 詳細の最上部 |
 | `SideNavigation` | `logo`、`collapsed` / `defaultCollapsed`；`SideNavItem icon active badge asChild`；`SideNavGroup label` | 幅 240 / 64px |
-| `Pagination` | `page` `total` `pageSize` `onPageChange`、`showSummary`、`unit` | 件数表示つき |
+| `Pagination` | `page` `total` `pageSize` `onPageChange`、`showSummary`、`unit`。独自ページャは `pageItems(page, pageCount)` | 件数表示つき |
 | `Menu` | `Menu` > `MenuTrigger asChild` + `MenuContent` > `MenuItem`（`variant="negative"`）`MenuSeparator` `MenuCheckboxItem` `MenuRadioItem` | 操作の一覧。破壊的操作は最後 |
 | `Popover` | `Popover` > `PopoverTrigger asChild` + `PopoverContent` > `PopoverTitle` | 小さなパネル |
 | `Dialog` | `Dialog` > `DialogTrigger` + `DialogContent` > `DialogHeader`（`DialogTitle` `DialogDescription`）`DialogFooter`（`DialogCancel` `DialogAction variant="negative"`）。一覧の行メニュー（`MenuItem`）から開くときは `DialogTrigger` を使わず、`<Dialog open={…} onOpenChange={…}>` をページに 1 つ置いて state で開く（Menu が閉じるとトリガーごと消えるため） | 確認専用 |
-| `Modal` | `Modal` > `ModalTrigger` + `ModalContent` > `ModalHeader`（`ModalTitle`）`ModalBody` `ModalFooter`（`ModalClose`） | 短い入力 |
-| `Drawer` | `Drawer` > `DrawerTrigger` + `DrawerContent side` > `DrawerHeader`（`DrawerTitle`）`DrawerBody` `DrawerFooter` | サイドパネル |
+| `Modal` | `Modal` > `ModalTrigger` + `ModalContent`（`showCloseButton`） > `ModalHeader`（`ModalTitle`）`ModalBody` `ModalFooter`（`ModalClose`） | 短い入力 |
+| `Drawer` | `Drawer` > `DrawerTrigger` + `DrawerContent side`（`showCloseButton`） > `DrawerHeader`（`DrawerTitle`）`DrawerBody` `DrawerFooter` | サイドパネル |
 | `Table` | `Table density`（xs / sm / md）> `TableHeader` > `TableRow` > `TableHead`（`numeric` `sort` `onSort`）、`TableBody` > `TableRow` > `TableCell numeric` | 数値は右寄せ等幅。静的な表 |
-| `DataGrid` | `aria-label`（必須）`columns`（`{ id, header, accessor?, cell?, numeric?, size?, filter?: "select" }`）`data` `getRowId` `density` `status`（loading / error）`onRetry` `emptyTitle` `emptyAction` `selectable` `onSelectionChange` `searchable` `columnMenu` `pinFirstColumn` `pagination` `pageSize` `virtualize` `height` `rowActions` `toolbar` `caption` | ソート・列幅・固定・選択・ページング・検索・列の絞り込み・列の表示切替・4 状態・仮想化・行内操作をまとめて持つ一覧。0 件は自動で EmptyState |
-| `SearchCombobox` | `label`（必須。`hideLabel` で見た目だけ隠す）`options` `getOptionLabel` `getOptionDescription` `groupBy` `multiple` `freeSolo` `value` / `onChange` `inputValue` / `onInputChange` `loading` `emptyText` `size` `disabled` | サジェスト付きの入力。複数選択は Tag、候補に無い値は freeSolo。5 件程度の固定候補は Select |
+| `DataGrid` | `aria-label`（必須）`selection` / `defaultSelection` / `onSelectionChange`（選択の制御・復元）`columns`（`{ id, header, accessor?, cell?, numeric?, size?, filter?: "select" }`）`data` `getRowId` `density` `status`（loading / error）`onRetry` `emptyTitle` `emptyAction` `selectable` `onSelectionChange` `searchable` `columnMenu` `pinFirstColumn` `pagination` `pageSize` `virtualize` `height` `rowActions` `toolbar` `caption` | ソート・列幅・固定・選択・ページング・検索・列の絞り込み・列の表示切替・4 状態・仮想化・行内操作をまとめて持つ一覧。0 件は自動で EmptyState |
+| `SearchCombobox` | `label`（必須。`hideLabel` で見た目だけ隠す）`options` `getOptionLabel` `getOptionDescription` `groupBy` `multiple` `freeSolo` `value` / `onValueChange` `inputValue` / `onInputChange` `loading` `emptyText` `size` `disabled` | サジェスト付きの入力。複数選択は Tag、候補に無い値は freeSolo。5 件程度の固定候補は Select |
 | `EmptyState` | `title`、`description`、`action`、`headingLevel`（2 / 3 / 4）、`hideMascot` | 0 件 |
 | `NekoThemeProvider` / `NekoThemePicker` / `NekoHead` / `useNekoTheme` | `defaultTheme` `persist` ／ `variant`: faces / menu | テーマ |
 | `Mascot` | `theme`、`size`、`label` | 空状態・初回ローディング・404・ログインだけ |

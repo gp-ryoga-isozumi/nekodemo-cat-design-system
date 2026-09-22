@@ -1,5 +1,6 @@
 import { cva, type VariantProps } from "class-variance-authority";
-import type { ComponentProps } from "react";
+import { Slot } from "radix-ui";
+import type { ComponentProps, ReactNode } from "react";
 import { cn } from "../../../lib/utils";
 import { Icon, type IconSize } from "../icon";
 
@@ -37,7 +38,14 @@ export type IconButtonProps = Omit<ComponentProps<"button">, "children"> &
     /** 必須。読み上げ名と title になる */
     label: string;
     fill?: boolean;
-  };
+  } & (
+    | {
+        /** 子の要素（NextLink など）にボタンの見た目と名前を付ける（Button と同じ）。children はこのときだけ渡せる */
+        asChild: true;
+        children: ReactNode;
+      }
+    | { asChild?: false; children?: never }
+  );
 
 /**
  * IconButton
@@ -69,11 +77,14 @@ export function IconButton({
   label,
   fill,
   type,
+  asChild = false,
+  children,
   ...props
 }: IconButtonProps) {
+  const Comp = asChild ? Slot.Root : "button";
   return (
-    <button
-      type={type ?? "button"}
+    <Comp
+      type={asChild ? undefined : (type ?? "button")}
       data-slot="icon-button"
       data-variant={variant}
       data-size={size}
@@ -82,7 +93,9 @@ export function IconButton({
       className={cn(iconButtonVariants({ variant, size }), className)}
       {...props}
     >
+      {/* asChild のときは子（<a> 等）をボタンにし、その中にアイコンを入れる */}
+      {asChild ? <Slot.Slottable>{children}</Slot.Slottable> : null}
       <Icon icon={icon} size={ICON_SIZE[size ?? "md"]} fill={fill} />
-    </button>
+    </Comp>
   );
 }
