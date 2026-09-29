@@ -68,7 +68,7 @@ export default function HomePage() {
       <header className="flex flex-col gap-1">
         <h1 className="text-6 font-bold">nekodemo</h1>
         <p className="text-2 text-text-low">
-          猫がテーマのプロトタイプ用デザインシステム。ヘッダー右上でテーマを切り替えられます。
+          猫がテーマのデザインシステムだにゃ！プロトタイプやデモで使うと、かわいくて場が和むにゃ！ヘッダー右上でテーマを切り替えられるにゃ！
         </p>
       </header>
       <ul className="grid gap-2 sm:grid-cols-2">
