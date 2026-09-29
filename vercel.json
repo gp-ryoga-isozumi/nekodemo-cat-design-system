@@ -1,0 +1,10 @@
+{
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "framework": null,
+  "buildCommand": "pnpm build-storybook && pnpm build:registry && pnpm build:package && npm pack --pack-destination public && cp public/nekodemo-*.tgz public/nekodemo.tgz && pnpm build",
+  "outputDirectory": "out",
+  "trailingSlash": true,
+  "proxy": {
+    "entrypoint": "vercel/basic-auth.ts"
+  }
+}
