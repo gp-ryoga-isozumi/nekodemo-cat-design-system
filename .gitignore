@@ -38,3 +38,6 @@ playwright-report/
 public/llms.txt
 registry.json
 public/*.tgz
+
+# Vercel CLI のプロジェクト紐付け
+.vercel/

@@ -8,7 +8,7 @@ nekodemo を**使って**プロトタイプを作る AI 向けのガイドは `d
 
 | ファイル | 内容 |
 |---|---|
-| `prompt/NEKODEMO_DESIGN.md` | 設計書（正）。決定事項 D1〜D11、トークン・テーマ・アイコン・部品・配布の設計 |
+| `prompt/NEKODEMO_DESIGN.md` | 設計書（正）。決定事項 D1〜D16、トークン・テーマ・アイコン・部品・配布の設計 |
 | `prompt/IMPLEMENTATION_PLAN.md` | 実装計画。フェーズごとの作業項目・完成条件・人の判断項目 H1〜H7 |
 
 進め方:
@@ -19,7 +19,7 @@ nekodemo を**使って**プロトタイプを作る AI 向けのガイドは `d
 
 ## 2. 技術構成
 
-Next.js 16（App Router、`output: "export"`、GitHub Pages 配信）/ React 19 / TypeScript / Tailwind CSS v4 /
+Next.js 16（App Router、`output: "export"`、GitHub Pages ＋ Vercel（Basic 認証つき、D16）で配信）/ React 19 / TypeScript / Tailwind CSS v4 /
 shadcn（copy-in）/ radix-ui / Storybook 10（`@storybook/nextjs-vite`）/ Vitest 4（unit: jsdom、storybook: browser mode）/ Biome / pnpm 10
 
 - Vitest は 4 系に固定（`@storybook/addon-vitest` の peer が `^3 || ^4` のため）。
@@ -57,6 +57,7 @@ shadcn（copy-in）/ radix-ui / Storybook 10（`@storybook/nextjs-vite`）/ Vite
 - `scripts/` … ビルド・検査スクリプト（Node ESM、`.mjs`）。`scripts/hooks/` … Claude Code hooks。
 - `docs/ai/` `docs/guidelines/` `skills/` … AI 向け提供物（`.claude/skills` 等は `skills/` へのシンボリックリンク）。`docs/preview/` … 実装前のビジュアルプレビュー（参考）。
 - `docs/guidelines/components/<slug>.md` … ガイドラインサイトの部品ページに載せる手書きの節（振る舞い・内容・参考文献）。選択肢・状態・寸法は `scripts/component-spec.mjs` が `index.tsx` から抽出し、概要・使い方は README（JSDoc）から出す。部品を足したらこの md も書く。
+- `vercel.json` `vercel/basic-auth.ts` … Vercel 配信の設定（ビルドは `.github/workflows/pages.yml` と同じ手順。ビルド手順を変えたら両方直す）と Basic 認証。パスワードは Vercel の環境変数 `BASIC_AUTH_PASSWORD`（コードに書かない）。
 - `bin/nekodemo.mjs` `scripts/check/` `icons/status.json` … npm 配布物にも同梱される（`package.json` の `files`）。`scripts/build-package.mjs` が `dist/styles.css` と `dist/ai/` を作る。
 
 ## 5. コーディング規約

@@ -76,6 +76,7 @@ Claude Code への指示: 【未確認】は実装前に必ず確認して結果
 | D13 | **チェックマークと Avatar フォールバックは猫の顔の塗りつぶし**。Checkbox のチェックは `cat_face` アイコン（nekodemo 独自名。丸い顔＋両耳のシルエット）、Avatar の画像なし時も同じシルエット。**Badge は通常の丸（ピル）** | 耳付き `check`、肉球（一度試して不採用）、猫の顔の形のバッジ（一度試して不採用） | 2026-09-21 のプレビューで利用者が決定。肉球は小さいサイズで判別しにくく、顔形のバッジは通常の丸に戻した |
 | D15 | **フォントは 3 テーマ共通**（`font-pro` = Zen Maru Gothic、`font-mono` = Noto Sans Mono）。テーマ JSON の `fonts` キーは残す（将来テーマごとに変えられる）が、v1 の 3 テーマは同じ値にする | テーマごとに Inter＋Noto Sans JP / IBM Plex Sans JP 等を使い分ける | 2026-09-21 のプレビューで利用者が「三毛のフォントを他の 2 つにも」と決定。丸ゴシックの親しみやすさが nekodemo の統一した個性になる |
 | D14 | **猫耳は本体と同じ線幅の中抜き三角**。耳は塗らず、本体と同じ 2 の線で「へ」の字（付け根 2 点＋頂点）を描く。付け根は本体の輪郭上に置き、底辺は本体の輪郭を共有する。角は round join / round cap で丸める。高さは付け根から約 4.5〜5、付け根の幅は約 3.5〜4 | 塗りの三角（初版）、塗り＋輪郭（2 回目） | 2026-09-21 に利用者が参考画像（猫耳カチューシャのアイコン）を示して決定。中抜きにすると太い線でも重くならず、本体と一体に見える |
+| D16 | デモサイトは GitHub Pages に加えて **Vercel にも Basic 認証つきで配信**する（`https://nekodemo-cat-design-system.vercel.app`、プロジェクト `gp-ryoga-isozumis-projects/nekodemo-cat-design-system`）。ビルドは Pages と同じ静的書き出し（`basePath` なし）、認証は Vercel Routing Middleware（`vercel/basic-auth.ts`、`vercel.json` の `proxy.entrypoint`）。パスワードは Vercel の環境変数 `BASIC_AUTH_PASSWORD` に置き、ユーザー名は問わない。環境変数が無いときは全リクエストを拒否する | Vercel の Password Protection（Deployment Protection） | 2026-09-29 に利用者が決定。Password Protection は有料プランの機能のため、全プランで使える Routing Middleware で代替した。リポジトリが公開なのでパスワードはコードに書かない。GitHub Pages は従来どおり認証なしで公開している（Vercel 側の認証は内容の秘匿ではなく入口の制限） |
 
 ---
 
@@ -1102,6 +1103,7 @@ flowchart LR
   end
   M -->|tag v1.x.y| NPM["npm: nekodemo<br/>（components / styles.css / bin）"]
   M -->|GitHub Actions pages.yml| PAGES["GitHub Pages<br/>/ デモサイト（Next.js 静的書き出し）<br/>/r/{name}.json（shadcn registry）<br/>/storybook/"]
+  M -->|Vercel の Git 連携（vercel.json）| VERCEL["Vercel（Basic 認証つき）<br/>Pages と同じ中身（D16）"]
   M -->|そのまま| SK["skills/（npx skills add / gh skill install）"]
   M -->|そのまま| DOCS["docs/ai/*.md, llms.txt（URL 直指定で AI が読む）"]
 ```
@@ -1113,6 +1115,7 @@ flowchart LR
 | skills | `skills/*/SKILL.md` | `npx skills add <owner>/nekodemo -s use-nekodemo` / `gh skill install <owner>/nekodemo use-nekodemo --agent claude-code` |
 | デモサイト | テーマ切替、全部品のギャラリー、アイコンカタログ（T1 / T2 / T3 の状態表示）、4 画面型のサンプル | ブラウザで見る。インタビュー時の「見せ方」の見本にもなる |
 | Storybook | 各部品のストーリー、a11y 結果、テーマ切替ツールバー | `/storybook/` |
+| Vercel（Basic 認証つき） | デモサイト・Storybook・registry・`llms.txt`・`nekodemo.tgz`（Pages と同じ中身。D16） | https://nekodemo-cat-design-system.vercel.app （ユーザー名は任意、パスワードは Vercel の環境変数 `BASIC_AUTH_PASSWORD`） |
 
 - パッケージの `exports`: `"."`（全部品）、`"./styles.css"`、`"./themes/registry"`、`"./ai/*"`、`"./package.json"`。`"./components/*"`（`nekodemo/components/button` のように部品ごとに import。dev サーバの初期ロードで barrel 全体（MUI / TanStack を含む）を読まずに済む。2026-09-22 追加）。`tsc` は相対 import に拡張子を付けないため、`build:package` が `dist/` の相対 import を `.js` / `/index.js` に書き換える（Node ESM でディレクトリ import は不可）。`react` / `react-dom` は peerDependencies。
 - バージョニングは semver。`CHANGELOG.md` を必須にし、リリース PR で更新する。`npm publish` などの不可逆操作は AI の hook（PreToolUse）でブロックし、人が明示したときだけ実行する（§17.4）。
@@ -1365,3 +1368,4 @@ description: >
 | 2026-09-22 | v0.1.11 | Phase 3b の結果を反映: §8.4 の VTracer 設定を確定、手動耳（manual-ears.json）と耳なし規約の追加、§14 に icons:prompts / icons:inspect |
 | 2026-09-22 | v0.1.12 | Phase 6 の結果を反映: §9.3 / §9.4 の【未確認】を解消（TanStack Table v9 の API、MUI の依存の扱い、候補パネルの配置、行クリック） |
 | 2026-09-22 | v0.1.13 | 全体レビューの反映: §9.1 に v1.2 の 11 部品（#37〜47）、§9.2 にガイドラインページの出どころと props の命名規約、§7.6 に dark の対応表の変更（border-high / text-low）と検査ペア 31 組、§10.9 サイドパネル、§12 に `./components/*` の subpath export |
+| 2026-09-29 | v0.1.14 | D16（Vercel への Basic 認証つき配信）追加。§12 の配布図と経路表に Vercel |
